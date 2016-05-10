@@ -1,0 +1,1539 @@
+#!/usr/bin/env ruby
+# coding: utf-8
+# -*- mode: ruby -*-
+
+#****************************************************************************
+# $HeadURL$
+# $Id$
+#
+# Nathan Tallent
+#****************************************************************************
+
+require 'optparse'
+
+# FIXME: [sweep3d, GTC]
+# --inlist-rename X: Make each file in the <in-file> list available as
+#   X. Useful for applications that use a fixed-name input file, where
+#   scaling parameters are in the file itself (@app_inlistRename)
+
+# TODO: a per-application hpc-env envL
+
+# TODO: ScriptFactory.makeScript() should not take 'args' as an argument
+
+
+#****************************************************************************
+#
+#****************************************************************************
+
+def main()
+
+  #-----------------------------------------------------------
+  # 
+  #-----------------------------------------------------------
+  args = Args.parse(ARGV)
+
+  $debug = args[:arg_verbose]
+  $msg = Msg.new(Args.appNm())
+
+  #-----------------------------------------------------------
+  # 
+  #-----------------------------------------------------------
+  machine = Machine.new()
+  factory = ScriptFactory.new(machine)
+  factory.init(args)
+  
+  $stdout.write("*** Script Factory Summary ***\n")
+  factory.writeSummary($stdout, "  ")
+
+  #-----------------------------------------------------------
+  # 
+  #-----------------------------------------------------------
+  args[:arg_inputL].each { |x|
+    $msg.msg("#{x}")
+
+    fileNm = nil
+
+    if (File.exist?(x))
+      n_mpi = InputFnmParser.getJobSize(x)
+      fileNm = x
+    elsif (x.match(/\d+/))
+      n_mpi = Integer(x)
+    else
+      $msg.msg(" [skipping]\n")
+      next
+    end
+
+    script = factory.makeScript(n_mpi, fileNm, args)
+    runDirNm, scriptNm = script.write()
+    
+    $msg.msg(" -> '#{runDirNm}'\n")
+    if (args[:arg_run])
+      script.execute()
+    end
+  }
+end
+
+
+#****************************************************************************
+#
+#****************************************************************************
+
+class ScriptFactory
+
+  def initialize(machine)
+    @machine = machine
+    @script = nil
+  end
+
+
+  def init(args)
+    # use a Script as an implementation convenience (structure)
+    @script = Script.new(self)
+
+    @timeLimit = args[:arg_timeLimit]
+
+    @mpiPerNode = ((args[:arg_mpiPerNode]) ? args[:arg_mpiPerNode] :
+                   @machine.corePerNode())
+
+    @ompPerTask = args[:arg_ompPerTask]
+
+    # Some apps require an input file with a fixed name
+    @app_inlistRename = nil
+
+    #-----------------------------------------------------------
+    # detect application
+    #-----------------------------------------------------------
+
+    # special-case override (first by :arg_appL, second by :arg_inputL)
+    if (args[:arg_appL].length() <= 1 || args[:arg_inputL].length() >= 1)
+      app_cmd0 = args[:arg_appL].first()
+      input0 = args[:arg_inputL].first()
+
+      app0 = (app_cmd0) ? AppCmdParser.app(app_cmd0) : nil
+      in0  = (input0) ? File.basename(input0) : nil
+
+      case ((app0) ? app0 : in0)
+      when nil
+        # no error
+      when /gtc/i
+        $msg.msg("Using custom settings for GTC!\n")
+        @app_inlistRename = [ "gtc.input" ]
+      when /sweep/i
+        $msg.msg("Using custom settings for Sweep3D!\n")
+        @app_inlistRename = [ "input" ]
+      end
+
+    end
+
+    # general case
+    if (@script.appL.empty?())
+      @script.appL = args[:arg_appL]
+    end
+
+
+    #-----------------------------------------------------------
+    # detect implicit input file arguments
+    #-----------------------------------------------------------
+
+    @script.app_inFnmXtraLL = args[:app_inFnmXtraLL]
+
+    #-----------------------------------------------------------
+    # detect environment
+    #-----------------------------------------------------------
+
+    if (args[:arg_envL])
+      @script.job_envL += args[:arg_envL]
+    end
+
+    if (args[:arg_envL_hpcrun])
+      @script.job_envL += args[:arg_envL_hpcrun]
+    end
+
+    #-----------------------------------------------------------
+    # detect monitor configuration
+    #-----------------------------------------------------------
+    if (@script.appL.length() == 1)
+      app_cmd0 = @script.appL[0]
+      app_args0 = AppCmdParser.args(app_cmd0)
+
+      app = AppCmdParser.app(app_cmd0)
+      app_clean = app + "-clean"
+
+      app_cmd = AppCmdParser.mkAppCmd(app, app_args0)
+      app_clean_cmd = AppCmdParser.mkAppCmd(app_clean, app_args0)
+
+      #-----------------------------------------------------------
+      # palm
+      #-----------------------------------------------------------
+      if (args[:arg_do_palm_clean] && args[:arg_do_palm])
+        # PALm mode: automatically run both 'slow' and 'clean' binary
+        @script.appL = [ app_cmd, app_clean_cmd ]
+        @script.app_monitorLL =
+          [ [ "#{@machine.hpcrun_path} -e SYNC@4" ],
+            [ "#{@machine.hpcrun_path} -e REALTIME:15000 -e RETCNT" ] ]
+      elsif (args[:arg_do_palm_clean])
+        # This is a PALm 'clean' binary.  Must run under hpcrun
+        @script.appL = [ app_clean_cmd ]
+        @script.app_monitorLL[0] << "#{@machine.hpcrun_path} -e REALTIME:0"
+      elsif args[:arg_do_palm]
+        $msg.raise("Unimplemented!\n")
+      end
+
+      #-----------------------------------------------------------
+      # hpcrun
+      #-----------------------------------------------------------
+      if (args[:arg_do_hpcrun])
+        opts = args[:arg_do_hpcrun]
+        if (!opts.instance_of?(String))
+          opts = @machine.hpcrun_args
+        end
+
+        @script.app_monitorLL[0] << "#{@machine.hpcrun_path} #{opts}"
+
+        # @script.job_envL += "HPCRUN_MPI_ONLY=1"
+      end
+      
+      #-----------------------------------------------------------
+      # mpitime (can co-exist with either palm or hpcrun option)
+      #-----------------------------------------------------------
+      if (args[:arg_do_mpitime])
+        if (!File.exist?(@machine.mpitime_path))
+          $msg.err("Cannot find '#{@machine.mpitime_path}'!\n")
+        end
+        
+        if (@script.app_monitorLL[0].empty?())
+          @script.app_monitorLL[0] << @machine.mpitime_path
+        else
+          @script.app_monitorLL.map! { |x| x.insert(0, @machine.mpitime_path) }
+        end
+      end
+      
+    end
+
+    nil
+  end
+
+
+  #-----------------------------------------------------------
+  #
+  #-----------------------------------------------------------
+
+  def makeScript(n_mpi, inputFnm, args)
+    script = @script.clone()
+
+    n_nodes = (Float(n_mpi) / Float(@mpiPerNode)).ceil()
+
+    if (script.appL.empty?())
+      $msg.fatal("Cannot find application!\n")
+    end
+
+    #-----------------------------------------------------------
+    # application paths
+    #-----------------------------------------------------------
+
+    script.appL.map! { |x|
+      AppCmdParser.expand_path(x)
+    }
+
+    if (@app_inlistRename)
+      newFnm = @app_inlistRename[0] # FIXME: only handles first element
+      inFnm = (inputFnm) ? inputFnm : (Dir.pwd + '/' + newFnm)
+      inFnm_abs = File.expand_path(inFnm)
+      script.mkCmdL << inFileCmd(inFnm_abs, newFnm)
+    end
+
+    script.app_inFnmXtraLL.each { |x, y|
+      x_abs = File.expand_path(x)
+      script.mkCmdL << inFileCmd(x_abs, y)
+    }
+
+    #-----------------------------------------------------------
+    # application monitoring
+    #-----------------------------------------------------------
+
+    script.appL.each_with_index { |app_cmd, i_app_cmd|
+      app_nm = AppCmdParser.app(app_cmd, true)
+      monL = script.app_monitorLL[i_app_cmd]
+      monL.each_with_index { |mon, i_mon|
+        if (mon.match(/hpcrun/))
+          dir_xtra = hpcrunDirSfx(app_cmd, n_mpi, inputFnm, script, args)
+          dir = HPCToolkitHelp.hpcrunDBName(dir_xtra)
+          
+          monL[i_mon] = "#{mon} -o #{dir}"
+          
+          postLL = script.app_postLL
+          if (!postLL[i_app_cmd])
+            postLL[i_app_cmd] = [ ]
+          end
+          postLL[i_app_cmd] << HPCToolkitHelp.fixHpcrunDBCmd(dir, app_nm)
+        end
+      }
+    }
+
+
+    # FIXME: should be per application...
+    env_str = script.job_envL.join("\n")
+    if (HPCToolkitHelp.hasHpcrunEnv(env_str))
+      app_cmd = script.appL[0]
+      app_nm = AppCmdParser.app(app_cmd, true)
+
+      dir_xtra = hpcrunDirSfx(app_cmd, n_mpi, inputFnm, script, args)
+      dir = HPCToolkitHelp.hpcrunDBName(dir_xtra)
+
+      script.job_envL << HPCToolkitHelp.mkHpcrunDBEnv(dir)
+      script.app_postLL[0] << HPCToolkitHelp.fixHpcrunDBCmd(dir, app_nm)
+    end
+
+    #-----------------------------------------------------------
+    # 
+    #-----------------------------------------------------------
+
+    job_nm = jobName_short(script.appL[0], n_mpi, n_nodes)
+
+    script.app_launcherL << @machine.job_appRun(@mpiPerNode, n_mpi,
+                                                @ompPerTask,
+                                                script.job_envL)
+
+    script.job_preL = jobPre(job_nm, n_mpi, @mpiPerNode, n_nodes)
+
+    if (!script.job_envL.empty?())
+      script.job_preL << "\n" + script.job_envL.join("\n")
+    end
+
+    #-----------------------------------------------------------
+    # 
+    #-----------------------------------------------------------
+
+    script.job_postL = jobPost()
+
+    #-----------------------------------------------------------
+    # 
+    #-----------------------------------------------------------
+
+    script.mkDirNm = jobDirName(script, n_mpi, inputFnm, args)
+
+    script.mkFileNm = @machine.job_fileNm()
+
+    script.exeCmd = @machine.job_exeCmd(script.mkFileNm)
+    
+    script
+  end
+
+
+  #-----------------------------------------------------------
+  #
+  #-----------------------------------------------------------
+ 
+  def jobPre(jobNm, n_mpi, mpiPerNode, n_nodes)
+    cmdL = [ ]
+
+    timeStr = timeLimitStr(@timeLimit, 0)
+    
+    cmdL << @machine.job_schedulerArgs(jobNm, timeStr, n_nodes)
+
+    if (@machine.env_useModules())
+      cmdL <<
+        "echo '*** modules ***' && module list -l 2>&1 && echo"
+    end
+    
+    cmdL <<
+      "echo '*** limits ***'      && ulimit -a && echo\n" +
+      "echo '*** environment ***' && env       && echo";
+    
+    # echo '*** ldd output ***' && ldd ${app} && echo
+
+    mycmd = @machine.job_myCmds()
+    if (mycmd)
+      cmdL << "\n" + mycmd
+    end
+    
+    cmdL
+  end
+  
+
+  def jobPost()
+    [ ]
+  end
+
+
+  #-----------------------------------------------------------
+  # A 'job' may launch multiple 'appRun' (application instances)
+  #-----------------------------------------------------------
+
+  def appRunName(app, n_mpi, inputFnm, script, args, monitorStr_fn)
+    app_cmd_nm = AppCmdParser.mkName(app)
+
+    app_in = ''
+    if (inputFnm)
+      app_in += '-' + AppCmdParser.mkName(File.basename(inputFnm))
+    end
+    script.app_inFnmXtraLL.each { |x, y|
+      if (x != y)
+        app_in += '-' + AppCmdParser.mkName(x)
+      end
+    }
+
+    info0 = monitorStr_fn.call(args)
+    if (!info0.empty?)
+      info0 = "-#{info0}"
+    end
+
+    info1 = "-node#{nodeRunStr()}"
+
+    info2 = "-%06d" % n_mpi
+
+    info = "#{info0}#{info1}#{info2}"
+
+    "#{app_cmd_nm}#{app_in}#{info}"
+  end
+
+
+  def jobName_short(app, n_mpi, n_nodes)
+    app_cmd_nm = AppCmdParser.mkName(app)
+    "#{app_cmd_nm}_#{n_mpi}_#{n_nodes}"
+  end
+
+  
+  def jobName_long(script, n_mpi, inputFnm, args)
+    monitorStr_fn = method(:monitorStr)
+
+    app_cmd0 = script.appL[0]
+
+    app_str = appRunName(app_cmd0, n_mpi, inputFnm, script, args, monitorStr_fn)
+
+    prefix = (args[:arg_prefix]) ? (args[:arg_prefix] + '-') : ''
+
+    suffix = (args[:arg_suffix]) ? ('-' + args[:arg_suffix]) : ''
+    
+    "#{prefix}#{app_str}#{suffix}"
+  end
+
+
+  def jobDirName(script, n_mpi, inputFnm, args)
+    parentDirNm = Dir.pwd # File.expand_path('.')
+
+    job_nm = jobName_long(script, n_mpi, inputFnm, args)
+    
+    "#{parentDirNm}/#{job_nm}"
+  end
+
+
+  def nodeRunStr()
+    if (!@script)
+      return ""
+    end
+
+    str = ("%02d" % @mpiPerNode)
+
+    if (@ompPerTask)
+      str += "x" + ("%02d" % @ompPerTask) + "omp"
+    else
+      str += "mpi"
+    end
+
+    str
+  end
+
+
+  def monitorStr(args)
+    if (args[:arg_do_palm_clean] && args[:arg_do_palm])
+      'palm'
+    elsif (args[:arg_do_palm_clean])
+      'palmclean'
+    elsif (args[:arg_do_hpcrun] || !args[:arg_envL_hpcrun].empty?())
+      hpcrunStr(args)
+    elsif (args[:arg_do_mpitime])
+      'mpitime'
+    else
+      ''
+    end
+  end
+
+
+  def hpcrunStr(args)
+    str = ''
+
+    if (args[:arg_do_hpcrun] || !args[:arg_envL_hpcrun].empty?())
+      str += 'hpcrun'
+
+      args[:arg_envL_hpcrun].each { |x|
+        x_arg = HPCToolkitHelp.toHPCRunArg(x)
+        str += HPCToolkitHelp.mkName(x_arg)
+      }
+      
+      hpcrun_args = args[:arg_do_hpcrun]
+      if (hpcrun_args.instance_of?(String))
+        str += HPCToolkitHelp.mkName(hpcrun_args)
+      end
+    end
+
+    str
+  end
+
+
+  def hpcrunDirSfx(app, n_mpi, inputFnm, script, args)
+    monitorStr_fn = method(:hpcrunStr)
+
+    app_str = appRunName(app, n_mpi, inputFnm, script, args, monitorStr_fn)
+
+    "#{app_str}-\${#{@machine.job_idEnvVar()}}"
+  end
+
+
+  # timeLimitStr:
+  def timeLimitStr(minutes, seconds)
+    ("00:%02d:%02d" % [minutes, seconds])
+  end
+
+
+  def inFileCmd(src, dst)
+    cp = @machine.fs_copyCmd()
+    "#{cp} \"#{src}\" \"#{dst}\""
+  end
+
+
+  #-----------------------------------------------------------
+  #
+  #-----------------------------------------------------------
+
+  def writeSummary(ostream, prefix = '')
+    if (!@script)
+      return nil
+    end
+
+    infile_str = (@script.app_inFnmXtraLL.map { |x, y|
+                    (x == y) ? x : "#{x} -> #{y}"
+                  }).join(', ')
+
+    timeStr = timeLimitStr(@timeLimit, 0)
+
+    ostream.write(prefix + "app:        [#{@script.appL.join(', ')}]\n")
+    ostream.write(prefix + "in-files:   [#{infile_str}]\n")
+    ostream.write(prefix + "env:        [#{@script.job_envL.join('; ')}]\n")
+    @script.app_monitorLL.each_with_index { |monL, i|
+      ostream.write(prefix + "monitor #{i}:  [#{monL.join(', ')}]\n")
+    }
+    @script.app_preLL.each_with_index { |preL, i|
+      ostream.write(prefix + "pre-cmd #{i}:  [#{preL.join(', ')}]\n")
+    }
+    ostream.write(prefix + "launcher:   '#{@machine.job_appRun(@mpiPerNode, nil, @ompPerTask, nil)}'\n")
+    ostream.write(prefix + "time:       '#{timeStr}'\n")
+    ostream.write(prefix + "node:       '#{nodeRunStr()}'\n")
+  end
+
+end
+
+
+#****************************************************************************
+#
+#****************************************************************************
+
+class Script
+
+  attr_accessor :job_preL, :job_postL
+  attr_accessor :job_envL
+
+  attr_accessor :appL, :app_inFnmXtraLL
+  attr_accessor :app_launcherL, :app_monitorLL
+  attr_accessor :app_preLL, :app_postLL
+
+  attr_accessor :mkDirNm, :mkFileNm, :mkCmdL
+
+  attr_accessor :exeCmd
+
+
+  def initialize(factory)
+    @factory = factory
+
+    # batch script's contents 
+    @job_preL  = []
+    @job_postL = []
+    @job_envL  = []
+
+    @appL            = []     # list of "<app> <app-args>"
+    @app_inFnmXtraLL = []     # list of [infile infile_rundir] (not per app!)
+    @app_launcherL   = []     # if len = 1, use for each app
+    @app_monitorLL   = [ [] ] # if len = 1, use for each app
+    @app_preLL       = [ [] ] # if len = 1, use for each app
+    @app_postLL      = [ [] ] # if len = 1, use for each app
+
+    # batch script's filename & run directory
+    @mkDirNm  = nil
+    @mkFileNm = nil
+    @mkCmdL   = [ ]
+
+    # batch script's execution
+    @exeCmd = nil
+  end
+
+
+  def initialize_copy(x)
+    super
+
+    @job_preL  = x.job_preL.dup()
+    @job_postL = x.job_postL.dup()
+    @job_envL  = x.job_envL.dup()
+
+    @appL            = x.appL.dup()
+    @app_inFnmXtraLL = x.app_inFnmXtraLL.map { |y| y.dup() }
+    @app_launcherL   = x.app_launcherL.dup()
+    @app_monitorLL   = x.app_monitorLL.map { |y| y.dup() }
+    @app_preLL       = x.app_preLL.map { |y| y.dup() }
+    @app_postLL      = x.app_postLL.map { |y| y.dup() }
+
+    @mkCmdL = x.mkCmdL.dup()
+  end
+
+
+  def write()
+    if (!File.exist?(@mkDirNm))
+      Dir.mkdir(@mkDirNm)
+    end
+
+    fnm = "#{@mkDirNm}/#{@mkFileNm}"
+    ostream = File.open(fnm, "w")
+
+    scriptStr = to_str()
+
+    ostream.write(scriptStr)
+    ostream.close()
+
+    File.chmod(0755, fnm)
+
+    @mkCmdL.each { |x|
+      cmd = "cd #{@mkDirNm} && #{x}"
+      ret = system(cmd)
+      if (!ret)
+        $msg.err("Cannot execute '#{cmd}'\n")
+      end
+    }
+    
+    return @mkDirNm, @mkFileNm
+  end
+
+
+  def execute()
+    cmd = "cd #{@mkDirNm} && #{@exeCmd}"
+    ret = system(cmd)
+    if (!ret)
+      $msg.err("Cannot execute '#{cmd}'!\n")
+    end
+    ret
+  end
+
+
+  def to_str()
+    #-----------------------------------------------------------
+    # 
+    #-----------------------------------------------------------
+
+    n_app = @appL.length()
+    if (n_app > 1)
+      n_ln = @app_launcherL.length()
+      if (not (n_ln == 1 || n_ln == n_app))
+        $msg.raise("inconsistency!")
+      end
+
+      n_mon = @app_monitorLL.length()
+      if (not (n_mon == 1 || n_mon == n_app))
+        $msg.raise("inconsistency!")
+      end
+
+      n_pre = @app_preLL.length()
+      if (not (n_pre == 1 || n_pre == n_app))
+        $msg.raise("inconsistency!")
+      end
+
+      n_post = @app_postLL.length()
+      if (not (n_post == 1 || n_post == n_app))
+        $msg.raise("inconsistency!")
+      end
+    end
+
+    #-----------------------------------------------------------
+    # 
+    #-----------------------------------------------------------
+
+    script = @job_preL.join("\n") + "\n"
+
+    #-----------------------------------------------------------
+    # 
+    #-----------------------------------------------------------
+
+    @appL.each_with_index { |app_cmd, i|
+      launcher = (@app_launcherL[i]) ? @app_launcherL[i] : @app_launcherL[0]
+
+      monL = (@app_monitorLL[i]) ? @app_monitorLL[i] : @app_monitorLL[0]
+      mon = (!monL.empty?()) ? monL.join(' ') : nil
+
+      script += "\n" + "echo '*** run: #{app_cmd} ***'\n"
+
+      preL = (@app_preLL[i]) ? @app_preLL[i] : @app_preLL[0]
+      if (!preL.empty?())
+        script += preL.join("\n") + "\n"
+      end
+
+      # RE_newline = %r(\n)m # Regexp.new("\n", Regexp::MULTILINE)
+      launcher_txt = launcher.gsub(/\\\n/m, '')
+      
+      script += "\n" + "echo '*** launch: #{launcher_txt} #{mon}'\n"
+
+      script += launcher + " \\\n";
+      if (mon)
+        script += "  " + mon + " \\\n"
+      end
+      script += "  " + app_cmd + "\n"
+
+      postL = (@app_postLL[i]) ? @app_postLL[i] : @app_postLL[0]
+      if (!postL.empty?())
+        script += "\n" + postL.join("\n") + "\n"
+      end
+    }
+
+    #-----------------------------------------------------------
+    # 
+    #-----------------------------------------------------------
+
+    if (!@job_postL.empty?())
+      script += "\n" + @job_postL.join("\n") + "\n"
+    end
+
+    script
+  end
+
+end
+
+
+#****************************************************************************
+#
+#****************************************************************************
+
+# Machine = hardware + software
+class Machine
+
+  attr_accessor :hpcrun_path, :hpcrun_args
+  attr_accessor :mpitime_path
+
+  # Hardware
+  # - check /proc/cpuinfo
+  # - 'numactl --hardware'
+  # - sinfo -p pal --noheader --format="%X %Y %Z"
+  
+  def initialize()
+    @hostname = ENV['MYCFG_HOSTNAME']
+    @domainname = ENV['MYCFG_DOMAINNAME']
+
+    case @hostname
+    when "pal.pnnl.gov"
+      @job_account = "PAL"
+      @job_queue = "pal"
+      @schedulerTy = :scheduler_slurm
+      @mpich_uses_srun = true
+      @hw_corePerNode = 32
+      @hw_threadPerCore = 1
+    when /\.cluster\.pnnl\.gov/ # SeaPearl
+      @job_account = "PAL"
+      @job_queue = "ivy";
+      @schedulerTy = :scheduler_slurm
+      # Launching with 'srun -n <N>' yields a communicator size of 1!
+      # @mpich_uses_srun = true 
+      @hw_corePerNode = 20
+      @hw_threadPerCore = 2 # HyperThreading on
+    when "eos.ccs.ornl.gov"
+      @job_account = "csc103"
+      @job_queue = "batch" # debug
+      @schedulerTy = :scheduler_pbs # Torque
+      @hw_corePerNode = 16
+      @hw_threadPerCore = 1 # HyperThreading off by default
+      # @hw_threadPerCore = 2
+    when /mira.*\.alcf\.anl\.gov/
+      @job_account = "PEACEndStation"
+      @job_queue = nil # prod-capability, prod-long, prod-short
+      @schedulerTy = :scheduler_cobalt # BG/Q cobalt
+      @hw_corePerNode = 16
+      @hw_threadPerCore = 1
+      # @hw_threadPerCore = 4
+    else
+      $msg.raise("Unknown host '#{@hostname}'!\n")
+    end
+
+    @mpiTy = detect_mpiTy()
+    @launcherTy = detect_appLauncherTy()
+
+    case @domainname
+    when "ccs.ornl.gov"
+      @job_canReadHomeFS = false
+    else
+      @job_canReadHomeFS = true
+    end
+
+    @mpitime_path = ENV['HOME'] + "/1me-hpcgroup-svn/mpitime/mpitime"
+    @hpcrun_path = "hpcrun"
+    # ENV['HOME'] + "/palm/palm.trunk/external/hpctoolkit/MYINSTALL/bin/" +
+    @hpcrun_args = "-e REALTIME:9500 -e RETCNT"
+  end
+
+
+  #-----------------------------------------------------------
+  # 
+  #-----------------------------------------------------------
+
+  #def self.appLauncher_hwOpts_cray(x)
+  #  { :launcher_cray => { x => "", x * 2 => "-j 2" } }
+
+  # { x      => { :launcher_cray => "" },
+  #   x * 2  => { :launcher_cray => "-j 2" } }
+  #end
+
+
+  #-----------------------------------------------------------
+  # Batch jobs: resource allocation, application launcher
+  #-----------------------------------------------------------
+
+  def job_fileNm()
+    case @schedulerTy
+    when :scheduler_cobalt
+      "run.cobalt"
+    when :scheduler_pbs
+      "run.pbs"
+    when :scheduler_slurm
+      "run.sbatch"
+    else
+      $msg.raise("Unimplemented!\n")
+    end
+  end
+
+
+  def job_exeCmd(fnm)
+    case @schedulerTy
+    when :scheduler_cobalt
+      "qsub #{fnm}"
+    when :scheduler_pbs
+      "qsub #{fnm}"
+    when :scheduler_slurm
+      "sbatch #{fnm}"
+    else
+      $msg.raise("Unimplemented!\n")
+    end
+  end
+
+
+  def job_schedulerArgs(jobNm, timeStr, n_nodes)
+    hdr =
+      case @schedulerTy
+      when :scheduler_cobalt
+        "#!/bin/sh\n" +
+          "#COBALT --project #{@job_account}\n" +
+          "#COBALT --time #{timeStr}\n" +
+          "#COBALT --nodecount #{n_nodes}\n" +
+          "#COBALT --outputprefix #{jobNm}-$jobid\n" +
+          "\n" +
+          "# Auto-generated by: '#{Args.commandLine()}'\n" +
+          "\n" +
+          "cobalt_loc_arg=\"--block ${COBALT_PARTNAME} ${COBALT_CORNER:+--corner} ${COBALT_CORNER} ${COBALT_SHAPE:+--shape} ${COBALT_SHAPE}\"\n" +
+          "\n" +
+          "echo \"*** location: ${cobalt_loc_arg} ***\" && echo\n" +
+          "\n" +
+          "echo '*** nodes ***' && if test -r ${COBALT_NODEFILE} ; then cat ${COBALT_NODEFILE} ; fi && echo\n"
+
+
+        # Notes
+        # - Cobalt options must begin on second line.
+        # - http://www.alcf.anl.gov/user-guides/running-jobs
+        # - http://www.alcf.anl.gov/user-guides/cobalt-job-control
+
+      when :scheduler_pbs
+        ##PBS -l size=<mpitasks>
+        "#!/bin/sh\n" +
+          "# -*-Mode: sh;-*-\n" +
+          "# Auto-generated by: '#{Args.commandLine()}'\n" +
+          "\n" +
+          "#PBS -N #{jobNm} # job name\n" +
+          "#PBS -A #{@job_account} # account\n" +
+          "#PBS -q #{@job_queue} # queue\n" +
+          "#PBS -l walltime=#{timeStr} # time\n" +
+          "#PBS -j oe # join stdout/err\n" +
+          "#PBS -o run-#{jobNm}-${PBS_JOBID}.out\n" +
+          "#PBS -l nodes=#{n_nodes} # nodes\n" +
+          "#PBS -n # exclusive\n" +
+          "#PBS -V # environment # environment\n" +
+          "\n" +
+          "cd ${PBS_O_WORKDIR}\n" +
+          "\n" +
+          "printf '*** nodes: %s ***\\n\\n' `cat ${PBS_NODEFILE}`\n"
+
+        # With Cray's ALPS launcher, "cd <workdir>"
+
+      when :scheduler_slurm
+        #   --nodelist=node[0397-0400]
+        #   --exclude=node[0397-0400]
+        #   --cpus-per-task
+        #   --ntasks-per-core
+        "#!/bin/sh\n" +
+          "# -*-Mode: sh;-*-\n" +
+          "# Auto-generated by: '#{Args.commandLine()}'\n" +
+          "\n" +
+          "#SBATCH -J #{jobNm} # job name\n" +
+          "#SBATCH -A #{@job_account} # account\n" +
+          "#SBATCH -p #{@job_queue} # partition\n" +
+          "#SBATCH -t #{timeStr} # time\n" +
+          "#SBATCH -o run-#{jobNm}-%j.out\n" +
+          "#SBATCH -e run-#{jobNm}-%j.out\n" +
+          "#SBATCH -N #{n_nodes} # nodes\n" +
+          "#SBATCH --exclusive\n" +
+          "#SBATCH --export=ALL # environment\n" +
+          "\n" +
+          "#export SLURM_DEBUG=5\n" +
+          "#export SLURMD_DEBUG=5\n" +
+          "\n" +
+          "cd ${SLURM_SUBMIT_DIR}\n" +
+          "\n" +
+          "echo \"*** nodes: ${SLURM_JOB_NODELIST} ***\" && echo\n"
+
+        # N.B.: AFAIK, it is redundant to "cd <workdir>"
+
+      else
+        $msg.raise("Unimplemented!\n")
+      end
+    
+    hdr
+  end
+
+
+  def job_appRun(mpiPerNode, n_mpi, ompPerTask, envL)
+    # - number of tasks
+    # - tasks per node
+    # - binding tasks to cores
+    # ? openmp, threads
+    # ? accelerator
+    
+    if (!n_mpi)
+      n_mpi = "<n>"
+    end
+
+    launcher =
+      case @launcherTy
+      when :launcher_cobalt
+
+        env_str = ""
+        if (envL)
+          envL.each { |x|
+            var = EnvVarParser.getEnvVar(x)
+            if (var)
+              env_str += " --exp-env #{var}"
+            end
+          }
+        end
+
+        "runjob ${cobalt_loc_arg} --ranks-per-node #{mpiPerNode} -n #{n_mpi} #{env_str} : "
+
+      when :launcher_cray
+        "aprun -N #{mpiPerNode} -n #{n_mpi}"
+
+        # binding: "-cc cpu" (default), -cc none, -cc numa_node
+
+      when :launcher_slurm
+        run = "srun --ntasks-per-node=#{mpiPerNode} -n #{n_mpi}"
+
+        if (@mpiTy == :mpi_mvapich_slurm)
+          aff = mvapichAffinity(mpiPerNode, ompPerTask)
+          aff + " " + run
+        else
+          run + " --cpu_bind=verbose,cores"
+        end
+
+      when :launcher_mpiexec
+        run = "mpiexec -ppn #{mpiPerNode} -n #{n_mpi}"
+
+        # -genvall, -envall, -hosts ${SLURM_NODELIST}
+
+        if (@mpiTy == :mpi_mvapich)
+          aff = mvapichAffinity(mpiPerNode, ompPerTask)
+          aff + " " + run
+        else
+          run + " -bind-to"
+        end
+
+      when :launcher_openmpi
+        "mpirun --bind-to-core --npernode #{mpiPerNode} -n #{n_mpi}"
+
+      else
+        $msg.fatal("Cannot configure for launcher '#{@launcherTy}'!\n")
+      end
+
+    if (ompPerTask)
+      # must test binary (for compiler); must possibly test for Intel chips
+      # GOMP_CPU_AFFINITY="0,1,2,3"
+      # $msg.warn("assuming Intel OpenMP!\n")
+      intelomp = "KMP_AFFINITY=\"verbose\"" # scatter,verbose
+      omp = "OMP_NUM_THREADS=\"#{ompPerTask}\" OMP_PROC_BIND=\"true\" #{intelomp}"
+      launcher = omp + " " + launcher
+    end
+
+    "time \\\n" + '  ' + launcher
+  end
+
+
+  def job_idEnvVar()
+    case @schedulerTy
+    when :scheduler_cobalt
+      "COBALT_JOBID"
+    when :scheduler_pbs
+      "PBS_JOBID"
+    when :scheduler_slurm
+      "SLURM_JOB_ID"
+    else
+      $msg.raise("Unimplemented!\n")
+    end
+  end
+
+
+  def job_myCmds()
+    cmds =
+      case @domainname
+      when "pic.pnnl.gov"
+        "echo '*** cpu info ***'\n" +
+          "srun -N ${SLURM_NNODES} --ntasks-per-node=1 cat /proc/cpuinfo | grep -i 'cpu MHz' | uniq\n" +
+          "echo"
+      else
+        nil
+      end
+
+    cmds
+  end
+
+
+  #-----------------------------------------------------------
+  # 
+  #-----------------------------------------------------------
+
+  def corePerNode()
+    @hw_corePerNode
+  end
+
+  def corePerNode_os()
+    (@hw_corePerNode * @hw_threadPerCore)
+  end
+
+  def mvapichAffinity(mpiPerNode, ompPerTask)
+    if (ompPerTask && ompPerTask > 1)
+      # MVAPICH enables affinity by default meaning all OpenMP threads for a rank will be mapped to its core!
+      'MV2_ENABLE_AFFINITY=0'
+    else
+      # A static cyclic mapping w.r.t. NUMA domains
+      # "31:15:23:7:27:11:19:3:29:13:21:5:25:9:17:1:30:14:22:6:26:10:18:2:28:12:20:4:24:8:16:0"
+
+      # Extra:
+      #   MPICH_MAX_THREAD_SAFETY={MPI_THREAD_SINGLE, MPI_THREAD_FUNNELED, MPI_THREAD_SERIALIZED, MPI_THREAD_MULTIPLE}
+      #   MV2_CPU_BINDING_LEVEL
+      #   MV2_CPU_BINDING_POLICY scatter
+      #   MV2_CPU_BINDING_LEVEL socket
+      #   http://mvapich.cse.ohio-state.edu/static/media/mvapich/mvapich2-2.0-userguide.html#x1-780006.16
+      
+      # N.B.: assume core ids begin at 0
+      id_min = 0
+      id_max = (corePerNode_os() - 1)
+      id_step = (Float(corePerNode_os()) / Float(mpiPerNode)).floor()
+      
+      ids = [ ]
+      (id_min..id_max).step(id_step) { |x| ids.push(x) }
+      
+      'MV2_CPU_MAPPING="' + ids.join(':') + '"'
+    end
+  end
+
+
+  #-----------------------------------------------------------
+  # Machine environment, filesystem
+  #-----------------------------------------------------------
+
+  def fs_copyCmd()
+    if (@job_canReadHomeFS)
+      "ln -f -s"
+    else
+      "cp -f"
+    end
+  end
+
+
+  def env_useModules()
+    (ENV['MODULE_VERSION'] != nil)
+  end
+  
+
+  #-----------------------------------------------------------
+  # Detect machine characteristics
+  #-----------------------------------------------------------
+
+  def detect_appLauncherTy()
+    if ( !(@mpiTy && @schedulerTy) )
+      $msg.raise("Unimplemented!\n")
+    end
+
+    ty =
+      case @mpiTy
+      when :mpi_cray
+        :launcher_cray
+      when :mpi_ibm_bg
+        if (@schedulerTy == :scheduler_cobalt)
+          :launcher_cobalt
+        end
+      when :mpi_openmpi
+        :launcher_openmpi
+      when :mpi_mvapich
+        :launcher_mpiexec
+      when :mpi_mvapich_slurm
+        :launcher_slurm
+      end
+
+    if (!ty)
+      $msg.fatal("Cannot detect launcher from scheduler (#{@schedulerTy}) and MPI (#{@mpiTy}).\n")
+    end
+
+    ty
+  end
+
+
+  def detect_mpiTy()
+    ty = nil
+
+    # N.B. For variants of MPICH: Detect when built without a process
+    # manager (PM), as this affects launcher
+
+    if (ENV['CRAYOS_VERSION'] and ENV['CRAY_MPICH2'])
+      ty = :mpi_cray
+    elsif (ENV['BGQDRV'])
+      ty = :mpi_ibm_bg
+    else
+      case (ENV['PNNL_MPI'] || ENV['MPI_ROOT'] || ENV['MPI_SUFFIX'])
+      when /mvapich/i
+        ty = :mpi_mvapich
+        if (defined? @mpich_uses_srun)
+          ty = :mpi_mvapich_slurm
+        end
+      when /openmpi/i
+        ty = :mpi_openmpi
+      end
+    end
+
+    if (!ty)
+      $msg.fatal("Cannot detect MPI type.\n")
+    end
+    
+    ty
+  end  
+
+end
+
+
+#****************************************************************************
+#
+#****************************************************************************
+
+class InputFnmParser
+  RE_inputFnm = %r'.*\.(\d+)$'
+  RE_leading0 = %r'^0+'
+
+  def self.getJobSize(inputFnm)
+    inputFnmBase = File.basename(inputFnm)
+    
+    m = inputFnmBase.match(RE_inputFnm)
+    n_mpiStr = m[1] # named capture available with Ruby >= 1.9
+
+    n_mpi = Integer(n_mpiStr.sub(RE_leading0, ''))
+
+    return n_mpi
+  end
+end
+
+
+class AppCmdParser
+  RE_inputFnm = %r'.*\.(\d+)$'
+
+  # format: <app> <args...>
+
+  def self.app(app_cmd, doBase = false)
+    if (app_cmd)
+      app_nm = app_cmd.split().first()
+      (doBase) ? File.basename(app_nm) : app_nm
+    else
+      nil
+    end
+  end
+
+
+  def self.args(app_cmd)
+    if (app_cmd)
+      wordL = app_cmd.split()
+      argL = wordL[1..-1]
+      argL.join(' ')
+    else
+      nil
+    end
+  end
+
+
+  def self.mkAppCmd(app, args)
+    if (args)
+      app + ' ' + args
+    else
+      app
+    end
+  end
+
+
+  def self.mkName(app_cmd)
+    wordL = app_cmd.split()
+
+    # remove paths
+    wordL.map! { |x|
+      File.basename(x)
+    }
+
+    x = wordL.join(' ')
+
+    # normalize whitespace (implicit in the 'join' above)
+    #x.gsub!(/\s+/, ' ')
+
+    # remove non-word characters
+    x.gsub!(/\W/, '_')
+
+    x
+  end
+
+
+  def self.expand_path(app_cmd)
+    if (app_cmd)
+      wordL = app_cmd.split()
+
+      wordL.map! { |x|
+        (File.exists?(x)) ? File.expand_path(x) : x
+      }
+
+      wordL.join(' ')
+    else
+      app_cmd
+    end
+  end
+end
+
+
+class EnvVarParser
+  RE_export = %r'^\s*export\s'
+
+  RE_envVar = %r'^\s*(?:export\s)?\s*(\w+)='
+
+
+  def self.getEnvVar(env_str)
+    if (m = env_str.match(RE_envVar))
+      m[1] # named capture available with Ruby >= 1.9
+    else
+      nil
+    end
+  end
+
+
+  def self.normalizeSetVarCmd(env_str)
+    if (env_str.match(RE_envVar) && !env_str.match(RE_export))
+      'export ' + env_str
+    else
+      env_str
+    end
+  end
+end
+
+
+class HPCToolkitHelp
+  RE_armciSample = %r'ARMCI_SAMPLE_PERIOD=(.*)$'
+
+  RE_debug = %r'HPCRUN_DEBUG_FLAGS=(.*)$'
+
+  RE_eventList = %r'HPCRUN_EVENT_LIST=(.*)$'
+  RE_trace = %r'HPCRUN_TRACE=(.*)$'
+  RE_processFraction = %r'HPCRUN_PROCESS_FRACTION=(.*)$'
+
+  RE_quotes = %r"[\"\']"
+
+  RE_arg_leadingSpace1 = %r"\s+(-[a-zA-Z]\s)"
+  RE_arg_leadingSpace2 = %r"\s+(--[a-zA-Z]+\s)"
+
+
+  def self.toHPCRunArg(env_str)
+    arg_str = ''
+
+    if (m = env_str.match(RE_armciSample))
+      arg_str += "-comex #{m[1]}"
+    end
+
+    if (m = env_str.match(RE_debug))
+      arg_str += "-dd #{m[1]}"
+    end
+    
+    if (m = env_str.match(RE_eventList))
+      arg_str += "-e #{m[1]}"
+    end
+
+    if (m = env_str.match(RE_trace))
+      arg_str += "-t" # tracing is enabled if env variable exists
+    end
+
+    if (m = env_str.match(RE_processFraction))
+      arg_str += "-f #{m[1]}"
+    end
+
+    arg_str.gsub!(RE_quotes, '')
+
+    return arg_str
+  end
+
+
+  def self.hasHpcrunEnv(env_str)
+    env_str.match(RE_eventList) ? true : false
+  end
+
+
+  def self.hpcrunDBName(xtra)
+    "hpctoolkit-measurements-#{xtra}"
+  end
+
+
+  def self.mkHpcrunDBEnv(hpcdb_path)
+    "export HPCRUN_OUT_PATH=\"#{hpcdb_path}\""
+  end
+
+
+  def self.fixHpcrunDBCmd(hpcdb_path, app_nm)
+    
+    src_path1 = "\"#{hpcdb_path}\"/\"#{app_nm}\"-??????-00[1-9]-*.{hpcrun,hpctrace}"
+    src_path2 = "\"#{hpcdb_path}\"/\"#{app_nm}\"-??????-0[1-9][0-9]-*.{hpcrun,hpctrace}"
+    dst_path = "\"#{hpcdb_path}\"/threads"
+
+    "if test -d \"#{hpcdb_path}\" ; then\n" +
+    "  mkdir -p #{dst_path} ;\n" +
+    "  mv #{src_path1} #{dst_path} &> /dev/null || true ;\n" +
+    "  mv #{src_path2} #{dst_path} &> /dev/null || true ;\n" +
+    "fi"
+  end
+
+
+  def self.mkName(str)
+    x = str.dup()
+    x.gsub!(RE_arg_leadingSpace1, '\1')
+    x.gsub!(RE_arg_leadingSpace2, '\1')
+    x.gsub!(/\W/, '_')
+    x
+  end
+end
+
+
+#****************************************************************************
+#
+#****************************************************************************
+
+class Args
+  @@appNm = ""
+  @@commandLine = ""
+
+  def self.parse(argv)
+    args = {}
+    args[:arg_verbose] = false
+
+    args[:arg_inputL] = []
+
+    args[:arg_appL] = []
+    args[:app_inFnmXtraLL] = [] # list of [X, Y] pairs
+
+    args[:arg_envL] = []
+    args[:arg_envL_hpcrun] = []
+
+    args[:arg_timeLimit] = 10 # minutes
+
+    args[:arg_mpiPerNode] = nil
+    args[:arg_ompPerTask] = nil
+
+    args[:arg_prefix] = nil
+    args[:arg_suffix] = nil
+
+    args[:arg_do_hpcrun] = false
+    args[:arg_do_mpitime] = false
+    args[:arg_do_palm_clean] = false
+    args[:arg_do_palm] = false
+
+    args[:arg_run] = false
+
+    parser = OptionParser.new() { |opt|
+      @@appNm = opt.program_name();
+      
+      opt.banner =
+        "Usage: #{opt.program_name()} [options] <in-file>...\n" +
+        "Usage: #{opt.program_name()} [options] <n_mpi>..."
+      #opt.separator "Specific options:"
+
+      opt.on("-v", "--[no-]verbose", "Run verbosely") { |x|
+        args[:arg_verbose] = x
+      }
+
+      opt.on("-h", "--help", "Show this message") {
+        puts(opt)
+        exit
+      }
+
+      opt.on("--time N", Integer, "Time limit of N minutes") { |x|
+        if (x > 0)
+          args[:arg_timeLimit] = x
+        end
+      }
+
+      opt.on("--app '<app> <app-args>'",
+             "Specify application and arguments.",
+             "(May pass multiple times.)") { |x|
+        args[:arg_appL] << x
+      }
+
+      opt.on("--app-infile X[,Y]", Array,
+             "Make file X available as an (implicit) application input.",
+             "If Y is present, then X is made available as Y. If X has",
+             "no path, it is assumed to be the current working directory;",
+             "if Y has no path, it is assumed to be the job execution",
+             "directory. Useful for applications that assume a fixed-name",
+             "input file. (May pass multiple times.)") { |x|
+        # ensure 'x' is an Array of form [X, Y]
+        xy = (x.length() == 1) ? [ x.first(), x.first() ] : x
+        args[:app_inFnmXtraLL] << xy
+      }
+
+      opt.on("--env X", "Use environment command X for all apps",
+             "(May pass multiple times.)") { |x|
+        args[:arg_envL] << EnvVarParser.normalizeSetVarCmd(x)
+      }
+
+      opt.on("--mpi-per-node N", Integer, "Specify N MPI tasks per node") { |x|
+        if (x > 0)
+          args[:arg_mpiPerNode] = x
+        end
+      }
+
+      opt.on("--omp-per-task N", Integer,
+             "Specify N OpenMP threads per task") { |x|
+        if (x > 0)
+          args[:arg_ompPerTask] = x
+        end
+      }
+
+      opt.on("--hpcrun[=<hpcrun args>]", "Execute under 'hpcrun' using either <hpcrun args> or default options") { |x|
+        args[:arg_do_hpcrun] = (x) ? x : true
+      }
+      opt.on("--hpcenv X", "Use hpcrun environment X for all apps. (Do not use 'HPCRUN_OUT_PATH')",
+             "(May pass multiple times.)") { |x|
+        args[:arg_envL_hpcrun] << EnvVarParser.normalizeSetVarCmd(x)
+      }
+
+      opt.on("--mpitime",
+             "Execute under 'mpitime' (may use with PALm or hpcrun)") { |x|
+        args[:arg_do_mpitime] = x
+      }
+
+      opt.on("--palm", "Execute in PALm mode (two executions)") { |x|
+        args[:arg_do_palm_clean] = x
+        args[:arg_do_palm] = x
+      }
+      opt.on("--palm-clean", "Execute PALm clean binary only") { |x|
+        args[:arg_do_palm_clean] = x
+      }
+
+      opt.on("--prefix X", "Use script directory prefix of X") { |x|
+        args[:arg_prefix] = x
+      }
+      opt.on("--suffix X", "Use script directory prefix of X") { |x|
+        args[:arg_suffix] = x
+      }
+
+      opt.on("--run", "Run batch scripts") { |x|
+        args[:arg_run] = x
+      }
+    }
+
+    @@commandLine = $0 + ' ' + argv.join(' ') # @@appNm
+
+    parser.parse!(argv)
+    #PP.pp(argv, STDERR)
+    
+    #if (!(argv.length() >= 1) )
+    #  puts("Invalid number of arguments!\n" + parser.to_s())
+    #  exit
+    #end
+
+    args[:arg_inputL] = argv[0, argv.length()]
+    args
+  end
+
+  def self.appNm()
+    @@appNm
+  end
+
+  def self.commandLine()
+    @@commandLine
+  end
+end
+
+
+class Msg
+  NewlineRE = %r'\n\z'
+
+  def initialize(app)
+    @app = app
+    @isEOL_out = true
+    @isEOL_err = true
+  end
+
+  def msg(x)
+    if (@isEOL_out)
+      $stdout.write(@app + ": ")
+    end
+
+    $stdout.write(x)
+
+    @isEOL_out = (x.match(NewlineRE) ? true : false)
+  end
+
+  def warn(msg)
+    $stderr.write("#{@app}: warning: #{msg}")
+  end
+  
+  def err(msg)
+    $stderr.write("#{@app}: error: #{msg}")
+  end
+
+  def fatal(msg)
+    err(msg)
+    Kernel.exit(false)
+  end
+  
+  def raise(msg)
+    ctxt = caller[0] #ctxt = (caller[0] =~ /`([^']*)'/ and $1)
+
+    Kernel.raise "#{@app}[#{ctxt}]: error: #{msg}"
+  end
+
+  def dbg(msg)
+    ctxt = caller[0] #ctxt = (caller[0] =~ /`([^']*)'/ and $1)
+    
+    $stderr.write("#{@app}[#{ctxt}]: #{msg}")
+    #PP.pp("#{@app}[#{ctxt}]: #{msg}", STDERR)
+  end
+end
+
+
+#****************************************************************************
+#
+#****************************************************************************
+
+BEGIN { }
+
+if __FILE__ == $0
+  main()
+end
+
+END { }
+
+#****************************************************************************
