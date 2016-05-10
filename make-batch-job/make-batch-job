@@ -294,7 +294,7 @@ class ScriptFactory
                                                 @ompPerTask,
                                                 script.job_envL)
 
-    script.job_preL = jobPre(job_nm, n_mpi, @mpiPerNode, n_nodes)
+    script.job_preL = jobPre(job_nm, n_mpi, @mpiPerNode, n_nodes, args)
 
     if (!script.job_envL.empty?())
       script.job_preL << "\n" + script.job_envL.join("\n")
@@ -304,7 +304,7 @@ class ScriptFactory
     # 
     #-----------------------------------------------------------
 
-    script.job_postL = jobPost()
+    script.job_postL = jobPost(args)
 
     #-----------------------------------------------------------
     # 
@@ -324,7 +324,7 @@ class ScriptFactory
   #
   #-----------------------------------------------------------
  
-  def jobPre(jobNm, n_mpi, mpiPerNode, n_nodes)
+  def jobPre(jobNm, n_mpi, mpiPerNode, n_nodes, args)
     cmdL = [ ]
 
     timeStr = timeLimitStr(@timeLimit, 0)
@@ -346,13 +346,27 @@ class ScriptFactory
     if (mycmd)
       cmdL << "\n" + mycmd
     end
-    
+
+    if @machine.can_set_freq()
+      opts=""
+      if (args[:arg_frequency])
+        opts = args[:arg_frequency]
+      end
+      path=File.expand_path(File.dirname(__FILE__)) #quick hack that assumes make-batch-script is in same directory as freq-set (sudo uses clean PATH varialbe)
+      cmdL << "\nsrun sudo #{path}/freq-set #{opts}\n"
+    end 
+       
     cmdL
   end
   
 
-  def jobPost()
-    [ ]
+  def jobPost(args)
+    cmdL = [ ]
+    if @machine.can_set_freq()
+      path=File.expand_path(File.dirname(__FILE__))#quick hack that assumes make-batch-script is in same directory as freq-unset (sudo uses clean PATH varialbe)
+      cmdL << "srun sudo #{path}/freq-unset\n"     
+    end
+    cmdL
   end
 
 
@@ -382,7 +396,13 @@ class ScriptFactory
 
     info2 = "-%06d" % n_mpi
 
-    info = "#{info0}#{info1}#{info2}"
+    info3 =""
+    if (args[:arg_frequency])
+      opts = args[:arg_frequency]
+      info3 = "-#{opts}KHz"
+    end
+
+    info = "#{info0}#{info1}#{info2}#{info3}"
 
     "#{app_cmd_nm}#{app_in}#{info}"
   end
@@ -731,6 +751,7 @@ class Machine
       @mpich_uses_srun = true
       @hw_corePerNode = 32
       @hw_threadPerCore = 1
+      @hw_set_freq = false
     when /\.cluster\.pnnl\.gov/ # SeaPearl
       @job_account = "PAL"
       @job_queue = "ivy";
@@ -739,6 +760,7 @@ class Machine
       # @mpich_uses_srun = true 
       @hw_corePerNode = 20
       @hw_threadPerCore = 2 # HyperThreading on
+      @hw_set_freq = true 
     when "eos.ccs.ornl.gov"
       @job_account = "csc103"
       @job_queue = "batch" # debug
@@ -746,6 +768,7 @@ class Machine
       @hw_corePerNode = 16
       @hw_threadPerCore = 1 # HyperThreading off by default
       # @hw_threadPerCore = 2
+      @hw_set_freq = false
     when /mira.*\.alcf\.anl\.gov/
       @job_account = "PEACEndStation"
       @job_queue = nil # prod-capability, prod-long, prod-short
@@ -753,6 +776,7 @@ class Machine
       @hw_corePerNode = 16
       @hw_threadPerCore = 1
       # @hw_threadPerCore = 4
+      @hw_set_freq = false
     else
       $msg.raise("Unknown host '#{@hostname}'!\n")
     end
@@ -1123,6 +1147,10 @@ class Machine
     ty
   end  
 
+  def can_set_freq()
+    @hw_set_freq
+  end
+
 end
 
 
@@ -1359,6 +1387,8 @@ class Args
     args[:arg_do_palm_clean] = false
     args[:arg_do_palm] = false
 
+    args[:arg_frequency] = nil
+
     args[:arg_run] = false
 
     parser = OptionParser.new() { |opt|
@@ -1450,6 +1480,12 @@ class Args
 
       opt.on("--run", "Run batch scripts") { |x|
         args[:arg_run] = x
+      }
+
+      opt.on("--freq N", Integer, "Set CPU frequency to N") { |x|
+        if (x > 0)
+          args[:arg_frequency] = x
+        end
       }
     }
 

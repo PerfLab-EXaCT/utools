@@ -1,0 +1,27 @@
+#!/bin/bash
+
+contains() {
+[[ $1 =~ $2 ]] && echo 1 || echo 0
+}
+
+
+
+freq=${1}
+
+
+availFreqs=`tail /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies`
+if [ "$(contains "$availFreqs" $freq)" = "0" ] || [ "${freq}x" = "x" ]; then
+freqArr=($availFreqs)
+if [ "$((${freqArr[1]} - ${freqArr[0]}))" -gt "1000" ]; then
+freq=${freqArr[0]} 
+else
+freq=${freqArr[1]}
+fi 
+echo "setting to max frequency: $freq" 
+echo "for a different frequency use one of: $availFreqs"
+fi
+
+
+for b in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor ; do echo userspace > $b; done
+
+for b in /sys/devices/system/cpu/cpu*/cpufreq/scaling_setspeed ; do echo $freq > $b; done

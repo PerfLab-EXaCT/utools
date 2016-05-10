@@ -1,0 +1,9 @@
+#!/bin/bash
+
+freq=${1}
+if test "x$freq" = x; then
+freq=2800000
+fi
+
+for b in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor ; do echo ondemand  > $b; done
+
