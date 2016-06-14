@@ -791,7 +791,7 @@ class Machine
       @job_canReadHomeFS = true
     end
 
-    @mpitime_path = ENV['HOME'] + "/1me-hpcgroup-svn/mpitime/mpitime"
+    @mpitime_path = ENV['HOME'] + "/1modsim-tools-svn/mpitime/mpitime"
     @hpcrun_path = "hpcrun"
     # ENV['HOME'] + "/palm/palm.trunk/external/hpctoolkit/MYINSTALL/bin/" +
     @hpcrun_args = "-e REALTIME:9500 -e RETCNT"
