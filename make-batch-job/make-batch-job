@@ -744,15 +744,7 @@ class Machine
     @domainname = ENV['MYCFG_DOMAINNAME']
 
     case @hostname
-    when "pal.pnnl.gov"
-      @job_account = "PAL"
-      @job_queue = "pal"
-      @schedulerTy = :scheduler_slurm
-      @mpich_uses_srun = true
-      @hw_corePerNode = 32
-      @hw_threadPerCore = 1
-      @hw_set_freq = false
-    when /\.cluster\.pnnl\.gov/ # SeaPearl
+    when /seapearl\.pnn?l\.gov/
       @job_account = "PAL"
       @job_queue = "ivy";
       @schedulerTy = :scheduler_slurm
@@ -761,6 +753,14 @@ class Machine
       @hw_corePerNode = 20
       @hw_threadPerCore = 2 # HyperThreading on
       @hw_set_freq = true 
+    when "pal.pnnl.gov"
+      @job_account = "PAL"
+      @job_queue = "pal"
+      @schedulerTy = :scheduler_slurm
+      @mpich_uses_srun = true
+      @hw_corePerNode = 32
+      @hw_threadPerCore = 1
+      @hw_set_freq = false
     when "eos.ccs.ornl.gov"
       @job_account = "csc103"
       @job_queue = "batch" # debug
