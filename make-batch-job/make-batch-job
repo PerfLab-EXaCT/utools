@@ -1282,8 +1282,8 @@ class HPCToolkitHelp
 
   RE_quotes = %r"[\"\']"
 
-  RE_arg_leadingSpace1 = %r"\s+(-[a-zA-Z]\s)"
-  RE_arg_leadingSpace2 = %r"\s+(--[a-zA-Z]+\s)"
+  RE_arg_leadingSpace1 = %r"\s+(-[a-zA-Z])"
+  RE_arg_leadingSpace2 = %r"\s+(--[a-zA-Z]+)"
 
 
   def self.toHPCRunArg(env_str)
