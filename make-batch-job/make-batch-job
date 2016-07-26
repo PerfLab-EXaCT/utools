@@ -405,13 +405,13 @@ class ScriptFactory
 
     info2 = "-%06d" % n_mpi
 
-    info3 =""
+    info1a = ""
     if (args[:arg_frequency])
       opts = args[:arg_frequency]
-      info3 = "-#{opts}KHz"
+      info1a = "-#{opts}KHz"
     end
 
-    info = "#{info0}#{info1}#{info2}#{info3}"
+    info = "#{info0}#{info1}#{info1a}#{info2}"
 
     "#{app_cmd_nm}#{app_in}#{info}"
   end
