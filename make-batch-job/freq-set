@@ -30,4 +30,4 @@ for b in /sys/devices/system/cpu/cpu*/cpufreq/scaling_setspeed ; do
     echo $freq > $b;
 done
 
-printf "lscpu says: " && lscpu | grep "CPU MHz"
+printf "${HOSTNAME}: lscpu says: " && lscpu | grep "CPU MHz"
