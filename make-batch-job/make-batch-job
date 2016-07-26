@@ -191,6 +191,13 @@ class ScriptFactory
         @script.app_monitorLL[0] << "#{@machine.hpcrun_path} #{opts}"
 
         # @script.job_envL += "HPCRUN_MPI_ONLY=1"
+      elsif (args[:arg_do_hpcrunPaths])
+        opts = args[:arg_do_hpcrunPaths]
+        if (!opts.instance_of?(String))
+          $msg.raise("Please supply hpcrun arguments for Palm paths!\n")
+        end
+
+        @script.app_monitorLL[0] << "#{@machine.hpcrunPaths_path} #{opts}"
       end
       
       #-----------------------------------------------------------
@@ -353,9 +360,11 @@ class ScriptFactory
         opts = args[:arg_frequency]
       end
       path=File.expand_path(File.dirname(__FILE__)) #quick hack that assumes make-batch-script is in same directory as freq-set (sudo uses clean PATH varialbe)
-      cmdL << "\nsrun sudo #{path}/freq-set #{opts}\n"
-    end 
-       
+      cmdL <<
+        "\n" +
+        "echo '*** CPU frequency ***' && srun sudo #{path}/freq-set #{opts} && echo"
+    end
+    
     cmdL
   end
   
@@ -460,6 +469,8 @@ class ScriptFactory
       'palm'
     elsif (args[:arg_do_palm_clean])
       'palmclean'
+    elsif (args[:arg_do_hpcrunPaths])
+      hpcrunStr(args)
     elsif (args[:arg_do_hpcrun] || !args[:arg_envL_hpcrun].empty?())
       hpcrunStr(args)
     elsif (args[:arg_do_mpitime])
@@ -473,15 +484,15 @@ class ScriptFactory
   def hpcrunStr(args)
     str = ''
 
-    if (args[:arg_do_hpcrun] || !args[:arg_envL_hpcrun].empty?())
-      str += 'hpcrun'
+    if (args[:arg_do_hpcrun] || args[:arg_do_hpcrunPaths] || !args[:arg_envL_hpcrun].empty?())
+      str += (args[:arg_do_hpcrunPaths]) ? 'paths' : 'hpcrun'
 
       args[:arg_envL_hpcrun].each { |x|
         x_arg = HPCToolkitHelp.toHPCRunArg(x)
         str += HPCToolkitHelp.mkName(x_arg)
       }
       
-      hpcrun_args = args[:arg_do_hpcrun]
+      hpcrun_args = (args[:arg_do_hpcrunPaths]) ? args[:arg_do_hpcrunPaths] : args[:arg_do_hpcrun]
       if (hpcrun_args.instance_of?(String))
         str += HPCToolkitHelp.mkName(hpcrun_args)
       end
@@ -732,6 +743,7 @@ end
 class Machine
 
   attr_accessor :hpcrun_path, :hpcrun_args
+  attr_accessor :hpcrunPaths_path
   attr_accessor :mpitime_path
 
   # Hardware
@@ -791,10 +803,14 @@ class Machine
       @job_canReadHomeFS = true
     end
 
-    @mpitime_path = ENV['HOME'] + "/1modsim-tools-svn/mpitime/mpitime"
     @hpcrun_path = "hpcrun"
-    # ENV['HOME'] + "/palm/palm.trunk/external/hpctoolkit/MYINSTALL/bin/" +
     @hpcrun_args = "-e REALTIME:9500 -e RETCNT"
+
+    @hpcrunPaths_path = ENV['HOME'] +
+                        "/hpctoolkit/hpctoolkit-paths/MYINSTALL/bin/" +
+                        "hpcrun"
+
+    @mpitime_path = ENV['HOME'] + "/1modsim-tools-svn/mpitime/mpitime"
   end
 
 
@@ -1331,6 +1347,9 @@ class HPCToolkitHelp
 
 
   def self.fixHpcrunDBCmd(hpcdb_path, app_nm)
+
+    # TODO: palm-paths: remove all threads, retain only mpi data
+    # TODO: hpcrun: remove only mpi threads
     
     src_path1 = "\"#{hpcdb_path}\"/\"#{app_nm}\"-??????-00[1-9]-*.{hpcrun,hpctrace}"
     src_path2 = "\"#{hpcdb_path}\"/\"#{app_nm}\"-??????-0[1-9][0-9]-*.{hpcrun,hpctrace}"
@@ -1386,6 +1405,7 @@ class Args
     args[:arg_do_mpitime] = false
     args[:arg_do_palm_clean] = false
     args[:arg_do_palm] = false
+    args[:arg_do_hpcrunPaths] = false
 
     args[:arg_frequency] = nil
 
@@ -1470,6 +1490,9 @@ class Args
       opt.on("--palm-clean", "Execute PALm clean binary only") { |x|
         args[:arg_do_palm_clean] = x
       }
+      opt.on("--paths=<hpcrun args>", "Execute under 'hpcrun-paths' using <hpcrun args>") { |x|
+        args[:arg_do_hpcrunPaths] = x
+      }      
 
       opt.on("--prefix X", "Use script directory prefix of X") { |x|
         args[:arg_prefix] = x
