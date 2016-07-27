@@ -2,7 +2,9 @@
 
 me=$0
 
-echo "${me} ${HOSTNAME}: restoring CPU 'dynamic turbo'."
+hostname=`hostname`
+
+echo "${me} ${hostname}: restoring CPU 'dynamic turbo'."
 
 for b in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor ; do
     echo ondemand  > $b;

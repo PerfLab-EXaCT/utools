@@ -2,10 +2,11 @@
 
 me=$0
 
+hostname=`hostname`
+
 contains() {
     [[ $1 =~ $2 ]] && echo 1 || echo 0
 }
-
 
 freq=${1}
 
@@ -20,7 +21,7 @@ if [ "$(contains "${availFreqs}" ${freq})" = "0" ] || [ "${freq}x" = "x" ]; then
     fi
 fi
 
-echo "${me}: ${HOSTNAME}: setting max CPU frequency to '${freq}'. (Available: ${availFreqs})"
+echo "${me}: ${hostname}: setting max CPU frequency to '${freq}'. (Available: ${availFreqs})"
 
 for b in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor ; do
     echo userspace > $b;
@@ -30,4 +31,4 @@ for b in /sys/devices/system/cpu/cpu*/cpufreq/scaling_setspeed ; do
     echo $freq > $b;
 done
 
-printf "${HOSTNAME}: lscpu says: " && lscpu | grep "CPU MHz"
+printf "${hostname}: lscpu says: " && lscpu | grep "CPU MHz"
