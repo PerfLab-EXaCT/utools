@@ -1,6 +1,6 @@
 #!/bin/bash
 
-me=$0
+me=`basename $0`
 
 hostname=`hostname`
 
@@ -21,8 +21,6 @@ if [ "$(contains "${availFreqs}" ${freq})" = "0" ] || [ "${freq}x" = "x" ]; then
     fi
 fi
 
-echo "${me}: ${hostname}: setting max CPU frequency to '${freq}'. (Available: ${availFreqs})"
-
 for b in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor ; do
     echo userspace > $b;
 done
@@ -31,4 +29,5 @@ for b in /sys/devices/system/cpu/cpu*/cpufreq/scaling_setspeed ; do
     echo $freq > $b;
 done
 
-printf "${hostname}: lscpu says: " && lscpu | grep "CPU MHz"
+printf "${hostname}: ${me} sets max CPU frequency to '${freq}'. (Available: ${availFreqs}). lscpu says: " && \
+    lscpu | grep "CPU MHz"
