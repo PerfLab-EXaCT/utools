@@ -4,9 +4,11 @@ me=`basename $0`
 
 hostname=`hostname`
 
+info="${me}:${hostname}:"
+
 for b in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor ; do
     echo ondemand  > $b;
 done
 
-printf "${me}: ${hostname}: restoring CPU 'dynamic turbo'. Governor says: " && \
+printf "${info} restoring CPU 'dynamic turbo'. Governor says: " && \
     cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor | uniq

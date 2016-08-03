@@ -359,7 +359,7 @@ class ScriptFactory
       if (args[:arg_frequency])
         opts = args[:arg_frequency]
       end
-      path=File.expand_path(File.dirname(__FILE__)) #quick hack that assumes make-batch-script is in same directory as freq-set (sudo uses clean PATH varialbe)
+      path = File.expand_path(File.dirname(__FILE__)) #quick hack that assumes make-batch-script is in same directory as freq-set (sudo uses clean PATH varialbe)
       cmdL <<
         "\n" +
         "echo '*** CPU frequency ***' && srun sudo #{path}/freq-set #{opts} && echo"
@@ -765,6 +765,14 @@ class Machine
       @hw_corePerNode = 20
       @hw_threadPerCore = 2 # HyperThreading on
       @hw_set_freq = true 
+    when "constance.pnnl.gov"
+      @job_account = "scalable_ml"
+      @job_queue = "short"
+      @schedulerTy = :scheduler_slurm
+      @mpich_uses_srun = true
+      @hw_corePerNode = 24
+      @hw_threadPerCore = 1 # HyperThreading off
+      @hw_set_freq = false
     when "pal.pnnl.gov"
       @job_account = "PAL"
       @job_queue = "pal"

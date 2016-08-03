@@ -1,0 +1,17 @@
+#!/bin/bash
+
+me=`basename $0`
+
+hostname=`hostname`
+
+info="${me}:${hostname}:"
+
+printf "${info} Governor says: " && \
+    cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor | uniq
+
+printf "${info} lscpu says: " && \
+    lscpu | grep "CPU MHz"
+
+printf "${info} cpu info: " && \
+    cat /proc/cpuinfo | grep "model name" | uniq && \
+    lscpu
