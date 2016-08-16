@@ -6,7 +6,7 @@
 # $HeadURL$
 # $Id$
 #
-# Nathan Tallent
+# Nathan Tallent, Ryan Friese
 #****************************************************************************
 
 require 'optparse'
