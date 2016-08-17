@@ -11,32 +11,81 @@ me=`basename $0`
 
 hostname=`hostname`
 
-contains() {
-    [[ $1 =~ $2 ]] && echo 1 || echo 0
-}
-
 info="${me}:${hostname}:"
 
-freq=${1}
+freq_req=${1}
 
-availFreqs=`tail /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies`
+#****************************************************************************
 
-if [ "$(contains "${availFreqs}" ${freq})" = "0" ] || [ "${freq}x" = "x" ]; then
-    freqArr=($availFreqs)
-    if [ "$((${freqArr[1]} - ${freqArr[0]}))" -gt "1000" ]; then
-	freq=${freqArr[0]}
+# return 'success' (0) if $1 contains $2
+contains() {
+    if [[ $1 =~ $2 ]] ; then
+	return 0
     else
-	freq=${freqArr[1]}
+	return 1
+    fi
+}
+
+#****************************************************************************
+
+sys_cpu_freqAvail=/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies
+sysglob_cpu_gov=/sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+sysglob_cpu_freq=/sys/devices/system/cpu/cpu*/cpufreq/scaling_setspeed
+
+#****************************************************************************
+
+if [[ ! -r "${sys_cpu_freqAvail}" ]] ; then
+    echo "Cannot find '${sys_cpu_freqAvail}'!"
+    exit 1
+fi
+
+freq_avail=`cat ${sys_cpu_freqAvail}`
+
+if [[ -z "${freq_avail}" ]] ; then
+    echo "${info} Cannot find any valid frequencies!"
+    exit 1
+fi
+
+
+freq=""
+
+if [[ -n "${freq_req}" ]] && contains "${freq_avail}" "${freq_req}" ; then
+    freq="${freq_req}"
+else
+    freq_availL=($freq_avail)
+    echo "${info} frequency list: ${freq_availL[@]}"
+
+    # Default to the first/max frequency
+    # N.B.: Assumes sorted in descending order
+    freq=${freq_availL[0]}
+
+    if (( ${#freq_availL[@]} > 1 )) ; then
+	# Catch special frequency flags: On Intel, a frequency that is
+	# 1000 Hz more than the nominal max indicates "Turbo".
+	if (( $(( ${freq_availL[0]} - ${freq_availL[1]})) == 1000 )) ; then
+	    freq=${freq_availL[1]}
+	fi
     fi
 fi
 
-for b in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor ; do
-    echo userspace > $b;
+if [[ -z "${freq}" ]] ; then
+    echo "${info} Cannot find valid frequency (Available: '${freq_avail})'"
+    exit 1
+fi
+
+echo "${info} Selected ${freq} Hz!"
+
+#****************************************************************************
+
+for x in ${sysglob_cpu_gov} ; do
+    echo userspace > $x;
 done
 
-for b in /sys/devices/system/cpu/cpu*/cpufreq/scaling_setspeed ; do
-    echo $freq > $b;
+for x in ${sysglob_cpu_freq} ; do
+    echo ${freq} > $x;
 done
 
-printf "${info} sets max CPU frequency to '${freq}'. (Available: ${availFreqs}). lscpu says: " && \
+#****************************************************************************
+
+printf "${info} sets max CPU frequency to '${freq}'. (Available: '${freq_avail}'). lscpu says: " && \
     lscpu | grep "CPU MHz"
