@@ -53,7 +53,7 @@ if [[ -n "${freq_req}" ]] && contains "${freq_avail}" "${freq_req}" ; then
     freq="${freq_req}"
 else
     freq_availL=($freq_avail)
-    echo "${info} frequency list: ${freq_availL[@]}"
+    #echo "${info} frequency list: ${freq_availL[@]}"
 
     # Default to the first/max frequency
     # N.B.: Assumes sorted in descending order
@@ -73,7 +73,7 @@ if [[ -z "${freq}" ]] ; then
     exit 1
 fi
 
-echo "${info} Selected ${freq} Hz!"
+#echo "${info} Selected ${freq} Hz!"
 
 #****************************************************************************
 
