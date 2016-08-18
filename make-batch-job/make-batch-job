@@ -359,11 +359,14 @@ class ScriptFactory
       if (args[:arg_frequency])
         opts = args[:arg_frequency]
       end
-      path = File.expand_path(File.dirname(__FILE__)) #quick hack that assumes make-batch-script is in same directory as freq-set (sudo uses clean PATH varialbe)
       cmdL <<
         "\n" +
-        "echo '*** CPU frequency ***' && srun sudo #{path}/freq-set #{opts} && echo"
+        "echo '*** CPU frequency ***' && srun sudo #{@machine.freqset_path} #{opts} && echo"
     end
+
+    cmdL <<
+      "\n" +
+      "echo '*** CPU info ***' && srun #{@machine.cpuinfo_path} && echo"
     
     cmdL
   end
@@ -372,8 +375,7 @@ class ScriptFactory
   def jobPost(args)
     cmdL = [ ]
     if @machine.can_set_freq()
-      path=File.expand_path(File.dirname(__FILE__))#quick hack that assumes make-batch-script is in same directory as freq-unset (sudo uses clean PATH varialbe)
-      cmdL << "srun sudo #{path}/freq-unset\n"     
+      cmdL << "srun sudo #{@machine.frequnset_path}\n"
     end
     cmdL
   end
@@ -742,6 +744,7 @@ end
 # Machine = hardware + software
 class Machine
 
+  attr_accessor :freqset_path, :frequnset_path, :cpuinfo_path
   attr_accessor :hpcrun_path, :hpcrun_args
   attr_accessor :hpcrunPaths_path
   attr_accessor :mpitime_path
@@ -811,6 +814,12 @@ class Machine
       @job_canReadHomeFS = true
     end
 
+    my_path = File.expand_path(File.dirname(__FILE__)) # FIXME
+
+    @freqset_path = my_path + "/freq-set"
+    @frequnset_path = my_path + "/freq-unset"
+    @cpuinfo_path = my_path + "/cpu-info"
+    
     @hpcrun_path = "hpcrun"
     @hpcrun_args = "-e REALTIME:9500 -e RETCNT"
 
