@@ -2,16 +2,25 @@
 
 me=`basename $0`
 
-hostname=`hostname`
+info="${me}[$(hostname)]:"
 
-info="${me}:${hostname}:"
+arg=${1}
 
-printf "${info} Governor says: " && \
-    cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor | uniq
+#****************************************************************************
 
-printf "${info} lscpu says: " && \
-    lscpu | grep "CPU MHz"
+sysglob_cpu_drv=/sys/devices/system/cpu/cpu*/cpufreq/scaling_driver
+sysglob_cpu_gov=/sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
 
-printf "${info} cpu info: " && \
-    cat /proc/cpuinfo | grep "model name" | uniq && \
-    lscpu
+#****************************************************************************
+
+info_drv=$( cat ${sysglob_cpu_drv} | uniq )
+info_gov=$( cat ${sysglob_cpu_gov} | uniq )
+info_freq=$( lscpu | grep "CPU MHz" | sed -e 's/   */ /' )
+
+printf "${info} CPU scaling driver: '${info_drv}'; governor: '${info_gov}'; ${info_freq}\n"
+
+if [[ ${arg} =~ --all || "${SLURM_NODEID}" = "0" ]] ; then
+    printf "${info} CPU info:\n" && \
+	cat /proc/cpuinfo | grep "model name" | uniq && \
+	lscpu
+fi

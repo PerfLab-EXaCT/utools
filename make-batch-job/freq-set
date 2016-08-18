@@ -9,9 +9,7 @@
 
 me=`basename $0`
 
-hostname=`hostname`
-
-info="${me}:${hostname}:"
+info="${me}[$(hostname)]:"
 
 freq_req=${1}
 
@@ -28,21 +26,21 @@ contains() {
 
 #****************************************************************************
 
-sys_cpu_freqAvail=/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies
 sysglob_cpu_gov=/sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
 sysglob_cpu_freq=/sys/devices/system/cpu/cpu*/cpufreq/scaling_setspeed
+sys_cpu_freqAvail=/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies
 
 #****************************************************************************
 
 if [[ ! -r "${sys_cpu_freqAvail}" ]] ; then
-    echo "Cannot find '${sys_cpu_freqAvail}'!"
+    echo "*** Error: ${info} Cannot read '${sys_cpu_freqAvail}'!"
     exit 1
 fi
 
 freq_avail=`cat ${sys_cpu_freqAvail}`
 
 if [[ -z "${freq_avail}" ]] ; then
-    echo "${info} Cannot find any valid frequencies!"
+    echo "*** Error: ${info} Cannot find any valid frequencies!"
     exit 1
 fi
 
@@ -66,11 +64,6 @@ else
 	    freq=${freq_availL[1]}
 	fi
     fi
-fi
-
-if [[ -z "${freq}" ]] ; then
-    echo "${info} Cannot find valid frequency (Available: '${freq_avail})'"
-    exit 1
 fi
 
 #echo "${info} Selected ${freq} Hz!"
