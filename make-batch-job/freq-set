@@ -80,5 +80,6 @@ done
 
 #****************************************************************************
 
-printf "${info} sets max CPU frequency to '${freq}'. (Available: '${freq_avail}'). lscpu says: " && \
-    lscpu | grep "CPU MHz"
+info_freq=$( lscpu | grep "CPU MHz" | sed -e 's/   */ /' )
+
+printf "${info} CPU frequency set to '${freq}'. [${info_freq}] (Available: '${freq_avail}')\n"
