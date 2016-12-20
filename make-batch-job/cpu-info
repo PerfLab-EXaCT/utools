@@ -13,13 +13,26 @@ sysglob_cpu_gov=/sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
 
 #****************************************************************************
 
-info_drv=$( cat ${sysglob_cpu_drv} | uniq )
-info_gov=$( cat ${sysglob_cpu_gov} | uniq )
+info_drv="<unknown>"
+if test -e ${sysglob_cpu_drv} ; then
+  info_drv=$( cat ${sysglob_cpu_drv} | uniq )
+fi
+
+info_gov="<unknown>"
+if test -e ${sysglob_cpu_gov} ; then
+    info_gov=$( cat ${sysglob_cpu_gov} | uniq )
+fi
+
 info_freq=$( lscpu | grep "CPU MHz" | sed -e 's/   */ /' )
+
+is_node_0=no
+if [[ "${SLURM_NODEID}" = "0" || "${PBS_NODENUM}" = "0" ]] ; then
+    is_node_0=yes
+fi
 
 printf "${info} CPU scaling driver: '${info_drv}'; governor: '${info_gov}'; ${info_freq}\n"
 
-if [[ ${arg} =~ --all || "${SLURM_NODEID}" = "0" ]] ; then
+if [[ ${arg} =~ --all || "${is_node_0}" = "yes" ]] ; then
     printf "${info} CPU info:\n" && \
 	cat /proc/cpuinfo | grep "model name" | uniq && \
 	lscpu

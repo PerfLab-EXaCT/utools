@@ -349,6 +349,8 @@ class ScriptFactory
     
     # echo '*** ldd output ***' && ldd ${app} && echo
 
+    launcher = @machine.job_appRun(1, n_nodes, nil, nil)
+
     mycmd = @machine.job_myCmds()
     if (mycmd)
       cmdL << "\n" + mycmd
@@ -364,9 +366,9 @@ class ScriptFactory
         "echo '*** CPU frequency ***' && srun sudo #{@machine.freqset_path} #{opts} && echo"
     end
 
-    cmdL <<
-      "\n" +
-      "echo '*** CPU info ***' && srun #{@machine.cpuinfo_path} && echo"
+    #cmdL <<
+    #  "\n" +
+    #  "echo '*** CPU info ***' && #{launcher} #{@machine.cpuinfo_path} && echo"
     
     cmdL
   end
@@ -1049,9 +1051,7 @@ class Machine
     cmds =
       case @domainname
       when "pic.pnnl.gov"
-        "echo '*** cpu info ***'\n" +
-          "srun -N ${SLURM_NNODES} --ntasks-per-node=1 cat /proc/cpuinfo | grep -i 'cpu MHz' | uniq\n" +
-          "echo"
+        nil
       else
         nil
       end
@@ -1157,7 +1157,7 @@ class Machine
     # N.B. For variants of MPICH: Detect when built without a process
     # manager (PM), as this affects launcher
 
-    if (ENV['CRAYOS_VERSION'] and ENV['CRAY_MPICH2'])
+    if (ENV['CRAYOS_VERSION'] and ENV['CRAY_MPICH2_DIR'])
       ty = :mpi_cray
     elsif (ENV['BGQDRV'])
       ty = :mpi_ibm_bg
