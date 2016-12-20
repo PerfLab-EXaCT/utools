@@ -26,18 +26,18 @@ contains() {
 
 #****************************************************************************
 
-sysglob_cpu_gov=/sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
-sysglob_cpu_freq=/sys/devices/system/cpu/cpu*/cpufreq/scaling_setspeed
-sys_cpu_freqAvail=/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies
+cpu_gov_glob=/sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+cpu_freq_glob=/sys/devices/system/cpu/cpu*/cpufreq/scaling_setspeed
+cpu_freqAvail=/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies
 
 #****************************************************************************
 
-if [[ ! -r "${sys_cpu_freqAvail}" ]] ; then
-    echo "*** Error: ${info} Cannot read '${sys_cpu_freqAvail}'!"
+if [[ ! -r "${cpu_freqAvail}" ]] ; then
+    echo "*** Error: ${info} Cannot read '${cpu_freqAvail}'!"
     exit 1
 fi
 
-freq_avail=`cat ${sys_cpu_freqAvail}`
+freq_avail=`cat ${cpu_freqAvail}`
 
 if [[ -z "${freq_avail}" ]] ; then
     echo "*** Error: ${info} Cannot find any valid frequencies!"
@@ -70,11 +70,11 @@ fi
 
 #****************************************************************************
 
-for x in ${sysglob_cpu_gov} ; do
+for x in ${cpu_gov_glob} ; do
     echo userspace > $x;
 done
 
-for x in ${sysglob_cpu_freq} ; do
+for x in ${cpu_freq_glob} ; do
     echo ${freq} > $x;
 done
 

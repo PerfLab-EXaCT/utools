@@ -13,22 +13,22 @@ info="${me}[$(hostname)]:"
 
 #****************************************************************************
 
-sys_cpu_gov=/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-sysglob_cpu_gov=/sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+cpu0_gov=/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+cpu_gov_glob=/sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
 
 #****************************************************************************
 
-if [[ ! -w "${sys_cpu_gov}" ]] ; then
-    echo "*** Error: ${info} Cannot write '${sys_cpu_gov}'!"
+if [[ ! -w "${cpu0_gov}" ]] ; then
+    echo "*** Error: ${info} Cannot write '${cpu0_gov}'!"
     exit 1
 fi
 
-for x in ${sysglob_cpu_gov} ; do
+for x in ${cpu_gov_glob} ; do
     echo ondemand > $x;
 done
 
 #****************************************************************************
 
-info_gov=$( cat ${sysglob_cpu_gov} | uniq )
+info_gov=$( cat ${cpu_gov_glob} | uniq )
 
 printf "${info} restoring CPU 'dynamic turbo'. Governor: ${info_gov}\n"

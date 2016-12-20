@@ -8,19 +8,22 @@ arg=${1}
 
 #****************************************************************************
 
-sysglob_cpu_drv=/sys/devices/system/cpu/cpu*/cpufreq/scaling_driver
-sysglob_cpu_gov=/sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+cpu0_drv=/sys/devices/system/cpu/cpu0/cpufreq/scaling_driver
+cpu_drv_glob=/sys/devices/system/cpu/cpu*/cpufreq/scaling_driver
+
+cpu_gov=/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+cpu_gov_glob=/sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
 
 #****************************************************************************
 
 info_drv="<unknown>"
-if test -e ${sysglob_cpu_drv} ; then
-  info_drv=$( cat ${sysglob_cpu_drv} | uniq )
+if test -r ${cpu0_drv} ; then
+    info_drv=$( cat ${cpu_drv_glob} | uniq )
 fi
 
 info_gov="<unknown>"
-if test -e ${sysglob_cpu_gov} ; then
-    info_gov=$( cat ${sysglob_cpu_gov} | uniq )
+if test -r ${cpu0_gov} ; then
+    info_gov=$( cat ${cpu_gov_glob} | uniq )
 fi
 
 info_freq=$( lscpu | grep "CPU MHz" | sed -e 's/   */ /' )
