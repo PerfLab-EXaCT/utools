@@ -311,7 +311,7 @@ class ScriptFactory
     # 
     #-----------------------------------------------------------
 
-    script.job_postL = jobPost(args)
+    script.job_postL = jobPost(args, n_nodes)
 
     #-----------------------------------------------------------
     # 
@@ -349,37 +349,28 @@ class ScriptFactory
     
     # echo '*** ldd output ***' && ldd ${app} && echo
 
-    mycmd = @machine.job_myCmds()
+    mycmd = @machine.job_cpuFreq_pre(args[:arg_frequency], n_nodes)
     if (mycmd)
       cmdL << "\n" + mycmd
     end
 
-    if @machine.can_set_freq()
-      opts=""
-      if (args[:arg_frequency])
-        opts = args[:arg_frequency]
-      end
-      cmdL <<
-        "\n" +
-        "echo '*** CPU frequency ***' && srun sudo #{@machine.freqset_path} #{opts} && echo"
+    mycmd = @machine.job_myCmds_pre(n_nodes)
+    if (mycmd)
+      cmdL << "\n" + mycmd
     end
 
-    if @machine.can_set_freq() # FIXME: generalize launcher
-      #launcher = @machine.job_appRun(1, n_nodes, nil, nil)
-      cmdL <<
-        "\n" +
-        "echo '*** CPU info ***' && srun #{@machine.cpuinfo_path} && echo"
-    end
-    
     cmdL
   end
   
 
-  def jobPost(args)
+  def jobPost(args, n_nodes)
     cmdL = [ ]
-    if @machine.can_set_freq()
-      cmdL << "srun sudo #{@machine.frequnset_path}\n"
+
+    mycmd = @machine.job_cpuFreq_post(n_nodes)
+    if (mycmd)
+      cmdL << mycmd + "\n"
     end
+
     cmdL
   end
 
@@ -761,16 +752,24 @@ class Machine
     @hostname = ENV['MYCFG_HOSTNAME']
     @domainname = ENV['MYCFG_DOMAINNAME']
 
+    my_path = File.expand_path(File.dirname(__FILE__)) # FIXME
+
+    @freqset_path = my_path + "/freq-set"
+    @frequnset_path = my_path + "/freq-unset"
+    @cpuinfo_path = my_path + "/cpu-info"
+
     case @hostname
-    when /seapearl\.pnn?l\.gov/
+    when "seapearl.pnnl.gov"
       @job_account = "PAL"
       @job_queue = "ivy";
       @schedulerTy = :scheduler_slurm
       # Launching with 'srun -n <N>' yields a communicator size of 1!
-      # @mpich_uses_srun = true 
+      # @mpich_uses_srun = true
       @hw_corePerNode = 20
       @hw_threadPerCore = 2 # HyperThreading on
-      @hw_set_freq = true 
+      @hw_cpuFreq_config = "srun sudo #{freqset_path}"
+      @hw_cpuFreq_restore = "srun sudo #{frequnset_path}"
+      @hw_cpuInfo = "srun #{cpuinfo_path}"
     when "constance.pnnl.gov"
       @job_account = "ACMD" # "scalable_ml"
       @job_queue = "short"
@@ -778,7 +777,8 @@ class Machine
       @mpich_uses_srun = true
       @hw_corePerNode = 24
       @hw_threadPerCore = 1 # HyperThreading off
-      @hw_set_freq = false
+      @hw_cpuFreq_config = "srun sudo /share/apps/msr-tools/1.3/turbo-boost.sh disable"
+      @hw_cpuInfo = "srun #{cpuinfo_path}"
     when "pal.pnnl.gov"
       @job_account = "PAL"
       @job_queue = "pal"
@@ -786,7 +786,7 @@ class Machine
       @mpich_uses_srun = true
       @hw_corePerNode = 32
       @hw_threadPerCore = 1
-      @hw_set_freq = false
+      @hw_cpuInfo = "srun #{cpuinfo_path}"
     when "eos.ccs.ornl.gov"
       @job_account = "csc103"
       @job_queue = "batch" # debug
@@ -794,7 +794,6 @@ class Machine
       @hw_corePerNode = 16
       @hw_threadPerCore = 1 # HyperThreading off by default
       # @hw_threadPerCore = 2
-      @hw_set_freq = false
     when /mira.*\.alcf\.anl\.gov/
       @job_account = "PEACEndStation"
       @job_queue = nil # prod-capability, prod-long, prod-short
@@ -802,7 +801,6 @@ class Machine
       @hw_corePerNode = 16
       @hw_threadPerCore = 1
       # @hw_threadPerCore = 4
-      @hw_set_freq = false
     else
       $msg.raise("Unknown host '#{@hostname}'!\n")
     end
@@ -817,11 +815,6 @@ class Machine
       @job_canReadHomeFS = true
     end
 
-    my_path = File.expand_path(File.dirname(__FILE__)) # FIXME
-
-    @freqset_path = my_path + "/freq-set"
-    @frequnset_path = my_path + "/freq-unset"
-    @cpuinfo_path = my_path + "/cpu-info"
     
     @hpcrun_path = "hpcrun"
     @hpcrun_args = "-e REALTIME:9500 -e RETCNT"
@@ -1048,16 +1041,31 @@ class Machine
   end
 
 
-  def job_myCmds()
-    cmds =
-      case @domainname
-      when "pic.pnnl.gov"
-        nil
-      else
-        nil
-      end
+  def job_cpuFreq_pre(freq, n_nodes)
+    if (defined? @hw_cpuFreq_config)
+      freq_str = (freq) ? freq : ""
+      "echo '*** CPU frequency ***' && #{@hw_cpuFreq_config} #{freq_str} && echo"
+    else
+      nil
+    end
+  end
 
-    cmds
+
+  def job_cpuFreq_post(n_nodes)
+    if (defined? @hw_cpuFreq_restore)
+      "echo && echo '*** CPU frequency restore ***' && #{@hw_cpuFreq_restore}"
+    else
+      nil
+    end
+  end
+
+
+  def job_myCmds_pre(n_nodes)
+    if (defined? @hw_cpuInfo)
+      "echo '*** CPU info ***' && #{@hw_cpuInfo} && echo"
+    else
+      nil
+    end
   end
 
 
@@ -1179,10 +1187,6 @@ class Machine
     end
     
     ty
-  end  
-
-  def can_set_freq()
-    @hw_set_freq
   end
 
 end
