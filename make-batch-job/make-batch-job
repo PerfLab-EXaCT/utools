@@ -771,8 +771,8 @@ class Machine
       @hw_cpuFreq_restore = "srun sudo #{frequnset_path}"
       @hw_cpuInfo = "srun #{cpuinfo_path}"
     when "constance.pnnl.gov"
-      @job_account = "ACMD" # "scalable_ml"
-      @job_queue = "short"
+      @job_account = "acmd" #  acmd, scalable_ml
+      @job_queue = "long" # short, long
       @schedulerTy = :scheduler_slurm
       @mpich_uses_srun = true
       @hw_corePerNode = 24
