@@ -787,6 +787,13 @@ class Machine
       @hw_corePerNode = 32
       @hw_threadPerCore = 1
       @hw_cpuInfo = "srun #{cpuinfo_path}"
+    when "titan.ccs.ornl.gov"
+      # https://www.olcf.ornl.gov/computing-resources/titan-cray-xk7/
+      @job_account = "csc249ADCD502"
+      @job_queue = "batch" # debug
+      @schedulerTy = :scheduler_pbs # Torque
+      @hw_corePerNode = 16
+      @hw_threadPerCore = 1
     when "eos.ccs.ornl.gov"
       @job_account = "csc103"
       @job_queue = "batch" # debug
