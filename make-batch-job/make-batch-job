@@ -246,12 +246,21 @@ class ScriptFactory
       newFnm = @app_inPathRenameL[0] # FIXME: only handles first element
       inFnm = (inputFnm) ? inputFnm : (Dir.pwd + '/' + newFnm)
       inFnm_abs = File.expand_path(inFnm)
-      script.mkCmdL << lnPathCmd(inFnm_abs, newFnm)
+      script.mkCmdL << cpPathCmd(inFnm_abs, newFnm)
     end
 
-    script.app_pathXtraLL.each { |x, y|
+    script.app_pathXtraLL.each { |fn, x, y|
       x_abs = File.expand_path(x)
-      script.mkCmdL << lnPathCmd(x_abs, y)
+      cmd =
+        case fn
+        when :ln
+          lnPathCmd(x_abs, y)
+        when :cp
+          cpPathCmd(x_abs, y)
+        else
+          $msg.raise("Unknown path command '#{fn}'!\n")
+        end
+      script.mkCmdL << cmd
     }
 
     #-----------------------------------------------------------
@@ -386,7 +395,7 @@ class ScriptFactory
     if (inputFnm)
       app_in += '-' + AppCmdParser.mkName(File.basename(inputFnm))
     end
-    script.app_pathXtraLL.each { |x, y|
+    script.app_pathXtraLL.each { |fn, x, y|
       if (x != y)
         app_in += '-' + AppCmdParser.mkName(x)
       end
@@ -513,8 +522,14 @@ class ScriptFactory
   end
 
 
+  def cpPathCmd(src, dst)
+    # FIXME: "cp" is different between file vs. directory
+    cp = @machine.fs_copyCmd()
+    "#{cp} \"#{src}\" \"#{dst}\""
+  end
+
+  
   def lnPathCmd(src, dst)
-    # N.B.: If we add copy, note "cp" is different between file vs. directory
     ln = @machine.fs_symlinkCmd()
     "#{ln} \"#{src}\" \"#{dst}\""
   end
@@ -529,8 +544,8 @@ class ScriptFactory
       return nil
     end
 
-    path_str = (@script.app_pathXtraLL.map { |x, y|
-                    (x == y) ? x : "#{x} -> #{y}"
+    path_str = (@script.app_pathXtraLL.map { |fn, x, y|
+                    (x == y) ? "#{x} ->#{fn}" : "#{x} ->#{fn} #{y}"
                   }).join(', ')
 
     timeStr = timeLimitStr(@timeLimit, 0)
@@ -1122,16 +1137,13 @@ class Machine
   #-----------------------------------------------------------
 
   def fs_symlinkCmd()
+    # if (!@job_canReadHomeFS) Warning!
     "ln -f -s"
   end
 
   
   def fs_copyCmd()
-    if (@job_canReadHomeFS)
-      "ln -f -s"
-    else
-      "cp -f"
-    end
+    "cp -f"
   end
 
 
@@ -1483,11 +1495,18 @@ class Args
              "relative to the current working directory. If Y has no path,",
              "it is assumed to be the execution directory.",
              " (May pass multiple times.)") { |x|
-        # ensure 'x' is an Array of form [X, Y]
-        xy = (x.length() == 1) ? [ x.first(), x.first() ] : x
-        args[:app_pathXtraLL] << xy
+        path_tpl = (x.length() == 1) ? [ x.first(), x.first() ] : x
+        path_tpl.unshift(:ln)
+        args[:app_pathXtraLL] << path_tpl # Array of form [fn, X, Y]
       }
 
+      opt.on("--app-cppath X[,Y]", Array,
+             "Same as --app-lnpath, but uses copy.") { |x|
+        path_tpl = (x.length() == 1) ? [ x.first(), x.first() ] : x
+        path_tpl.unshift(:cp)
+        args[:app_pathXtraLL] << path_tpl # Array of form [fn, X, Y]
+      }
+      
       opt.on("--env X", "Use environment command X for all apps",
              "(May pass multiple times.)") { |x|
         args[:arg_envL] << EnvVarParser.normalizeSetVarCmd(x)
