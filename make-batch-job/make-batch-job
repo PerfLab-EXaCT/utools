@@ -14,7 +14,7 @@ require 'optparse'
 # FIXME: [sweep3d, GTC]
 # --inlist-rename X: Make each file in the <in-file> list available as
 #   X. Useful for applications that use a fixed-name input file, where
-#   scaling parameters are in the file itself (@app_inlistRename)
+#   scaling parameters are in the file itself (@app_inPathRenameL)
 
 # TODO: a per-application hpc-env envL
 
@@ -98,7 +98,7 @@ class ScriptFactory
     @ompPerTask = args[:arg_ompPerTask]
 
     # Some apps require an input file with a fixed name
-    @app_inlistRename = nil
+    @app_inPathRenameL = nil
 
     #-----------------------------------------------------------
     # detect application
@@ -117,10 +117,10 @@ class ScriptFactory
         # no error
       when /gtc/i
         $msg.msg("Using custom settings for GTC!\n")
-        @app_inlistRename = [ "gtc.input" ]
+        @app_inPathRenameL = [ "gtc.input" ]
       when /sweep/i
         $msg.msg("Using custom settings for Sweep3D!\n")
-        @app_inlistRename = [ "input" ]
+        @app_inPathRenameL = [ "input" ]
       end
 
     end
@@ -135,7 +135,7 @@ class ScriptFactory
     # detect implicit input file arguments
     #-----------------------------------------------------------
 
-    @script.app_inFnmXtraLL = args[:app_inFnmXtraLL]
+    @script.app_lnPathXtraLL = args[:app_lnPathXtraLL]
 
     #-----------------------------------------------------------
     # detect environment
@@ -242,16 +242,16 @@ class ScriptFactory
       AppCmdParser.expand_path(x)
     }
 
-    if (@app_inlistRename)
-      newFnm = @app_inlistRename[0] # FIXME: only handles first element
+    if (@app_inPathRenameL)
+      newFnm = @app_inPathRenameL[0] # FIXME: only handles first element
       inFnm = (inputFnm) ? inputFnm : (Dir.pwd + '/' + newFnm)
       inFnm_abs = File.expand_path(inFnm)
-      script.mkCmdL << inFileCmd(inFnm_abs, newFnm)
+      script.mkCmdL << lnPathCmd(inFnm_abs, newFnm)
     end
 
-    script.app_inFnmXtraLL.each { |x, y|
+    script.app_lnPathXtraLL.each { |x, y|
       x_abs = File.expand_path(x)
-      script.mkCmdL << inFileCmd(x_abs, y)
+      script.mkCmdL << lnPathCmd(x_abs, y)
     }
 
     #-----------------------------------------------------------
@@ -386,7 +386,7 @@ class ScriptFactory
     if (inputFnm)
       app_in += '-' + AppCmdParser.mkName(File.basename(inputFnm))
     end
-    script.app_inFnmXtraLL.each { |x, y|
+    script.app_lnPathXtraLL.each { |x, y|
       if (x != y)
         app_in += '-' + AppCmdParser.mkName(x)
       end
@@ -513,9 +513,10 @@ class ScriptFactory
   end
 
 
-  def inFileCmd(src, dst)
-    cp = @machine.fs_copyCmd()
-    "#{cp} \"#{src}\" \"#{dst}\""
+  def lnPathCmd(src, dst)
+    # N.B.: If we add copy, note "cp" is different between file vs. directory
+    ln = @machine.fs_symlinkCmd()
+    "#{ln} \"#{src}\" \"#{dst}\""
   end
 
 
@@ -528,14 +529,14 @@ class ScriptFactory
       return nil
     end
 
-    infile_str = (@script.app_inFnmXtraLL.map { |x, y|
+    lnpath_str = (@script.app_lnPathXtraLL.map { |x, y|
                     (x == y) ? x : "#{x} -> #{y}"
                   }).join(', ')
 
     timeStr = timeLimitStr(@timeLimit, 0)
 
     ostream.write(prefix + "app:        [#{@script.appL.join(', ')}]\n")
-    ostream.write(prefix + "in-files:   [#{infile_str}]\n")
+    ostream.write(prefix + "ln-paths:   [#{lnpath_str}]\n")
     ostream.write(prefix + "env:        [#{@script.job_envL.join('; ')}]\n")
     @script.app_monitorLL.each_with_index { |monL, i|
       ostream.write(prefix + "monitor #{i}:  [#{monL.join(', ')}]\n")
@@ -560,7 +561,7 @@ class Script
   attr_accessor :job_preL, :job_postL
   attr_accessor :job_envL
 
-  attr_accessor :appL, :app_inFnmXtraLL
+  attr_accessor :appL, :app_lnPathXtraLL
   attr_accessor :app_launcherL, :app_monitorLL
   attr_accessor :app_preLL, :app_postLL
 
@@ -578,7 +579,7 @@ class Script
     @job_envL  = []
 
     @appL            = []     # list of "<app> <app-args>"
-    @app_inFnmXtraLL = []     # list of [infile infile_rundir] (not per app!)
+    @app_lnPathXtraLL = []    # list of [lnpath_x lnpath_y] (not per app!)
     @app_launcherL   = []     # if len = 1, use for each app
     @app_monitorLL   = [ [] ] # if len = 1, use for each app
     @app_preLL       = [ [] ] # if len = 1, use for each app
@@ -601,12 +602,12 @@ class Script
     @job_postL = x.job_postL.dup()
     @job_envL  = x.job_envL.dup()
 
-    @appL            = x.appL.dup()
-    @app_inFnmXtraLL = x.app_inFnmXtraLL.map { |y| y.dup() }
-    @app_launcherL   = x.app_launcherL.dup()
-    @app_monitorLL   = x.app_monitorLL.map { |y| y.dup() }
-    @app_preLL       = x.app_preLL.map { |y| y.dup() }
-    @app_postLL      = x.app_postLL.map { |y| y.dup() }
+    @appL             = x.appL.dup()
+    @app_lnPathXtraLL = x.app_lnPathXtraLL.map { |y| y.dup() }
+    @app_launcherL    = x.app_launcherL.dup()
+    @app_monitorLL    = x.app_monitorLL.map { |y| y.dup() }
+    @app_preLL        = x.app_preLL.map { |y| y.dup() }
+    @app_postLL       = x.app_postLL.map { |y| y.dup() }
 
     @mkCmdL = x.mkCmdL.dup()
   end
@@ -1120,6 +1121,11 @@ class Machine
   # Machine environment, filesystem
   #-----------------------------------------------------------
 
+  def fs_symlinkCmd()
+    "ln -f -s"
+  end
+
+  
   def fs_copyCmd()
     if (@job_canReadHomeFS)
       "ln -f -s"
@@ -1417,7 +1423,7 @@ class Args
     args[:arg_inputL] = []
 
     args[:arg_appL] = []
-    args[:app_inFnmXtraLL] = [] # list of [X, Y] pairs
+    args[:app_lnPathXtraLL] = [] # list of [X, Y] pairs
 
     args[:arg_envL] = []
     args[:arg_envL_hpcrun] = []
@@ -1469,16 +1475,17 @@ class Args
         args[:arg_appL] << x
       }
 
-      opt.on("--app-infile X[,Y]", Array,
-             "Make file X available as an (implicit) application input.",
-             "If Y is present, then X is made available as Y. If X has",
-             "no path, it is assumed to be the current working directory;",
-             "if Y has no path, it is assumed to be the job execution",
-             "directory. Useful for applications that assume a fixed-name",
-             "input file. (May pass multiple times.)") { |x|
+      opt.on("--app-lnpath X[,Y]", Array,
+             "Make path X available (as symlink) from execution directory.",
+             "Useful for apps that assume (possibly fixed-name) input paths",
+             "relative to execution directory. If Y is present, then X is",
+             "made available as Y. X may either be an absolute path or",
+             "relative to the current working directory. If Y has no path,",
+             "it is assumed to be the execution directory.",
+             " (May pass multiple times.)") { |x|
         # ensure 'x' is an Array of form [X, Y]
         xy = (x.length() == 1) ? [ x.first(), x.first() ] : x
-        args[:app_inFnmXtraLL] << xy
+        args[:app_lnPathXtraLL] << xy
       }
 
       opt.on("--env X", "Use environment command X for all apps",
