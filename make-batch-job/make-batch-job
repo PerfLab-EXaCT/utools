@@ -135,7 +135,7 @@ class ScriptFactory
     # detect implicit input file arguments
     #-----------------------------------------------------------
 
-    @script.app_lnPathXtraLL = args[:app_lnPathXtraLL]
+    @script.app_pathXtraLL = args[:app_pathXtraLL]
 
     #-----------------------------------------------------------
     # detect environment
@@ -249,7 +249,7 @@ class ScriptFactory
       script.mkCmdL << lnPathCmd(inFnm_abs, newFnm)
     end
 
-    script.app_lnPathXtraLL.each { |x, y|
+    script.app_pathXtraLL.each { |x, y|
       x_abs = File.expand_path(x)
       script.mkCmdL << lnPathCmd(x_abs, y)
     }
@@ -386,7 +386,7 @@ class ScriptFactory
     if (inputFnm)
       app_in += '-' + AppCmdParser.mkName(File.basename(inputFnm))
     end
-    script.app_lnPathXtraLL.each { |x, y|
+    script.app_pathXtraLL.each { |x, y|
       if (x != y)
         app_in += '-' + AppCmdParser.mkName(x)
       end
@@ -529,14 +529,14 @@ class ScriptFactory
       return nil
     end
 
-    lnpath_str = (@script.app_lnPathXtraLL.map { |x, y|
+    path_str = (@script.app_pathXtraLL.map { |x, y|
                     (x == y) ? x : "#{x} -> #{y}"
                   }).join(', ')
 
     timeStr = timeLimitStr(@timeLimit, 0)
 
     ostream.write(prefix + "app:        [#{@script.appL.join(', ')}]\n")
-    ostream.write(prefix + "ln-paths:   [#{lnpath_str}]\n")
+    ostream.write(prefix + "paths:      [#{path_str}]\n")
     ostream.write(prefix + "env:        [#{@script.job_envL.join('; ')}]\n")
     @script.app_monitorLL.each_with_index { |monL, i|
       ostream.write(prefix + "monitor #{i}:  [#{monL.join(', ')}]\n")
@@ -561,7 +561,7 @@ class Script
   attr_accessor :job_preL, :job_postL
   attr_accessor :job_envL
 
-  attr_accessor :appL, :app_lnPathXtraLL
+  attr_accessor :appL, :app_pathXtraLL
   attr_accessor :app_launcherL, :app_monitorLL
   attr_accessor :app_preLL, :app_postLL
 
@@ -578,12 +578,12 @@ class Script
     @job_postL = []
     @job_envL  = []
 
-    @appL            = []     # list of "<app> <app-args>"
-    @app_lnPathXtraLL = []    # list of [lnpath_x lnpath_y] (not per app!)
-    @app_launcherL   = []     # if len = 1, use for each app
-    @app_monitorLL   = [ [] ] # if len = 1, use for each app
-    @app_preLL       = [ [] ] # if len = 1, use for each app
-    @app_postLL      = [ [] ] # if len = 1, use for each app
+    @appL           = []     # list of "<app> <app-args>"
+    @app_pathXtraLL = []     # list of [fn path_x path_y] (not per app!)
+    @app_launcherL  = []     # if len = 1, use for each app
+    @app_monitorLL  = [ [] ] # if len = 1, use for each app
+    @app_preLL      = [ [] ] # if len = 1, use for each app
+    @app_postLL     = [ [] ] # if len = 1, use for each app
 
     # batch script's filename & run directory
     @mkDirNm  = nil
@@ -602,12 +602,12 @@ class Script
     @job_postL = x.job_postL.dup()
     @job_envL  = x.job_envL.dup()
 
-    @appL             = x.appL.dup()
-    @app_lnPathXtraLL = x.app_lnPathXtraLL.map { |y| y.dup() }
-    @app_launcherL    = x.app_launcherL.dup()
-    @app_monitorLL    = x.app_monitorLL.map { |y| y.dup() }
-    @app_preLL        = x.app_preLL.map { |y| y.dup() }
-    @app_postLL       = x.app_postLL.map { |y| y.dup() }
+    @appL           = x.appL.dup()
+    @app_pathXtraLL = x.app_pathXtraLL.map { |y| y.dup() }
+    @app_launcherL  = x.app_launcherL.dup()
+    @app_monitorLL  = x.app_monitorLL.map { |y| y.dup() }
+    @app_preLL      = x.app_preLL.map { |y| y.dup() }
+    @app_postLL     = x.app_postLL.map { |y| y.dup() }
 
     @mkCmdL = x.mkCmdL.dup()
   end
@@ -1423,7 +1423,7 @@ class Args
     args[:arg_inputL] = []
 
     args[:arg_appL] = []
-    args[:app_lnPathXtraLL] = [] # list of [X, Y] pairs
+    args[:app_pathXtraLL] = [] # list of [fn, x, y] 3-tuples
 
     args[:arg_envL] = []
     args[:arg_envL_hpcrun] = []
@@ -1485,7 +1485,7 @@ class Args
              " (May pass multiple times.)") { |x|
         # ensure 'x' is an Array of form [X, Y]
         xy = (x.length() == 1) ? [ x.first(), x.first() ] : x
-        args[:app_lnPathXtraLL] << xy
+        args[:app_pathXtraLL] << xy
       }
 
       opt.on("--env X", "Use environment command X for all apps",
