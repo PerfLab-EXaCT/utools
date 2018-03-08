@@ -781,7 +781,8 @@ class Machine
       @schedulerTy = :scheduler_slurm
       # Launching with 'srun -n <N>' yields a communicator size of 1!
       # @mpich_uses_srun = true
-      @hw_corePerNode = 20
+      @hw_numaNode = 2
+      @hw_corePerNumaNode = 10
       @hw_threadPerCore = 2 # HyperThreading on
       @hw_cpuFreq_config = "srun sudo #{freqset_path}"
       @hw_cpuFreq_restore = "srun sudo #{frequnset_path}"
@@ -791,7 +792,8 @@ class Machine
       @job_queue = "long" # short, long
       @schedulerTy = :scheduler_slurm
       @mpich_uses_srun = true
-      @hw_corePerNode = 24
+      @hw_numaNode = 2
+      @hw_corePerNumaNode = 12
       @hw_threadPerCore = 1 # HyperThreading off
       @hw_cpuFreq_config = "srun sudo /share/apps/msr-tools/1.3/turbo-boost.sh disable"
       @hw_cpuInfo = "srun #{cpuinfo_path}"
@@ -800,33 +802,39 @@ class Machine
       @job_queue = "pal"
       @schedulerTy = :scheduler_slurm
       @mpich_uses_srun = true
-      @hw_corePerNode = 32
-      @hw_threadPerCore = 1
+      @hw_numaNode = 2
+      @hw_corePerNumaNode = 16
+      @hw_threadPerCore = 1 # AMD Interlagos
       @hw_cpuInfo = "srun #{cpuinfo_path}"
     when "titan.ccs.ornl.gov"
       # https://www.olcf.ornl.gov/computing-resources/titan-cray-xk7/
-      @job_account = "csc249ADCD502"
+      @job_account = "csc249ADCD502" # CSC254 (ExaSMR)
       @job_queue = "batch" # debug
       @schedulerTy = :scheduler_pbs # Torque
-      @hw_corePerNode = 16
-      @hw_threadPerCore = 1
+      @hw_numaNode = 2
+      @hw_corePerNumaNode = 8
+      @hw_threadPerCore = 1 # AMD Interlagos
     when "eos.ccs.ornl.gov"
       @job_account = "csc103"
       @job_queue = "batch" # debug
       @schedulerTy = :scheduler_pbs # Torque
-      @hw_corePerNode = 16
+      @hw_numaNode = 2
+      @hw_corePerNumaNode = 8
       @hw_threadPerCore = 1 # HyperThreading off by default
       # @hw_threadPerCore = 2
     when /mira.*\.alcf\.anl\.gov/
       @job_account = "PEACEndStation"
       @job_queue = nil # prod-capability, prod-long, prod-short
       @schedulerTy = :scheduler_cobalt # BG/Q cobalt
-      @hw_corePerNode = 16
+      @hw_numaNode = 1
+      @hw_corePerNumaNode = 16
       @hw_threadPerCore = 1
       # @hw_threadPerCore = 4
     else
       $msg.raise("Unknown host '#{@hostname}'!\n")
     end
+
+    @hw_corePerNode = @hw_numaNode * @hw_corePerNumaNode
 
     @mpiTy = detect_mpiTy()
     @launcherTy = detect_appLauncherTy()
@@ -928,11 +936,11 @@ class Machine
           "#PBS -A #{@job_account} # account\n" +
           "#PBS -q #{@job_queue} # queue\n" +
           "#PBS -l walltime=#{timeStr} # time\n" +
+          "#PBS -l nodes=#{n_nodes} # nodes\n" +
           "#PBS -j oe # join stdout/err\n" +
           "#PBS -o run-#{jobNm}-${PBS_JOBID}.out\n" +
-          "#PBS -l nodes=#{n_nodes} # nodes\n" +
           "#PBS -n # exclusive\n" +
-          "#PBS -V # environment # environment\n" +
+          "#PBS -V # environment\n" +
           "\n" +
           "cd ${PBS_O_WORKDIR}\n" +
           "\n" +
@@ -953,9 +961,9 @@ class Machine
           "#SBATCH -A #{@job_account} # account\n" +
           "#SBATCH -p #{@job_queue} # partition\n" +
           "#SBATCH -t #{timeStr} # time\n" +
+          "#SBATCH -N #{n_nodes} # nodes\n" +
           "#SBATCH -o run-#{jobNm}-%j.out\n" +
           "#SBATCH -e run-#{jobNm}-%j.out\n" +
-          "#SBATCH -N #{n_nodes} # nodes\n" +
           "#SBATCH --exclusive\n" +
           "#SBATCH --export=ALL # environment\n" +
           "\n" +
@@ -1001,15 +1009,19 @@ class Machine
           }
         end
 
-        "runjob ${cobalt_loc_arg} --ranks-per-node #{mpiPerNode} -n #{n_mpi} #{env_str} : "
+        "runjob ${cobalt_loc_arg} -n #{n_mpi} --ranks-per-node #{mpiPerNode} #{env_str} : "
 
       when :launcher_cray
-        "aprun -N #{mpiPerNode} -n #{n_mpi}"
+        mpiPerNumaNode = mpiPerNode / @hw_numaNode
+        j_opt = crayJOpt(mpiPerNode)
+        
+        "aprun -n #{n_mpi} -N #{mpiPerNode} -S #{mpiPerNumaNode} #{j_opt}"
 
+        # export PMI_DEBUG=1
         # binding: "-cc cpu" (default), -cc none, -cc numa_node
 
       when :launcher_slurm
-        run = "srun --ntasks-per-node=#{mpiPerNode} -n #{n_mpi}"
+        run = "srun -n #{n_mpi} --ntasks-per-node=#{mpiPerNode}"
 
         if (@mpiTy == :mpi_mvapich_slurm)
           aff = mvapichAffinity(mpiPerNode, ompPerTask)
@@ -1019,7 +1031,7 @@ class Machine
         end
 
       when :launcher_mpiexec
-        run = "mpiexec -ppn #{mpiPerNode} -n #{n_mpi}"
+        run = "mpiexec -n #{n_mpi} -ppn #{mpiPerNode}"
 
         # -genvall, -envall, -hosts ${SLURM_NODELIST}
 
@@ -1031,7 +1043,7 @@ class Machine
         end
 
       when :launcher_openmpi
-        "mpirun --bind-to-core --npernode #{mpiPerNode} -n #{n_mpi}"
+        "mpirun -n #{n_mpi} --npernode #{mpiPerNode} --bind-to-core"
 
       else
         $msg.fatal("Cannot configure for launcher '#{@launcherTy}'!\n")
@@ -1131,6 +1143,20 @@ class Machine
     end
   end
 
+  def crayJOpt(mpiPerNode)
+    j_opt = ""
+    
+    case @hostname
+    when "titan.ccs.ornl.gov" # AMD Interlagos, defaults to -j2
+      if (mpiPerNode <= (corePerNode_os() / 2))
+        j_opt = "-j 1"
+      end
+    else
+      $msg.warn("Unknown host '#{@hostname}'!\n")
+    end
+
+    j_opt
+  end
 
   #-----------------------------------------------------------
   # Machine environment, filesystem
