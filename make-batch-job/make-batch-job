@@ -802,8 +802,8 @@ class Machine
       @job_queue = "pal"
       @schedulerTy = :scheduler_slurm
       @mpich_uses_srun = true
-      @hw_numaNode = 2
-      @hw_corePerNumaNode = 16
+      @hw_numaNode = 4
+      @hw_corePerNumaNode = 8
       @hw_threadPerCore = 1 # AMD Interlagos
       @hw_cpuInfo = "srun #{cpuinfo_path}"
     when "titan.ccs.ornl.gov"
