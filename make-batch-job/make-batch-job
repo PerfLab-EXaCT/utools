@@ -1129,7 +1129,7 @@ class Machine
         "runjob ${cobalt_loc_arg} -n #{n_mpi} --ranks-per-node #{mpiPerNode} #{env_str} : "
 
       when :launcher_cray
-        mpiPerNumaNode = mpiPerNode / @hw_numaNode
+        mpiPerNumaNode = (Float(mpiPerNode) / Float(@hw_numaNode)).ceil()
         j_opt = crayAprunOpt(mpiPerNode)
         
         "aprun -n #{n_mpi} -N #{mpiPerNode} -S #{mpiPerNumaNode} #{j_opt}"
