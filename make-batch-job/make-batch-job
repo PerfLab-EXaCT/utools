@@ -763,7 +763,11 @@ class Machine
   # - check /proc/cpuinfo
   # - 'numactl --hardware'
   # - sinfo -p pal --noheader --format="%X %Y %Z"
-  
+
+  #-----------------------------------------------------------
+  # Machine Database
+  #-----------------------------------------------------------
+
   def initialize()
     @hostname = ENV['MYCFG_HOSTNAME']
     @domainname = ENV['MYCFG_DOMAINNAME']
@@ -859,15 +863,128 @@ class Machine
 
 
   #-----------------------------------------------------------
-  # 
+  # Detect machine characteristics
   #-----------------------------------------------------------
 
-  #def self.appLauncher_hwOpts_cray(x)
-  #  { :launcher_cray => { x => "", x * 2 => "-j 2" } }
+  def detect_appLauncherTy()
+    if ( !(@mpiTy && @schedulerTy) )
+      $msg.raise("Unimplemented!\n")
+    end
 
-  # { x      => { :launcher_cray => "" },
-  #   x * 2  => { :launcher_cray => "-j 2" } }
-  #end
+    ty =
+      case @mpiTy
+      when :mpi_cray
+        :launcher_cray
+      when :mpi_ibm_bg
+        if (@schedulerTy == :scheduler_cobalt)
+          :launcher_cobalt
+        end
+      when :mpi_openmpi
+        :launcher_openmpi
+      when :mpi_mvapich
+        :launcher_mpiexec
+      when :mpi_mvapich_slurm
+        :launcher_slurm
+      end
+
+    if (!ty)
+      $msg.fatal("Cannot detect launcher from scheduler (#{@schedulerTy}) and MPI (#{@mpiTy}).\n")
+    end
+
+    ty
+  end
+
+
+  def detect_mpiTy()
+    ty = nil
+
+    # N.B. For variants of MPICH: Detect when built without a process
+    # manager (PM), as this affects launcher
+
+    if (ENV['CRAYOS_VERSION'] and ENV['CRAY_MPICH2_DIR'])
+      ty = :mpi_cray
+    elsif (ENV['BGQDRV'])
+      ty = :mpi_ibm_bg
+    else
+      case (ENV['PNNL_MPI'] || ENV['MPI_ROOT'] || ENV['MPI_SUFFIX'])
+      when /mvapich/i
+        ty = :mpi_mvapich
+        if (defined? @mpich_uses_srun)
+          ty = :mpi_mvapich_slurm
+        end
+      when /openmpi/i
+        ty = :mpi_openmpi
+      end
+    end
+
+    if (!ty)
+      $msg.fatal("Cannot detect MPI type.\n")
+    end
+    
+    ty
+  end
+
+
+  #-----------------------------------------------------------
+  # Machine hardware/affinity
+  #-----------------------------------------------------------
+
+  def corePerNode()
+    @hw_corePerNode
+  end
+
+  
+  def corePerNode_os()
+    (@hw_corePerNode * @hw_threadPerCore)
+  end
+
+  
+  def mvapichAffinity(mpiPerNode, ompPerTask)
+    if (ompPerTask && ompPerTask > 1)
+      # MVAPICH enables affinity by default meaning all OpenMP threads for a rank will be mapped to its core!
+      'MV2_ENABLE_AFFINITY=0'
+    else
+      # A static cyclic mapping w.r.t. NUMA domains
+      # "31:15:23:7:27:11:19:3:29:13:21:5:25:9:17:1:30:14:22:6:26:10:18:2:28:12:20:4:24:8:16:0"
+
+      # Extra:
+      #   MPICH_MAX_THREAD_SAFETY={MPI_THREAD_SINGLE, MPI_THREAD_FUNNELED, MPI_THREAD_SERIALIZED, MPI_THREAD_MULTIPLE}
+      #   MV2_CPU_BINDING_LEVEL
+      #   MV2_CPU_BINDING_POLICY scatter
+      #   MV2_CPU_BINDING_LEVEL socket
+      #   http://mvapich.cse.ohio-state.edu/static/media/mvapich/mvapich2-2.0-userguide.html#x1-780006.16
+      
+      # N.B.: assume core ids begin at 0
+      id_min = 0
+      id_max = (corePerNode_os() - 1)
+      id_step = (Float(corePerNode_os()) / Float(mpiPerNode)).floor()
+      
+      ids = [ ]
+      (id_min..id_max).step(id_step) { |x| ids.push(x) }
+      
+      'MV2_CPU_MAPPING="' + ids.join(':') + '"'
+    end
+  end
+
+  
+  def crayAprunOpt(mpiPerNode)
+    #  { :launcher_cray => { x => "", x * 2 => "-j 2" } }
+    # { x      => { :launcher_cray => "" },
+    #   x * 2  => { :launcher_cray => "-j 2" } }
+
+    j_opt = ""
+    
+    case @hostname
+    when "titan.ccs.ornl.gov" # AMD Interlagos, defaults to -j2
+      if (mpiPerNode <= (corePerNode_os() / 2))
+        j_opt = "-j 1"
+      end
+    else
+      $msg.warn("Unknown host '#{@hostname}'!\n")
+    end
+
+    j_opt
+  end
 
 
   #-----------------------------------------------------------
@@ -1013,7 +1130,7 @@ class Machine
 
       when :launcher_cray
         mpiPerNumaNode = mpiPerNode / @hw_numaNode
-        j_opt = crayJOpt(mpiPerNode)
+        j_opt = crayAprunOpt(mpiPerNode)
         
         "aprun -n #{n_mpi} -N #{mpiPerNode} -S #{mpiPerNumaNode} #{j_opt}"
 
@@ -1105,60 +1222,6 @@ class Machine
 
 
   #-----------------------------------------------------------
-  # 
-  #-----------------------------------------------------------
-
-  def corePerNode()
-    @hw_corePerNode
-  end
-
-  def corePerNode_os()
-    (@hw_corePerNode * @hw_threadPerCore)
-  end
-
-  def mvapichAffinity(mpiPerNode, ompPerTask)
-    if (ompPerTask && ompPerTask > 1)
-      # MVAPICH enables affinity by default meaning all OpenMP threads for a rank will be mapped to its core!
-      'MV2_ENABLE_AFFINITY=0'
-    else
-      # A static cyclic mapping w.r.t. NUMA domains
-      # "31:15:23:7:27:11:19:3:29:13:21:5:25:9:17:1:30:14:22:6:26:10:18:2:28:12:20:4:24:8:16:0"
-
-      # Extra:
-      #   MPICH_MAX_THREAD_SAFETY={MPI_THREAD_SINGLE, MPI_THREAD_FUNNELED, MPI_THREAD_SERIALIZED, MPI_THREAD_MULTIPLE}
-      #   MV2_CPU_BINDING_LEVEL
-      #   MV2_CPU_BINDING_POLICY scatter
-      #   MV2_CPU_BINDING_LEVEL socket
-      #   http://mvapich.cse.ohio-state.edu/static/media/mvapich/mvapich2-2.0-userguide.html#x1-780006.16
-      
-      # N.B.: assume core ids begin at 0
-      id_min = 0
-      id_max = (corePerNode_os() - 1)
-      id_step = (Float(corePerNode_os()) / Float(mpiPerNode)).floor()
-      
-      ids = [ ]
-      (id_min..id_max).step(id_step) { |x| ids.push(x) }
-      
-      'MV2_CPU_MAPPING="' + ids.join(':') + '"'
-    end
-  end
-
-  def crayJOpt(mpiPerNode)
-    j_opt = ""
-    
-    case @hostname
-    when "titan.ccs.ornl.gov" # AMD Interlagos, defaults to -j2
-      if (mpiPerNode <= (corePerNode_os() / 2))
-        j_opt = "-j 1"
-      end
-    else
-      $msg.warn("Unknown host '#{@hostname}'!\n")
-    end
-
-    j_opt
-  end
-
-  #-----------------------------------------------------------
   # Machine environment, filesystem
   #-----------------------------------------------------------
 
@@ -1177,68 +1240,6 @@ class Machine
     (ENV['MODULE_VERSION'] != nil)
   end
   
-
-  #-----------------------------------------------------------
-  # Detect machine characteristics
-  #-----------------------------------------------------------
-
-  def detect_appLauncherTy()
-    if ( !(@mpiTy && @schedulerTy) )
-      $msg.raise("Unimplemented!\n")
-    end
-
-    ty =
-      case @mpiTy
-      when :mpi_cray
-        :launcher_cray
-      when :mpi_ibm_bg
-        if (@schedulerTy == :scheduler_cobalt)
-          :launcher_cobalt
-        end
-      when :mpi_openmpi
-        :launcher_openmpi
-      when :mpi_mvapich
-        :launcher_mpiexec
-      when :mpi_mvapich_slurm
-        :launcher_slurm
-      end
-
-    if (!ty)
-      $msg.fatal("Cannot detect launcher from scheduler (#{@schedulerTy}) and MPI (#{@mpiTy}).\n")
-    end
-
-    ty
-  end
-
-
-  def detect_mpiTy()
-    ty = nil
-
-    # N.B. For variants of MPICH: Detect when built without a process
-    # manager (PM), as this affects launcher
-
-    if (ENV['CRAYOS_VERSION'] and ENV['CRAY_MPICH2_DIR'])
-      ty = :mpi_cray
-    elsif (ENV['BGQDRV'])
-      ty = :mpi_ibm_bg
-    else
-      case (ENV['PNNL_MPI'] || ENV['MPI_ROOT'] || ENV['MPI_SUFFIX'])
-      when /mvapich/i
-        ty = :mpi_mvapich
-        if (defined? @mpich_uses_srun)
-          ty = :mpi_mvapich_slurm
-        end
-      when /openmpi/i
-        ty = :mpi_openmpi
-      end
-    end
-
-    if (!ty)
-      $msg.fatal("Cannot detect MPI type.\n")
-    end
-    
-    ty
-  end
 
 end
 
