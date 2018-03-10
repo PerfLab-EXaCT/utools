@@ -553,6 +553,7 @@ class ScriptFactory
     ostream.write(prefix + "app:        [#{@script.appL.join(', ')}]\n")
     ostream.write(prefix + "paths:      [#{path_str}]\n")
     ostream.write(prefix + "env:        [#{@script.job_envL.join('; ')}]\n")
+    ostream.write(prefix + "account:    [#{@machine.job_account}]\n")
     @script.app_monitorLL.each_with_index { |monL, i|
       ostream.write(prefix + "monitor #{i}:  [#{monL.join(', ')}]\n")
     }
@@ -759,6 +760,8 @@ class Machine
   attr_accessor :hpcrunPaths_path
   attr_accessor :mpitime_path
 
+  attr_accessor :job_account
+
   # Hardware
   # - check /proc/cpuinfo
   # - 'numactl --hardware'
@@ -812,7 +815,7 @@ class Machine
       @hw_cpuInfo = "srun #{cpuinfo_path}"
     when "titan.ccs.ornl.gov"
       # https://www.olcf.ornl.gov/computing-resources/titan-cray-xk7/
-      @job_account = "csc249ADCD502" # CSC254 (ExaSMR)
+      @job_account = "csc103"
       @job_queue = "batch" # debug
       @schedulerTy = :scheduler_pbs # Torque
       @hw_numaNode = 2
@@ -838,6 +841,10 @@ class Machine
       $msg.raise("Unknown host '#{@hostname}'!\n")
     end
 
+    if (ENV['MBJ_JOB_ACCOUNT'])
+      @job_account = ENV['MBJ_JOB_ACCOUNT']
+    end
+    
     @hw_corePerNode = @hw_numaNode * @hw_corePerNumaNode
 
     @mpiTy = detect_mpiTy()
@@ -850,8 +857,13 @@ class Machine
       @job_canReadHomeFS = true
     end
 
-    
-    @hpcrun_path = "hpcrun"
+    @hpcrun_path =
+      if (ENV['MBJ_HPCTOOLKIT'])
+        ENV['MBJ_HPCTOOLKIT'] + "/bin/hpcrun"
+      else
+        "hpcrun"
+      end
+
     @hpcrun_args = "-e REALTIME:9500 -e RETCNT"
 
     @hpcrunPaths_path = ENV['HOME'] +
@@ -1491,8 +1503,15 @@ class Args
       opt.banner =
         "Usage: #{opt.program_name()} [options] <in-file>...\n" +
         "Usage: #{opt.program_name()} [options] <n_mpi>..."
-      #opt.separator "Specific options:"
 
+      opt.separator ""
+      opt.separator "Environment:\n" +
+                    "  MBJ_HPCTOOLKIT:  Path to HPCToolkit\n" +
+                    "  MBJ_JOB_ACCOUNT: Job account"
+
+      opt.separator ""
+      opt.separator "Options:"
+      
       opt.on("-v", "--[no-]verbose", "Run verbosely") { |x|
         args[:arg_verbose] = x
       }
@@ -1678,3 +1697,4 @@ end
 END { }
 
 #****************************************************************************
+ 
