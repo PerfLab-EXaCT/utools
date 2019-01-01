@@ -783,8 +783,15 @@ class Machine
 
     case @hostname
     when "bluesky.pnl.gov"
-      # CENATE
-      # launch as with constance
+      @job_account = "cenate"
+      @job_queue = "slurm"
+      @schedulerTy = :scheduler_slurm
+      @mpich_uses_srun = true
+      @hw_numaNode = 2
+      @hw_corePerNumaNode = 12 # Intel Xeon Gold 6126
+      @hw_threadPerCore = 1    # HyperThreading off
+      #@hw_cpuFreq_config = "" # FIXME
+      @hw_cpuInfo = "srun #{cpuinfo_path}"
     when "seapearl.pnl.gov"
       @job_account = "PAL"
       @job_queue = "ivy";
@@ -798,8 +805,8 @@ class Machine
       @hw_cpuFreq_restore = "srun sudo #{frequnset_path}"
       @hw_cpuInfo = "srun #{cpuinfo_path}"
     when "constance.pnl.gov"
-      @job_account = "acmd" #  acmd, scalable_ml
-      @job_queue = "long" # short, long
+      @job_account = "acmd" # acmd, scalable_ml
+      @job_queue = "long"   # short, long
       @schedulerTy = :scheduler_slurm
       @mpich_uses_srun = true
       @hw_numaNode = 2
