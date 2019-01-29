@@ -772,7 +772,7 @@ class Machine
   #-----------------------------------------------------------
 
   def initialize()
-    @hostname = ENV['MYCFG_HOSTNAME']
+    @hostname = ENV['MYCFG_SYSNAME']
     @domainname = ENV['MYCFG_DOMAINNAME']
 
     my_path = File.expand_path(File.dirname(__FILE__)) # FIXME
@@ -805,8 +805,8 @@ class Machine
       @hw_cpuFreq_restore = "srun sudo #{frequnset_path}"
       @hw_cpuInfo = "srun #{cpuinfo_path}"
     when "constance.pnl.gov"
-      @job_account = "acmd" # acmd, scalable_ml
-      @job_queue = "long"   # short, long
+      @job_account = "br19_tallent" # br19_tallent, acmd, scalable_ml
+      @job_queue = "long"           # short, long
       @schedulerTy = :scheduler_slurm
       @mpich_uses_srun = true
       @hw_numaNode = 2
