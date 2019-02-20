@@ -51,13 +51,15 @@ fi
 #
 #-----------------------------------------------------------
 
-i_ub="$2"
-i_stride="$3"
+ub_int="$2"
 
-((i_lb = i_stride - 1))
+stride_real="$3"
 
-if [[ -z ${i_ub} || -z ${i_stride} ]]; then
-    printf "bad stride specification: upper: '${i_ub}'; stride: '${i_stride}'\n"
+lb_int=$(printf "%.f\n" $(echo "${stride_real} - 1" | bc))
+
+
+if [[ -z ${ub_int} || -z ${stride_real} ]]; then
+    printf "bad specification: upper: '${ub_int}'; stride: '${stride_real}'\n"
     exit 1
 fi
 
@@ -68,31 +70,44 @@ dst_path="${arg_hpctkDir}/${toDir}"
 
 mkdir -p "${dst_path}"
 
-printf "${arg_hpctkDir}: Pruning data from ranks ${i_lb}-${i_ub}:${i_stride}\n"
+printf "${arg_hpctkDir}: Pruning data from ranks ${lb_int}-${ub_int}:${stride_real}\n"
 
-for (( i = i_lb; i <= i_ub; i = i + i_stride )) ; do
-   pid=$(printf "%06d" ${i})
-   fnm_glob="*-${pid}-000-*.{hpcrun,hpctrace,log}"
+i_real="${lb_int}"
+for (( i_int = lb_int; i <= ub_int; )) ; do
+    pid=$(printf "%06d" ${i_int})
+    fnm_glob="*-${pid}-000-*.{hpcrun,hpctrace,log}"
 
-   fileL=$(eval ls -1 "${src_path}"/${fnm_glob} 2> /dev/null)
-   #fileL=$(eval compgen -G -- "${src_path}"/${fnm_glob} 2> /dev/null)
-   #printf "list: ${fileL}\n"
+    fileL=$(eval ls -1 "${src_path}"/${fnm_glob} 2> /dev/null)
+    #fileL=$(eval compgen -G -- "${src_path}"/${fnm_glob} 2> /dev/null)
+    #printf "list: ${fileL}\n"
       
-   for fnm in ${fileL} ; do
-       fnm_base=${fnm##*/} # cf. $(basename ...)
-       printf "move: ${fnm_base} -> ${toDir}\n"
-       if (( ! ${do_dryrun} )) ; then
-	   \mv -n "${fnm}" "${dst_path}"
-       fi
-   done
+    for fnm in ${fileL} ; do
+	fnm_base=${fnm##*/} # cf. $(basename ...)
+	printf "move: ${fnm_base} -> ${toDir}\n"
+	if (( ! ${do_dryrun} )) ; then
+	    \mv -n "${fnm}" "${dst_path}"
+	fi
+    done
    
-   if [[ -z ${fileL} ]] ; then
-       printf "skip: ${fnm_glob}\n"
-   fi
+    if [[ -z ${fileL} ]] ; then
+	printf "skip: ${fnm_glob}\n"
+    fi
 
-   # if mv -n "${src_path}"/${fnm_glob} "${dst_path}" 2> /dev/null ; then
-   #     printf "move: ${fnm_glob} -> ${dst_path}\n"
-   # else
-   #     printf "skip: ${fnm_glob}\n"
-   # fi
+    # if mv -n "${src_path}"/${fnm_glob} "${dst_path}" 2> /dev/null ; then
+    #     printf "move: ${fnm_glob} -> ${dst_path}\n"
+    # else
+    #     printf "skip: ${fnm_glob}\n"
+    # fi
+
+    i_real=$(echo "${i_real} + ${stride_real}" | bc) # scale=0;
+    i_int=$(printf "%.f\n" ${i_real})
 done
+
+
+#-----------------------------------------------------------
+#
+#-----------------------------------------------------------
+
+num_hpcrun=$(ls -1 "${src_path}"/*.hpcrun | wc -l)
+
+printf "${arg_hpctkDir}: Retained ${num_hpcrun} MPI rank files\n"

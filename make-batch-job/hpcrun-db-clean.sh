@@ -52,6 +52,11 @@ mv -n "${src_path}"/*-??????-00[1-9]-*.{hpcrun,hpctrace}     "${dst_path}" \
 mv -n "${src_path}"/*-??????-0[1-9][0-9]-*.{hpcrun,hpctrace} "${dst_path}" \
     &> /dev/null
 
+
+#-----------------------------------------------------------
+#
+#-----------------------------------------------------------
+
 num_hpcrun=$(ls -1 "${src_path}"/*.hpcrun | wc -l)
 
 printf "${arg_hpctkDir}: Retained ${num_hpcrun} MPI rank files\n"
