@@ -777,9 +777,9 @@ class Machine
 
     my_path = File.expand_path(File.dirname(__FILE__)) # FIXME
 
-    @freqset_path = my_path + "/freq-set"
-    @frequnset_path = my_path + "/freq-unset"
-    @cpuinfo_path = my_path + "/cpu-info"
+    @freqset_path = my_path + '/freq-set'
+    @frequnset_path = my_path + '/freq-unset'
+    @cpuinfo_path = my_path + '/cpu-info'
 
     case @hostname
     when "bluesky.pnl.gov"
@@ -1148,13 +1148,13 @@ class Machine
           }
         end
 
-        "runjob ${cobalt_loc_arg} -n #{n_mpi} --ranks-per-node #{mpiPerNode} #{env_str} : "
+        ['', "runjob ${cobalt_loc_arg} -n #{n_mpi} --ranks-per-node #{mpiPerNode} #{env_str} : "]
 
       when :launcher_cray
         mpiPerNumaNode = (Float(mpiPerNode) / Float(@hw_numaNode)).ceil()
         j_opt = crayAprunOpt(mpiPerNode)
         
-        "aprun -n #{n_mpi} -N #{mpiPerNode} -S #{mpiPerNumaNode} #{j_opt}"
+        ['', "aprun -n #{n_mpi} -N #{mpiPerNode} -S #{mpiPerNumaNode} #{j_opt}"]
 
         # export PMI_DEBUG=1
         # binding: "-cc cpu" (default), -cc none, -cc numa_node
@@ -1164,9 +1164,9 @@ class Machine
 
         if (@mpiTy == :mpi_mvapich_slurm)
           aff = mvapichAffinity(mpiPerNode, ompPerTask)
-          aff + " " + run
+          [aff, run]
         else
-          run + " --cpu_bind=verbose,cores"
+          ['', run + " --cpu_bind=verbose,cores"]
         end
 
       when :launcher_mpiexec
@@ -1176,13 +1176,13 @@ class Machine
 
         if (@mpiTy == :mpi_mvapich)
           aff = mvapichAffinity(mpiPerNode, ompPerTask)
-          aff + " " + run
+          [aff, run]
         else
-          run + " -bind-to"
+          ['', run + " -bind-to"]
         end
 
       when :launcher_openmpi
-        "mpirun -n #{n_mpi} --npernode #{mpiPerNode} --bind-to-core"
+        ['', "mpirun -n #{n_mpi} --npernode #{mpiPerNode} --bind-to-core"]
 
       else
         $msg.fatal("Cannot configure for launcher '#{@launcherTy}'!\n")
@@ -1194,10 +1194,10 @@ class Machine
       # $msg.warn("assuming Intel OpenMP!\n")
       intelomp = "KMP_AFFINITY=\"verbose\"" # scatter,verbose
       omp = "OMP_NUM_THREADS=\"#{ompPerTask}\" OMP_PROC_BIND=\"true\" #{intelomp}"
-      launcher = omp + " " + launcher
+      launcher[0] = omp + " " + launcher[0]
     end
 
-    "time \\\n" + '  ' + launcher
+    launcher[0] + " \\\n" + '  \time ' + "\\\n" + '  ' + launcher[1]
   end
 
 
