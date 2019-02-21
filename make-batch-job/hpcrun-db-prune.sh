@@ -11,7 +11,7 @@
 #
 #****************************************************************************
 
-toDir="0extra"
+toDir="extra"
 
 do_dryrun=0
 
@@ -24,7 +24,7 @@ if [[ $1 =~ -(-)?h(elp)? ]] ; then
     cat  <<EOF
   usage: ${scriptCmd} <hpctoolkit-measurements-dir> <upper-bound> <stride>
 
-  Prune MPI rank data in a strided fashion. Moves pruned data to '${toDir}'.
+  Prune MPI rank data in a strided fashion. Moves pruned data to '?${toDir}'.
 EOF
     exit
 fi
@@ -66,21 +66,31 @@ fi
 #****************************************************************************
 
 src_path="${arg_hpctkDir}"
-dst_path="${arg_hpctkDir}/${toDir}"
 
-mkdir -p "${dst_path}"
+for (( toDir_pfx = 0; ; toDir_pfx++)) ; do
+    dst_path="${arg_hpctkDir}/${toDir_pfx}${toDir}"
+    if [[ -e $dst_path ]] ; then
+	continue
+    else
+	mkdir -p "${dst_path}"
+	break
+    fi
+done
+
 
 printf "${arg_hpctkDir}: Pruning data from ranks ${lb_int}-${ub_int}:${stride_real}\n"
 
+((num_hpcrun_mv = 0))
+
 i_real="${lb_int}"
-for (( i_int = lb_int; i <= ub_int; )) ; do
+for (( i_int = lb_int; i_int <= ub_int; )) ; do
     pid=$(printf "%06d" ${i_int})
     fnm_glob="*-${pid}-000-*.{hpcrun,hpctrace,log}"
 
     fileL=$(eval ls -1 "${src_path}"/${fnm_glob} 2> /dev/null)
     #fileL=$(eval compgen -G -- "${src_path}"/${fnm_glob} 2> /dev/null)
     #printf "list: ${fileL}\n"
-      
+    
     for fnm in ${fileL} ; do
 	fnm_base=${fnm##*/} # cf. $(basename ...)
 	printf "move: ${fnm_base} -> ${toDir}\n"
@@ -91,6 +101,8 @@ for (( i_int = lb_int; i <= ub_int; )) ; do
    
     if [[ -z ${fileL} ]] ; then
 	printf "skip: ${fnm_glob}\n"
+    else
+	((num_hpcrun_mv++))
     fi
 
     # if mv -n "${src_path}"/${fnm_glob} "${dst_path}" 2> /dev/null ; then
@@ -108,6 +120,9 @@ done
 #
 #-----------------------------------------------------------
 
-num_hpcrun=$(ls -1 "${src_path}"/*.hpcrun | wc -l)
+num_hpcrun_src=$(ls -1 "${src_path}"/*.hpcrun | wc -l)
+num_hpcrun_dst=$(ls -1 "${dst_path}"/*.hpcrun | wc -l)
 
-printf "${arg_hpctkDir}: Retained ${num_hpcrun} MPI rank files\n"
+printf "${src_path}: Retained ${num_hpcrun_src} MPI rank data.\n"
+printf "${dst_path}: Moved ${num_hpcrun_mv} MPI rank data.\n"
+printf "${dst_path}: Total ${num_hpcrun_dst} MPI rank data.\n"
