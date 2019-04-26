@@ -22,7 +22,7 @@ scriptCmd=${scriptPath##*/} # cf. $(basename ...)
 
 if [[ $1 =~ -(-)?h(elp)? ]] ; then
     cat  <<EOF
-  usage: ${scriptCmd} <hpctoolkit-measurements-dir> <upper-bound> <stride>
+  usage: ${scriptCmd} [--dryrun] <hpctoolkit-measurements-dir> <upper-bound> <stride>
 
   Prune MPI rank data in a strided fashion. Moves pruned data to '?${toDir}'.
 EOF
@@ -55,7 +55,7 @@ ub_int="$2"
 
 stride_real="$3"
 
-lb_int=$(printf "%.f\n" $(echo "${stride_real} - 1" | bc))
+printf -v lb_int "%.f\n" $(echo "${stride_real} - 1" | bc)
 
 
 if [[ -z ${ub_int} || -z ${stride_real} ]]; then
@@ -84,7 +84,7 @@ printf "${arg_hpctkDir}: Pruning data from ranks ${lb_int}-${ub_int}:${stride_re
 
 i_real="${lb_int}"
 for (( i_int = lb_int; i_int <= ub_int; )) ; do
-    pid=$(printf "%06d" ${i_int})
+    printf -v pid "%06d" ${i_int}
     fnm_glob="*-${pid}-000-*.{hpcrun,hpctrace,log}"
 
     fileL=$(eval ls -1 "${src_path}"/${fnm_glob} 2> /dev/null)
@@ -112,7 +112,7 @@ for (( i_int = lb_int; i_int <= ub_int; )) ; do
     # fi
 
     i_real=$(echo "${i_real} + ${stride_real}" | bc) # scale=0;
-    i_int=$(printf "%.f\n" ${i_real})
+    printf -v i_int "%.f\n" ${i_real}
 done
 
 
