@@ -47,6 +47,8 @@ if [[ ! -d ${arg_hpctkDir} ]] ; then
     exit 1
 fi
 
+arg_hpctkDir="${arg_hpctkDir%/}" # strip trailing /
+
 #-----------------------------------------------------------
 #
 #-----------------------------------------------------------
@@ -55,7 +57,7 @@ ub_int="$2"
 
 stride_real="$3"
 
-printf -v lb_int "%.f\n" $(echo "${stride_real} - 1" | bc)
+printf -v lb_int "%.f" $(echo "${stride_real} - 1" | bc)
 
 
 if [[ -z ${ub_int} || -z ${stride_real} ]]; then
@@ -72,7 +74,9 @@ for (( toDir_pfx = 0; ; toDir_pfx++)) ; do
     if [[ -e $dst_path ]] ; then
 	continue
     else
-	mkdir -p "${dst_path}"
+	if (( ! ${do_dryrun} )) ; then
+	    mkdir -p "${dst_path}"
+	fi
 	break
     fi
 done
@@ -112,7 +116,7 @@ for (( i_int = lb_int; i_int <= ub_int; )) ; do
     # fi
 
     i_real=$(echo "${i_real} + ${stride_real}" | bc) # scale=0;
-    printf -v i_int "%.f\n" ${i_real}
+    printf -v i_int "%.f" ${i_real}
 done
 
 
@@ -121,8 +125,14 @@ done
 #-----------------------------------------------------------
 
 num_hpcrun_src=$(ls -1 "${src_path}"/*.hpcrun | wc -l)
-num_hpcrun_dst=$(ls -1 "${dst_path}"/*.hpcrun | wc -l)
+
+if (( ! ${do_dryrun} )) ; then
+    shopt -s nullglob # avoid glob errors when no matches
+    num_hpcrun_dst=$(ls -1 "${dst_path}"/*.hpcrun | wc -l)
+fi
 
 printf "${src_path}: Retained ${num_hpcrun_src} MPI rank data.\n"
 printf "${dst_path}: Moved ${num_hpcrun_mv} MPI rank data.\n"
-printf "${dst_path}: Total ${num_hpcrun_dst} MPI rank data.\n"
+if (( ! ${do_dryrun} )) ; then
+    printf "${dst_path}: Total ${num_hpcrun_dst} MPI rank data.\n"
+fi
