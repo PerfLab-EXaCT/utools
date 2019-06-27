@@ -792,7 +792,7 @@ class Machine
       @hw_numaNode = 2
       @hw_corePerNumaNode = 12 # Intel Xeon Gold 6126
       @hw_threadPerCore = 1    # HyperThreading off
-      #@hw_cpuFreq_config = "" # FIXME
+      #@hw_cpuFreq_config = "" # FIXME  'SLURM_CPU_FREQ_REQ'
       @hw_cpuInfo = "srun #{cpuinfo_path}"
     when 'seapearl.pnl.gov'
       @job_account = 'PAL'
@@ -1704,7 +1704,7 @@ end
 
 BEGIN { }
 
-if __FILE__ == $0
+if (__FILE__ == $0)
   main()
 end
 
