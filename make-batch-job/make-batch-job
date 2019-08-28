@@ -1552,19 +1552,30 @@ class Args
              "Useful for apps that assume (possibly fixed-name) input paths",
              "relative to execution directory. If Y is present, then X is",
              "made available as Y. X may either be an absolute path or",
-             "relative to the current working directory. If Y has no path,",
-             "it is assumed to be the execution directory.",
-             " (May pass multiple times.)") { |x|
-        path_tpl = (x.length() == 1) ? [ x.first(), x.first() ] : x
-        path_tpl.unshift(:ln)
-        args[:app_pathXtraLL] << path_tpl # Array of form [fn, X, Y]
+             "relative to the current working directory. Y should either be",
+             "a file name or an absolute path; in the former case, the path",
+             "is the execution directory. (May pass multiple times.)")
+      { |x|
+        src = x.first()
+        dst = (x.length() == 1) ? x[0] : x[1]
+
+        if (src == dst) # safe if src is absolute or relative
+          dst = File.basename(dst)
+        end
+
+        args[:app_pathXtraLL] << [ :ln, src, dst ] # Array of form [fn, X, Y]
       }
 
       opt.on("--app-cppath X[,Y]", Array,
              "Same as --app-lnpath, but uses copy.") { |x|
-        path_tpl = (x.length() == 1) ? [ x.first(), x.first() ] : x
-        path_tpl.unshift(:cp)
-        args[:app_pathXtraLL] << path_tpl # Array of form [fn, X, Y]
+        src = x.first()
+        dst = (x.length() == 1) ? x[0] : x[1]
+
+        if (src == dst) # safe if src is absolute or relative
+          dst = File.basename(dst)
+        end
+        
+        args[:app_pathXtraLL] << [ :cp, src, dst ] # Array of form [fn, X, Y]
       }
       
       opt.on("--env X", "Use environment command X for all apps",
