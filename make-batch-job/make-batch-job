@@ -1554,8 +1554,7 @@ class Args
              "made available as Y. X may either be an absolute path or",
              "relative to the current working directory. Y should either be",
              "a file name or an absolute path; in the former case, the path",
-             "is the execution directory. (May pass multiple times.)")
-      { |x|
+             "is the execution directory. (May pass multiple times.)") { |x|
         src = x.first()
         dst = (x.length() == 1) ? x[0] : x[1]
 
