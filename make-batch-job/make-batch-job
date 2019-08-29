@@ -1558,8 +1558,8 @@ class Args
         src = x.first()
         dst = (x.length() == 1) ? x[0] : x[1]
 
-        if (src == dst) # safe if src is absolute or relative
-          dst = File.basename(dst)
+        if (src == dst)
+          dst = File.basename(dst) # safe if src is absolute or relative
         end
 
         args[:app_pathXtraLL] << [ :ln, src, dst ] # Array of form [fn, X, Y]
@@ -1570,8 +1570,8 @@ class Args
         src = x.first()
         dst = (x.length() == 1) ? x[0] : x[1]
 
-        if (src == dst) # safe if src is absolute or relative
-          dst = File.basename(dst)
+        if (src == dst)
+          dst = File.basename(dst) # safe if src is absolute or relative
         end
         
         args[:app_pathXtraLL] << [ :cp, src, dst ] # Array of form [fn, X, Y]
