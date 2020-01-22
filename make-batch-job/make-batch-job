@@ -807,7 +807,7 @@ class Machine
       @hw_cpuFreq_restore = "srun sudo #{frequnset_path}"
       @hw_cpuInfo = "srun #{cpuinfo_path}"
     when 'constance.pnl.gov'
-      @job_account = "br19_tallent" # br19_tallent, acmd, scalable_ml
+      @job_account = "br20_tallent" # br20_tallent, acmd, scalable_ml
       @job_queue = "long"           # short, long
       @schedulerTy = :scheduler_slurm
       @mpich_uses_srun = true
