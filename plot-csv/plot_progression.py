@@ -91,6 +91,10 @@ def plot_progression(csv_pathL,
 
         data_cutoff.rename(lambda x: x.strip("[]").replace("Loop at line ", ""))
 
+        #-------------------------------------------------------
+        # 
+        #-------------------------------------------------------
+        
         if (dfrm_all.empty): # Slice out only the % of times
             dfrm_all = data_cutoff[[slice_this]]
         else:
@@ -146,7 +150,10 @@ for i in range(1,len(sys.argv)):
 if __name__ == "__main__":
 
     assert(len(sys.argv) > 1)
-    csv = VtuneCSV(sys.argv[1:])
+    csv_pathL = sys.argv[1:]
+
+    csv = VtuneCSV(csv_pathL)
+
     csv.info()
 
     #plot_pie(csv_pathL[0])

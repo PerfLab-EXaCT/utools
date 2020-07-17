@@ -15,65 +15,82 @@ class VtuneCSV():
       - These files will be aranged in the order they're passed in through CLI
     """
 
-    csv_pathL = None
+    labelL = None
     data = None
 
-    def __init__ (self, csv_pathL):
-        self.dataL = []
+    data_idx_nm = 'Function' # rows are labeled by this column
+
+    def __init__ (self, csv_pathL, metricL = None):
+        self.data = pandas.DataFrame()
         self.labelL = []
         
-        data_idx_nm = 'Function' # rows will be labeled by this column name
-
-        #-------------------------------------------------------
-        # 
-        #-------------------------------------------------------
-
         if (not isinstance(csv_pathL, list)):
             csv_pathL = [csv_pathL]
 
-        self.labelL = [os.path.basename(x).strip(".csv") for x in csv_pathL]
+        #self.labelL = [os.path.basename(x).strip(".csv") for x in csv_pathL]
 
         #-------------------------------------------------------
         # 
         #-------------------------------------------------------
-
         for csv_fnm in csv_pathL:
-            dfrm = pandas.read_csv(csv_fnm, error_bad_lines = False)
-            dfrm = self.remove_empty_cols(dfrm)
-            dfrm = dfrm.dropna(axis = 1, how = "all")
-
-            #idx_col = dfrm.columns[0]
-            dfrm = dfrm.set_index(data_idx_nm)
-            
-            if (' [Unknown stack frame(s)]') in dfrm:
-                dfrm = dfrm.drop(' [Unknown stack frame(s)]')
-
-            #dfrm = dfrm.rename(lambda x: x.strip(" []").replace("Loop at line ", ""))
-            
-            dfrm = dfrm.groupby(dfrm.index, sort = False).first()
-
-            self.dataL.append(dfrm)
+            self.add_csv(csv_fnm, metricL)
 
 
     def __str__(self):
         return ""
- 
 
+
+    def add_csv(self, csv_fnm, metricL):
+        print(("*** File %s" % csv_fnm))
+
+        dfrm = pandas.read_csv(csv_fnm, error_bad_lines = False)
+
+        #idx_col = dfrm.columns[0]
+        dfrm = dfrm.set_index(self.data_idx_nm)
+
+        label = os.path.basename(csv_fnm).strip(".csv")
+        self.labelL.append(label)
+
+        #dfrm = self.remove_empty_cols(dfrm)
+        dfrm = dfrm.dropna(axis = 1, how = "all")
+
+
+        #-------------------------------------------------------
+        # Normalize
+        #-------------------------------------------------------
+
+        #if ('[Unknown stack frame(s)]') in dfrm:
+        #    dfrm = dfrm.drop('[Unknown stack frame(s)]')
+        #dfrm = dfrm.rename(lambda x: x.strip(" []").replace("Loop at line ", ""))
+
+        dfrm = dfrm.groupby(dfrm.index, sort = False).first()
+
+        if (metricL):
+            dfrm = dfrm[metricL]
+
+        if (self.data.empty):
+            self.data = dfrm
+        else:
+            self.data = pandas.concat([self.data, dfrm], axis=1)
+
+        return self.data
+
+    
     def info(self):
-        index_list = list(self.dataL[0].index)
-        column_list = list(self.dataL[0].columns)
+        index_list = list(self.data.index)
+        column_list = list(self.data.columns)
     
         print("************************************************")
         print("Loops/Functions")
         print("************************************************")
         for x in index_list:
-            print(x)
+            print("  '%s'" % x)
 
         print("************************************************")
         print("Metrics")
         print("************************************************")
         for x in column_list:
-            print(x)
+            print("  '%s'" % x)
    
 
     def remove_empty_cols(self, dfrm):
@@ -82,23 +99,28 @@ class VtuneCSV():
         return dfrm
 
 
-    def get_frame(self, function, metric):
-        a= pandas.DataFrame()
-        for td in self.data:
-            a = pandas.concat([a, td[metric]])
+    def get_frame(self, metricL, function = None):
+        dfrm = pandas.DataFrame()
 
-        a = a.loc[function]
-        if len(self.data) > 1:
-            a.columns = [metric]
-            a.index = self.labelL
-            try:
-                a.index = [int(idx) for idx in list(a.index)]
-                a = a.sort_index(ascending=True)
-                a.index = [str(idx) for idx in list(a.index)]
-            except ValueError:
-                a.index = self.labelL
-        a.index.name = function
-        return a
+        for x in self.dataL:
+            print(x[metricL])
+            dfrm = pandas.concat([ dfrm, x[metricL] ], axis=1)
+
+        # ???
+        if (function):
+            dfrm = dfrm.loc[function]
+            if len(self.dataL) > 1:
+                dfrm.columns = [metricL]
+                dfrm.index = self.labelL
+                try:
+                    dfrm.index = [int(idx) for idx in list(dfrm.index)]
+                    dfrm = dfrm.sort_index(ascending = True)
+                    dfrm.index = [str(idx) for idx in list(dfrm.index)]
+                except ValueError:
+                    dfrm.index = self.labelL
+            dfrm.index.name = function
+        
+        return dfrm
 
 
 #****************************************************************************
@@ -108,7 +130,12 @@ if __name__ == "__main__":
     import sys
 
     assert(len(sys.argv) > 1)
-    csv = VtuneCSV(sys.argv[1:])
-    csv.info()
-    #print(csv)
+    csv_pathL = sys.argv[1:]
+    
+    csv = VtuneCSV(csv_pathL)
+    #csv.info()
 
+    csv = VtuneCSV(csv_pathL, ['CPU Time', 'CPI Rate'])
+    #csv.info()
+
+    print(csv.data)
