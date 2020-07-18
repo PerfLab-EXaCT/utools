@@ -80,7 +80,11 @@ def plot_OLD(csv_pathL,
     index_cutoff = ('number', 5) or index_cutoff = ("percentage", 34)
     """
 
-    # Input parameters: Metric is a data column label
+    #-------------------------------------------------------
+    # Input parameters
+    #-------------------------------------------------------
+
+    # Metric is a data column label
     data_index_nm = 'Function' # rows will be labeled by this column name
     data_column = 'CPU Time' # FIXME: should be a list
 
@@ -89,7 +93,11 @@ def plot_OLD(csv_pathL,
     num_cutoff = index_cutoff[1] # number of loops to display
 
     data_column_pct = '% of Total'
-    
+
+    #-------------------------------------------------------
+    # Populate
+    #-------------------------------------------------------
+
     dfrm_all = pandas.DataFrame()
     labelL = []
 
@@ -158,17 +166,21 @@ def plot_OLD(csv_pathL,
         else:
             dfrm_all = pandas.concat([dfrm_all, data_cutoff[slice_this]], axis=1)
 
+    #-------------------------------------------------------
+    # Set/sort columns; Sort rows
+    #-------------------------------------------------------
+
     dfrm_all.columns = labelL
     sorted_names = [int(idx) for idx in labelL]
     sorted_names.sort()
     sorted_names = [str(idx) for idx in sorted_names]
-    dfrm_all = dfrm_all[sorted_names] # make sure data appears in increasing order
+    dfrm_all = dfrm_all[sorted_names]
 
     # Make sure that the data starts with most expensive column first
-    dfrm_all = dfrm_all.sort_values(sorted_names[0], ascending=False)
+    dfrm_all = dfrm_all.sort_values(by=sorted_names[0], ascending=False)
 
     #-------------------------------------------------------
-    # 
+    # Plot
     #-------------------------------------------------------
     
     plot_data = dfrm_all.transpose()

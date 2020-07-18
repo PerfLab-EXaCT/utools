@@ -18,9 +18,16 @@ import pandas
 
 class VTuneCSV():
     """
-    <csv_pathL>: list of paths for CSV files
+    <csv_pathL>: list of paths for CSV files forming data series
     <indexL>: list of rows (functions) to select
     <columnL>: list of columns (metrics) to select
+
+    Return:
+      For each column c:   [ indexL x CSV-series[c] ]
+
+      For each CSV file f: [ indexL x f[columnL] ]  **close to current**
+     
+    Current: [ indexL x CSV-series[columnL] ]
 
     FIXME:
     If each file name contains only integers
