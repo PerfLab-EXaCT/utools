@@ -1,14 +1,28 @@
 #!/usr/bin/env python
+# -*-Mode: python;-*-
+
+# $Id$
+
+#****************************************************************************
+#
+#****************************************************************************
 
 import os
+import sys
 
 import pandas
 
 #****************************************************************************
+#
+#****************************************************************************
 
-class VtuneCSV():
+class VTuneCSV():
     """
-    Pass a list of strings containing paths to CSV files.
+    <csv_pathL>: list of paths for CSV files
+    <indexL>: list of rows (functions) to select
+    <columnL>: list of columns (metrics) to select
+
+    FIXME:
     If each file name contains only integers
       - These files will be aranged in ascending order based on filename
     else:
@@ -18,12 +32,12 @@ class VtuneCSV():
     labelL = None
     data = None
 
-    data_idx_nm = 'Function' # rows are labeled by this column
+    data_index_nm = 'Function' # rows are labeled by this column
 
-    def __init__ (self, csv_pathL, metricL = None):
-        self.data = pandas.DataFrame()
+    def __init__ (self, csv_pathL, indexL = None, columnL = None):
+        self.data = pandas.DataFrame() # []
         self.labelL = []
-        
+
         if (not isinstance(csv_pathL, list)):
             csv_pathL = [csv_pathL]
 
@@ -32,32 +46,35 @@ class VtuneCSV():
         #-------------------------------------------------------
         # 
         #-------------------------------------------------------
+
         for csv_fnm in csv_pathL:
-            self.add_csv(csv_fnm, metricL)
+            self.add_csv(csv_fnm, indexL, columnL)
 
 
     def __str__(self):
         return ""
 
 
-    def add_csv(self, csv_fnm, metricL):
-        print(("*** File %s" % csv_fnm))
+    def add_csv(self, csv_fnm, indexL, columnL):
+        print(("*** %s: '%s'" % (__name__, csv_fnm)))
+
+        if (not os.path.exists(csv_fnm)):
+            print(("Not found: '%s'" % csv_fnm))
+            return
 
         dfrm = pandas.read_csv(csv_fnm, error_bad_lines = False)
 
-        #idx_col = dfrm.columns[0]
-        dfrm = dfrm.set_index(self.data_idx_nm)
+        dfrm = dfrm.set_index(self.data_index_nm)
 
         label = os.path.basename(csv_fnm).strip(".csv")
         self.labelL.append(label)
 
-        #dfrm = self.remove_empty_cols(dfrm)
-        dfrm = dfrm.dropna(axis = 1, how = "all")
-
-
         #-------------------------------------------------------
         # Normalize
         #-------------------------------------------------------
+        
+        #dfrm = self.remove_empty_cols(dfrm)
+        dfrm = dfrm.dropna(axis = 1, how = "all")
 
         #if ('[Unknown stack frame(s)]') in dfrm:
         #    dfrm = dfrm.drop('[Unknown stack frame(s)]')
@@ -65,20 +82,50 @@ class VtuneCSV():
 
         dfrm = dfrm.groupby(dfrm.index, sort = False).first()
 
-        if (metricL):
-            dfrm = dfrm[metricL]
+        #-------------------------------------------------------
+        # Select columns
+        #-------------------------------------------------------
+        if (columnL):
+            dfrm = dfrm[columnL]
 
+        #-------------------------------------------------------
+        # Add "%" column
+        #-------------------------------------------------------
+        # FIXME:
+
+        #-------------------------------------------------------
+        # Select rows
+        #-------------------------------------------------------
+        if (indexL):
+            if (indexL[0] == '<total>'):
+                sys.exit("FIXME!")
+            else:
+                dfrm = dfrm.loc[indexL]
+
+        #-------------------------------------------------------
+        # 
+        #-------------------------------------------------------
+        #self.data.append(dfrm)
+        
         if (self.data.empty):
             self.data = dfrm
         else:
             self.data = pandas.concat([self.data, dfrm], axis=1)
 
+
         return self.data
 
     
     def info(self):
-        index_list = list(self.data.index)
-        column_list = list(self.data.columns)
+        if (isinstance(self.data, pandas.DataFrame)):
+            index_list = list(self.data.index)
+            column_list = list(self.data.columns)
+        elif (isinstance(self.data, list)):
+            index_list = list(self.data[0].index)
+            column_list = list(self.data[0].columns)
+        else:
+            sys.exit("Bad type!")
+        
     
         print("************************************************")
         print("Loops/Functions")
@@ -99,18 +146,20 @@ class VtuneCSV():
         return dfrm
 
 
-    def get_frame(self, metricL, function = None):
+    def get_frame(self, columnL, function = None):
+        # FIXME: Deprecated
+
         dfrm = pandas.DataFrame()
 
         for x in self.dataL:
-            print(x[metricL])
-            dfrm = pandas.concat([ dfrm, x[metricL] ], axis=1)
+            print(x[columnL])
+            dfrm = pandas.concat([ dfrm, x[columnL] ], axis=1)
 
         # ???
         if (function):
             dfrm = dfrm.loc[function]
             if len(self.dataL) > 1:
-                dfrm.columns = [metricL]
+                dfrm.columns = [columnL]
                 dfrm.index = self.labelL
                 try:
                     dfrm.index = [int(idx) for idx in list(dfrm.index)]
@@ -127,15 +176,19 @@ class VtuneCSV():
 
 if __name__ == "__main__":
 
-    import sys
-
+    indexL = ['[Loop at line 4015 in gwce_new]',
+              '[Loop at line 5354 in mom_eqs_new_nc]']
+    columnL = ['CPU Time', 'CPI Rate']
+    
     assert(len(sys.argv) > 1)
     csv_pathL = sys.argv[1:]
     
-    csv = VtuneCSV(csv_pathL)
+    csv = VTuneCSV(csv_pathL)
     #csv.info()
 
-    csv = VtuneCSV(csv_pathL, ['CPU Time', 'CPI Rate'])
+    csv = VTuneCSV(csv_pathL, columnL = columnL)
     #csv.info()
+
+    csv = VTuneCSV(csv_pathL, indexL = indexL, columnL = columnL)
 
     print(csv.data)

@@ -1,93 +1,151 @@
 #!/usr/bin/env python
+# -*-Mode: python;-*-
+
+# $Id$
+
+#****************************************************************************
+#
+#****************************************************************************
 
 import os
 import sys
+#import argparse
 
 import pandas
 import matplotlib.pyplot as plt
 
-from VtuneCSV import *
+import VTuneCSV as vtcsv
+
+#****************************************************************************
+#
+#****************************************************************************
+
+def main():
+    #-------------------------------------------------------
+    # 
+    #-------------------------------------------------------
+
+    #parser = argparse.ArgumentParser()
+    #args = vars(parser.parse_args())
+
+    assert(len(sys.argv) > 1)
+    csv_pathL = sys.argv[1:]
+
+    #csv_pathL.append(os.path.abspath(sys.argv[i]))
+
+    indexL = ['[Loop at line 4015 in gwce_new]',
+              '[Loop at line 5354 in mom_eqs_new_nc]']
+
+    columnL = ['CPU Time']
+
+    #-------------------------------------------------------
+    # OLD
+    #-------------------------------------------------------
+    plot_OLD(csv_pathL, kind = 'stack')
+
+    plot_OLD(csv_pathL, kind = 'line', total_pct=True)
+
+    plot_OLD(csv_pathL, kind = 'line', total_pct=False, indexL = ['total'])
+
+    plot_OLD(csv_pathL, kind = 'line', total_pct=False, indexL = indexL)
+
+    #-------------------------------------------------------
+    # 
+    #-------------------------------------------------------
+
+    csv = vtcsv.VTuneCSV(csv_pathL, indexL = indexL, columnL = columnL)
+
+    plot(csv, kind = 'stack')
+    
+    plt.show()
+
 
 #****************************************************************************
 
-def plot_progression(csv_pathL,
-                     total_pct = True,
-                     kind = "bar",
-                     cutoff = ('number', 5),
-                     target_functions = [],
-                     target_data = []):
+def plot(vtune_csv, kind):
+    #csv.info()
+    pass
+
+
+#****************************************************************************
+
+def plot_OLD(csv_pathL,
+             total_pct = True,
+             kind = "bar",
+             index_cutoff = ('number', 5),
+             indexL = []):
     """
     Plot either a line or a bar graph representing changes in where time
     is being spent with increasing MPI ranks
-    cutoff = ('number', 5) or cutoff = ("percentage", 34)
+    index_cutoff = ('number', 5) or index_cutoff = ("percentage", 34)
     """
 
     # Input parameters: Metric is a data column label
-    data_idx_nm = 'Function' # rows will be labeled by this column name
-    data_tgt_col = 'CPU Time' # FIXME: should be a list
+    data_index_nm = 'Function' # rows will be labeled by this column name
+    data_column = 'CPU Time' # FIXME: should be a list
 
     # FIXME: ugly
-    percent_cutoff = cutoff[1]/100 # percentage of top consumer loops to display
-    num_cutoff = cutoff[1] # number of loops to display
+    percent_cutoff = index_cutoff[1]/100 # percentage of top consumer loops to display
+    num_cutoff = index_cutoff[1] # number of loops to display
 
-    data_tgt_col_pct = '% of Total'
+    data_column_pct = '% of Total'
     
     dfrm_all = pandas.DataFrame()
     labelL = []
 
-    # FIXME: replace with VtuneCSV...
+    # FIXME: replace with VTuneCSV...
     for csv_fnm in csv_pathL:
-        print(("*** File %s" % csv_fnm))
+        #print(("*** File %s" % csv_fnm))
 
         labelL.append(os.path.basename(csv_fnm).strip(".csv"))
 
-        dfrm0 = pandas.read_csv(csv_fnm, index_col = data_idx_nm)
+        dfrm0 = pandas.read_csv(csv_fnm, index_col = data_index_nm)
         
-        dfrmX = dfrm0[ [data_tgt_col] ]
+        dfrmX = dfrm0[ [data_column] ]
         #print(dfrm0)
 
         #-------------------------------------------------------
         # Add "%" column
         #-------------------------------------------------------
-        data_tgt_col_sum = dfrmX[ [data_tgt_col] ].sum()[0]
+        data_column_sum = dfrmX[ [data_column] ].sum()[0]
         
         dfrmX.insert(loc = 1,
-                    column = data_tgt_col_pct,
-                    value = dfrmX[data_tgt_col] / data_tgt_col_sum * 100)
-        print(dfrmX)
+                    column = data_column_pct,
+                    value = dfrmX[data_column] / data_column_sum * 100)
+        #print(dfrmX)
 
         #-------------------------------------------------------
         # 
         #-------------------------------------------------------
         
         other = pandas.DataFrame(index = ['Other Loops'], columns = dfrmX.columns)
-        print(other)
+        #print(other)
         
-        if cutoff[0] == 'number':
+        if index_cutoff[0] == 'number':
             data_cutoff = dfrmX.iloc[0:num_cutoff, :]
             other.loc['Other Loops']  = dfrmX.iloc[num_cutoff:, :].sum()
-        elif cutoff[0] == "percentage":
-            data_cutoff = dfrmX[dfrmX[data_tgt_col]/data_tgt_col_sum > percent_cutoff]
-            other.loc['Other Loops']= dfrmX[dfrmX[data_tgt_col]/data_tgt_col_sum < percent_cutoff].sum()
+        elif index_cutoff[0] == "percentage":
+            data_cutoff = dfrmX[dfrmX[data_column]/data_column_sum > percent_cutoff]
+            other.loc['Other Loops']= dfrmX[dfrmX[data_column]/data_column_sum < percent_cutoff].sum()
         else:
             sys.exit("Cutoff must be either 'number' or 'percentage'")
 
         data_cutoff = data_cutoff.append(other)
 
-        if target_functions != []:
-            if (target_functions[0] == 'total'):
+        if indexL != []:
+            if (indexL[0] == 'total'):
                 data_cutoff = pandas.DataFrame(dfrmX.sum())
                 data_cutoff.columns = ['total']
                 data_cutoff = data_cutoff.transpose()
             else:
-                data_cutoff = dfrmX.loc[target_functions]
-                #data_cutoff = dfrmX.transpose().loc[target_functions]
+                data_cutoff = dfrmX.loc[indexL]
+                #data_cutoff = dfrmX.transpose().loc[indexL]
 
 
         if total_pct == True:
-            slice_this = data_tgt_col_pct
+            slice_this = data_column_pct
         else:
-            slice_this = data_tgt_col
+            slice_this = data_column
 
         data_cutoff.rename(lambda x: x.strip("[]").replace("Loop at line ", ""))
 
@@ -109,8 +167,12 @@ def plot_progression(csv_pathL,
     # Make sure that the data starts with most expensive column first
     dfrm_all = dfrm_all.sort_values(sorted_names[0], ascending=False)
 
+    #-------------------------------------------------------
+    # 
+    #-------------------------------------------------------
+    
     plot_data = dfrm_all.transpose()
-    if kind == "stack":
+    if kind == 'stack':
         #ax = plt.stackplot(range(len(sorted_names)), [list(plot_data.iloc[:,a]) for a in range(len(plot_data.columns))], labels=plot_data.columns)
         ax = plt.stackplot(list(range(len(sorted_names))), [list(plot_data.iloc[:,a]) for a in range(len(plot_data.columns))], labels=plot_data.columns)
         plt.legend(loc="lower right")
@@ -139,41 +201,5 @@ def plot_progression(csv_pathL,
 
 #****************************************************************************
 
-csv_pathL = []
-for i in range(1,len(sys.argv)):
-    if (not os.path.exists(sys.argv[i])):
-        print(("File %s not found" % sys.argv[i]))
-        quit()
-    csv_pathL.append(os.path.abspath(sys.argv[i]))
-
-
-if __name__ == "__main__":
-
-    assert(len(sys.argv) > 1)
-    csv_pathL = sys.argv[1:]
-
-    csv = VtuneCSV(csv_pathL)
-
-    csv.info()
-
-    #plot_pie(csv_pathL[0])
-
-    #  target_functions = []
-    
-    plot_progression(csv_pathL, kind="stack")
-
-    plot_progression(csv_pathL, kind="line", total_pct=True,
-                     target_functions = [])
-
-    plot_progression(csv_pathL, kind="line", total_pct=False,
-                     target_functions = ['total'])
-
-    fnL = ['[Loop at line 4015 in gwce_new]',
-           '[Loop at line 5354 in mom_eqs_new_nc]']
-    plot_progression(csv_pathL, kind="line", total_pct=False,
-                     target_functions = fnL)
-
-    #plot_progression(csv_pathL, kind="line", total_pct=False,
-    #                 target_functions = ['Hardware Event Count:MEM_LOAD_RETIRED.L2_HIT_PS', 'Hardware Event Count:INST_RETIRED.ANY'])
-    
-    plt.show()
+if (__name__ == "__main__"):
+    sys.exit(main())
