@@ -126,7 +126,6 @@ class VTuneCSV():
         else:
             sys.exit("Bad type!")
         
-    
         print("************************************************")
         print("Loops/Functions")
         print("************************************************")
@@ -145,10 +144,9 @@ class VTuneCSV():
         dfrm = dfrm.iloc[:, list(empties)]
         return dfrm
 
-
+    
+    # FIXME: Deprecated
     def get_frame(self, columnL, function = None):
-        # FIXME: Deprecated
-
         dfrm = pandas.DataFrame()
 
         for x in self.dataL:
