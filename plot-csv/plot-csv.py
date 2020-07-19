@@ -53,18 +53,37 @@ def main():
     # 
     #-------------------------------------------------------
 
-    csv = vtcsv.VTuneCSV(csv_pathL, indexL = indexL, columnL = columnL)
-
-    plot(csv, kind = 'stack')
+    csv = vtcsv.VTuneCSV(csv_pathL, group_by = 'csv',
+                         indexL = indexL, columnL = columnL)
+    plot(csv, kind = 'line', xlabel="Number of Elements")
     
     plt.show()
 
 
 #****************************************************************************
 
-def plot(vtune_csv, kind):
+def plot(vtune_csv, kind, xlabel):
     #csv.info()
-    pass
+
+    # if (dfrm.group_by == 'csv'):
+    #     xlabel = ''
+    # elif (dfrm.group_by == 'metric'):
+    # else:
+    #     sys.exit("Bad group_by! %s" % dfrm.group_by)
+
+    for kv in vtune_csv.dataL:
+        title = kv[0]
+        dfrm = kv[1]
+
+        dfrm_plot = dfrm.transpose()
+        
+        ax = dfrm_plot.plot(kind = kind)
+
+        ax.set_xticklabels(ax.get_xticklabels(), rotation='vertical')
+        ax.set_xlabel(xlabel)
+
+        ax.set_ylabel(title)
+
 
 
 #****************************************************************************
@@ -86,7 +105,7 @@ def plot_OLD(csv_pathL,
 
     # Metric is a data column label
     data_index_nm = 'Function' # rows will be labeled by this column name
-    data_column = 'CPU Time' # FIXME: should be a list
+    data_column = 'CPU Time'
 
     # FIXME: ugly
     percent_cutoff = index_cutoff[1]/100 # percentage of top consumer loops to display
@@ -101,7 +120,6 @@ def plot_OLD(csv_pathL,
     dfrm_all = pandas.DataFrame()
     labelL = []
 
-    # FIXME: replace with VTuneCSV...
     for csv_fnm in csv_pathL:
         #print(("*** File %s" % csv_fnm))
 
@@ -185,10 +203,10 @@ def plot_OLD(csv_pathL,
     
     plot_data = dfrm_all.transpose()
     if kind == 'stack':
-        #ax = plt.stackplot(range(len(sorted_names)), [list(plot_data.iloc[:,a]) for a in range(len(plot_data.columns))], labels=plot_data.columns)
-        ax = plt.stackplot(list(range(len(sorted_names))), [list(plot_data.iloc[:,a]) for a in range(len(plot_data.columns))], labels=plot_data.columns)
+        ax = plt.stackplot(list(range(len(sorted_names))),
+                           [list(plot_data.iloc[:,a]) for a in range(len(plot_data.columns))],
+                           labels=plot_data.columns)
         plt.legend(loc="lower right")
-        #plt.xticks(range(len(sorted_names)), sorted_names, rotation='vertical')
         plt.xticks(list(range(len(sorted_names))), sorted_names, rotation='vertical')
         if total_pct == True:
             locs, labels = plt.yticks()

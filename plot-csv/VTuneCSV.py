@@ -10,6 +10,7 @@
 import os
 import sys
 
+# https://pandas.pydata.org
 import pandas
 
 #****************************************************************************
@@ -18,37 +19,39 @@ import pandas
 
 class VTuneCSV():
     """
-    <csv_pathL>: list of paths for CSV files forming data series
-    <indexL>: list of rows (functions) to select
-    <columnL>: list of columns (metrics) to select
+    Create a hash of DataFrames that have rows indexed by 'data_index_nm'.
+    The grouping for each DataFrame is controlled with <group_by>.
 
-    Return:
-      For each column c:   [ indexL x CSV-series[c] ]
+    <csv_pathL>: List of paths to CSV data files
 
-      For each CSV file f: [ indexL x f[columnL] ]  **close to current**
-     
-    Current: [ indexL x CSV-series[columnL] ]
+    <group_by>: How to create the columns for each DataFrame
+      'csv':    For each column c:   [ indexL x CSV-file[c] ]
+      'metric': For each CSV-file f: [ indexL x f[columnL] ]
 
-    FIXME:
-    If each file name contains only integers
-      - These files will be aranged in ascending order based on filename
-    else:
-      - These files will be aranged in the order they're passed in through CLI
+    <indexL>:  From 'data_index_nm', select only rows (functions) in 'indexL'
+    <columnL>: From each CSV, select only columns (metrics) in 'columnL'
     """
 
-    labelL = None
-    data = None
+    dataH = None
+    dataL = None
+    group_by = None
 
     data_index_nm = 'Function' # rows are labeled by this column
 
-    def __init__ (self, csv_pathL, indexL = None, columnL = None):
-        self.data = pandas.DataFrame() # []
-        self.labelL = []
+    data_col_sep = '/'
+
+    def __init__ (self,
+                  csv_pathL,
+                  group_by = 'csv',
+                  indexL = None,
+                  columnL = None):
+
+        self.dataH = { }
+        self.dataL = [ ]
+        self.group_by = group_by
 
         if (not isinstance(csv_pathL, list)):
             csv_pathL = [csv_pathL]
-
-        #self.labelL = [os.path.basename(x).strip(".csv") for x in csv_pathL]
 
         #-------------------------------------------------------
         # 
@@ -57,25 +60,60 @@ class VTuneCSV():
         for csv_fnm in csv_pathL:
             self.add_csv(csv_fnm, indexL, columnL)
 
+        if (self.group_by == 'csv'):
+            for key, dfrm in self.dataH.items():
+                #dfrm.sort_index(axis=1, inplace = True)
+                col_srt = sorted(dfrm.columns, key = lambda x : my_sort_key(x))
+                self.dataH[key] = dfrm[col_srt]
+
+            self.dataL = self.dataH.items()
+
+        elif (self.group_by == 'metric'):
+            self.dataL = sorted(self.dataH.items(),
+                                key = lambda kv : my_sort_keyval(kv))
+        else:
+            sys.exit("Bad group_by! %s" % self.group_by)
+
 
     def __str__(self):
-        return ""
+        msg = ""
 
+        for kv in self.dataL:
+            msg += ("*** %s ***\n%s\n") % (kv[0], kv[1])
 
+        #for x, y in self.dataH.items():
+        #    msg += ("*** %s ***\n%s\n") % (x, y)
+
+        return msg
+
+    
     def add_csv(self, csv_fnm, indexL, columnL):
-        print(("*** %s: '%s'" % (__name__, csv_fnm)))
+        print(("*** %s: '%s'" % (type(self).__name__, csv_fnm)))
 
         if (not os.path.exists(csv_fnm)):
-            print(("Not found: '%s'" % csv_fnm))
+            print(("Skipping non-existent file: '%s'" % csv_fnm))
             return
+
+        csv_nm = os.path.basename(csv_fnm).strip(".csv")
 
         dfrm = pandas.read_csv(csv_fnm, error_bad_lines = False)
 
         dfrm = dfrm.set_index(self.data_index_nm)
 
-        label = os.path.basename(csv_fnm).strip(".csv")
-        self.labelL.append(label)
+        #-------------------------------------------------------
+        # Initialize data frames for 'csv'
+        #-------------------------------------------------------
 
+        if (self.group_by == 'csv'):
+            if (not self.dataH):
+                colL = columnL
+                if (not colL):
+                    colL = dfrm.columns
+
+                for x in colL:
+                    self.dataH[x] = pandas.DataFrame()
+        
+        
         #-------------------------------------------------------
         # Normalize
         #-------------------------------------------------------
@@ -92,8 +130,15 @@ class VTuneCSV():
         #-------------------------------------------------------
         # Select columns
         #-------------------------------------------------------
+
         if (columnL):
             dfrm = dfrm[columnL]
+
+        if (self.group_by == 'csv'):
+            if (len(columnL) == 1):
+                dfrm.columns = [ csv_nm ]
+            else:
+                dfrm.columns = [csv_nm + data_col_sep + x in dfrm.columns]
 
         #-------------------------------------------------------
         # Add "%" column
@@ -112,27 +157,28 @@ class VTuneCSV():
         #-------------------------------------------------------
         # 
         #-------------------------------------------------------
-        #self.data.append(dfrm)
-        
-        if (self.data.empty):
-            self.data = dfrm
+
+        if (self.group_by == 'csv'):
+            for key, dfrmX in self.dataH.items():
+                if (dfrmX.empty):
+                    self.dataH[key] = dfrm
+                else:
+                    self.dataH[key] = pandas.concat([dfrmX, dfrm], axis=1)
+        elif (self.group_by == 'metric'):
+            self.dataH[csv_nm] = dfrm
         else:
-            self.data = pandas.concat([self.data, dfrm], axis=1)
+            sys.exit("Bad group_by! %s" % self.group_by)
 
-
-        return self.data
+        return dfrm
 
     
     def info(self):
-        if (isinstance(self.data, pandas.DataFrame)):
-            index_list = list(self.data.index)
-            column_list = list(self.data.columns)
-        elif (isinstance(self.data, list)):
-            index_list = list(self.data[0].index)
-            column_list = list(self.data[0].columns)
-        else:
-            sys.exit("Bad type!")
+        #dfrm0 = next(iter(self.dataH.values()))
+        dfrm0 = self.dataL[0]
         
+        index_list = list(dfrm0.index)
+        column_list = list(dfrm0.columns)
+
         print("************************************************")
         print("Loops/Functions")
         print("************************************************")
@@ -151,30 +197,20 @@ class VTuneCSV():
         dfrm = dfrm.iloc[:, list(empties)]
         return dfrm
 
+
+def my_sort_keyval(kv):
+    key = kv[0]
+    return my_sort_key(key)
+
+def my_sort_key(key):
+    assert(isinstance(key, str))
+
+    splitL = key.split(VTuneCSV.data_col_sep)
     
-    # FIXME: Deprecated
-    def get_frame(self, columnL, function = None):
-        dfrm = pandas.DataFrame()
-
-        for x in self.dataL:
-            print(x[columnL])
-            dfrm = pandas.concat([ dfrm, x[columnL] ], axis=1)
-
-        # ???
-        if (function):
-            dfrm = dfrm.loc[function]
-            if len(self.dataL) > 1:
-                dfrm.columns = [columnL]
-                dfrm.index = self.labelL
-                try:
-                    dfrm.index = [int(idx) for idx in list(dfrm.index)]
-                    dfrm = dfrm.sort_index(ascending = True)
-                    dfrm.index = [str(idx) for idx in list(dfrm.index)]
-                except ValueError:
-                    dfrm.index = self.labelL
-            dfrm.index.name = function
-        
-        return dfrm
+    try:
+        return int(splitL[0])
+    except (ValueError, TypeError):
+        return splitL[0]
 
 
 #****************************************************************************
@@ -190,10 +226,17 @@ if __name__ == "__main__":
     
     csv = VTuneCSV(csv_pathL)
     #csv.info()
+    print(csv)
+
 
     csv = VTuneCSV(csv_pathL, columnL = columnL)
-    #csv.info()
+    print(csv)
 
-    csv = VTuneCSV(csv_pathL, indexL = indexL, columnL = columnL)
+    csv = VTuneCSV(csv_pathL, group_by = 'csv',
+                   indexL = indexL, columnL = columnL)
+    print(csv)
+    
+    csv = VTuneCSV(csv_pathL, group_by = 'metric',
+                   indexL = indexL, columnL = columnL)
+    print(csv)
 
-    print(csv.data)
