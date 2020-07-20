@@ -25,6 +25,7 @@ def main():
     # 
     #-------------------------------------------------------
 
+    # cf. 1perf-projects.gitlab/graph-reorder/py-reorder/relayout/driver.py
     #parser = argparse.ArgumentParser()
     #args = vars(parser.parse_args())
 
