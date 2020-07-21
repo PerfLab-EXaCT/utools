@@ -36,7 +36,7 @@ class VTuneCSV():
     dataL = None
     group_by = None
 
-    data_index_nm = 'Function' # rows are labeled by this column
+    index_name = None # rows are labeled by this column
 
     data_col_sep = '/'
 
@@ -83,7 +83,7 @@ class VTuneCSV():
         msg = ""
 
         for kv in self.dataL:
-            msg += ("*** %s ***\n%s\n") % (kv[0], kv[1])
+            msg += ("*** %s: %s (index: %s) ***\n%s\n") % (type(self).__name__, kv[0], self.index_name, kv[1])
 
         #for x, y in self.dataH.items():
         #    msg += ("*** %s ***\n%s\n") % (x, y)
@@ -109,8 +109,6 @@ class VTuneCSV():
 
     
     def add_csv(self, csv_fnm, indexL, columnL):
-        print(("*** %s: '%s'" % (type(self).__name__, csv_fnm)))
-
         if (not os.path.exists(csv_fnm)):
             print(("Skipping non-existent file: '%s'" % csv_fnm))
             return
@@ -119,7 +117,11 @@ class VTuneCSV():
 
         dfrm = pandas.read_csv(csv_fnm, error_bad_lines = False)
 
-        dfrm = dfrm.set_index(self.data_index_nm)
+        self.index_name = dfrm.columns[0]
+        dfrm = dfrm.set_index(self.index_name)
+
+        print(("*** %s: '%s' (%s)" % (type(self).__name__, csv_fnm, self.index_name)))
+
 
         columnL_me = columnL
         if (not columnL_me):

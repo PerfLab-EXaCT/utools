@@ -15,12 +15,12 @@ vtune -report hotspots -format csv -csv-delimiter comma \
 
 
 ```sh
-./plot-csv.py ./data/progression/*.csv
+./VtuneCSV.py ./data0/progression/*.csv
+./VtuneCSV.py ./data0/advanced-hotspots.csv
 
-./VtuneCSV.py ./data/progression/*.csv
-./VtuneCSV.py ./data/advanced-hotspots.csv
+./plot-csv.py ./data0/progression/*.csv
 
-./plot_pie.py ./data/advanced-hotspots.csv
+./plot_pie.py ./data0/advanced-hotspots.csv
 ```
 
 -----------------------------------------------------------------------------
