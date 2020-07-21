@@ -66,7 +66,7 @@ class VTuneCSV():
                 col_srt = sorted(dfrm.columns, key = lambda x : my_sort_key(x))
                 self.dataH[key] = dfrm[col_srt]
 
-            self.dataL = self.dataH.items()
+            self.dataL = list(self.dataH.items())
 
         elif (self.group_by == 'metric'):
             self.dataL = sorted(self.dataH.items(),
@@ -100,19 +100,18 @@ class VTuneCSV():
 
         dfrm = dfrm.set_index(self.data_index_nm)
 
+        columnL_me = columnL
+        if (not columnL_me):
+            columnL_me = dfrm.columns
+
         #-------------------------------------------------------
         # Initialize data frames for 'csv'
         #-------------------------------------------------------
 
         if (self.group_by == 'csv'):
             if (not self.dataH):
-                colL = columnL
-                if (not colL):
-                    colL = dfrm.columns
-
-                for x in colL:
+                for x in columnL_me:
                     self.dataH[x] = pandas.DataFrame()
-        
         
         #-------------------------------------------------------
         # Normalize
@@ -131,14 +130,14 @@ class VTuneCSV():
         # Select columns
         #-------------------------------------------------------
 
-        if (columnL):
-            dfrm = dfrm[columnL]
+        if (len(columnL_me) < len(dfrm.columns)):
+            dfrm = dfrm[columnL_me]
 
         if (self.group_by == 'csv'):
-            if (len(columnL) == 1):
+            if (len(dfrm.columns) == 1):
                 dfrm.columns = [ csv_nm ]
             else:
-                dfrm.columns = [csv_nm + data_col_sep + x in dfrm.columns]
+                dfrm.columns = [(csv_nm + self.data_col_sep + x) for x in dfrm.columns]
 
         #-------------------------------------------------------
         # Add "%" column
@@ -174,21 +173,18 @@ class VTuneCSV():
     
     def info(self):
         #dfrm0 = next(iter(self.dataH.values()))
-        dfrm0 = self.dataL[0]
+        (title, dfrm0) = self.dataL[0]
         
-        index_list = list(dfrm0.index)
-        column_list = list(dfrm0.columns)
-
         print("************************************************")
-        print("Loops/Functions")
+        print("%s: Loops/Functions" % title)
         print("************************************************")
-        for x in index_list:
+        for x in dfrm0.index:
             print("  '%s'" % x)
 
         print("************************************************")
-        print("Metrics")
+        print("%s: Metrics" % title)
         print("************************************************")
-        for x in column_list:
+        for x in dfrm0.columns:
             print("  '%s'" % x)
    
 
@@ -217,26 +213,13 @@ def my_sort_key(key):
 
 if __name__ == "__main__":
 
-    indexL = ['[Loop at line 4015 in gwce_new]',
-              '[Loop at line 5354 in mom_eqs_new_nc]']
-    columnL = ['CPU Time', 'CPI Rate']
-    
     assert(len(sys.argv) > 1)
     csv_pathL = sys.argv[1:]
     
-    csv = VTuneCSV(csv_pathL)
-    #csv.info()
-    print(csv)
+    csv1 = VTuneCSV(csv_pathL, group_by = 'csv')
+    csv2 = VTuneCSV(csv_pathL, group_by = 'metric')
 
+    csv1.info()
 
-    csv = VTuneCSV(csv_pathL, columnL = columnL)
-    print(csv)
-
-    csv = VTuneCSV(csv_pathL, group_by = 'csv',
-                   indexL = indexL, columnL = columnL)
-    print(csv)
-    
-    csv = VTuneCSV(csv_pathL, group_by = 'metric',
-                   indexL = indexL, columnL = columnL)
-    print(csv)
-
+    print(csv1)
+    print(csv2)

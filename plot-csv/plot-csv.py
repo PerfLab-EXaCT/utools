@@ -34,13 +34,22 @@ def main():
 
     #csv_pathL.append(os.path.abspath(sys.argv[i]))
 
+    main_OLD(csv_pathL)
+
+
+#****************************************************************************
+
+def main_OLD(csv_pathL):
+
     indexL = ['[Loop at line 4015 in gwce_new]',
               '[Loop at line 5354 in mom_eqs_new_nc]']
 
-    columnL = ['CPU Time']
+    columnL1 = ['CPU Time']
+    columnL2 = ['CPU Time', 'CPI Rate']
+
 
     #-------------------------------------------------------
-    # OLD
+    # 
     #-------------------------------------------------------
     plot_OLD(csv_pathL, kind = 'stack')
 
@@ -53,11 +62,18 @@ def main():
     #-------------------------------------------------------
     # 
     #-------------------------------------------------------
-
     csv = vtcsv.VTuneCSV(csv_pathL, group_by = 'csv',
-                         indexL = indexL, columnL = columnL)
-    plot(csv, kind = 'line', xlabel="Number of Elements")
-    
+                         indexL = indexL, columnL = columnL1)
+    plot(csv, kind = 'line', xlabel='Elements')
+    plot(csv, kind = 'bar',  xlabel='Elements')
+
+    #-------------------------------------------------------
+    # 
+    #-------------------------------------------------------
+    csv = vtcsv.VTuneCSV(csv_pathL, group_by = 'metric',
+                         indexL = indexL, columnL = columnL2)
+    print(csv)
+
     plt.show()
 
 
@@ -67,7 +83,7 @@ def plot(vtune_csv, kind, xlabel):
     #csv.info()
 
     # if (dfrm.group_by == 'csv'):
-    #     xlabel = ''
+    #     xlabel = 'CSV names'
     # elif (dfrm.group_by == 'metric'):
     # else:
     #     sys.exit("Bad group_by! %s" % dfrm.group_by)
@@ -84,7 +100,6 @@ def plot(vtune_csv, kind, xlabel):
         ax.set_xlabel(xlabel)
 
         ax.set_ylabel(title)
-
 
 
 #****************************************************************************
