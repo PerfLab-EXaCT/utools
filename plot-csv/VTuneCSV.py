@@ -25,8 +25,8 @@ class VTuneCSV():
     <csv_pathL>: List of paths to CSV data files
 
     <group_by>: How to create the columns for each DataFrame
-      'csv':    For each column c:   [ indexL x CSV-file[c] ]
       'metric': For each CSV-file f: [ indexL x f[columnL] ]
+      'csv':    For each column c:   [ indexL x CSV-file[c] ]
 
     <indexL>:  From 'data_index_nm', select only rows (functions) in 'indexL'
     <columnL>: From each CSV, select only columns (metrics) in 'columnL'
@@ -60,6 +60,10 @@ class VTuneCSV():
         for csv_fnm in csv_pathL:
             self.add_csv(csv_fnm, indexL, columnL)
 
+        #-------------------------------------------------------
+        # finalize grouping
+        #-------------------------------------------------------
+
         if (self.group_by == 'csv'):
             for key, dfrm in self.dataH.items():
                 #dfrm.sort_index(axis=1, inplace = True)
@@ -85,6 +89,23 @@ class VTuneCSV():
         #    msg += ("*** %s ***\n%s\n") % (x, y)
 
         return msg
+
+
+    def info(self):
+        #dfrm0 = next(iter(self.dataH.values()))
+        (title, dfrm0) = self.dataL[0]
+        
+        print("************************************************")
+        print("%s: Loops/Functions" % title)
+        print("************************************************")
+        for x in dfrm0.index:
+            print("  '%s'" % x)
+
+        print("************************************************")
+        print("%s: Metrics" % title)
+        print("************************************************")
+        for x in dfrm0.columns:
+            print("  '%s'" % x)
 
     
     def add_csv(self, csv_fnm, indexL, columnL):
@@ -169,23 +190,6 @@ class VTuneCSV():
             sys.exit("Bad group_by! %s" % self.group_by)
 
         return dfrm
-
-    
-    def info(self):
-        #dfrm0 = next(iter(self.dataH.values()))
-        (title, dfrm0) = self.dataL[0]
-        
-        print("************************************************")
-        print("%s: Loops/Functions" % title)
-        print("************************************************")
-        for x in dfrm0.index:
-            print("  '%s'" % x)
-
-        print("************************************************")
-        print("%s: Metrics" % title)
-        print("************************************************")
-        for x in dfrm0.columns:
-            print("  '%s'" % x)
    
 
     def remove_empty_cols(self, dfrm):
@@ -216,10 +220,11 @@ if __name__ == "__main__":
     assert(len(sys.argv) > 1)
     csv_pathL = sys.argv[1:]
     
-    csv1 = VTuneCSV(csv_pathL, group_by = 'csv')
-    csv2 = VTuneCSV(csv_pathL, group_by = 'metric')
+    csv = VTuneCSV(csv_pathL, group_by = 'metric')
+    csv.info()
+    print(csv)
 
-    csv1.info()
+    #csv2 = VTuneCSV(csv_pathL, group_by = 'csv')
+    #print(csv2)
 
-    print(csv1)
-    print(csv2)
+
