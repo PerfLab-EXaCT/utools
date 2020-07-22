@@ -30,9 +30,12 @@ class VTuneCSV():
       'csv':    For each column c:   [ indexL x CSV-file[c] ]
 
     <indexL>:  From 'data_index_nm', select only rows (functions) in 'indexL'
+               'None' means '<all>'
+
     <columnL>: From each CSV, select only columns (metrics) in 'columnL'
-               For 'metric', None means <all>
-               For 'csv',    None means <each>, and [] means <all>
+               For 'metric', 'None' means '<all>'
+               For 'csv',    'None' means '<each>', i.e., one column/csv
+                             '[]' means '<all>', i.e., all columns/csv
     """
 
     dataH = None
@@ -70,8 +73,10 @@ class VTuneCSV():
         if (self.group_by == 'csv'):
             for key, dfrm in self.dataH.items():
                 #dfrm.sort_index(axis=1, inplace = True)
-                col_srt = sorted(dfrm.columns, key = lambda x : my_sort_key(x))
-                self.dataH[key] = dfrm[col_srt]
+                if (0):
+                    # FIXME: To specific
+                    col_srt = sorted(dfrm.columns, key = lambda x : my_sort_key(x))
+                    self.dataH[key] = dfrm[col_srt]
 
             self.dataL = list(self.dataH.items())
 
@@ -185,9 +190,7 @@ class VTuneCSV():
         #-------------------------------------------------------
 
         if (self.group_by == 'csv'):
-            
             for key0, dfrm0 in self.dataH.items():
-
                 if (key0 == '<all>'):
                     dfrm_new = dfrm
                     dfrm_new.columns = [(csv_nm + self.data_col_sep + x) for x in dfrm.columns]
