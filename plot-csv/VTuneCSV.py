@@ -31,6 +31,8 @@ class VTuneCSV():
 
     <indexL>:  From 'data_index_nm', select only rows (functions) in 'indexL'
     <columnL>: From each CSV, select only columns (metrics) in 'columnL'
+               For 'metric', None means <all>
+               For 'csv',    None means <each>, and [] means <all>
     """
 
     dataH = None
@@ -95,6 +97,14 @@ class VTuneCSV():
     def info(self):
         #dfrm0 = next(iter(self.dataH.values()))
         (title, dfrm0) = self.dataL[0]
+
+        print("************************************************")
+        print("%s: Columns" % title)
+        print("************************************************")
+        dfrm0.info()
+        print("------------------------------------------------")
+        for x in dfrm0.columns:
+            print("  '%s'" % x)
         
         print("************************************************")
         print("%s: Loops/Functions" % title)
@@ -102,11 +112,6 @@ class VTuneCSV():
         for x in dfrm0.index:
             print("  '%s'" % x)
 
-        print("************************************************")
-        print("%s: Metrics" % title)
-        print("************************************************")
-        for x in dfrm0.columns:
-            print("  '%s'" % x)
 
     
     def add_csv(self, csv_fnm, indexL, columnL):
@@ -123,18 +128,21 @@ class VTuneCSV():
 
         print(("*** %s: '%s' (%s)" % (type(self).__name__, csv_fnm, self.index_name)))
 
-
-        columnL_me = columnL
-        if (not columnL_me):
-            columnL_me = dfrm.columns
-
         #-------------------------------------------------------
         # Initialize data frames for 'csv'
         #-------------------------------------------------------
 
         if (self.group_by == 'csv'):
+
+            if (columnL == None):
+                colL = dfrm.columns
+            elif (len(columnL) == 0):
+                colL = [ '<all>' ]
+            else:
+                colL = columnL
+
             if (not self.dataH):
-                for x in columnL_me:
+                for x in colL:
                     self.dataH[x] = pandas.DataFrame()
         
         #-------------------------------------------------------
@@ -151,19 +159,6 @@ class VTuneCSV():
         dfrm = dfrm.groupby(dfrm.index, sort = False).first()
 
         #-------------------------------------------------------
-        # Select columns
-        #-------------------------------------------------------
-
-        if (len(columnL_me) < len(dfrm.columns)):
-            dfrm = dfrm[columnL_me]
-
-        if (self.group_by == 'csv'):
-            if (len(dfrm.columns) == 1):
-                dfrm.columns = [ csv_nm ]
-            else:
-                dfrm.columns = [(csv_nm + self.data_col_sep + x) for x in dfrm.columns]
-
-        #-------------------------------------------------------
         # Add "%" column
         #-------------------------------------------------------
         # FIXME:
@@ -178,15 +173,32 @@ class VTuneCSV():
                 dfrm = dfrm.loc[indexL]
 
         #-------------------------------------------------------
-        # 
+        # Select columns
+        #-------------------------------------------------------
+
+        if (self.group_by == 'metric'):
+            if (columnL):
+                dfrm = dfrm[columnL]
+
+        #-------------------------------------------------------
+        # Select columns and add
         #-------------------------------------------------------
 
         if (self.group_by == 'csv'):
-            for key, dfrmX in self.dataH.items():
-                if (dfrmX.empty):
-                    self.dataH[key] = dfrm
+            
+            for key0, dfrm0 in self.dataH.items():
+
+                if (key0 == '<all>'):
+                    dfrm_new = dfrm
+                    dfrm_new.columns = [(csv_nm + self.data_col_sep + x) for x in dfrm.columns]
                 else:
-                    self.dataH[key] = pandas.concat([dfrmX, dfrm], axis=1)
+                    dfrm_new = dfrm[[key0]]
+                    dfrm_new.columns = [ csv_nm ]
+                
+                if (dfrm0.empty):
+                    self.dataH[key0] = dfrm_new
+                else:
+                    self.dataH[key0] = pandas.concat([dfrm0, dfrm_new], axis=1)
         elif (self.group_by == 'metric'):
             self.dataH[csv_nm] = dfrm
         else:
@@ -261,7 +273,7 @@ if __name__ == "__main__":
     csv.info()
     print(csv)
 
-    #csv2 = VTuneCSV(csv_pathL, group_by = 'csv')
-    #print(csv2)
+    csv2 = VTuneCSV(csv_pathL, group_by = 'csv') # columnL = []
+    print(csv2)
 
 

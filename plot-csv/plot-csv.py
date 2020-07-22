@@ -31,9 +31,59 @@ def main():
     #args = vars(parser.parse_args())
     #csv_pathL.append(os.path.abspath(sys.argv[i]))
     
-    assert(len(sys.argv) > 1)
-    csv_pathL = sys.argv[1:]
+    #assert(len(sys.argv) > 1)
+    #csv_pathL = sys.argv[1:]
 
+    #-------------------------------------------------------
+    # 
+    #-------------------------------------------------------
+
+    # 'CPU Time'
+    # 'Memory Bound(%)'
+    # 'Memory Bound:L1 Bound(%)'
+    # 'Memory Bound:L2 Bound(%)'
+    # 'Memory Bound:L3 Bound(%)'
+    # 'Memory Bound:DRAM Bound(%)'
+    # 'Memory Bound:Store Bound(%)'
+    # 'Memory Bound:Persistent Memory Bound(%)'
+    # 'Loads'
+    # 'Stores'
+    # 'LLC Miss Count'
+    # 'LLC Miss Count:Local DRAM Access Count'
+    # 'LLC Miss Count:Remote DRAM Access Count'
+    # 'LLC Miss Count:Local Persistent Memory Access Count'
+    # 'LLC Miss Count:Remote Persistent Memory Access Count'
+    # 'LLC Miss Count:Remote Cache Access Count'
+    # 'Average Latency (cycles)'
+
+    
+    pathL1 = [
+        'grappolo-vtune-profile-friendster-optane-appdirect-dram-pkg.csv',
+        'grappolo-vtune-profile-friendster-optane-appdirect-pmem-pkg.csv' ]
+
+    csv1 = vtcsv.VTuneCSV(csv_pathL1, group_by = 'csv')
+
+    pathL2 = [
+        'grappolo-vtune-profile-friendster-optane-appdirect-dram-pkg.csv',
+        'grappolo-vtune-profile-friendster-optane-appdirect-pmem-pkg.csv' ]
+
+    csv2 = vtcsv.VTuneCSV(csv_pathL2, group_by = 'csv')
+    
+    
+
+    pathL = [
+        'grappolo-vtune-profile-friendster-optane-appdirect-dram-fn.csv',
+        'grappolo-vtune-profile-friendster-optane-appdirect-pmem-fn.csv' ]
+
+
+# grappolo-vtune-profile-moliere2016-optane-appdirect-dram-fn.csv
+# grappolo-vtune-profile-moliere2016-optane-appdirect-dram-pkg.csv
+# grappolo-vtune-profile-moliere2016-optane-appdirect-pmem-fn.csv
+# grappolo-vtune-profile-moliere2016-optane-appdirect-pmem-pkg.csv
+# grappolo-vtune-profile-orkut-optane-appdirect-dram-fn.csv
+# grappolo-vtune-profile-orkut-optane-appdirect-dram-pkg.csv
+# grappolo-vtune-profile-orkut-optane-appdirect-pmem-fn.csv
+# grappolo-vtune-profile-orkut-optane-appdirect-pmem-pkg.csv
     
     csv_pathL = [ './data0/progression/108544.csv',
                   './data0/progression/1696.csv',
