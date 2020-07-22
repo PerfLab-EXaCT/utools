@@ -13,6 +13,7 @@ import sys
 
 import pandas
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 import VTuneCSV as vtcsv
 
@@ -28,221 +29,44 @@ def main():
     # cf. 1perf-projects.gitlab/graph-reorder/py-reorder/relayout/driver.py
     #parser = argparse.ArgumentParser()
     #args = vars(parser.parse_args())
-
+    #csv_pathL.append(os.path.abspath(sys.argv[i]))
+    
     assert(len(sys.argv) > 1)
     csv_pathL = sys.argv[1:]
 
-    #csv_pathL.append(os.path.abspath(sys.argv[i]))
-
-    main_OLD(csv_pathL)
-
-
-#****************************************************************************
-
-def main_OLD(csv_pathL):
-
-    indexL = ['[Loop at line 4015 in gwce_new]',
-              '[Loop at line 5354 in mom_eqs_new_nc]']
-
-    columnL1 = ['CPU Time']
-    columnL2 = ['CPU Time', 'CPI Rate']
-
-
-    #-------------------------------------------------------
-    # 
-    #-------------------------------------------------------
-    plot_OLD(csv_pathL, kind = 'stack')
-
-    plot_OLD(csv_pathL, kind = 'line', total_pct=True)
-
-    plot_OLD(csv_pathL, kind = 'line', total_pct=False, indexL = ['total'])
-
-    plot_OLD(csv_pathL, kind = 'line', total_pct=False, indexL = indexL)
-
-    #-------------------------------------------------------
-    # 
-    #-------------------------------------------------------
-    csv = vtcsv.VTuneCSV(csv_pathL, group_by = 'csv',
-                         indexL = indexL, columnL = columnL1)
-    plot(csv, kind = 'line', xlabel='Elements')
-    plot(csv, kind = 'bar',  xlabel='Elements')
-
-    #-------------------------------------------------------
-    # 
-    #-------------------------------------------------------
-    csv = vtcsv.VTuneCSV(csv_pathL, group_by = 'metric',
-                         indexL = indexL, columnL = columnL2)
-    print(csv)
-
-    plt.show()
-
-
-#****************************************************************************
-
-def plot(vtune_csv, kind, xlabel):
-    #csv.info()
-
-    # if (dfrm.group_by == 'csv'):
-    #     xlabel = 'CSV names'
-    # elif (dfrm.group_by == 'metric'):
-    # else:
-    #     sys.exit("Bad group_by! %s" % dfrm.group_by)
-
-    for kv in vtune_csv.dataL:
-        title = kv[0]
-        dfrm = kv[1]
-
-        dfrm_plot = dfrm.transpose()
-        
-        ax = dfrm_plot.plot(kind = kind)
-
-        ax.set_xticklabels(ax.get_xticklabels(), rotation='vertical')
-        ax.set_xlabel(xlabel)
-
-        ax.set_ylabel(title)
-
-
-#****************************************************************************
-
-def plot_OLD(csv_pathL,
-             total_pct = True,
-             kind = "bar",
-             index_cutoff = ('number', 5),
-             indexL = []):
-    """
-    Plot either a line or a bar graph representing changes in where time
-    is being spent with increasing MPI ranks
-    index_cutoff = ('number', 5) or index_cutoff = ("percentage", 34)
-    """
-
-    #-------------------------------------------------------
-    # Input parameters
-    #-------------------------------------------------------
-
-    # Metric is a data column label
-    data_index_nm = 'Function' # rows will be labeled by this column name
-    data_column = 'CPU Time'
-
-    # FIXME: ugly
-    percent_cutoff = index_cutoff[1]/100 # percentage of top consumer loops to display
-    num_cutoff = index_cutoff[1] # number of loops to display
-
-    data_column_pct = '% of Total'
-
-    #-------------------------------------------------------
-    # Populate
-    #-------------------------------------------------------
-
-    dfrm_all = pandas.DataFrame()
-    labelL = []
-
-    for csv_fnm in csv_pathL:
-        #print(("*** File %s" % csv_fnm))
-
-        labelL.append(os.path.basename(csv_fnm).strip(".csv"))
-
-        dfrm0 = pandas.read_csv(csv_fnm, index_col = data_index_nm)
-        
-        dfrmX = dfrm0[ [data_column] ]
-        #print(dfrm0)
-
-        #-------------------------------------------------------
-        # Add "%" column
-        #-------------------------------------------------------
-        data_column_sum = dfrmX[ [data_column] ].sum()[0]
-        
-        dfrmX.insert(loc = 1,
-                    column = data_column_pct,
-                    value = dfrmX[data_column] / data_column_sum * 100)
-        #print(dfrmX)
-
-        #-------------------------------------------------------
-        # 
-        #-------------------------------------------------------
-        
-        other = pandas.DataFrame(index = ['Other Loops'], columns = dfrmX.columns)
-        #print(other)
-        
-        if index_cutoff[0] == 'number':
-            data_cutoff = dfrmX.iloc[0:num_cutoff, :]
-            other.loc['Other Loops']  = dfrmX.iloc[num_cutoff:, :].sum()
-        elif index_cutoff[0] == "percentage":
-            data_cutoff = dfrmX[dfrmX[data_column]/data_column_sum > percent_cutoff]
-            other.loc['Other Loops']= dfrmX[dfrmX[data_column]/data_column_sum < percent_cutoff].sum()
-        else:
-            sys.exit("Cutoff must be either 'number' or 'percentage'")
-
-        data_cutoff = data_cutoff.append(other)
-
-        if indexL != []:
-            if (indexL[0] == 'total'):
-                data_cutoff = pandas.DataFrame(dfrmX.sum())
-                data_cutoff.columns = ['total']
-                data_cutoff = data_cutoff.transpose()
-            else:
-                data_cutoff = dfrmX.loc[indexL]
-                #data_cutoff = dfrmX.transpose().loc[indexL]
-
-
-        if total_pct == True:
-            slice_this = data_column_pct
-        else:
-            slice_this = data_column
-
-        data_cutoff.rename(lambda x: x.strip("[]").replace("Loop at line ", ""))
-
-        #-------------------------------------------------------
-        # 
-        #-------------------------------------------------------
-        
-        if (dfrm_all.empty): # Slice out only the % of times
-            dfrm_all = data_cutoff[[slice_this]]
-        else:
-            dfrm_all = pandas.concat([dfrm_all, data_cutoff[slice_this]], axis=1)
-
-    #-------------------------------------------------------
-    # Set/sort columns; Sort rows
-    #-------------------------------------------------------
-
-    dfrm_all.columns = labelL
-    sorted_names = [int(idx) for idx in labelL]
-    sorted_names.sort()
-    sorted_names = [str(idx) for idx in sorted_names]
-    dfrm_all = dfrm_all[sorted_names]
-
-    # Make sure that the data starts with most expensive column first
-    dfrm_all = dfrm_all.sort_values(by=sorted_names[0], ascending=False)
-
-    #-------------------------------------------------------
-    # Plot
-    #-------------------------------------------------------
     
-    plot_data = dfrm_all.transpose()
-    if kind == 'stack':
-        ax = plt.stackplot(list(range(len(sorted_names))),
-                           [list(plot_data.iloc[:,a]) for a in range(len(plot_data.columns))],
-                           labels=plot_data.columns)
-        plt.legend(loc="lower right")
-        plt.xticks(list(range(len(sorted_names))), sorted_names, rotation='vertical')
-        if total_pct == True:
-            locs, labels = plt.yticks()
-            plt.yticks(locs, ["%s%%" % a for a in locs])
-            plt.ylim(0,100)
-            plt.ylabel("% of Total Time")
-        else:
-            plt.ylabel("CPU Time(s)")
-        plt.xlabel("Number of Elements")
+    csv_pathL = [ './data0/progression/108544.csv',
+                  './data0/progression/1696.csv',
+                  './data0/progression/1736704.csv',
+                  './data0/progression/27136.csv',
+                  './data0/progression/434176.csv',
+                  './data0/progression/6784.csv',
+                  './data0/progression/6946816.csv' ]
 
-    else:
-        ax = plot_data.plot(kind=kind)
-        ax.set_xticklabels(ax.get_xticklabels(), rotation='vertical')
-        ax.set_xlabel("Number of Elements")
-        if total_pct == True:
-            ax.set_yticklabels(["%s%%" % pct for pct in ax.get_yticks()])
-            ax.set_ylim(0, 75)
-            ax.set_ylabel("% of Total Time")
-        else:
-            ax.set_ylabel("CPU Time(s)")
+    fnL = [ 'buildLocalMapCounter',
+            'std::_Rb_tree_insert_and_rebalance',
+            'max',
+            '_int_free',
+            '_int_malloc',
+            '_INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_wait_template<kmp_flag_64, (int)1, (bool)0, (bool)1>',
+            '__GI___libc_malloc',
+            '__gnu_cxx::new_allocator<double>::construct<double, double const&>',
+            'plm_analyzeClusters$omp$parallel_for@64' ]
+
+    colL = [ 'Memory Bound:L1 Bound(%)',
+             'Memory Bound:L2 Bound(%)',
+             'Memory Bound:L3 Bound(%)',
+             'Memory Bound:DRAM Bound(%)',
+             'Memory Bound:Store Bound(%)',
+             'Memory Bound:Persistent Memory Bound(%)']
+
+    col2 = [ 'Loads',
+             'Stores',
+             'LLC Miss Count']
+
+    csv = vtcsv.VTuneCSV(csv_pathL, group_by = 'metric', indexL = fnL, columnL = colL)
+    plot(kind='heat')
+    plt.show()
 
 
 #****************************************************************************

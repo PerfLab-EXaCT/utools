@@ -13,6 +13,7 @@ import sys
 # https://pandas.pydata.org
 import pandas
 
+
 #****************************************************************************
 #
 #****************************************************************************
@@ -42,7 +43,7 @@ class VTuneCSV():
 
     def __init__ (self,
                   csv_pathL,
-                  group_by = 'csv',
+                  group_by = 'metric',
                   indexL = None,
                   columnL = None):
 
@@ -200,9 +201,43 @@ class VTuneCSV():
         return dfrm
 
 
+    def plot(self, kind, xlabel = ''):
+
+        import matplotlib.pyplot as plt
+        import seaborn as sns
+
+        # if (dfrm.group_by == 'csv'):
+        #     xlabel = 'CSV names'
+        # elif (dfrm.group_by == 'metric'):
+        # else:
+        #     sys.exit("Bad group_by! %s" % dfrm.group_by)
+
+        for kv in self.dataL:
+            title = kv[0]
+            dfrm = kv[1]
+
+            axes = None
+
+            if (kind == 'heat'):
+                axes = sns.heatmap(dfrm, annot=True, cmap="RdBu_r") # coolwarm
+            else:
+                dfrm_plot = dfrm.transpose()
+
+                axes = dfrm_plot.plot(kind = kind)
+
+                axes.set_xticklabels(axes.get_xticklabels(), rotation='vertical')
+                axes.set_xlabel(xlabel)
+
+                axes.set_ylabel(title)
+
+            return axes
+
+
+
 def my_sort_keyval(kv):
     key = kv[0]
     return my_sort_key(key)
+
 
 def my_sort_key(key):
     assert(isinstance(key, str))
