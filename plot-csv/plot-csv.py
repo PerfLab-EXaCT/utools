@@ -62,10 +62,6 @@ def main():
 #****************************************************************************
 
 def plot_pkg(vt, graphL):
-    #-------------------------------------------------------
-    # Package
-    #-------------------------------------------------------
-
     colL1 = [
         #'CPU Time',
         #'Memory Bound(%)',
@@ -78,14 +74,14 @@ def plot_pkg(vt, graphL):
         ]
 
     colL2 = [
-        #'Loads'
-        'Stores',
+        'Loads',
+        #'Stores',
         'LLC Miss Count',
-        #'LLC Miss Count:Local DRAM Access Count',
-        #'LLC Miss Count:Remote DRAM Access Count',
+        'LLC Miss Count:Local DRAM Access Count',
+        'LLC Miss Count:Remote DRAM Access Count',
         #'LLC Miss Count:Local Persistent Memory Access Count',
         #'LLC Miss Count:Remote Persistent Memory Access Count',
-        #'LLC Miss Count:Remote Cache Access Count',
+        'LLC Miss Count:Remote Cache Access Count',
         'Average Latency (cycles)'
     ]
    
@@ -97,25 +93,40 @@ def plot_pkg(vt, graphL):
         dfrm.rename(columns = (lambda x: rename_col(x, graphL)), inplace=True)
 
 
+    #-------------------------------------------------------
+    # 
+    #-------------------------------------------------------
+        
     fig1, axesL1 = plt.subplots(nrows=1, ncols=(len(colL1)), figsize=(20.0,3.0))
 
     for i in range(len(colL1)):
-        metric = colL1[i]
         axes = axesL1[i]
+        metric = colL1[i]
+        plot_pkg_doit(vt, axes, metric, graphL)
+
+
+    fig2, axesL2 = plt.subplots(nrows=1, ncols=(len(colL2)), figsize=(20.0,3.0))
+    
+    for i in range(len(colL2)):
+        axes = axesL2[i]
+        metric = colL2[i]
+        plot_pkg_doit(vt, axes, metric, graphL)
         
-        dfrm = vt.dataH[metric]
-        axes1 = plot(dfrm, axes, metric, graphL, kind='heat')
-
-        axes1.set_title(metric)
-        axes1.set_ylabel('Socket')
-
-        plt.subplots_adjust(wspace = 0.4)
-
     fig1.tight_layout()
+    fig2.tight_layout()
     
     plt.show()
 
-    
+
+def plot_pkg_doit(vt, axes, metric, graphL):
+        dfrm = vt.dataH[metric]
+        axes1 = plot(dfrm, axes, metric, graphL, kind='heat')
+
+        axes1.set_title(rename_metric(metric))
+        axes1.set_ylabel('Socket')
+
+        plt.subplots_adjust(wspace = 0.05)
+
 
 def plot_fn(vt, graphL):
     #-------------------------------------------------------
@@ -165,6 +176,16 @@ def plot(dfrm, axes, name, graphL, kind):
     return axes
 
 
+def rename_metric(x):
+    x0 = x
+    
+    x0 = x0.replace("LLC Miss Count", "LLC Miss")
+    x0 = x0.replace("Count", "")
+    x0 = x0.replace("Access", "")
+
+    return x0
+
+    
 def rename_col(x, graphL):
     x0 = x
 
