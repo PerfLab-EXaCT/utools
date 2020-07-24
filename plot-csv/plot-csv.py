@@ -12,10 +12,17 @@ import sys
 #import argparse
 
 import pandas
-import matplotlib.pyplot as plt
-import seaborn as sns
+import numpy
+import math
+import matplotlib.pyplot as pyplt
+import seaborn
 
 import VTuneCSV as vtcsv
+
+#****************************************************************************
+
+txt_sz_heatmap = 10
+txt_sz_heatmap_scale = 10
 
 #****************************************************************************
 #
@@ -34,24 +41,35 @@ def main():
     #assert(len(sys.argv) > 1)
     #csv_pathL = sys.argv[1:]
 
+    # './data/grappolo-vtune-profile-orkut-optane-appdirect-dram-pkg.csv',
+    # './data/grappolo-vtune-profile-orkut-optane-appdirect-pmem-pkg.csv',
+    # './data/grappolo-vtune-profile-friendster-optane-appdirect-dram-pkg.csv',
+    # './data/grappolo-vtune-profile-friendster-optane-appdirect-pmem-pkg.csv',
+    # './data/grappolo-vtune-profile-moliere2016-optane-appdirect-dram-pkg.csv',
+    # './data/grappolo-vtune-profile-moliere2016-optane-appdirect-pmem-pkg.csv'
+
+    # './data/grappolo-vtune-profile-friendster-optane-appdirect-dram-fn.csv',
+    # './data/grappolo-vtune-profile-friendster-optane-appdirect-pmem-fn.csv',
+    # './data/grappolo-vtune-profile-moliere2016-optane-appdirect-dram-fn.csv',
+    # './data/grappolo-vtune-profile-moliere2016-optane-appdirect-pmem-fn.csv',
+    # './data/grappolo-vtune-profile-orkut-optane-appdirect-dram-fn.csv',
+    # './data/grappolo-vtune-profile-orkut-optane-appdirect-pmem-fn.csv'
+
+    path_pfx = './data/grappolo-vtune-profile-'
+
     graphL = ['orkut', 'friendster', 'moliere2016']
 
     pathL1 = [
-        './data/grappolo-vtune-profile-orkut-optane-appdirect-dram-pkg.csv',
-        './data/grappolo-vtune-profile-orkut-optane-appdirect-pmem-pkg.csv',
-        './data/grappolo-vtune-profile-friendster-optane-appdirect-dram-pkg.csv',
-        './data/grappolo-vtune-profile-friendster-optane-appdirect-pmem-pkg.csv',
-        './data/grappolo-vtune-profile-moliere2016-optane-appdirect-dram-pkg.csv',
-        './data/grappolo-vtune-profile-moliere2016-optane-appdirect-pmem-pkg.csv' ]
+        [path_pfx + y + '-optane-appdirect-dram-pkg.csv',
+         path_pfx + y + '-optane-appdirect-pmem-pkg.csv'] for y in graphL ]
 
+    pathL1 = [x for pair in pathL1 for x in pair ]
 
     pathL2 = [
-        './data/grappolo-vtune-profile-friendster-optane-appdirect-dram-fn.csv',
-        './data/grappolo-vtune-profile-friendster-optane-appdirect-pmem-fn.csv',
-        './data/grappolo-vtune-profile-moliere2016-optane-appdirect-dram-fn.csv',
-        './data/grappolo-vtune-profile-moliere2016-optane-appdirect-pmem-fn.csv',
-        './data/grappolo-vtune-profile-orkut-optane-appdirect-dram-fn.csv',
-        './data/grappolo-vtune-profile-orkut-optane-appdirect-pmem-fn.csv']
+        [path_pfx + y + '-optane-appdirect-dram-fn.csv',
+         path_pfx + y + '-optane-appdirect-pmem-fn.csv'] for y in graphL ]
+
+    pathL2 = [x for pair in pathL2 for x in pair ]
 
     vt1 = vtcsv.VTuneCSV(pathL1, group_by = 'csv')
     vt2 = vtcsv.VTuneCSV(pathL2, group_by = 'csv')
@@ -96,36 +114,59 @@ def plot_pkg(vt, graphL):
     #-------------------------------------------------------
     # 
     #-------------------------------------------------------
-        
-    fig1, axesL1 = plt.subplots(nrows=1, ncols=(len(colL1)), figsize=(20.0,3.0))
+    
+    fig1, axesL1 = pyplt.subplots(nrows=1, ncols=(len(colL1)), figsize=(16.0,3.0))
 
     for i in range(len(colL1)):
         axes = axesL1[i]
         metric = colL1[i]
-        plot_pkg_doit(vt, axes, metric, graphL)
+        do_ytitle = (i == 0)
+        plot_pkg_doit(vt, axes, metric, graphL, do_ytitle)
 
 
-    fig2, axesL2 = plt.subplots(nrows=1, ncols=(len(colL2)), figsize=(20.0,3.0))
+    fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(len(colL2)), figsize=(20.0,3.0))
     
     for i in range(len(colL2)):
         axes = axesL2[i]
         metric = colL2[i]
-        plot_pkg_doit(vt, axes, metric, graphL)
+        do_ytitle = (i == 0)
+        plot_pkg_doit(vt, axes, metric, graphL, do_ytitle)
         
     fig1.tight_layout()
     fig2.tight_layout()
     
-    plt.show()
+    pyplt.show()
 
 
-def plot_pkg_doit(vt, axes, metric, graphL):
+def plot_pkg_doit(vt, axes, metric, graphL, do_ytitle):
         dfrm = vt.dataH[metric]
-        axes1 = plot(dfrm, axes, metric, graphL, kind='heat')
+
+        dfrm_scale_exp = None
+        txt_sz = txt_sz_heatmap
+        txt_rot = 0
+
+        dfrm_max = numpy.max(dfrm.to_numpy())
+        #dfrm_md = numpy.median(dfrm.to_numpy())
+        if (dfrm_max > 100):
+            dfrm_scale_exp = math.floor(math.log10(dfrm_max)) - 1
+            dfrm_scale = math.pow(10, dfrm_scale_exp)
+            print(dfrm_scale_exp, dfrm_scale)
+            dfrm = dfrm.applymap(lambda x: x / dfrm_scale)
+            txt_sz = txt_sz_heatmap - 1
+            txt_rot = 45
+
+        axes1 = plot(dfrm, axes, metric, graphL, txt_sz, txt_rot)
 
         axes1.set_title(rename_metric(metric))
-        axes1.set_ylabel('Socket')
+        if (dfrm_scale_exp):
+            #axes1.annotate(("x1e%s" % dfrm_scale_exp), (0.9, 0.9))
+            axes1.text(1.04, 0.99, (r'$\times10^{%s}$' % dfrm_scale_exp),
+                       transform=axes1.transAxes, ha='left', va='bottom') # size=txt_sz_heatmap_scale
 
-        plt.subplots_adjust(wspace = 0.05)
+        if (do_ytitle):
+            axes1.set_ylabel('Socket')
+
+        pyplt.subplots_adjust(wspace = -0.05)
 
 
 def plot_fn(vt, graphL):
@@ -159,12 +200,15 @@ def plot_fn(vt, graphL):
 
 
 
-
 #****************************************************************************
 
-def plot(dfrm, axes, name, graphL, kind):
-    # axes = plt.axes(label=name)
-    axes = sns.heatmap(dfrm, ax=axes, annot=True, cmap="RdBu_r") # coolwarm
+def plot(dfrm, axes, name, graphL, txt_sz, txt_rot):
+    # axes = pyplt.axes(label=name)
+
+    axes = seaborn.heatmap(dfrm, ax=axes, annot=True, fmt='.2g', cmap="RdBu_r",
+                           annot_kws={'size' : txt_sz,
+                                      'rotation' : txt_rot } ) # coolwarm
+      # xticklabels
     axes.set_xticklabels(dfrm.columns, rotation=15, ha='right')
     #axes.set_xlabel('')
 
