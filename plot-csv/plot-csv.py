@@ -112,34 +112,19 @@ def plot_pkg(vt, graphL):
         dfrm.rename(index = (lambda x: x.replace("package_", "")), inplace=True)
         dfrm.rename(columns = (lambda x: rename_col(x, graphL)), inplace=True)
 
-
     #-------------------------------------------------------
     # 
     #-------------------------------------------------------
 
     len_col1 = len(colL1)
     fig1, axesL1 = pyplt.subplots(nrows=1, ncols=(len_col1), figsize=(3.2*len_col1,3.0))
-    plot_pkg_doit(vt, axesL1, colL1, graphL)
+    plot_row(vt, axesL1, colL1, 'Socket', graphL)
     fig1.tight_layout()
 
     len_col2 = len(colL2)
     fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(len_col2), figsize=(3.2*len_col2,3.0))
-    plot_pkg_doit(vt, axesL2, colL2, graphL)
+    plot_row(vt, axesL2, colL2, 'Socket', graphL)
     fig2.tight_layout()
-
-
-def plot_pkg_doit(vt, axesL, colL, graphL):
-    len_col = len(colL)
-    for i in range(len_col):
-        axes = axesL[i]
-        metric = colL[i]
-        ytitle = 'Socket' if (i == 0) else None
-
-        dfrm = vt.dataH[metric]
-
-        axes1 = plot(dfrm, axes, metric, ytitle, graphL)
-
-    pyplt.subplots_adjust(wspace = -0.05)
 
 
 
@@ -149,7 +134,6 @@ def plot_fn(vt, graphL):
     #-------------------------------------------------------
     # 
     #-------------------------------------------------------
-
 
     fnL = [ 'buildLocalMapCounter',
             'std::_Rb_tree_insert_and_rebalance',
@@ -174,9 +158,21 @@ def plot_fn(vt, graphL):
     #          'LLC Miss Count']
 
 
-
-
 #****************************************************************************
+
+def plot_row(vt, axesL, colL, ytitle_txt, graphL):
+    len_col = len(colL)
+    for i in range(len_col):
+        axes = axesL[i]
+        metric = colL[i]
+        ytitle = ytitle_txt if (i == 0) else None
+
+        dfrm = vt.dataH[metric]
+
+        axes1 = plot(dfrm, axes, metric, ytitle, graphL)
+
+    pyplt.subplots_adjust(wspace = -0.05)
+
 
 def plot(dfrm, axes, title, ytitle, graphL):
     # axes = pyplt.axes(label=title)
