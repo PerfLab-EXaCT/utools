@@ -75,6 +75,8 @@ def main():
     vt2 = vtcsv.VTuneCSV(pathL2, group_by = 'csv')
     
     plot_pkg(vt1, graphL)
+    pyplt.show()
+
     
     
 #****************************************************************************
@@ -83,6 +85,7 @@ def plot_pkg(vt, graphL):
     colL1 = [
         #'CPU Time',
         #'Memory Bound(%)',
+        'Average Latency (cycles)',
         'Memory Bound:L1 Bound(%)',
         'Memory Bound:L2 Bound(%)',
         'Memory Bound:L3 Bound(%)',
@@ -93,11 +96,10 @@ def plot_pkg(vt, graphL):
 
     colL2 = [
         'Loads',
-        #'Stores',
-        'Average Latency (cycles)',
-        'LLC Miss Count',
-        'LLC Miss Count:Local DRAM Access Count',
+        'Stores',
+        #'LLC Miss Count',
         'LLC Miss Count:Remote DRAM Access Count',
+        'LLC Miss Count:Local DRAM Access Count',
         #'LLC Miss Count:Local Persistent Memory Access Count',
         #'LLC Miss Count:Remote Persistent Memory Access Count',
         'LLC Miss Count:Remote Cache Access Count'
@@ -114,19 +116,21 @@ def plot_pkg(vt, graphL):
     #-------------------------------------------------------
     # 
     #-------------------------------------------------------
-    
-    fig1, axesL1 = pyplt.subplots(nrows=1, ncols=(len(colL1)), figsize=(16.0,3.0))
 
-    for i in range(len(colL1)):
+    len_col1 = len(colL1)
+    fig1, axesL1 = pyplt.subplots(nrows=1, ncols=(len_col1), figsize=(3.2*len_col1,3.0))
+
+    for i in range(len_col1):
         axes = axesL1[i]
         metric = colL1[i]
         do_ytitle = (i == 0)
         plot_pkg_doit(vt, axes, metric, graphL, do_ytitle)
 
 
-    fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(len(colL2)), figsize=(20.0,3.0))
+    len_col2 = len(colL2)
+    fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(len_col2), figsize=(3.2*len_col2,3.0))
     
-    for i in range(len(colL2)):
+    for i in range(len_col2):
         axes = axesL2[i]
         metric = colL2[i]
         do_ytitle = (i == 0)
@@ -134,8 +138,6 @@ def plot_pkg(vt, graphL):
         
     fig1.tight_layout()
     fig2.tight_layout()
-    
-    pyplt.show()
 
 
 def plot_pkg_doit(vt, axes, metric, graphL, do_ytitle):
@@ -226,8 +228,10 @@ def rename_metric(x):
     x0 = x
     
     x0 = x0.replace("LLC Miss Count", "LLC Miss")
+    x0 = x0.replace("Persistent Memory", "PMem")
     x0 = x0.replace("Count", "")
     x0 = x0.replace("Access", "")
+
 
     return x0
 
