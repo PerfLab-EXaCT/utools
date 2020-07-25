@@ -94,13 +94,13 @@ def plot_pkg(vt, graphL):
     colL2 = [
         'Loads',
         #'Stores',
+        'Average Latency (cycles)',
         'LLC Miss Count',
         'LLC Miss Count:Local DRAM Access Count',
         'LLC Miss Count:Remote DRAM Access Count',
         #'LLC Miss Count:Local Persistent Memory Access Count',
         #'LLC Miss Count:Remote Persistent Memory Access Count',
-        'LLC Miss Count:Remote Cache Access Count',
-        'Average Latency (cycles)'
+        'LLC Miss Count:Remote Cache Access Count'
     ]
    
     for kv in vt.dataL:
@@ -142,20 +142,21 @@ def plot_pkg_doit(vt, axes, metric, graphL, do_ytitle):
         dfrm = vt.dataH[metric]
 
         dfrm_scale_exp = None
+        txt_fmt = '.2g'
         txt_sz = txt_sz_heatmap
         txt_rot = 0
 
         dfrm_max = numpy.max(dfrm.to_numpy())
         #dfrm_md = numpy.median(dfrm.to_numpy())
         if (dfrm_max > 100):
-            dfrm_scale_exp = math.floor(math.log10(dfrm_max)) - 1
+            dfrm_scale_exp = math.floor(math.log10(dfrm_max)) - 2
             dfrm_scale = math.pow(10, dfrm_scale_exp)
-            print(dfrm_scale_exp, dfrm_scale)
             dfrm = dfrm.applymap(lambda x: x / dfrm_scale)
+            txt_fmt = '.3g'
             txt_sz = txt_sz_heatmap - 1
             txt_rot = 45
 
-        axes1 = plot(dfrm, axes, metric, graphL, txt_sz, txt_rot)
+        axes1 = plot(dfrm, axes, metric, graphL, txt_fmt, txt_sz, txt_rot)
 
         axes1.set_title(rename_metric(metric))
         if (dfrm_scale_exp):
@@ -202,12 +203,13 @@ def plot_fn(vt, graphL):
 
 #****************************************************************************
 
-def plot(dfrm, axes, name, graphL, txt_sz, txt_rot):
+def plot(dfrm, axes, name, graphL, txt_fmt, txt_sz, txt_rot):
     # axes = pyplt.axes(label=name)
 
-    axes = seaborn.heatmap(dfrm, ax=axes, annot=True, fmt='.2g', cmap="RdBu_r",
+    axes = seaborn.heatmap(dfrm, ax=axes, annot=True, cmap="RdBu_r",# coolwarm
+                           fmt=txt_fmt,
                            annot_kws={'size' : txt_sz,
-                                      'rotation' : txt_rot } ) # coolwarm
+                                      'rotation' : txt_rot } )
       # xticklabels
     axes.set_xticklabels(dfrm.columns, rotation=15, ha='right')
     #axes.set_xlabel('')
