@@ -119,34 +119,25 @@ def plot_pkg(vt, graphL):
 
     len_col1 = len(colL1)
     fig1, axesL1 = pyplt.subplots(nrows=1, ncols=(len_col1), figsize=(3.2*len_col1,3.0))
-
-    for i in range(len_col1):
-        axes = axesL1[i]
-        metric = colL1[i]
-        ytitle = 'Socket' if (i == 0) else None
-        plot_pkg_doit(vt, axes, metric, graphL, ytitle)
-
+    plot_pkg_doit(vt, axesL1, colL1, graphL)
+    fig1.tight_layout()
 
     len_col2 = len(colL2)
     fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(len_col2), figsize=(3.2*len_col2,3.0))
-    
-    for i in range(len_col2):
-        axes = axesL2[i]
-        metric = colL2[i]
-        ytitle = 'Socket' if (i == 0) else None
-        plot_pkg_doit(vt, axes, metric, graphL, ytitle)
-        
-    fig1.tight_layout()
+    plot_pkg_doit(vt, axesL2, colL2, graphL)
     fig2.tight_layout()
 
 
-def plot_pkg_doit(vt, axes, metric, graphL, ytitle):
-    dfrm = vt.dataH[metric]
+def plot_pkg_doit(vt, axesL, colL, graphL):
+    len_col = len(colL)
+    for i in range(len_col):
+        axes = axesL[i]
+        metric = colL[i]
+        ytitle = 'Socket' if (i == 0) else None
 
-    axes1 = plot(dfrm, axes, metric, graphL)
+        dfrm = vt.dataH[metric]
 
-    if (ytitle):
-        axes1.set_ylabel(ytitle)
+        axes1 = plot(dfrm, axes, metric, ytitle, graphL)
 
     pyplt.subplots_adjust(wspace = -0.05)
 
@@ -187,7 +178,7 @@ def plot_fn(vt, graphL):
 
 #****************************************************************************
 
-def plot(dfrm, axes, title, graphL): # txt_fmt, txt_sz, txt_rot
+def plot(dfrm, axes, title, ytitle, graphL):
     # axes = pyplt.axes(label=title)
 
     dfrm_scale_exp = None
@@ -210,6 +201,9 @@ def plot(dfrm, axes, title, graphL): # txt_fmt, txt_sz, txt_rot
                            annot_kws={'size' : txt_sz,
                                       'rotation' : txt_rot } )
 
+    if (ytitle):
+        axes.set_ylabel(ytitle)
+
     axes.set_xticklabels(dfrm.columns, rotation=15, ha='right')
     #axes.set_xlabel('')
 
@@ -226,6 +220,7 @@ def plot(dfrm, axes, title, graphL): # txt_fmt, txt_sz, txt_rot
     
     return axes
 
+#****************************************************************************
 
 def rename_metric(x):
     x0 = x
