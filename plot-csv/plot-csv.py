@@ -11,6 +11,8 @@ import os
 import sys
 #import argparse
 
+import collections
+
 import pandas
 import numpy
 import math
@@ -111,6 +113,7 @@ def main():
     vt2 = vtcsv.VTuneCSV(pathL2, group_by = 'csv')
     
     plot_pkg(vt1, graphL, metricL1, metricL2)
+    plot_fn(vt2, graphL, metricL1, metricL2)
     pyplt.show()
 
     
@@ -144,33 +147,29 @@ def plot_pkg(vt, graphL, colL1, colL2):
 
 #****************************************************************************
 
-def plot_fn(vt, graphL):
+def plot_fn(vt, graphL, colL1, colL2):
+
+    fnH = collections.OrderedDict( [
+        ('buildLocalMapCounter', ''),
+        ('std::_Rb_tree_insert_and_rebalance', ''),
+        ('max', ''),
+        ('_int_free', ''),
+        ('_int_malloc', ''),
+        ('_INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_wait_template<kmp_flag_64, (int)1, (bool)0, (bool)1>', ''),
+        ('__GI___libc_malloc', ''),
+        ('__gnu_cxx::new_allocator<double>::construct<double, double const&>', ''),
+        ('plm_analyzeClusters$omp$parallel_for@64', '')
+    ] )
+
+    print(fnH)
+    
+    
     #-------------------------------------------------------
     # 
     #-------------------------------------------------------
 
-    fnL = [ 'buildLocalMapCounter',
-            'std::_Rb_tree_insert_and_rebalance',
-            'max',
-            '_int_free',
-            '_int_malloc',
-            '_INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_wait_template<kmp_flag_64, (int)1, (bool)0, (bool)1>',
-            '__GI___libc_malloc',
-            '__gnu_cxx::new_allocator<double>::construct<double, double const&>',
-            'plm_analyzeClusters$omp$parallel_for@64' ]
-
-    colL1 = [ 'Memory Bound:L1 Bound(%)',
-              'Memory Bound:L2 Bound(%)',
-              'Memory Bound:L3 Bound(%)',
-              'Memory Bound:DRAM Bound(%)',
-              'Memory Bound:Store Bound(%)',
-              'Memory Bound:Persistent Memory Bound(%)'
-    ]
     
-    # col2 = [ 'Loads',
-    #          'Stores',
-    #          'LLC Miss Count']
-
+    
 
 #****************************************************************************
 
