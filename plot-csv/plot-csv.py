@@ -82,7 +82,7 @@ def main():
     #-------------------------------------------------------
 
     metricL1 = [
-        #('CPU Time', ''), ''),
+        #('CPU Time', ''),
         ('Average Latency (cycles)',    'Latency (cycles)'),
         #('Memory Bound(%)', ''), ''),
         ('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
@@ -93,6 +93,18 @@ def main():
         #('Memory Bound:Persistent Memory Bound(%)', 'PMem Bound (%)')
         ]
 
+    metricL1b = [
+        ('CPU Time', ''), # FIXME: need percent
+        ('Average Latency (cycles)',    'Latency (cycles)'),
+        #('Memory Bound(%)', ''), ''),
+        ('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
+        ('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
+        ('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
+        ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
+        #('Memory Bound:Store Bound(%)', 'Store Bound (%)')
+        #('Memory Bound:Persistent Memory Bound(%)', 'PMem Bound (%)')
+        ]
+    
     metricL2 = [
         ('Loads', ''),
         ('Stores', ''),
@@ -113,7 +125,7 @@ def main():
     vt2 = vtcsv.VTuneCSV(pathL2, group_by = 'csv')
     
     plot_pkg(vt1, graphL, metricL1, metricL2)
-    plot_fn (vt2, graphL, metricL1, metricL2)
+    plot_fn (vt2, graphL, metricL1b, metricL2)
     pyplt.show()
 
     
@@ -135,14 +147,14 @@ def plot_pkg(vt, graphL, metricL1, metricL2):
     num_metric1 = len(metricL1)
     fig1, axesL1 = pyplt.subplots(nrows=1, ncols=(num_metric1), figsize=(3.2*num_metric1,2.9))
     plot_row(vt, axesL1, metricL1, dfrm_pkg_xform(graphL), 'Socket', graphL)
-    pyplt.subplots_adjust(wspace=0.0)
-    fig1.tight_layout()
+    #pyplt.subplots_adjust(wspace=0.0)
+    fig1.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
 
     num_metric2 = len(metricL2)
     fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(num_metric2), figsize=(3.3*num_metric2,2.9))
     plot_row(vt, axesL2, metricL2, dfrm_pkg_xform(graphL), 'Socket', graphL)
-    pyplt.subplots_adjust(wspace=0.0)
-    fig2.tight_layout()
+    #pyplt.subplots_adjust(wspace=0.0)
+    fig2.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
 
 
 def dfrm_pkg_xform(graphL):
@@ -178,17 +190,15 @@ def plot_fn(vt, graphL, metricL1, metricL2):
 
     num_metric1 = len(metricL1)
     fig1, axesL1 = pyplt.subplots(nrows=1, ncols=(num_metric1), figsize=(3.4*num_metric1,3.2))
-    fig1.set_tight_layout(True)
     plot_row(vt, axesL1, metricL1, dfrm_fn_xform(functionH, graphL), 'Functions', graphL)
-    pyplt.subplots_adjust(wspace=0.0)
-    #fig1.tight_layout()
+    #pyplt.subplots_adjust(wspace=0.0)
+    fig1.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
 
     num_metric2 = len(metricL2)
     fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(num_metric2), figsize=(3.5*num_metric2,3.2))
-    fig2.set_tight_layout(True)
     plot_row(vt, axesL2, metricL2, dfrm_fn_xform(functionH, graphL), 'Functions', graphL)
-    pyplt.subplots_adjust(wspace=0.0)
-    #fig2.tight_layout()
+    #pyplt.subplots_adjust(wspace=0.0)
+    fig2.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
 
     
 def dfrm_fn_xform(functionH, graphL):
