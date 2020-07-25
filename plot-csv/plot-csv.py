@@ -41,6 +41,14 @@ def main():
     #assert(len(sys.argv) > 1)
     #csv_pathL = sys.argv[1:]
 
+    #-------------------------------------------------------
+    # 
+    #-------------------------------------------------------
+
+    graphL = ['orkut', 'friendster', 'moliere2016']
+    
+    #-------------------------------------------------------
+
     # './data/grappolo-vtune-profile-orkut-optane-appdirect-dram-pkg.csv',
     # './data/grappolo-vtune-profile-orkut-optane-appdirect-pmem-pkg.csv',
     # './data/grappolo-vtune-profile-friendster-optane-appdirect-dram-pkg.csv',
@@ -57,8 +65,6 @@ def main():
 
     path_pfx = './data/grappolo-vtune-profile-'
 
-    graphL = ['orkut', 'friendster', 'moliere2016']
-
     pathL1 = [
         [path_pfx + y + '-optane-appdirect-dram-pkg.csv',
          path_pfx + y + '-optane-appdirect-pmem-pkg.csv'] for y in graphL ]
@@ -71,21 +77,12 @@ def main():
 
     pathL2 = [x for pair in pathL2 for x in pair ]
 
-    vt1 = vtcsv.VTuneCSV(pathL1, group_by = 'csv')
-    vt2 = vtcsv.VTuneCSV(pathL2, group_by = 'csv')
-    
-    plot_pkg(vt1, graphL)
-    pyplt.show()
+    #-------------------------------------------------------
 
-    
-    
-#****************************************************************************
-
-def plot_pkg(vt, graphL):
-    colL1 = [
+    metricL1 = [
         #'CPU Time',
-        #'Memory Bound(%)',
         'Average Latency (cycles)',
+        #'Memory Bound(%)',
         'Memory Bound:L1 Bound(%)',
         'Memory Bound:L2 Bound(%)',
         'Memory Bound:L3 Bound(%)',
@@ -94,7 +91,7 @@ def plot_pkg(vt, graphL):
         #'Memory Bound:Persistent Memory Bound(%)',
         ]
 
-    colL2 = [
+    metricL2 = [
         'Loads',
         'Stores',
         #'LLC Miss Count',
@@ -104,7 +101,24 @@ def plot_pkg(vt, graphL):
         #'LLC Miss Count:Remote Persistent Memory Access Count',
         'LLC Miss Count:Remote Cache Access Count'
     ]
-   
+
+    
+    #-------------------------------------------------------
+    # 
+    #-------------------------------------------------------
+
+    vt1 = vtcsv.VTuneCSV(pathL1, group_by = 'csv')
+    vt2 = vtcsv.VTuneCSV(pathL2, group_by = 'csv')
+    
+    plot_pkg(vt1, graphL, metricL1, metricL2)
+    pyplt.show()
+
+    
+    
+#****************************************************************************
+
+def plot_pkg(vt, graphL, colL1, colL2):
+
     for kv in vt.dataL:
         dfrm = kv[1]
         dfrm.sort_index(axis=0, ascending=True, inplace=True)

@@ -279,4 +279,3 @@ if __name__ == "__main__":
     csv2 = VTuneCSV(csv_pathL, group_by = 'csv') # columnL = []
     print(csv2)
 
-
