@@ -133,13 +133,13 @@ def plot_pkg(vt, graphL, metricL1, metricL2):
     #-------------------------------------------------------
 
     num_metric1 = len(metricL1)
-    fig1, axesL1 = pyplt.subplots(nrows=1, ncols=(num_metric1), figsize=(3.3*num_metric1,3.0))
+    fig1, axesL1 = pyplt.subplots(nrows=1, ncols=(num_metric1), figsize=(3.2*num_metric1,2.9))
     plot_row(vt, axesL1, metricL1, dfrm_pkg_xform(graphL), 'Socket', graphL)
     pyplt.subplots_adjust(wspace=0.0)
     fig1.tight_layout()
 
     num_metric2 = len(metricL2)
-    fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(num_metric2), figsize=(3.4*num_metric2,3.0))
+    fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(num_metric2), figsize=(3.3*num_metric2,2.9))
     plot_row(vt, axesL2, metricL2, dfrm_pkg_xform(graphL), 'Socket', graphL)
     pyplt.subplots_adjust(wspace=0.0)
     fig2.tight_layout()
@@ -177,16 +177,18 @@ def plot_fn(vt, graphL, metricL1, metricL2):
     #-------------------------------------------------------
 
     num_metric1 = len(metricL1)
-    fig1, axesL1 = pyplt.subplots(nrows=1, ncols=(num_metric1), figsize=(3.3*num_metric1,3.0))
+    fig1, axesL1 = pyplt.subplots(nrows=1, ncols=(num_metric1), figsize=(3.4*num_metric1,3.2))
+    fig1.set_tight_layout(True)
     plot_row(vt, axesL1, metricL1, dfrm_fn_xform(functionH, graphL), 'Functions', graphL)
     pyplt.subplots_adjust(wspace=0.0)
-    fig1.tight_layout()
+    #fig1.tight_layout()
 
     num_metric2 = len(metricL2)
-    fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(num_metric2), figsize=(3.4*num_metric2,3.0))
+    fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(num_metric2), figsize=(3.5*num_metric2,3.2))
+    fig2.set_tight_layout(True)
     plot_row(vt, axesL2, metricL2, dfrm_fn_xform(functionH, graphL), 'Functions', graphL)
     pyplt.subplots_adjust(wspace=0.0)
-    fig2.tight_layout()
+    #fig2.tight_layout()
 
     
 def dfrm_fn_xform(functionH, graphL):
