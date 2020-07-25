@@ -82,28 +82,28 @@ def main():
     #-------------------------------------------------------
 
     metricL1 = [
-        #'CPU Time',
-        'Average Latency (cycles)',
-        #'Memory Bound(%)',
-        'Memory Bound:L1 Bound(%)',
-        'Memory Bound:L2 Bound(%)',
-        'Memory Bound:L3 Bound(%)',
-        'Memory Bound:DRAM Bound(%)',
-        'Memory Bound:Store Bound(%)',
-        #'Memory Bound:Persistent Memory Bound(%)',
+        #('CPU Time', ''), ''),
+        ('Average Latency (cycles)',    'Latency (cycles)'),
+        #('Memory Bound(%)', ''), ''),
+        ('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
+        ('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
+        ('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
+        ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
+        ('Memory Bound:Store Bound(%)', 'Store Bound (%)')
+        #('Memory Bound:Persistent Memory Bound(%)', 'PMem Bound (%)')
         ]
 
     metricL2 = [
-        'Loads',
-        'Stores',
-        #'LLC Miss Count',
-        'LLC Miss Count:Remote DRAM Access Count',
-        'LLC Miss Count:Local DRAM Access Count',
-        #'LLC Miss Count:Local Persistent Memory Access Count',
-        #'LLC Miss Count:Remote Persistent Memory Access Count',
-        'LLC Miss Count:Remote Cache Access Count'
-    ]
-
+        ('Loads', ''),
+        ('Stores', ''),
+        #('LLC Miss Count', 'LLC Miss'),
+        ('LLC Miss Count:Remote DRAM Access Count', 'LLC Miss:Remote DRAM'),
+        ('LLC Miss Count:Local DRAM Access Count',  'LLC Miss:Local DRAM'),
+        #('LLC Miss Count:Local Persistent Memory Access Count', 'LLC Miss:Local PMem'),
+        #('LLC Miss Count:Remote Persistent Memory Access Count', 'LLC Miss:Remote PMem'),
+        ('LLC Miss Count:Remote Cache Access Count', 'LLC Miss:Remote Cache')
+        ]
+    
     
     #-------------------------------------------------------
     # 
@@ -117,10 +117,9 @@ def main():
     pyplt.show()
 
     
-    
 #****************************************************************************
 
-def plot_pkg(vt, graphL, colL1, colL2):
+def plot_pkg(vt, graphL, metricL1, metricL2):
 
     for kv in vt.dataL:
         dfrm = kv[1]
@@ -133,21 +132,21 @@ def plot_pkg(vt, graphL, colL1, colL2):
     # 
     #-------------------------------------------------------
 
-    len_col1 = len(colL1)
-    fig1, axesL1 = pyplt.subplots(nrows=1, ncols=(len_col1), figsize=(3.2*len_col1,3.0))
-    plot_row(vt, axesL1, colL1, 'Socket', graphL)
+    num_metric1 = len(metricL1)
+    fig1, axesL1 = pyplt.subplots(nrows=1, ncols=(num_metric1), figsize=(3.2*num_metric1,3.0))
+    plot_row(vt, axesL1, metricL1, 'Socket', graphL)
     fig1.tight_layout()
 
-    len_col2 = len(colL2)
-    fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(len_col2), figsize=(3.2*len_col2,3.0))
-    plot_row(vt, axesL2, colL2, 'Socket', graphL)
+    num_metric2 = len(metricL2)
+    fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(num_metric2), figsize=(3.2*num_metric2,3.0))
+    plot_row(vt, axesL2, metricL2, 'Socket', graphL)
     fig2.tight_layout()
 
 
 
 #****************************************************************************
 
-def plot_fn(vt, graphL, colL1, colL2):
+def plot_fn(vt, graphL, metricL1, metricL2):
 
     fnH = collections.OrderedDict( [
         ('buildLocalMapCounter', ''),
@@ -161,7 +160,9 @@ def plot_fn(vt, graphL, colL1, colL2):
         ('plm_analyzeClusters$omp$parallel_for@64', '')
     ] )
 
-    print(fnH)
+    #metricL1 = metricH1(list(d.items()))
+    
+    #print(fnH)
     
     
     #-------------------------------------------------------
@@ -170,26 +171,23 @@ def plot_fn(vt, graphL, colL1, colL2):
 
     
     
-
 #****************************************************************************
 
-def plot_row(vt, axesL, colL, ytitle_txt, graphL):
-    len_col = len(colL)
-    for i in range(len_col):
+def plot_row(vt, axesL, metricL, ytitle_txt, graphL):
+    num_metric = len(metricL)
+    for i in range(num_metric):
         axes = axesL[i]
-        metric = colL[i]
+        metricPair = metricL[i]
         ytitle = ytitle_txt if (i == 0) else None
 
-        dfrm = vt.dataH[metric]
+        dfrm = vt.dataH[metricPair[0]]
 
-        axes1 = plot(dfrm, axes, metric, ytitle, graphL)
+        axes1 = plot(dfrm, axes, metricPair, ytitle, graphL)
 
     pyplt.subplots_adjust(wspace = -0.05)
 
 
-def plot(dfrm, axes, title, ytitle, graphL):
-    # axes = pyplt.axes(label=title)
-
+def plot(dfrm, axes, metricPair, ytitle, graphL):
     dfrm_scale_exp = None
     txt_fmt = '.2g'
     txt_sz = txt_sz_heatmap
@@ -225,21 +223,12 @@ def plot(dfrm, axes, title, ytitle, graphL):
         axes.text(1.04, 0.99, (r'$\times10^{%s}$' % dfrm_scale_exp),
                    transform=axes.transAxes, ha='left', va='bottom') # size=txt_sz_heatmap_scale
 
-    axes.set_title(rename_metric(title))
+    title_txt = metricPair[1] if (metricPair[1]) else metricPair[0]
+    axes.set_title(title_txt)
     
     return axes
 
 #****************************************************************************
-
-def rename_metric(x):
-    x0 = x
-    
-    x0 = x0.replace("LLC Miss Count", "LLC Miss")
-    x0 = x0.replace("Persistent Memory", "PMem")
-    x0 = x0.replace("Count", "")
-    x0 = x0.replace("Access", "")
-
-    return x0
 
     
 def rename_col(x, graphL):
