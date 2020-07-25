@@ -113,7 +113,7 @@ def main():
     vt2 = vtcsv.VTuneCSV(pathL2, group_by = 'csv')
     
     plot_pkg(vt1, graphL, metricL1, metricL2)
-    plot_fn(vt2, graphL, metricL1, metricL2)
+    plot_fn (vt2, graphL, metricL1, metricL2)
     pyplt.show()
 
     
@@ -121,73 +121,109 @@ def main():
 
 def plot_pkg(vt, graphL, metricL1, metricL2):
 
-    for kv in vt.dataL:
-        dfrm = kv[1]
-        dfrm.sort_index(axis=0, ascending=True, inplace=True)
-
-        dfrm.rename(index = (lambda x: x.replace("package_", "")), inplace=True)
-        dfrm.rename(columns = (lambda x: rename_col(x, graphL)), inplace=True)
+    # Massage 'vt' in-place
+    # for kv in vt.dataL:
+    #     dfrm = kv[1]
+    #     dfrm.sort_index(axis=0, ascending=True, inplace=True)
+    #     dfrm.rename(index = (lambda x: x.replace("package_", "")), inplace=True)
+    #     dfrm.rename(columns = (lambda x: rename_col(x, graphL)), inplace=True)
 
     #-------------------------------------------------------
     # 
     #-------------------------------------------------------
 
     num_metric1 = len(metricL1)
-    fig1, axesL1 = pyplt.subplots(nrows=1, ncols=(num_metric1), figsize=(3.2*num_metric1,3.0))
-    plot_row(vt, axesL1, metricL1, 'Socket', graphL)
+    fig1, axesL1 = pyplt.subplots(nrows=1, ncols=(num_metric1), figsize=(3.3*num_metric1,3.0))
+    plot_row(vt, axesL1, metricL1, dfrm_pkg_xform(graphL), 'Socket', graphL)
+    pyplt.subplots_adjust(wspace=0.0)
     fig1.tight_layout()
 
     num_metric2 = len(metricL2)
-    fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(num_metric2), figsize=(3.2*num_metric2,3.0))
-    plot_row(vt, axesL2, metricL2, 'Socket', graphL)
+    fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(num_metric2), figsize=(3.4*num_metric2,3.0))
+    plot_row(vt, axesL2, metricL2, dfrm_pkg_xform(graphL), 'Socket', graphL)
+    pyplt.subplots_adjust(wspace=0.0)
     fig2.tight_layout()
 
 
+def dfrm_pkg_xform(graphL):
+    def dfrm_pkg_xform1(dfrm):
+        dfrm.sort_index(axis=0, ascending=True, inplace=True)
+        dfrm.rename(index = (lambda x: x.replace("package_", "")), inplace=True)
+        dfrm.rename(columns = (lambda x: rename_col(x, graphL)), inplace=True)
+        return dfrm
+    return dfrm_pkg_xform1
+    
 
 #****************************************************************************
 
 def plot_fn(vt, graphL, metricL1, metricL2):
 
-    fnH = collections.OrderedDict( [
-        ('buildLocalMapCounter', ''),
-        ('std::_Rb_tree_insert_and_rebalance', ''),
-        ('max', ''),
-        ('_int_free', ''),
-        ('_int_malloc', ''),
-        ('_INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_wait_template<kmp_flag_64, (int)1, (bool)0, (bool)1>', ''),
-        ('__GI___libc_malloc', ''),
-        ('__gnu_cxx::new_allocator<double>::construct<double, double const&>', ''),
-        ('plm_analyzeClusters$omp$parallel_for@64', '')
+    functionH = collections.OrderedDict( [
+        ('buildLocalMapCounter', 'blmc'),
+        ('std::_Rb_tree_insert_and_rebalance', 'blmc->map'),
+        ('plm_analyzeClusters$omp$parallel_for@64', 'plm'),
+        ('max', 'max'),
+        ('_int_malloc', 'malloc'),
+        ('__GI___libc_malloc', 'malloc2'),
+        ('__gnu_cxx::new_allocator<double>::construct<double, double const&>', 'new'),
+        ('_int_free',   'free'),
+        ('_INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_wait_template<kmp_flag_64, (int)1, (bool)0, (bool)1>', 'omp')
     ] )
 
-    #metricL1 = metricH1(list(d.items()))
-    
-    #print(fnH)
-    
-    
+    #functionL = list(functionH.items())
+
     #-------------------------------------------------------
     # 
     #-------------------------------------------------------
 
+    num_metric1 = len(metricL1)
+    fig1, axesL1 = pyplt.subplots(nrows=1, ncols=(num_metric1), figsize=(3.3*num_metric1,3.0))
+    plot_row(vt, axesL1, metricL1, dfrm_fn_xform(functionH, graphL), 'Functions', graphL)
+    pyplt.subplots_adjust(wspace=0.0)
+    fig1.tight_layout()
+
+    num_metric2 = len(metricL2)
+    fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(num_metric2), figsize=(3.4*num_metric2,3.0))
+    plot_row(vt, axesL2, metricL2, dfrm_fn_xform(functionH, graphL), 'Functions', graphL)
+    pyplt.subplots_adjust(wspace=0.0)
+    fig2.tight_layout()
+
     
+def dfrm_fn_xform(functionH, graphL):
+    def dfrm_fn_xform1(dfrm):
+        functionLkey = functionH.keys()
+        dfrm = dfrm.loc[functionLkey]
+        dfrm.rename(index = functionH, inplace=True)
+        dfrm.rename(columns = (lambda x: rename_col(x, graphL)), inplace=True)
+        return dfrm
+    return dfrm_fn_xform1
+
     
 #****************************************************************************
 
-def plot_row(vt, axesL, metricL, ytitle_txt, graphL):
+def plot_row(vt, axesL, metricL, dfrm_xformF, ytitle_txt, graphL):
     num_metric = len(metricL)
     for i in range(num_metric):
         axes = axesL[i]
+
+        axes.margins(tight=True)
+
         metricPair = metricL[i]
         ytitle = ytitle_txt if (i == 0) else None
 
         dfrm = vt.dataH[metricPair[0]]
 
+        dfrm = dfrm_xformF(dfrm)
+
         axes1 = plot(dfrm, axes, metricPair, ytitle, graphL)
-
-    pyplt.subplots_adjust(wspace = -0.05)
-
+    
 
 def plot(dfrm, axes, metricPair, ytitle, graphL):
+
+    #-------------------------------------------------------
+    # Scale data values for nice formattting
+    #-------------------------------------------------------
+
     dfrm_scale_exp = None
     txt_fmt = '.2g'
     txt_sz = txt_sz_heatmap
@@ -203,28 +239,42 @@ def plot(dfrm, axes, metricPair, ytitle, graphL):
         txt_sz = txt_sz_heatmap - 1
         txt_rot = 45
 
-    axes = seaborn.heatmap(dfrm, ax=axes, annot=True, cmap="RdBu_r",# coolwarm
+    #-------------------------------------------------------
+    # 
+    #-------------------------------------------------------
+
+    do_y_lbl = True if (ytitle) else False
+    
+    axes = seaborn.heatmap(dfrm, ax=axes, annot=True,
+                           cbar=True, cmap="RdBu_r",# coolwarm
                            fmt=txt_fmt,
+                           yticklabels=do_y_lbl,
                            annot_kws={'size' : txt_sz,
                                       'rotation' : txt_rot } )
+
+    if (dfrm_scale_exp):
+        axes.text(1.05, 0.995, (r'$\times10^{%s}$' % dfrm_scale_exp),
+                   transform=axes.transAxes, ha='left', va='bottom') # size=txt_sz_heatmap_scale
+
+    #-------------------------------------------------------
+    # 
+    #-------------------------------------------------------
+
+    title_txt = metricPair[1] if (metricPair[1]) else metricPair[0]
+    axes.set_title(title_txt)
 
     if (ytitle):
         axes.set_ylabel(ytitle)
 
+    # correct x labels
     axes.set_xticklabels(dfrm.columns, rotation=15, ha='right')
-    #axes.set_xlabel('')
+    #for x in axes.get_xticklabels():
+    #    x.set_rotation(0)
 
     axes2 = axes.twiny() # twin y
     axes2_ticks = [ x/6 for x in list(range(1, len(dfrm.columns), 2)) ]
     axes2.set_xticks(axes2_ticks)
     axes2.set_xticklabels(graphL, rotation=0, ha='center')
-
-    if (dfrm_scale_exp):
-        axes.text(1.04, 0.99, (r'$\times10^{%s}$' % dfrm_scale_exp),
-                   transform=axes.transAxes, ha='left', va='bottom') # size=txt_sz_heatmap_scale
-
-    title_txt = metricPair[1] if (metricPair[1]) else metricPair[0]
-    axes.set_title(title_txt)
     
     return axes
 
@@ -238,6 +288,7 @@ def rename_col(x, graphL):
     
     x0 = x0.replace("grappolo-vtune-profile--optane-appdirect-", "")
     x0 = x0.replace("-pkg", "")
+    x0 = x0.replace("-fn", "")
     
     return x0
 
