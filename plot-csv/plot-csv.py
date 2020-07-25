@@ -123,8 +123,8 @@ def plot_pkg(vt, graphL):
     for i in range(len_col1):
         axes = axesL1[i]
         metric = colL1[i]
-        do_ytitle = (i == 0)
-        plot_pkg_doit(vt, axes, metric, graphL, do_ytitle)
+        ytitle = 'Socket' if (i == 0) else None
+        plot_pkg_doit(vt, axes, metric, graphL, ytitle)
 
 
     len_col2 = len(colL2)
@@ -133,20 +133,20 @@ def plot_pkg(vt, graphL):
     for i in range(len_col2):
         axes = axesL2[i]
         metric = colL2[i]
-        do_ytitle = (i == 0)
-        plot_pkg_doit(vt, axes, metric, graphL, do_ytitle)
+        ytitle = 'Socket' if (i == 0) else None
+        plot_pkg_doit(vt, axes, metric, graphL, ytitle)
         
     fig1.tight_layout()
     fig2.tight_layout()
 
 
-def plot_pkg_doit(vt, axes, metric, graphL, do_ytitle):
+def plot_pkg_doit(vt, axes, metric, graphL, ytitle):
     dfrm = vt.dataH[metric]
 
     axes1 = plot(dfrm, axes, metric, graphL)
 
-    if (do_ytitle):
-        axes1.set_ylabel('Socket')
+    if (ytitle):
+        axes1.set_ylabel(ytitle)
 
     pyplt.subplots_adjust(wspace = -0.05)
 
