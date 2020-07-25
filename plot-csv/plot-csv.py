@@ -141,36 +141,18 @@ def plot_pkg(vt, graphL):
 
 
 def plot_pkg_doit(vt, axes, metric, graphL, do_ytitle):
-        dfrm = vt.dataH[metric]
+    dfrm = vt.dataH[metric]
 
-        dfrm_scale_exp = None
-        txt_fmt = '.2g'
-        txt_sz = txt_sz_heatmap
-        txt_rot = 0
+    axes1 = plot(dfrm, axes, metric, graphL)
 
-        dfrm_max = numpy.max(dfrm.to_numpy())
-        #dfrm_md = numpy.median(dfrm.to_numpy())
-        if (dfrm_max > 100):
-            dfrm_scale_exp = math.floor(math.log10(dfrm_max)) - 2
-            dfrm_scale = math.pow(10, dfrm_scale_exp)
-            dfrm = dfrm.applymap(lambda x: x / dfrm_scale)
-            txt_fmt = '.3g'
-            txt_sz = txt_sz_heatmap - 1
-            txt_rot = 45
+    if (do_ytitle):
+        axes1.set_ylabel('Socket')
 
-        axes1 = plot(dfrm, axes, metric, graphL, txt_fmt, txt_sz, txt_rot)
+    pyplt.subplots_adjust(wspace = -0.05)
 
-        axes1.set_title(rename_metric(metric))
-        if (dfrm_scale_exp):
-            #axes1.annotate(("x1e%s" % dfrm_scale_exp), (0.9, 0.9))
-            axes1.text(1.04, 0.99, (r'$\times10^{%s}$' % dfrm_scale_exp),
-                       transform=axes1.transAxes, ha='left', va='bottom') # size=txt_sz_heatmap_scale
 
-        if (do_ytitle):
-            axes1.set_ylabel('Socket')
 
-        pyplt.subplots_adjust(wspace = -0.05)
-
+#****************************************************************************
 
 def plot_fn(vt, graphL):
     #-------------------------------------------------------
@@ -205,22 +187,43 @@ def plot_fn(vt, graphL):
 
 #****************************************************************************
 
-def plot(dfrm, axes, name, graphL, txt_fmt, txt_sz, txt_rot):
-    # axes = pyplt.axes(label=name)
+def plot(dfrm, axes, title, graphL): # txt_fmt, txt_sz, txt_rot
+    # axes = pyplt.axes(label=title)
+
+    dfrm_scale_exp = None
+    txt_fmt = '.2g'
+    txt_sz = txt_sz_heatmap
+    txt_rot = 0
+
+    dfrm_max = numpy.max(dfrm.to_numpy())
+    #dfrm_md = numpy.median(dfrm.to_numpy())
+    if (dfrm_max > 100):
+        dfrm_scale_exp = math.floor(math.log10(dfrm_max)) - 2
+        dfrm_scale = math.pow(10, dfrm_scale_exp)
+        dfrm = dfrm.applymap(lambda x: x / dfrm_scale)
+        txt_fmt = '.3g'
+        txt_sz = txt_sz_heatmap - 1
+        txt_rot = 45
 
     axes = seaborn.heatmap(dfrm, ax=axes, annot=True, cmap="RdBu_r",# coolwarm
                            fmt=txt_fmt,
                            annot_kws={'size' : txt_sz,
                                       'rotation' : txt_rot } )
-      # xticklabels
+
     axes.set_xticklabels(dfrm.columns, rotation=15, ha='right')
     #axes.set_xlabel('')
 
-    ax2 = axes.twiny() # twin y
-    ax2_ticks = [ x/6 for x in list(range(1, len(dfrm.columns), 2)) ]
-    ax2.set_xticks(ax2_ticks)
-    ax2.set_xticklabels(graphL, rotation=0, ha='center')
+    axes2 = axes.twiny() # twin y
+    axes2_ticks = [ x/6 for x in list(range(1, len(dfrm.columns), 2)) ]
+    axes2.set_xticks(axes2_ticks)
+    axes2.set_xticklabels(graphL, rotation=0, ha='center')
 
+    if (dfrm_scale_exp):
+        axes.text(1.04, 0.99, (r'$\times10^{%s}$' % dfrm_scale_exp),
+                   transform=axes.transAxes, ha='left', va='bottom') # size=txt_sz_heatmap_scale
+
+    axes.set_title(rename_metric(title))
+    
     return axes
 
 
@@ -232,15 +235,13 @@ def rename_metric(x):
     x0 = x0.replace("Count", "")
     x0 = x0.replace("Access", "")
 
-
     return x0
 
     
 def rename_col(x, graphL):
     x0 = x
 
-    for g in graphL:
-        x0 = x0.replace(g, "")
+    for g in graphL: x0 = x0.replace(g, "")
     
     x0 = x0.replace("grappolo-vtune-profile--optane-appdirect-", "")
     x0 = x0.replace("-pkg", "")
