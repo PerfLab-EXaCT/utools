@@ -124,8 +124,15 @@ def main():
     vt1 = vtcsv.VTuneCSV(pathL1, group_by = 'csv')
     vt2 = vtcsv.VTuneCSV(pathL2, group_by = 'csv')
     
-    plot_pkg(vt1, graphL, metricL1, metricL2)
-    plot_fn (vt2, graphL, metricL1b, metricL2)
+    (fig1a, fig1b) = plot_pkg(vt1, graphL, metricL1, metricL2)
+    (fig2a, fig2b) = plot_fn (vt2, graphL, metricL1b, metricL2)
+
+    fig1a.savefig("chart-grappolo-pkg-metric1.pdf", bbox_inches='tight')
+    fig1b.savefig("chart-grappolo-pkg-metric2.pdf", bbox_inches='tight')
+
+    fig2a.savefig("chart-grappolo-fn-metric1.pdf", bbox_inches='tight')
+    fig2b.savefig("chart-grappolo-fn-metric2.pdf", bbox_inches='tight')
+
     pyplt.show()
 
     
@@ -155,6 +162,8 @@ def plot_pkg(vt, graphL, metricL1, metricL2):
     plot_row(vt, axesL2, metricL2, dfrm_pkg_xform(graphL), 'Socket', graphL)
     #pyplt.subplots_adjust(wspace=0.0)
     fig2.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
+
+    return (fig1, fig2)
 
 
 def dfrm_pkg_xform(graphL):
@@ -199,6 +208,8 @@ def plot_fn(vt, graphL, metricL1, metricL2):
     plot_row(vt, axesL2, metricL2, dfrm_fn_xform(functionH, graphL), 'Functions', graphL)
     #pyplt.subplots_adjust(wspace=0.0)
     fig2.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
+
+    return (fig1, fig2)
 
     
 def dfrm_fn_xform(functionH, graphL):
