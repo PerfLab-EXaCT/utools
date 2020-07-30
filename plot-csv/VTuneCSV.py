@@ -161,7 +161,8 @@ class VTuneCSV():
         #    dfrm = dfrm.drop('[Unknown stack frame(s)]')
         #dfrm = dfrm.rename(lambda x: x.strip(" []").replace("Loop at line ", ""))
 
-        dfrm = dfrm.groupby(dfrm.index, sort = False).first()
+        # Remove duplicates
+        dfrm = dfrm.groupby(dfrm.index, sort = False).sum()
 
         #-------------------------------------------------------
         # Add "%" column

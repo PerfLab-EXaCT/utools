@@ -135,6 +135,8 @@ def main():
 
     pyplt.show()
 
+    #dfrm.sum(axis=1, skipna=None, level=None, numeric_only=None, min_count
+
     
 #****************************************************************************
 
