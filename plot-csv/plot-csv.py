@@ -94,7 +94,7 @@ def main():
         ]
 
     metricL1b = [
-        ('CPU Time', ''), # FIXME: need percent
+        ('CPU Time' + vtcsv.VTuneCSV.COL_PCT_SFX, ''),
         ('Average Latency (cycles)',    'Latency (cycles)'),
         #('Memory Bound(%)', ''), ''),
         ('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
@@ -122,7 +122,7 @@ def main():
     #-------------------------------------------------------
 
     vt1 = vtcsv.VTuneCSV(pathL1, group_by = 'csv')
-    vt2 = vtcsv.VTuneCSV(pathL2, group_by = 'csv')
+    vt2 = vtcsv.VTuneCSV(pathL2, group_by = 'csv', percentL = metricL1b[0][0])
     
     (fig1a, fig1b) = plot_pkg(vt1, graphL, metricL1, metricL2)
     (fig2a, fig2b) = plot_fn (vt2, graphL, metricL1b, metricL2)
@@ -134,8 +134,6 @@ def main():
     fig2b.savefig("chart-grappolo-fn-metric2.pdf", bbox_inches='tight')
 
     pyplt.show()
-
-    #dfrm.sum(axis=1, skipna=None, level=None, numeric_only=None, min_count
 
     
 #****************************************************************************

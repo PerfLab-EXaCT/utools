@@ -36,6 +36,9 @@ class VTuneCSV():
                For 'metric', 'None' means '<all>'
                For 'csv',    'None' means '<each>', i.e., one column/csv
                              '[]' means '<all>', i.e., all columns/csv
+
+    <percentL>: Make percent columns...
+
     """
 
     dataH = None
@@ -44,13 +47,15 @@ class VTuneCSV():
 
     index_name = None # rows are labeled by this column
 
-    data_col_sep = '/'
+    COL_SEP = '/'
+    COL_PCT_SFX = ' (%)'
 
     def __init__ (self,
                   csv_pathL,
                   group_by = 'metric',
                   indexL = None,
-                  columnL = None):
+                  columnL = None,
+                  percentL = None):
 
         self.dataH = { }
         self.dataL = [ ]
@@ -59,12 +64,17 @@ class VTuneCSV():
         if (not isinstance(csv_pathL, list)):
             csv_pathL = [csv_pathL]
 
+        if (percentL == None):
+            percentL = []
+        elif (not isinstance(percentL, list)):
+            percentL = [percentL]
+
         #-------------------------------------------------------
         # 
         #-------------------------------------------------------
 
         for csv_fnm in csv_pathL:
-            self.add_csv(csv_fnm, indexL, columnL)
+            self.add_csv(csv_fnm, indexL, columnL, percentL)
 
         #-------------------------------------------------------
         # finalize grouping
@@ -119,7 +129,7 @@ class VTuneCSV():
 
 
     
-    def add_csv(self, csv_fnm, indexL, columnL):
+    def add_csv(self, csv_fnm, indexL, columnL, percentL):
         if (not os.path.exists(csv_fnm)):
             print(("Skipping non-existent file: '%s'" % csv_fnm))
             return
@@ -133,23 +143,6 @@ class VTuneCSV():
 
         print(("*** %s: '%s' (%s)" % (type(self).__name__, csv_fnm, self.index_name)))
 
-        #-------------------------------------------------------
-        # Initialize data frames for 'csv'
-        #-------------------------------------------------------
-
-        if (self.group_by == 'csv'):
-
-            if (columnL == None):
-                colL = dfrm.columns
-            elif (len(columnL) == 0):
-                colL = [ '<all>' ]
-            else:
-                colL = columnL
-
-            if (not self.dataH):
-                for x in colL:
-                    self.dataH[x] = pandas.DataFrame()
-        
         #-------------------------------------------------------
         # Normalize
         #-------------------------------------------------------
@@ -167,7 +160,45 @@ class VTuneCSV():
         #-------------------------------------------------------
         # Add "%" column
         #-------------------------------------------------------
-        # FIXME:
+        # Works for
+        # - group_by 'csv' when no colL is specified
+
+        for col in percentL:
+            try:
+                col_idx = dfrm.columns.get_loc(col)
+            except (KeyError):
+                try:
+                    col = col.replace(self.COL_PCT_SFX, '')
+                    col_idx = dfrm.columns.get_loc(col)
+                except:
+                    sys.exit("Cannot find column '%s'" % col)
+
+            col_pct_idx = col_idx + 1
+            col_pct_nm = col + self.COL_PCT_SFX
+        
+            col_sum = dfrm[col].sum()
+        
+            dfrm.insert(loc = col_pct_idx,
+                        column = col_pct_nm,
+                        value = dfrm[col] / col_sum * 100.0)
+
+
+        #-------------------------------------------------------
+        # Initialize DataFrames for group_by 'csv'
+        #-------------------------------------------------------
+
+        if (self.group_by == 'csv'):
+
+            if (columnL == None):
+                colL = dfrm.columns
+            elif (len(columnL) == 0):
+                colL = [ '<all>' ]
+            else:
+                colL = columnL
+
+            if (not self.dataH):
+                for x in colL:
+                    self.dataH[x] = pandas.DataFrame()
 
         #-------------------------------------------------------
         # Select rows
@@ -187,14 +218,14 @@ class VTuneCSV():
                 dfrm = dfrm[columnL]
 
         #-------------------------------------------------------
-        # Select columns and add
+        # Select columns for final DataFrame
         #-------------------------------------------------------
 
         if (self.group_by == 'csv'):
             for key0, dfrm0 in self.dataH.items():
                 if (key0 == '<all>'):
                     dfrm_new = dfrm
-                    dfrm_new.columns = [(csv_nm + self.data_col_sep + x) for x in dfrm.columns]
+                    dfrm_new.columns = [(csv_nm + self.COL_SEP + x) for x in dfrm.columns]
                 else:
                     dfrm_new = dfrm[[key0]]
                     dfrm_new.columns = [ csv_nm ]
@@ -258,7 +289,7 @@ def my_sort_keyval(kv):
 def my_sort_key(key):
     assert(isinstance(key, str))
 
-    splitL = key.split(VTuneCSV.data_col_sep)
+    splitL = key.split(VTuneCSV.COL_SEP)
     
     try:
         return int(splitL[0])
