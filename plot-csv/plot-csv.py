@@ -93,8 +93,9 @@ def main():
         #('Memory Bound:Persistent Memory Bound(%)', 'PMem Bound (%)')
         ]
 
+    makeColL = [ ('CPU Time', 'CPU Time (%)', 'percent') ]
     metricL1b = [
-        ('CPU Time' + vtcsv.VTuneCSV.COL_PCT_SFX, ''),
+        (makeColL[0][1], ''),
         ('Average Latency (cycles)',    'Latency (cycles)'),
         #('Memory Bound(%)', ''), ''),
         ('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
@@ -122,7 +123,7 @@ def main():
     #-------------------------------------------------------
 
     vt1 = vtcsv.VTuneCSV(pathL1, group_by = 'csv')
-    vt2 = vtcsv.VTuneCSV(pathL2, group_by = 'csv', percentL = metricL1b[0][0])
+    vt2 = vtcsv.VTuneCSV(pathL2, group_by = 'csv', makeColL = makeColL)
     
     (fig1a, fig1b) = plot_pkg(vt1, graphL, metricL1, metricL2)
     (fig2a, fig2b) = plot_fn (vt2, graphL, metricL1b, metricL2)

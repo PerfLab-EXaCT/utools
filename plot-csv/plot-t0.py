@@ -13,6 +13,19 @@ percent_cutoff = 0.05
 
 #****************************************************************************
 
+def main():
+    #assert(len(sys.argv) > 1)
+    #csv_pathL = sys.argv[1:]
+
+    csv_pathL = [ './data0/advanced-hotspots.csv',
+                  './data0/progression/1696.csv' ]
+
+    for path in csv_pathL:
+        plot_pie(path)
+        plt.show()
+
+#****************************************************************************
+
 def plot_pie(csv_path):
     """
     Plot a donut graph representing in which loops time is being spent
@@ -42,9 +55,5 @@ def plot_pie(csv_path):
 
 #****************************************************************************
 
-for i in range(1,len(sys.argv)):
-    if (not os.path.exists(sys.argv[i])):
-        print("File %s not found" % csv_name)
-        quit()
-    plot_pie(sys.argv[i])
-    plt.show()
+if (__name__ == "__main__"):
+    sys.exit(main())

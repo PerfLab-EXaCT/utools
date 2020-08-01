@@ -37,8 +37,8 @@ class VTuneCSV():
                For 'csv',    'None' means '<each>', i.e., one column/csv
                              '[]' means '<all>', i.e., all columns/csv
 
-    <percentL>: Make percent columns...
-
+    <makeColL>: Make new columns. List of (source-col, new-col, 'percent')
+                (TODO: abstract to function)
     """
 
     dataH = None
@@ -48,14 +48,13 @@ class VTuneCSV():
     index_name = None # rows are labeled by this column
 
     COL_SEP = '/'
-    COL_PCT_SFX = ' (%)'
 
     def __init__ (self,
                   csv_pathL,
                   group_by = 'metric',
                   indexL = None,
                   columnL = None,
-                  percentL = None):
+                  makeColL = None):
 
         self.dataH = { }
         self.dataL = [ ]
@@ -64,17 +63,17 @@ class VTuneCSV():
         if (not isinstance(csv_pathL, list)):
             csv_pathL = [csv_pathL]
 
-        if (percentL == None):
-            percentL = []
-        elif (not isinstance(percentL, list)):
-            percentL = [percentL]
+        if (makeColL == None):
+            makeColL = []
+        elif (not isinstance(makeColL, list)):
+            makeColL = [makeColL]
 
         #-------------------------------------------------------
         # 
         #-------------------------------------------------------
 
         for csv_fnm in csv_pathL:
-            self.add_csv(csv_fnm, indexL, columnL, percentL)
+            self.add_csv(csv_fnm, indexL, columnL, makeColL)
 
         #-------------------------------------------------------
         # finalize grouping
@@ -129,7 +128,7 @@ class VTuneCSV():
 
 
     
-    def add_csv(self, csv_fnm, indexL, columnL, percentL):
+    def add_csv(self, csv_fnm, indexL, columnL, makeColL):
         if (not os.path.exists(csv_fnm)):
             print(("Skipping non-existent file: '%s'" % csv_fnm))
             return
@@ -158,29 +157,28 @@ class VTuneCSV():
         dfrm = dfrm.groupby(dfrm.index, sort = False).sum()
 
         #-------------------------------------------------------
-        # Add "%" column
+        # Make new columns
         #-------------------------------------------------------
         # Works for
         # - group_by 'csv' when no colL is specified
 
-        for col in percentL:
-            try:
-                col_idx = dfrm.columns.get_loc(col)
-            except (KeyError):
-                try:
-                    col = col.replace(self.COL_PCT_SFX, '')
-                    col_idx = dfrm.columns.get_loc(col)
-                except:
-                    sys.exit("Cannot find column '%s'" % col)
+        for makeTuple in makeColL:
+            col_src = makeTuple[0]
+            col_dst = makeTuple[1]
+            col_ty =  makeTuple[2]
 
-            col_pct_idx = col_idx + 1
-            col_pct_nm = col + self.COL_PCT_SFX
-        
-            col_sum = dfrm[col].sum()
-        
-            dfrm.insert(loc = col_pct_idx,
-                        column = col_pct_nm,
-                        value = dfrm[col] / col_sum * 100.0)
+            col_src_i = dfrm.columns.get_loc(col_src)
+            # except: sys.exit("Cannot find column '%s'" % col)
+
+            col_dst_i = col_src_i + 1
+
+            assert(col_ty == 'percent')
+                
+            col_sum = dfrm[col_src].sum()
+            
+            dfrm.insert(loc = col_dst_i,
+                        column = col_dst,
+                        value = dfrm[col_src] / col_sum * 100.0)
 
 
         #-------------------------------------------------------
