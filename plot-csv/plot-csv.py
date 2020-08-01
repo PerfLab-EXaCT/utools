@@ -153,16 +153,12 @@ def plot_pkg(vt, graphL, metricL1, metricL2):
     #-------------------------------------------------------
 
     num_metric1 = len(metricL1)
-    fig1, axesL1 = pyplt.subplots(nrows=1, ncols=(num_metric1), figsize=(3.2*num_metric1,2.9))
-    plot_row(vt, axesL1, metricL1, dfrm_pkg_xform(graphL), 'Socket', graphL)
-    #pyplt.subplots_adjust(wspace=0.0)
-    fig1.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
+    fig1, axesL1 = pyplt.subplots(nrows=1, ncols=(num_metric1), figsize=(3.3*num_metric1,1.8))
+    plot_row(vt, fig1, axesL1, metricL1, dfrm_pkg_xform(graphL), 'Socket', graphL)
 
     num_metric2 = len(metricL2)
-    fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(num_metric2), figsize=(3.3*num_metric2,2.9))
-    plot_row(vt, axesL2, metricL2, dfrm_pkg_xform(graphL), 'Socket', graphL)
-    #pyplt.subplots_adjust(wspace=0.0)
-    fig2.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
+    fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(num_metric2), figsize=(3.5*num_metric2,1.8))
+    plot_row(vt, fig2, axesL2, metricL2, dfrm_pkg_xform(graphL), 'Socket', graphL)
 
     return (fig1, fig2)
 
@@ -183,13 +179,13 @@ def plot_fn(vt, graphL, metricL1, metricL2):
     functionH = collections.OrderedDict( [
         ('buildLocalMapCounter', 'blmc'),
         ('std::_Rb_tree_insert_and_rebalance', 'blmc->map'),
-        ('plm_analyzeClusters$omp$parallel_for@64', 'plm'),
         ('max', 'max'),
+        ('_INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_wait_template<kmp_flag_64, (int)1, (bool)0, (bool)1>', 'omp'),
+        ('plm_analyzeClusters$omp$parallel_for@64', 'plm'),
         ('_int_malloc', 'malloc'),
         ('__GI___libc_malloc', 'malloc2'),
-        ('__gnu_cxx::new_allocator<double>::construct<double, double const&>', 'new'),
-        ('_int_free',   'free'),
-        ('_INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_wait_template<kmp_flag_64, (int)1, (bool)0, (bool)1>', 'omp')
+        #('__gnu_cxx::new_allocator<double>::construct<double, double const&>', 'new'),
+        ('_int_free',   'free')
     ] )
 
     #functionL = list(functionH.items())
@@ -199,16 +195,12 @@ def plot_fn(vt, graphL, metricL1, metricL2):
     #-------------------------------------------------------
 
     num_metric1 = len(metricL1)
-    fig1, axesL1 = pyplt.subplots(nrows=1, ncols=(num_metric1), figsize=(3.4*num_metric1,3.2))
-    plot_row(vt, axesL1, metricL1, dfrm_fn_xform(functionH, graphL), 'Functions', graphL)
-    #pyplt.subplots_adjust(wspace=0.0)
-    fig1.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
+    fig1, axesL1 = pyplt.subplots(nrows=1, ncols=(num_metric1), figsize=(3.3*num_metric1,2.7))
+    plot_row(vt, fig1, axesL1, metricL1, dfrm_fn_xform(functionH, graphL), 'Functions', graphL)
 
     num_metric2 = len(metricL2)
-    fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(num_metric2), figsize=(3.5*num_metric2,3.2))
-    plot_row(vt, axesL2, metricL2, dfrm_fn_xform(functionH, graphL), 'Functions', graphL)
-    #pyplt.subplots_adjust(wspace=0.0)
-    fig2.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
+    fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(num_metric2), figsize=(3.4*num_metric2,2.7))
+    plot_row(vt, fig2, axesL2, metricL2, dfrm_fn_xform(functionH, graphL), 'Functions', graphL)
 
     return (fig1, fig2)
 
@@ -225,7 +217,7 @@ def dfrm_fn_xform(functionH, graphL):
     
 #****************************************************************************
 
-def plot_row(vt, axesL, metricL, dfrm_xformF, ytitle_txt, graphL):
+def plot_row(vt, fig, axesL, metricL, dfrm_xformF, ytitle_txt, graphL):
     num_metric = len(metricL)
     for i in range(num_metric):
         axes = axesL[i]
@@ -240,9 +232,13 @@ def plot_row(vt, axesL, metricL, dfrm_xformF, ytitle_txt, graphL):
         dfrm = dfrm_xformF(dfrm)
 
         axes1 = plot(dfrm, axes, metricPair, ytitle, graphL)
+
+    fig.subplots_adjust(left=0.02, right=0.98, bottom=0.01, top=0.99,
+                        wspace=0.02, hspace=0.0)
+    #fig.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
     
 
-def plot(dfrm, axes, metricPair, ytitle, graphL):
+def plot(dfrm, axes, metricPair, ytitle, xticks2L = None):
 
     #-------------------------------------------------------
     # Scale data values for nice formattting
@@ -260,8 +256,8 @@ def plot(dfrm, axes, metricPair, ytitle, graphL):
         dfrm_scale = math.pow(10, dfrm_scale_exp)
         dfrm = dfrm.applymap(lambda x: x / dfrm_scale)
         txt_fmt = '.3g'
-        txt_sz = txt_sz_heatmap - 1
-        txt_rot = 45
+        #txt_sz = txt_sz_heatmap + 1
+        txt_rot = 40
 
     #-------------------------------------------------------
     # 
@@ -277,7 +273,7 @@ def plot(dfrm, axes, metricPair, ytitle, graphL):
                                       'rotation' : txt_rot } )
 
     if (dfrm_scale_exp):
-        axes.text(1.05, 0.995, (r'$\times10^{%s}$' % dfrm_scale_exp),
+        axes.text(1.06, 0.997, (r'$\times10^{%s}$' % dfrm_scale_exp),
                    transform=axes.transAxes, ha='left', va='bottom') # size=txt_sz_heatmap_scale
 
     #-------------------------------------------------------
@@ -295,16 +291,24 @@ def plot(dfrm, axes, metricPair, ytitle, graphL):
     #for x in axes.get_xticklabels():
     #    x.set_rotation(0)
 
-    axes2 = axes.twiny() # twin y
-    axes2_ticks = [ x/6 for x in list(range(1, len(dfrm.columns), 2)) ]
-    axes2.set_xticks(axes2_ticks)
-    axes2.set_xticklabels(graphL, rotation=0, ha='center')
+    #-------------------------------------------------------
+    # Secondary X labels
+    #-------------------------------------------------------
+    if (xticks2L):
+        n_x1 = len(dfrm.columns)
+        n_x2 = len(xticks2L)
+        skip_x2 = int(n_x1 / n_x2)
+
+        axes2 = axes.twiny() # twin y
+        axes2_ticks = [ (x/n_x1) for x in list(range(1, n_x1, skip_x2)) ]
+        axes2.set_xticks(axes2_ticks)
+        axes2.set_xticklabels(xticks2L, rotation=0, ha='center')
     
     return axes
 
 #****************************************************************************
 
-    
+
 def rename_col(x, graphL):
     x0 = x
 
