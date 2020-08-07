@@ -13,6 +13,8 @@ import sys
 # https://pandas.pydata.org
 import pandas
 
+#import matplotlib.pyplot as pyplt
+
 
 #****************************************************************************
 #
@@ -247,38 +249,68 @@ class VTuneCSV():
 
 
     def plot(self, kind, xlabel = ''):
-
-        import matplotlib.pyplot as plt
-        import seaborn as sns
-
+        import matplotlib.pyplot as pyplt
+        
         # if (dfrm.group_by == 'csv'):
         #     xlabel = 'CSV names'
         # elif (dfrm.group_by == 'metric'):
         # else:
         #     sys.exit("Bad group_by! %s" % dfrm.group_by)
 
-        for kv in self.dataL:
+        (t, dfrm0) = self.dataL[0]
+        dfrm0_ncol = len(dfrm0.columns)
+        #dfrm0_nrow = len(dfrm0.columns)
+
+        n_axes = len(self.dataL)
+        w_axis = (0.5 * dfrm0_ncol + 1.0)
+        w_fig = 2.5 + w_axis + (n_axes - 1) * w_axis
+        
+        (fig, axesL) = pyplt.subplots(nrows=1, ncols=n_axes, figsize=(w_fig, 20))
+
+        for i in range(len(self.dataL)):
+        #for kv in self.dataL:
+            kv = self.dataL[i]
             title = kv[0]
             dfrm = kv[1]
 
-            axes = None
+            dfrm = dfrm.rename(index = (lambda x: x[0:30]))
+
+            axes = axesL[i]
 
             if (kind == 'heat'):
-                axes = sns.heatmap(dfrm, annot=True, cmap="RdBu_r") # coolwarm
+                do_yticks = True if (i == 0) else False
+                plot_heat(dfrm, axes, title, do_yticks)
             else:
                 dfrm_plot = dfrm.transpose()
 
-                axes = dfrm_plot.plot(kind = kind)
-
+                dfrm_plot.plot(kind = kind, ax=axes)
+ 
                 axes.set_xticklabels(axes.get_xticklabels(), rotation='vertical')
                 axes.set_xlabel(xlabel)
 
                 axes.set_ylabel(title)
 
-            return axes
+        fig.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.1)
+        pyplt.show()
+        return (fig, axesL)
 
 
+def plot_heat(dfrm, axes, title, do_yticks):
+    import seaborn
 
+    axes = seaborn.heatmap(dfrm, ax=axes, annot=True,
+                           cbar=True, cmap="RdBu_r", # coolwarm
+                           yticklabels=do_yticks)
+
+    if (len(dfrm.columns) == 1):
+        axes.set_xticklabels([title], rotation=25, ha='right')
+    else:
+        axes.set_title(title)
+        axes.set_xticklabels(dfrm.columns, rotation=25, ha='right')
+
+    return axes
+
+        
 def my_sort_keyval(kv):
     key = kv[0]
     return my_sort_key(key)
@@ -309,3 +341,5 @@ if __name__ == "__main__":
     csv2 = VTuneCSV(csv_pathL, group_by = 'csv') # columnL = []
     print(csv2)
 
+    csv2.plot('heat')
+    #csv2.plot('line')
