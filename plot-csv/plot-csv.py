@@ -162,14 +162,14 @@ def main():
     vt3 = vtcsv.VTuneCSV(pathL3, group_by = 'csv')
     vt4 = vtcsv.VTuneCSV(pathL4, group_by = 'csv', makeColL = makeColL)
     
-    (fig3a, fig3b) = plot_pkg(vt3, graphL, metricL1, metricL2)
-    (fig4a, fig4b) = plot_fn (vt4, graphL, metricL1b, metricL2)
+    (fig3a, fig3b) = plot_pkg(vt3, graphL_k, metricL1, metricL2)
+    (fig4a, fig4b) = plot_fn (vt4, graphL_k, metricL1b, metricL2)
 
-    # fig3a.savefig("chart-grappolo-kdax-pkg-metric1.pdf", bbox_inches='tight')
-    # fig3b.savefig("chart-grappolo-kdax-pkg-metric2.pdf", bbox_inches='tight')
+    fig3a.savefig("chart-grappolo-kdax-pkg-metric1.pdf", bbox_inches='tight')
+    fig3b.savefig("chart-grappolo-kdax-pkg-metric2.pdf", bbox_inches='tight')
 
-    # fig4a.savefig("chart-grappolo-kdax-fn-metric1.pdf", bbox_inches='tight')
-    # fig4b.savefig("chart-grappolo-kdax-fn-metric2.pdf", bbox_inches='tight')
+    fig4a.savefig("chart-grappolo-kdax-fn-metric1.pdf", bbox_inches='tight')
+    fig4b.savefig("chart-grappolo-kdax-fn-metric2.pdf", bbox_inches='tight')
 
     pyplt.show()
 
@@ -351,7 +351,7 @@ def rename_col(x, graphL):
 
     for g in graphL: x0 = x0.replace(g, "")
     
-    x0 = x0.replace("grappolo-vtune-profile-appdirect-", "")
+    x0 = x0.replace("grappolo-vtune-profile--appdirect-", "") # not a typo!
     x0 = x0.replace("-pkg", "")
     x0 = x0.replace("-fn", "")
     
