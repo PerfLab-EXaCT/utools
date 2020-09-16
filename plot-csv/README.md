@@ -43,6 +43,12 @@ Example
 
 ```
 myL=(
+  grappolo-vtune-profile-clueweb12-appdirect-pmem
+  grappolo-vtune-profile-friendster-appdirect-pmem
+  grappolo-vtune-profile-uk2014-appdirect-pmem
+)
+
+myL=(
   grappolo-vtune-profile-friendster-optane-appdirect-dram
   grappolo-vtune-profile-friendster-optane-appdirect-pmem
   grappolo-vtune-profile-moliere2016-optane-appdirect-dram
@@ -51,13 +57,13 @@ myL=(
   grappolo-vtune-profile-orkut-optane-appdirect-pmem
 )
 
-for dir in "${myL[@]}" ; do
-  out1="${dir}-fn.csv"
-  out2="${dir}-pkg.csv"
-  printf "${dir} --> ${out1}\n"
-  vtune_cmd="vtune -report hotspots -format csv -csv-delimiter comma -result-dir \"${dir}\""
-  ${vtune_cmd} -report-output "${out1}"
-  ${vtune_cmd} -report-output "${out2} -group-by=package"
+for path in "${myL[@]}" ; do
+  out1="${path}-fn.csv"
+  out2="${path}-pkg.csv"
+  printf "${path} --> ${out1}\n"
+  vtune_cmd='vtune -report hotspots -format csv -csv-delimiter comma -result-dir'
+  ${vtune_cmd} "${path}" -report-output "${out1}"
+  ${vtune_cmd} "${path}" -report-output "${out2}" -group-by=package
 done
 ```
 
