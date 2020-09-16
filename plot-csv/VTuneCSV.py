@@ -264,8 +264,10 @@ class VTuneCSV():
         n_axes = len(self.dataL)
         w_axis = (0.5 * dfrm0_ncol + 1.0)
         w_fig = 2.5 + w_axis + (n_axes - 1) * w_axis
-        
+
         (fig, axesL) = pyplt.subplots(nrows=1, ncols=n_axes, figsize=(w_fig, 20))
+        if (not isinstance(axesL, list)):
+            axesL = [axesL] # true when n_axes == 1
 
         for i in range(len(self.dataL)):
         #for kv in self.dataL:

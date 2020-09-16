@@ -1,9 +1,10 @@
 -*-Mode: markdown;-*-
 -----------------------------------------------------------------------------
 
-
 Using
 =============================================================================
+
+0. Obtain VTune report (as .csv)
 
 ```
 vtune -report hotspots -format csv -csv-delimiter comma \
@@ -14,16 +15,31 @@ vtune -report hotspots -format csv -csv-delimiter comma \
 ```
 
 
+1. View raw data:
+
 ```sh
-./VtuneCSV.py ./data/*.csv
+./VtuneCSV.py <csv-file>
+```
 
+2. Plot
+
+```sh
 ./plot-csv.py # ./data
+```
 
+Tests
+=============================================================================
+
+```sh
 ./plot-t0.py # ./data0/advanced-hotspots.csv
 ./plot-t1.py # ./data0/progression/*.csv
 ```
 
------------------------------------------------------------------------------
+
+Example
+=============================================================================
+
+0. Obtain VTune report (as .csv)
 
 ```
 myL=(
@@ -43,6 +59,12 @@ for dir in "${myL[@]}" ; do
   ${vtune_cmd} -report-output "${out1}"
   ${vtune_cmd} -report-output "${out2} -group-by=package"
 done
+```
+
+1. Plot
+
+```sh
+./plot-csv.py # ./data
 ```
 
 
