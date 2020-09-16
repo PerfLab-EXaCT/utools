@@ -336,6 +336,7 @@ def plot(dfrm, axes, metricPair, ytitle, xticks2L = None):
         n_x2 = len(xticks2L)
         skip_x2 = int(n_x1 / n_x2)
 
+        print(n_x1, n_x2, skip_x2)
         axes2 = axes.twiny() # twin y
         axes2_ticks = [ (x/n_x1) for x in list(range(1, n_x1, skip_x2)) ]
         axes2.set_xticks(axes2_ticks)
