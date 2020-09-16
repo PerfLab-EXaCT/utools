@@ -49,12 +49,12 @@ myL=(
 )
 
 myL=(
-  grappolo-vtune-profile-friendster-optane-appdirect-dram
-  grappolo-vtune-profile-friendster-optane-appdirect-pmem
-  grappolo-vtune-profile-moliere2016-optane-appdirect-dram
-  grappolo-vtune-profile-moliere2016-optane-appdirect-pmem
-  grappolo-vtune-profile-orkut-optane-appdirect-dram
-  grappolo-vtune-profile-orkut-optane-appdirect-pmem
+  grappolo-vtune-profile-friendster-appdirect-dram
+  grappolo-vtune-profile-friendster-appdirect-pmem
+  grappolo-vtune-profile-moliere2016-appdirect-dram
+  grappolo-vtune-profile-moliere2016-appdirect-pmem
+  grappolo-vtune-profile-orkut-appdirect-dram
+  grappolo-vtune-profile-orkut-appdirect-pmem
 )
 
 for path in "${myL[@]}" ; do

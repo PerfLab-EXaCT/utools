@@ -42,26 +42,6 @@ def main():
     
     #assert(len(sys.argv) > 1)
     #csv_pathL = sys.argv[1:]
-
-    #-------------------------------------------------------
-    # grappolo-kmem-dax
-    #-------------------------------------------------------
-
-    # grappolo-vtune-profile-friendster-appdirect-pmem-fn.csv
-    # grappolo-vtune-profile-friendster-appdirect-pmem-pkg.csv
-    # grappolo-vtune-profile-clueweb12-appdirect-pmem-fn.csv
-    # grappolo-vtune-profile-clueweb12-appdirect-pmem-pkg.csv
-    # grappolo-vtune-profile-uk2014-appdirect-pmem-fn.csv
-    # grappolo-vtune-profile-uk2014-appdirect-pmem-pkg.csv
-
-    graphL = ['friendster', 'clueweb12', 'uk2014']
-
-    path_pfx = './grappolo-kmem-dax/grappolo-vtune-profile-'
-
-    pathL3 = [
-        [path_pfx + x + '-appdirect-dram-pkg.csv',
-         path_pfx + x + '-appdirect-pmem-pkg.csv'] for x in graphL ]
-
     
     #-------------------------------------------------------
     # grappolo-pmem-dax
@@ -89,14 +69,37 @@ def main():
         [path_pfx + x + '-appdirect-dram-pkg.csv',
          path_pfx + x + '-appdirect-pmem-pkg.csv'] for x in graphL ]
 
-    pathL1 = [x for pair in pathL1 for x in pair ]
+    pathL1 = [x for pair in pathL1 for x in pair ] # flatten
 
     pathL2 = [
         [path_pfx + x + '-appdirect-dram-fn.csv',
          path_pfx + x + '-appdirect-pmem-fn.csv'] for x in graphL ]
 
-    pathL2 = [x for pair in pathL2 for x in pair ]
+    pathL2 = [x for pair in pathL2 for x in pair ] # flatten
 
+    
+    #-------------------------------------------------------
+    # grappolo-kmem-dax
+    #-------------------------------------------------------
+
+    # grappolo-vtune-profile-friendster-appdirect-pmem-pkg.csv
+    # grappolo-vtune-profile-clueweb12-appdirect-pmem-pkg.csv
+    # grappolo-vtune-profile-uk2014-appdirect-pmem-pkg.csv
+
+    # grappolo-vtune-profile-friendster-appdirect-pmem-fn.csv
+    # grappolo-vtune-profile-clueweb12-appdirect-pmem-fn.csv
+    # grappolo-vtune-profile-uk2014-appdirect-pmem-fn.csv
+
+
+    graphL_k = ['friendster', 'clueweb12', 'uk2014']
+
+    path_pfx_k = './grappolo-kmem-dax/grappolo-vtune-profile-'
+
+    pathL3 = [path_pfx_k + x + '-appdirect-pmem-pkg.csv' for x in graphL_k ]
+
+    pathL4 = [path_pfx_k + x + '-appdirect-pmem-fn.csv' for x in graphL_k ]
+
+    
     #-------------------------------------------------------
 
     metricL1 = [
@@ -137,7 +140,7 @@ def main():
     
     
     #-------------------------------------------------------
-    # 
+    # pmem-dax
     #-------------------------------------------------------
 
     vt1 = vtcsv.VTuneCSV(pathL1, group_by = 'csv')
@@ -146,11 +149,27 @@ def main():
     (fig1a, fig1b) = plot_pkg(vt1, graphL, metricL1, metricL2)
     (fig2a, fig2b) = plot_fn (vt2, graphL, metricL1b, metricL2)
 
-    fig1a.savefig("chart-grappolo-pkg-metric1.pdf", bbox_inches='tight')
-    fig1b.savefig("chart-grappolo-pkg-metric2.pdf", bbox_inches='tight')
+    fig1a.savefig("chart-grappolo-pdax-pkg-metric1.pdf", bbox_inches='tight')
+    fig1b.savefig("chart-grappolo-pdax-pkg-metric2.pdf", bbox_inches='tight')
 
-    fig2a.savefig("chart-grappolo-fn-metric1.pdf", bbox_inches='tight')
-    fig2b.savefig("chart-grappolo-fn-metric2.pdf", bbox_inches='tight')
+    fig2a.savefig("chart-grappolo-pdax-fn-metric1.pdf", bbox_inches='tight')
+    fig2b.savefig("chart-grappolo-pdax-fn-metric2.pdf", bbox_inches='tight')
+
+    #-------------------------------------------------------
+    # kmem-dax
+    #-------------------------------------------------------
+
+    vt3 = vtcsv.VTuneCSV(pathL3, group_by = 'csv')
+    vt4 = vtcsv.VTuneCSV(pathL4, group_by = 'csv', makeColL = makeColL)
+    
+    (fig3a, fig3b) = plot_pkg(vt3, graphL, metricL1, metricL2)
+    (fig4a, fig4b) = plot_fn (vt4, graphL, metricL1b, metricL2)
+
+    # fig3a.savefig("chart-grappolo-kdax-pkg-metric1.pdf", bbox_inches='tight')
+    # fig3b.savefig("chart-grappolo-kdax-pkg-metric2.pdf", bbox_inches='tight')
+
+    # fig4a.savefig("chart-grappolo-kdax-fn-metric1.pdf", bbox_inches='tight')
+    # fig4b.savefig("chart-grappolo-kdax-fn-metric2.pdf", bbox_inches='tight')
 
     pyplt.show()
 
