@@ -44,39 +44,56 @@ def main():
     #csv_pathL = sys.argv[1:]
 
     #-------------------------------------------------------
-    # 
+    # grappolo-kmem-dax
     #-------------------------------------------------------
+
+    # grappolo-vtune-profile-friendster-appdirect-pmem-fn.csv
+    # grappolo-vtune-profile-friendster-appdirect-pmem-pkg.csv
+    # grappolo-vtune-profile-clueweb12-appdirect-pmem-fn.csv
+    # grappolo-vtune-profile-clueweb12-appdirect-pmem-pkg.csv
+    # grappolo-vtune-profile-uk2014-appdirect-pmem-fn.csv
+    # grappolo-vtune-profile-uk2014-appdirect-pmem-pkg.csv
+
+    graphL = ['friendster', 'clueweb12', 'uk2014']
+
+    path_pfx = './grappolo-kmem-dax/grappolo-vtune-profile-'
+
+    pathL3 = [
+        [path_pfx + x + '-appdirect-dram-pkg.csv',
+         path_pfx + x + '-appdirect-pmem-pkg.csv'] for x in graphL ]
+
+    
+    #-------------------------------------------------------
+    # grappolo-pmem-dax
+    #-------------------------------------------------------
+
+    # './grappolo-vtune-profile-orkut-appdirect-dram-pkg.csv'
+    # './grappolo-vtune-profile-orkut-appdirect-pmem-pkg.csv'
+    # './grappolo-vtune-profile-friendster-appdirect-dram-pkg.csv'
+    # './grappolo-vtune-profile-friendster-appdirect-pmem-pkg.csv'
+    # './grappolo-vtune-profile-moliere2016-appdirect-dram-pkg.csv'
+    # './grappolo-vtune-profile-moliere2016-appdirect-pmem-pkg.csv'
+
+    # './grappolo-vtune-profile-friendster-appdirect-dram-fn.csv'
+    # './grappolo-vtune-profile-friendster-appdirect-pmem-fn.csv'
+    # './grappolo-vtune-profile-moliere2016-appdirect-dram-fn.csv'
+    # './grappolo-vtune-profile-moliere2016-appdirect-pmem-fn.csv'
+    # './grappolo-vtune-profile-orkut-appdirect-dram-fn.csv'
+    # './grappolo-vtune-profile-orkut-appdirect-pmem-fn.csv'
 
     graphL = ['orkut', 'friendster', 'moliere2016']
     
-    #-------------------------------------------------------
-
-    # grappolo-pmem-dax:
-    #   './grappolo-vtune-profile-orkut-optane-appdirect-dram-pkg.csv',
-    #   './grappolo-vtune-profile-orkut-optane-appdirect-pmem-pkg.csv',
-    #   './grappolo-vtune-profile-friendster-optane-appdirect-dram-pkg.csv',
-    #   './grappolo-vtune-profile-friendster-optane-appdirect-pmem-pkg.csv',
-    #   './grappolo-vtune-profile-moliere2016-optane-appdirect-dram-pkg.csv',
-    #   './grappolo-vtune-profile-moliere2016-optane-appdirect-pmem-pkg.csv'
-
-    #   './grappolo-vtune-profile-friendster-optane-appdirect-dram-fn.csv',
-    #   './grappolo-vtune-profile-friendster-optane-appdirect-pmem-fn.csv',
-    #   './grappolo-vtune-profile-moliere2016-optane-appdirect-dram-fn.csv',
-    #   './grappolo-vtune-profile-moliere2016-optane-appdirect-pmem-fn.csv',
-    #   './grappolo-vtune-profile-orkut-optane-appdirect-dram-fn.csv',
-    #   './grappolo-vtune-profile-orkut-optane-appdirect-pmem-fn.csv'
-
     path_pfx = './grappolo-pmem-dax/grappolo-vtune-profile-'
 
     pathL1 = [
-        [path_pfx + x + '-optane-appdirect-dram-pkg.csv',
-         path_pfx + x + '-optane-appdirect-pmem-pkg.csv'] for x in graphL ]
+        [path_pfx + x + '-appdirect-dram-pkg.csv',
+         path_pfx + x + '-appdirect-pmem-pkg.csv'] for x in graphL ]
 
     pathL1 = [x for pair in pathL1 for x in pair ]
 
     pathL2 = [
-        [path_pfx + x + '-optane-appdirect-dram-fn.csv',
-         path_pfx + x + '-optane-appdirect-pmem-fn.csv'] for x in graphL ]
+        [path_pfx + x + '-appdirect-dram-fn.csv',
+         path_pfx + x + '-appdirect-pmem-fn.csv'] for x in graphL ]
 
     pathL2 = [x for pair in pathL2 for x in pair ]
 
@@ -315,7 +332,7 @@ def rename_col(x, graphL):
 
     for g in graphL: x0 = x0.replace(g, "")
     
-    x0 = x0.replace("grappolo-vtune-profile--optane-appdirect-", "")
+    x0 = x0.replace("grappolo-vtune-profile-appdirect-", "")
     x0 = x0.replace("-pkg", "")
     x0 = x0.replace("-fn", "")
     
