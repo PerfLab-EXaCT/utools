@@ -334,11 +334,14 @@ def plot(dfrm, axes, metricPair, ytitle, xticks2L = None):
     if (xticks2L):
         n_x1 = len(dfrm.columns)
         n_x2 = len(xticks2L)
-        skip_x2 = int(n_x1 / n_x2)
+        x2_skip = int(n_x1 / n_x2)
+        x2_beg = x2_skip / 2.0 # midpoint
 
-        print(n_x1, n_x2, skip_x2)
+        print(n_x1, n_x2, x2_skip, x2_beg)
+        
         axes2 = axes.twiny() # twin y
-        axes2_ticks = [ (x/n_x1) for x in list(range(1, n_x1, skip_x2)) ]
+        axes2_ticks = [ (x/n_x1) for x in list(numpy.arange(x2_beg, n_x1, x2_skip)) ]
+        print(axes2_ticks, xticks2L)
         axes2.set_xticks(axes2_ticks)
         axes2.set_xticklabels(xticks2L, rotation=0, ha='center')
     
