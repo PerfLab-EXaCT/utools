@@ -47,23 +47,23 @@ def main():
     # grappolo-pmem-dax
     #-------------------------------------------------------
 
-    # './grappolo-vtune-profile-orkut-appdirect-dram-pkg.csv'
-    # './grappolo-vtune-profile-orkut-appdirect-pmem-pkg.csv'
-    # './grappolo-vtune-profile-friendster-appdirect-dram-pkg.csv'
-    # './grappolo-vtune-profile-friendster-appdirect-pmem-pkg.csv'
-    # './grappolo-vtune-profile-moliere2016-appdirect-dram-pkg.csv'
-    # './grappolo-vtune-profile-moliere2016-appdirect-pmem-pkg.csv'
+    # grappolo-vtune-profile-orkut-appdirect-dram-pkg.csv
+    # grappolo-vtune-profile-orkut-appdirect-pmem-pkg.csv
+    # grappolo-vtune-profile-friendster-appdirect-dram-pkg.csv
+    # grappolo-vtune-profile-friendster-appdirect-pmem-pkg.csv
+    # grappolo-vtune-profile-moliere2016-appdirect-dram-pkg.csv
+    # grappolo-vtune-profile-moliere2016-appdirect-pmem-pkg.csv
 
-    # './grappolo-vtune-profile-friendster-appdirect-dram-fn.csv'
-    # './grappolo-vtune-profile-friendster-appdirect-pmem-fn.csv'
-    # './grappolo-vtune-profile-moliere2016-appdirect-dram-fn.csv'
-    # './grappolo-vtune-profile-moliere2016-appdirect-pmem-fn.csv'
-    # './grappolo-vtune-profile-orkut-appdirect-dram-fn.csv'
-    # './grappolo-vtune-profile-orkut-appdirect-pmem-fn.csv'
+    # grappolo-vtune-profile-friendster-appdirect-dram-fn.csv
+    # grappolo-vtune-profile-friendster-appdirect-pmem-fn.csv
+    # grappolo-vtune-profile-moliere2016-appdirect-dram-fn.csv
+    # grappolo-vtune-profile-moliere2016-appdirect-pmem-fn.csv
+    # grappolo-vtune-profile-orkut-appdirect-dram-fn.csv
+    # grappolo-vtune-profile-orkut-appdirect-pmem-fn.csv
 
     graphL_p = ['orkut', 'friendster', 'moliere2016']
     
-    path_pfx_p = './grappolo-pmem-dax/grappolo-vtune-profile-'
+    path_pfx_p = './1grappolo-pmem-dax/grappolo-vtune-profile-'
 
     pathL1 = [
         [path_pfx_p + x + '-appdirect-dram-pkg.csv',
@@ -93,7 +93,7 @@ def main():
 
     graphL_k = ['friendster', 'clueweb12', 'uk2014']
 
-    path_pfx_k = './grappolo-kmem-dax/grappolo-vtune-profile-'
+    path_pfx_k = './1grappolo-kmem-dax/grappolo-vtune-profile-'
 
     pathL3 = [path_pfx_k + x + '-appdirect-pmem-pkg.csv' for x in graphL_k ]
 
@@ -337,11 +337,8 @@ def plot(dfrm, axes, metricPair, ytitle, xticks2L = None):
         x2_skip = int(n_x1 / n_x2)
         x2_beg = x2_skip / 2.0 # midpoint
 
-        print(n_x1, n_x2, x2_skip, x2_beg)
-        
         axes2 = axes.twiny() # twin y
         axes2_ticks = [ (x/n_x1) for x in list(numpy.arange(x2_beg, n_x1, x2_skip)) ]
-        print(axes2_ticks, xticks2L)
         axes2.set_xticks(axes2_ticks)
         axes2.set_xticklabels(xticks2L, rotation=0, ha='center')
     
