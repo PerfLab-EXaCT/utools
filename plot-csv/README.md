@@ -57,6 +57,8 @@ myL=(
   grappolo-vtune-profile-orkut-appdirect-pmem
 )
 
+# vtune -report summary
+
 for path in "${myL[@]}" ; do
   out1="${path}-fn.csv"
   out2="${path}-pkg.csv"
@@ -66,6 +68,8 @@ for path in "${myL[@]}" ; do
   ${vtune_cmd} "${path}" -report-output "${out2}" -group-by=package
 done
 ```
+
+
 
 1. Plot
 

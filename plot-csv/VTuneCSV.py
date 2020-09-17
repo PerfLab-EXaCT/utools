@@ -233,7 +233,7 @@ class VTuneCSV():
                 if (dfrm0.empty):
                     self.dataH[key0] = dfrm_new
                 else:
-                    self.dataH[key0] = pandas.concat([dfrm0, dfrm_new], axis=1)
+                    self.dataH[key0] = pandas.concat([dfrm0, dfrm_new], axis=1) # pandas.join()
         elif (self.group_by == 'metric'):
             self.dataH[csv_nm] = dfrm
         else:
