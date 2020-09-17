@@ -84,19 +84,19 @@ def main():
 
     graphL_b = ['friendster', 'clueweb12', 'uk2014']
 
-    # grappolo-friendster-appdirect-pmem-pkg.csv
-    # grappolo-clueweb12-appdirect-pmem-pkg.csv
-    # grappolo-uk2014-appdirect-pmem-pkg.csv
+    # grappolo-friendster-appdirect-kmem-pkg.csv
+    # grappolo-clueweb12-appdirect-kmem-pkg.csv
+    # grappolo-uk2014-appdirect-kmem-pkg.csv
 
-    # grappolo-friendster-appdirect-pmem-fn.csv
-    # grappolo-clueweb12-appdirect-pmem-fn.csv
-    # grappolo-uk2014-appdirect-pmem-fn.csv
+    # grappolo-friendster-appdirect-kmem-fn.csv
+    # grappolo-clueweb12-appdirect-kmem-fn.csv
+    # grappolo-uk2014-appdirect-kmem-fn.csv
 
-    path_pfx_b = './1grappolo-kmem-dax/grappolo-'
+    path_pfx_b = './1grappolo-pmem-dax/grappolo-'
 
-    pathL3 = [path_pfx_b + x + '-appdirect-pmem-pkg.csv' for x in graphL_b ]
+    pathL3 = [path_pfx_b + x + '-appdirect-kmem-pkg.csv' for x in graphL_b ]
 
-    pathL4 = [path_pfx_b + x + '-appdirect-pmem-fn.csv' for x in graphL_b ]
+    pathL4 = [path_pfx_b + x + '-appdirect-kmem-fn.csv' for x in graphL_b ]
 
     
     #-------------------------------------------------------
