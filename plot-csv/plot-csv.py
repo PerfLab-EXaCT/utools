@@ -44,60 +44,59 @@ def main():
     #csv_pathL = sys.argv[1:]
     
     #-------------------------------------------------------
-    # grappolo-pmem-dax
+    # Medium graphs
     #-------------------------------------------------------
 
-    # grappolo-vtune-profile-orkut-appdirect-dram-pkg.csv
-    # grappolo-vtune-profile-orkut-appdirect-pmem-pkg.csv
-    # grappolo-vtune-profile-friendster-appdirect-dram-pkg.csv
-    # grappolo-vtune-profile-friendster-appdirect-pmem-pkg.csv
-    # grappolo-vtune-profile-moliere2016-appdirect-dram-pkg.csv
-    # grappolo-vtune-profile-moliere2016-appdirect-pmem-pkg.csv
+    graphL_a = ['orkut', 'friendster', 'moliere2016']
 
-    # grappolo-vtune-profile-friendster-appdirect-dram-fn.csv
-    # grappolo-vtune-profile-friendster-appdirect-pmem-fn.csv
-    # grappolo-vtune-profile-moliere2016-appdirect-dram-fn.csv
-    # grappolo-vtune-profile-moliere2016-appdirect-pmem-fn.csv
-    # grappolo-vtune-profile-orkut-appdirect-dram-fn.csv
-    # grappolo-vtune-profile-orkut-appdirect-pmem-fn.csv
+    # grappolo-orkut-appdirect-dram-pkg.csv
+    # grappolo-orkut-appdirect-pmem-pkg.csv
+    # grappolo-friendster-appdirect-dram-pkg.csv
+    # grappolo-friendster-appdirect-pmem-pkg.csv
+    # grappolo-moliere2016-appdirect-dram-pkg.csv
+    # grappolo-moliere2016-appdirect-pmem-pkg.csv
 
-    graphL_p = ['orkut', 'friendster', 'moliere2016']
+    # grappolo-friendster-appdirect-dram-fn.csv
+    # grappolo-friendster-appdirect-pmem-fn.csv
+    # grappolo-moliere2016-appdirect-dram-fn.csv
+    # grappolo-moliere2016-appdirect-pmem-fn.csv
+    # grappolo-orkut-appdirect-dram-fn.csv
+    # grappolo-orkut-appdirect-pmem-fn.csv
     
-    path_pfx_p = './1grappolo-pmem-dax/grappolo-vtune-profile-'
+    path_pfx_a = './1grappolo-pmem-dax/grappolo-'
 
     pathL1 = [
-        [path_pfx_p + x + '-appdirect-dram-pkg.csv',
-         path_pfx_p + x + '-appdirect-pmem-pkg.csv'] for x in graphL_p ]
+        [path_pfx_a + x + '-appdirect-dram-pkg.csv',
+         path_pfx_a + x + '-appdirect-pmem-pkg.csv'] for x in graphL_a ]
 
     pathL1 = [x for pair in pathL1 for x in pair ] # flatten
 
     pathL2 = [
-        [path_pfx_p + x + '-appdirect-dram-fn.csv',
-         path_pfx_p + x + '-appdirect-pmem-fn.csv'] for x in graphL_p ]
+        [path_pfx_a + x + '-appdirect-dram-fn.csv',
+         path_pfx_a + x + '-appdirect-pmem-fn.csv'] for x in graphL_a ]
 
     pathL2 = [x for pair in pathL2 for x in pair ] # flatten
 
     
     #-------------------------------------------------------
-    # grappolo-kmem-dax
+    # Large graphs
     #-------------------------------------------------------
 
-    # grappolo-vtune-profile-friendster-appdirect-pmem-pkg.csv
-    # grappolo-vtune-profile-clueweb12-appdirect-pmem-pkg.csv
-    # grappolo-vtune-profile-uk2014-appdirect-pmem-pkg.csv
+    graphL_b = ['friendster', 'clueweb12', 'uk2014']
 
-    # grappolo-vtune-profile-friendster-appdirect-pmem-fn.csv
-    # grappolo-vtune-profile-clueweb12-appdirect-pmem-fn.csv
-    # grappolo-vtune-profile-uk2014-appdirect-pmem-fn.csv
+    # grappolo-friendster-appdirect-pmem-pkg.csv
+    # grappolo-clueweb12-appdirect-pmem-pkg.csv
+    # grappolo-uk2014-appdirect-pmem-pkg.csv
 
+    # grappolo-friendster-appdirect-pmem-fn.csv
+    # grappolo-clueweb12-appdirect-pmem-fn.csv
+    # grappolo-uk2014-appdirect-pmem-fn.csv
 
-    graphL_k = ['friendster', 'clueweb12', 'uk2014']
+    path_pfx_b = './1grappolo-kmem-dax/grappolo-'
 
-    path_pfx_k = './1grappolo-kmem-dax/grappolo-vtune-profile-'
+    pathL3 = [path_pfx_b + x + '-appdirect-pmem-pkg.csv' for x in graphL_b ]
 
-    pathL3 = [path_pfx_k + x + '-appdirect-pmem-pkg.csv' for x in graphL_k ]
-
-    pathL4 = [path_pfx_k + x + '-appdirect-pmem-fn.csv' for x in graphL_k ]
+    pathL4 = [path_pfx_b + x + '-appdirect-pmem-fn.csv' for x in graphL_b ]
 
     
     #-------------------------------------------------------
@@ -146,8 +145,8 @@ def main():
     vt1 = vtcsv.VTuneCSV(pathL1, group_by = 'csv')
     vt2 = vtcsv.VTuneCSV(pathL2, group_by = 'csv', makeColL = makeColL)
     
-    (fig1a, fig1b) = plot_pkg(vt1, graphL_p, metricL1, metricL2)
-    (fig2a, fig2b) = plot_fn (vt2, graphL_p, metricL1b, metricL2)
+    (fig1a, fig1b) = plot_pkg(vt1, graphL_a, metricL1, metricL2)
+    (fig2a, fig2b) = plot_fn (vt2, graphL_a, metricL1b, metricL2)
 
     fig1a.savefig("chart-grappolo-pdax-pkg-metric1.pdf", bbox_inches='tight')
     fig1b.savefig("chart-grappolo-pdax-pkg-metric2.pdf", bbox_inches='tight')
@@ -162,8 +161,8 @@ def main():
     vt3 = vtcsv.VTuneCSV(pathL3, group_by = 'csv')
     vt4 = vtcsv.VTuneCSV(pathL4, group_by = 'csv', makeColL = makeColL)
     
-    (fig3a, fig3b) = plot_pkg(vt3, graphL_k, metricL1, metricL2)
-    (fig4a, fig4b) = plot_fn (vt4, graphL_k, metricL1b, metricL2)
+    (fig3a, fig3b) = plot_pkg(vt3, graphL_b, metricL1, metricL2)
+    (fig4a, fig4b) = plot_fn (vt4, graphL_b, metricL1b, metricL2)
 
     fig3a.savefig("chart-grappolo-kdax-pkg-metric1.pdf", bbox_inches='tight')
     fig3b.savefig("chart-grappolo-kdax-pkg-metric2.pdf", bbox_inches='tight')
@@ -352,7 +351,7 @@ def rename_col(x, graphL):
 
     for g in graphL: x0 = x0.replace(g, "")
     
-    x0 = x0.replace("grappolo-vtune-profile--appdirect-", "") # not a typo!
+    x0 = x0.replace("grappolo--appdirect-", "") # not a typo!
     x0 = x0.replace("-pkg", "")
     x0 = x0.replace("-fn", "")
     
