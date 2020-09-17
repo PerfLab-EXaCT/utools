@@ -63,17 +63,17 @@ def main():
     # grappolo-orkut-appdirect-dram-fn.csv
     # grappolo-orkut-appdirect-pmem-fn.csv
     
-    path_pfx_a = './1grappolo-pmem-dax/grappolo-'
+    path_pfx = './1grappolo/grappolo-'
 
     pathL1 = [
-        [path_pfx_a + x + '-appdirect-dram-pkg.csv',
-         path_pfx_a + x + '-appdirect-pmem-pkg.csv'] for x in graphL_a ]
+        [path_pfx + x + '-appdirect-dram-pkg.csv',
+         path_pfx + x + '-appdirect-pmem-pkg.csv'] for x in graphL_a ]
 
     pathL1 = [x for pair in pathL1 for x in pair ] # flatten
 
     pathL2 = [
-        [path_pfx_a + x + '-appdirect-dram-fn.csv',
-         path_pfx_a + x + '-appdirect-pmem-fn.csv'] for x in graphL_a ]
+        [path_pfx + x + '-appdirect-dram-fn.csv',
+         path_pfx + x + '-appdirect-pmem-fn.csv'] for x in graphL_a ]
 
     pathL2 = [x for pair in pathL2 for x in pair ] # flatten
 
@@ -92,11 +92,9 @@ def main():
     # grappolo-clueweb12-appdirect-kmem-fn.csv
     # grappolo-uk2014-appdirect-kmem-fn.csv
 
-    path_pfx_b = './1grappolo-pmem-dax/grappolo-'
+    pathL3 = [path_pfx + x + '-appdirect-kmem-pkg.csv' for x in graphL_b ]
 
-    pathL3 = [path_pfx_b + x + '-appdirect-kmem-pkg.csv' for x in graphL_b ]
-
-    pathL4 = [path_pfx_b + x + '-appdirect-kmem-fn.csv' for x in graphL_b ]
+    pathL4 = [path_pfx + x + '-appdirect-kmem-fn.csv' for x in graphL_b ]
 
     
     #-------------------------------------------------------
