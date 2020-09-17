@@ -29,13 +29,13 @@ def main():
     #assert(len(sys.argv) > 1)
     #csv_pathL = sys.argv[1:]
 
-    csv_pathL = [ './data0/progression/108544.csv',
-                  './data0/progression/1696.csv',
-                  './data0/progression/1736704.csv',
-                  './data0/progression/27136.csv',
-                  './data0/progression/434176.csv',
-                  './data0/progression/6784.csv',
-                  './data0/progression/6946816.csv' ]
+    csv_pathL = [ './0data/progression/108544.csv',
+                  './0data/progression/1696.csv',
+                  './0data/progression/1736704.csv',
+                  './0data/progression/27136.csv',
+                  './0data/progression/434176.csv',
+                  './0data/progression/6784.csv',
+                  './0data/progression/6946816.csv' ]
 
 
     indexL1 = ['[Loop at line 4015 in gwce_new]',

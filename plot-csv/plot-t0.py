@@ -17,8 +17,8 @@ def main():
     #assert(len(sys.argv) > 1)
     #csv_pathL = sys.argv[1:]
 
-    csv_pathL = [ './data0/advanced-hotspots.csv',
-                  './data0/progression/1696.csv' ]
+    csv_pathL = [ './0data/advanced-hotspots.csv',
+                  './0data/progression/1696.csv' ]
 
     for path in csv_pathL:
         plot_pie(path)

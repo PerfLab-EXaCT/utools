@@ -61,19 +61,19 @@ def main():
     # './grappolo-vtune-profile-orkut-appdirect-dram-fn.csv'
     # './grappolo-vtune-profile-orkut-appdirect-pmem-fn.csv'
 
-    graphL = ['orkut', 'friendster', 'moliere2016']
+    graphL_p = ['orkut', 'friendster', 'moliere2016']
     
-    path_pfx = './grappolo-pmem-dax/grappolo-vtune-profile-'
+    path_pfx_p = './grappolo-pmem-dax/grappolo-vtune-profile-'
 
     pathL1 = [
-        [path_pfx + x + '-appdirect-dram-pkg.csv',
-         path_pfx + x + '-appdirect-pmem-pkg.csv'] for x in graphL ]
+        [path_pfx_p + x + '-appdirect-dram-pkg.csv',
+         path_pfx_p + x + '-appdirect-pmem-pkg.csv'] for x in graphL_p ]
 
     pathL1 = [x for pair in pathL1 for x in pair ] # flatten
 
     pathL2 = [
-        [path_pfx + x + '-appdirect-dram-fn.csv',
-         path_pfx + x + '-appdirect-pmem-fn.csv'] for x in graphL ]
+        [path_pfx_p + x + '-appdirect-dram-fn.csv',
+         path_pfx_p + x + '-appdirect-pmem-fn.csv'] for x in graphL_p ]
 
     pathL2 = [x for pair in pathL2 for x in pair ] # flatten
 
@@ -146,8 +146,8 @@ def main():
     vt1 = vtcsv.VTuneCSV(pathL1, group_by = 'csv')
     vt2 = vtcsv.VTuneCSV(pathL2, group_by = 'csv', makeColL = makeColL)
     
-    (fig1a, fig1b) = plot_pkg(vt1, graphL, metricL1, metricL2)
-    (fig2a, fig2b) = plot_fn (vt2, graphL, metricL1b, metricL2)
+    (fig1a, fig1b) = plot_pkg(vt1, graphL_p, metricL1, metricL2)
+    (fig2a, fig2b) = plot_fn (vt2, graphL_p, metricL1b, metricL2)
 
     fig1a.savefig("chart-grappolo-pdax-pkg-metric1.pdf", bbox_inches='tight')
     fig1b.savefig("chart-grappolo-pdax-pkg-metric2.pdf", bbox_inches='tight')
