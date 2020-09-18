@@ -2298,8 +2298,8 @@ bw_data_strL = [ dramBw_dram_str, dramBw_pmem_str, dramBw_kmem_str ]
 lat_data_nmL =  ['dram', 'pmem', 'kmem']
 lat_data_strL = [ latency_dram_str, latency_pmem_str, latency_kmem_str ]
 
-(lat_dfrm_hist, lat_dfrm_wide) = makeDataFrames(lat_data_nmL, lat_data_strL)
-#                                                scale = 1000000.0)
+(lat_dfrm_hist, lat_dfrm_wide) = makeDataFrames(lat_data_nmL, lat_data_strL,
+                                                scale = 1000000.0)
 
 # print(bw_dfrm_hist)
 # print(bw_dfrm_wide)
