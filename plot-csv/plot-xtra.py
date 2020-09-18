@@ -11,6 +11,61 @@ import math
 import matplotlib.pyplot as pyplt
 import seaborn
 
+def makeDataFrames(data_nameL, data_stringL, scale = None):
+    dfrm_hist = pandas.DataFrame()
+    dfrm_wide = pandas.DataFrame()
+
+    idx = 0
+    for data_str in data_stringL:
+        #---------------------------------------
+        # Create histogram
+        #---------------------------------------
+        data_nm = data_nameL[idx]
+        
+        str_data = io.StringIO(data_str)
+        dfrm_hist_x = pandas.read_csv(str_data, sep='\s+', index_col=0)
+        
+        dfrm_hist_x.columns = [data_nm]
+        #print(dfrm_hist_x)
+
+        if (scale):
+            dfrm_hist_x = dfrm_hist_x.applymap(lambda x: x / scale)
+
+        #---------------------------------------
+        # Convert the histogram to Seaborn 'wide form'
+        #---------------------------------------
+        #   https://stackoverflow.com/questions/62709719/violinplot-from-histogram-values
+        #   https://anvil.works/blog/tidy-data
+        #   https://sejdemyr.github.io/r-tutorials/basics/wide-and-long/
+
+        hist_bin  = dfrm_hist_x.index
+        hist_freq = dfrm_hist_x.iloc[:, 0]
+
+        hist_smpl = numpy.random.uniform(numpy.repeat(hist_bin, hist_freq),
+                                         numpy.repeat(hist_bin, hist_freq))
+
+        dfrm_wide_x = pandas.DataFrame(hist_smpl, columns = [data_nm])
+        #print(dfrm_wide_x)
+
+        #---------------------------------------
+        # Merge into final result
+        #---------------------------------------
+        idx += 1
+
+        if (dfrm_hist.empty):
+            dfrm_hist = dfrm_hist_x
+            dfrm_wide = dfrm_wide_x
+        else:
+            dfrm_hist = pandas.concat([dfrm_hist, dfrm_hist_x], axis=1)
+            dfrm_wide = pandas.concat([dfrm_wide, dfrm_wide_x], axis=1)
+            #dfrm.join(dfrm_hist_x, on='dram_bw')
+
+    dfrm_hist.reset_index(inplace=True)
+
+    return (dfrm_hist, dfrm_wide)
+
+
+
 #****************************************************************************
 # Grappolo, Single phase, 192 threads
 #****************************************************************************
@@ -2235,67 +2290,36 @@ latency_kmem_str = """
 # Create DataFrames
 #-------------------------------------------------------
 
-data_nmL =  ['dram', 'pmem', 'kmem']
-data_strL = [ dramBw_dram_str, dramBw_pmem_str, dramBw_kmem_str ]
+bw_data_nmL =  ['dram', 'pmem', 'kmem']
+bw_data_strL = [ dramBw_dram_str, dramBw_pmem_str, dramBw_kmem_str ]
 
-dfrm_hist = pandas.DataFrame()
-dfrm_wide = pandas.DataFrame()
+(bw_dfrm_hist, bw_dfrm_wide) = makeDataFrames(bw_data_nmL, bw_data_strL)
 
-idx = 0
-for data_str in data_strL:
-    #---------------------------------------
-    # Create histogram
-    #---------------------------------------
+lat_data_nmL =  ['dram', 'pmem', 'kmem']
+lat_data_strL = [ latency_dram_str, latency_pmem_str, latency_kmem_str ]
 
-    str_data = io.StringIO(data_str)
-    dfrm_hist_x = pandas.read_csv(str_data, sep='\s+', index_col=0)
+(lat_dfrm_hist, lat_dfrm_wide) = makeDataFrames(lat_data_nmL, lat_data_strL,
+                                                scale = 1000000.0)
 
-    dfrm_hist_x.columns = [ data_nmL[idx] ]
-    #print(dfrm_hist_x)
-
-    #---------------------------------------
-    # Convert the histogram to Seaborn 'wide form'
-    #---------------------------------------
-    #   https://stackoverflow.com/questions/62709719/violinplot-from-histogram-values
-    #   https://anvil.works/blog/tidy-data
-    #   https://sejdemyr.github.io/r-tutorials/basics/wide-and-long/
-
-    hist_bin  = dfrm_hist_x.index
-    hist_freq = dfrm_hist_x.iloc[:, 0]
-    
-    hist_smpl = numpy.random.uniform(numpy.repeat(hist_bin, hist_freq),
-                                     numpy.repeat(hist_bin, hist_freq))
-
-    dfrm_wide_x = pandas.DataFrame(hist_smpl, columns = [data_nmL[idx]])
-    #print(dfrm_wide_x)
-
-    #---------------------------------------
-    # Merge into final result
-    #---------------------------------------
-    idx += 1
-
-    if (dfrm_hist.empty):
-        dfrm_hist = dfrm_hist_x
-        dfrm_wide = dfrm_wide_x
-    else:
-        dfrm_hist = pandas.concat([dfrm_hist, dfrm_hist_x], axis=1)
-        dfrm_wide = pandas.concat([dfrm_wide, dfrm_wide_x], axis=1)
-        #dfrm.join(dfrm_hist_x, on='dram_bw')
-
-dfrm_hist.reset_index(inplace=True)
+# print(bw_dfrm_hist)
+# print(bw_dfrm_wide)
 
 #-------------------------------------------------------
 # Plot
 #-------------------------------------------------------
 
-# print(dfrm_hist)
-# print(dfrm_wide)
-
 fig, axes = pyplt.subplots(ncols=2, figsize=(15, 4))
 
-axes = seaborn.violinplot(data=dfrm_wide, ax=axes[0], cut = 0,
+ax = seaborn.violinplot(data=bw_dfrm_wide, ax=axes[0], cut = 0,
                           palette='muted', scale = 'area', inner = 'box')
+ax.set_title('friendster, DRAM BW (GB/s)')
 
+
+ax = seaborn.violinplot(data=lat_dfrm_wide, ax=axes[1], cut = 0,
+                          palette='muted', scale = 'area', inner = 'box')
+ax.set_title('friendster, Load Latency (cycles)')
+
+ax.set_ylim(0, 40)
 
 #seaborn.plt.show()
 pyplt.show()
