@@ -3,6 +3,8 @@
 
 # $Id$
 
+import io
+
 import pandas
 import numpy
 import math
@@ -13,42 +15,31 @@ import seaborn
 # Grappolo, Single phase, 192 threads
 #****************************************************************************
 
-#-------------------------------------------------------
+
+#----------------------------------------------------------------------------
 # Run time
-#-------------------------------------------------------
+#----------------------------------------------------------------------------
 
 runtime_str = """
-graph         dram,        pmem   kmem
-orkut          19.486   19.201    0
+graph            dram      pmem   kmem
+orkut          19.486    19.201   0
 friendster   1081.808   878.044   739.163
 moliere201   1054.310  1059.695   0
 """
 
-# graphL_med = ['orkut', 'friendster', 'moliere2016']
-
-# timeL_ty       = ['dram', 'pmem', 'kmem' ]
-# timeL_med = \
-# {'orkut'       : [19.486751,  19.201794,  0]
-#  'friendster'  : [1081.808,   878.044,    739.163]
-#  'moliere2016' : [1054.31008, 1059.69578, 0]
-# }
-
-
 runtime_data = io.StringIO(runtime_str)
-dfrm = pandas.read_csv(runtime_data)
+dfrm = pandas.read_csv(runtime_data, sep='\s+', index_col=0)
 print(dfrm)
 
 # dfrm = pandas.DataFrame(data = timeL_med, index = timeL_ty)
 
 
-#-------------------------------------------------------
+#----------------------------------------------------------------------------
 # friendster DRAM bandwidth (GB/sec)
-#-------------------------------------------------------
+#----------------------------------------------------------------------------
 
-# dat1.join([dat2, dat3])
-
-dram_bw_str = """
-bw      time
+dram_bw_dram_str = """
+dram_bw time
 0	81.76752655810002
 10	107.71000000000002
 20	47.09
@@ -97,8 +88,8 @@ bw      time
 450	0
 """
 
-pmem_bw_str= """
-bw      time
+dram_bw_pmem_str = """
+dram_bw time
 0	188.37429006909997
 10	79.14
 20	77.32
@@ -147,8 +138,8 @@ bw      time
 450	0
 """
 
-kmem_bw_str = """
-bw      time
+dram_bw_kmem_str = """
+dram_bw time
 0	62.142981342099986
 10	76.75000000000001
 20	73.94999999999999
@@ -196,6 +187,72 @@ bw      time
 440	0
 450	0
 """
+
+
+#-------------------------------------------------------
+# Create DataFrames
+#-------------------------------------------------------
+
+data_nmL =  ['dram', 'pmem', 'kmem']
+data_strL = [ dram_bw_dram_str, dram_bw_pmem_str, dram_bw_kmem_str ]
+
+dfrm_hist = pandas.DataFrame()
+dfrm_wide = pandas.DataFrame()
+
+idx = 0
+for data_str in data_strL:
+    #---------------------------------------
+    # Create histogram
+    #---------------------------------------
+
+    str_data = io.StringIO(data_str)
+    dfrm_hist_x = pandas.read_csv(str_data, sep='\s+', index_col=0)
+
+    dfrm_hist_x.columns = [ data_nmL[idx] ]
+    #print(dfrm_hist_x)
+
+    #---------------------------------------
+    # Convert the histogram to Seaborn 'wide form'
+    #---------------------------------------
+    #   https://stackoverflow.com/questions/62709719/violinplot-from-histogram-values
+    #   https://anvil.works/blog/tidy-data
+    #   https://sejdemyr.github.io/r-tutorials/basics/wide-and-long/
+
+    hist_bin  = dfrm_hist_x.index
+    hist_freq = dfrm_hist_x.iloc[:, 0]
+    
+    hist_smpl = numpy.random.uniform(numpy.repeat(hist_bin, hist_freq),
+                                     numpy.repeat(hist_bin, hist_freq))
+
+    dfrm_wide_x = pandas.DataFrame(hist_smpl, columns = [data_nmL[idx]])
+    #print(dfrm_wide_x)
+
+    #---------------------------------------
+    # Merge into final result
+    #---------------------------------------
+    idx += 1
+
+    if (dfrm_hist.empty):
+        dfrm_hist = dfrm_hist_x
+        dfrm_wide = dfrm_wide_x
+    else:
+        dfrm_hist = pandas.concat([dfrm_hist, dfrm_hist_x], axis=1)
+        dfrm_wide = pandas.concat([dfrm_wide, dfrm_wide_x], axis=1)
+        #dfrm.join(dfrm_hist_x, on='dram_bw')
+
+dfrm_hist.reset_index(inplace=True)
+
+#-------------------------------------------------------
+# Plot
+#-------------------------------------------------------
+
+# print(dfrm_hist)
+# print(dfrm_wide)
+
+axes = seaborn.violinplot(data=dfrm_wide, cut = 0, palette='muted')
+
+#seaborn.plt.show()
+pyplt.show()
 
 
 # clueweb12

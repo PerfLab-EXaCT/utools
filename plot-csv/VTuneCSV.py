@@ -140,7 +140,7 @@ class VTuneCSV():
         dfrm = pandas.read_csv(csv_fnm, error_bad_lines = False)
 
         self.index_name = dfrm.columns[0]
-        dfrm = dfrm.set_index(self.index_name)
+        dfrm.set_index(self.index_name, inplace = True)
 
         print(("*** %s: '%s' (%s)" % (type(self).__name__, csv_fnm, self.index_name)))
 
