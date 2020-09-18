@@ -249,7 +249,11 @@ dfrm_hist.reset_index(inplace=True)
 # print(dfrm_hist)
 # print(dfrm_wide)
 
-axes = seaborn.violinplot(data=dfrm_wide, cut = 0, palette='muted')
+fig, axes = pyplt.subplots(ncols=2, figsize=(15, 4))
+
+axes = seaborn.violinplot(data=dfrm_wide, ax=axes[0], cut = 0,
+                          palette='muted', scale = 'area', inner = 'box')
+
 
 #seaborn.plt.show()
 pyplt.show()
