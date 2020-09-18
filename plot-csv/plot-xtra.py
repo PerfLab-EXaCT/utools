@@ -11,6 +11,11 @@ import math
 import matplotlib.pyplot as pyplt
 import seaborn
 
+
+#****************************************************************************
+#
+#****************************************************************************
+
 def makeDataFrames(data_nameL, data_stringL, scale = None):
     dfrm_hist = pandas.DataFrame()
     dfrm_wide = pandas.DataFrame()
@@ -63,7 +68,6 @@ def makeDataFrames(data_nameL, data_stringL, scale = None):
     dfrm_hist.reset_index(inplace=True)
 
     return (dfrm_hist, dfrm_wide)
-
 
 
 #****************************************************************************
