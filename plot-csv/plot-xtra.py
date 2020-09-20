@@ -16,7 +16,7 @@ import seaborn
 #
 #****************************************************************************
 
-def makeDataFrames(data_nameL, data_stringL, scale = None):
+def makeDataFrames(data_nameL, data_stringL, convert, scale = None):
     dfrm_hist = pandas.DataFrame()
     dfrm_wide = pandas.DataFrame()
 
@@ -34,7 +34,11 @@ def makeDataFrames(data_nameL, data_stringL, scale = None):
         #print(dfrm_hist_x)
 
         if (scale):
-            dfrm_hist_x = dfrm_hist_x.applymap(lambda x: x / scale)
+            s = scale
+            if (isinstance(scale, list)):
+                s = scale[idx]
+
+            dfrm_hist_x = dfrm_hist_x.applymap(lambda x: x / s)
 
         #---------------------------------------
         # Convert the histogram to Seaborn 'wide form'
@@ -45,12 +49,21 @@ def makeDataFrames(data_nameL, data_stringL, scale = None):
 
         hist_bin  = dfrm_hist_x.index
         hist_freq = dfrm_hist_x.iloc[:, 0]
+        
+        #print("hist_bin\n", hist_bin)
+        #print("hist_freq\n", hist_freq)
 
-        hist_smpl = numpy.random.uniform(numpy.repeat(hist_bin, hist_freq),
-                                         numpy.repeat(hist_bin, hist_freq))
+        if (convert == 'repeat'):
+            hist_smpl = numpy.repeat(hist_bin, hist_freq)
+        elif (convert == 'sample'):
+            hist_smpl = numpy.random.uniform(numpy.repeat(hist_bin, hist_freq),
+                                             numpy.repeat(hist_bin, hist_freq))
+        #print("hist_smpl\n", hist_smpl)
 
-        dfrm_wide_x = pandas.DataFrame(hist_smpl, columns = [data_nm])
-        #print(dfrm_wide_x)
+        dfrm_wide_x = pandas.DataFrame(hist_smpl)
+        dfrm_wide_x.columns = [data_nm]
+        
+        #print("dfrm_wide_x\n", dfrm_wide_x)
 
         #---------------------------------------
         # Merge into final result
@@ -2297,38 +2310,74 @@ latency_kmem_str = """
 bw_data_nmL =  ['dram', 'pmem', 'kmem']
 bw_data_strL = [ dramBw_dram_str, dramBw_pmem_str, dramBw_kmem_str ]
 
-(bw_dfrm_hist, bw_dfrm_wide) = makeDataFrames(bw_data_nmL, bw_data_strL)
+(bw_dfrm_hist, bw_dfrm_wide) = makeDataFrames(bw_data_nmL, bw_data_strL,
+                                              convert = 'sample')
 
 lat_data_nmL =  ['dram', 'pmem', 'kmem']
 lat_data_strL = [ latency_dram_str, latency_pmem_str, latency_kmem_str ]
 
+scaleL = [ 4901470.0, 4201260.0, 4201260.0 ]
 (lat_dfrm_hist, lat_dfrm_wide) = makeDataFrames(lat_data_nmL, lat_data_strL,
-                                                scale = 1000000.0)
+                                                convert = 'repeat',
+                                                scale = scaleL)
 
-# print(bw_dfrm_hist)
-# print(bw_dfrm_wide)
+# print("bw_dfrm_hist\n", bw_dfrm_hist)
+# print("bw_dfrm_wide\n", bw_dfrm_wide)
+
+# print("lat_dfrm_hist\n", lat_dfrm_hist)
+# print("lat_dfrm_wide\n", lat_dfrm_wide)
+
+# print(lat_dfrm_wide.median(axis=0))
+# print(lat_dfrm_wide.mean(axis=0))
+
+#-------------------------------------------------------
+
+df0 = lat_dfrm_hist.iloc[:, 0] # latency buckets
+#print("df0\n", df0)
+
+
+# for i in range(0, 3):
+#     # weights and weighted latencies
+#     weight = lat_dfrm_hist.iloc[:, i+1]
+#     w_lat = df0.multiply(weight, axis='index', fill_value = 0.0)
+#     print("Lat1: ", w_lat.sum() / weight.sum(), w_lat.sum(), weight.sum())
+#
+#     df_lat = lat_dfrm_wide.iloc[:, i]
+#     #print("df_lat\n", df_lat)
+#     print("Lat2: ", df_lat.sum() / df_lat.count(), df_lat.mean(), df_lat.median(), df_lat.sum(), df_lat.count())
+
 
 #-------------------------------------------------------
 # Plot
 #-------------------------------------------------------
 
-fig, axes = pyplt.subplots(ncols=2, figsize=(15, 4))
+fig, axes = pyplt.subplots(ncols=2, figsize=(10, 4))
 
 ax = seaborn.violinplot(data=bw_dfrm_wide, ax=axes[0], cut = 0,
                           palette='muted', scale = 'area', inner = 'box')
 ax.set_title('friendster, DRAM BW (GB/s)')
 
+ax.set_ylim(0, 110)
 
-# *** Latency medians do not match VTune's average ***
+#-------------------------------------------------------
+
+
+# Show mean rather than median
+lat_dfrm_mean = lat_dfrm_wide.mean(axis=0)
+
 ax = seaborn.violinplot(data=lat_dfrm_wide, ax=axes[1], cut = 0,
-                          palette='muted', scale = 'area', inner = 'box')
-ax.set_title('friendster, Load Latency (cycles)')
+                          palette='muted', scale = 'area', inner = None)
+xlim = ax.get_xlim()
 
-ax.set_ylim(0, 40)
+#pyplt.setp(ax.collections, alpha=.3)
+ax = seaborn.scatterplot(data = lat_dfrm_mean, ax=ax) # palette='mako'
+
+ax.set_xlim(xlim)
+ax.set_ylim(5, 30)
+ax.set_title('friendster, Load Latency (cycles)')
 
 #seaborn.plt.show()
 pyplt.show()
-
 
 # clueweb12
 # uk2014
