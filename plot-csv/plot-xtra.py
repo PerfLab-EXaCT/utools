@@ -2351,30 +2351,39 @@ df0 = lat_dfrm_hist.iloc[:, 0] # latency buckets
 # Plot
 #-------------------------------------------------------
 
+bw_dfrm_mean = bw_dfrm_wide.mean(axis=0)
+
 fig, axes = pyplt.subplots(ncols=2, figsize=(10, 4))
 
 ax = seaborn.violinplot(data=bw_dfrm_wide, ax=axes[0], cut = 0,
                           palette='muted', scale = 'area', inner = 'box')
+xlim = ax.get_xlim()
+ax = seaborn.scatterplot(data = bw_dfrm_mean, ax=ax, marker='d', color='white', zorder=10)
+
+ax.set_xlim(xlim)
+ax.set_ylim(0, 110)
 ax.set_title('friendster, DRAM BW (GB/s)')
 
-ax.set_ylim(0, 110)
 
 #-------------------------------------------------------
-
 
 # Show mean rather than median
 lat_dfrm_mean = lat_dfrm_wide.mean(axis=0)
 
 ax = seaborn.violinplot(data=lat_dfrm_wide, ax=axes[1], cut = 0,
-                          palette='muted', scale = 'area', inner = None)
+                          palette='muted', scale = 'area', inner = 'box')
 xlim = ax.get_xlim()
 
 #pyplt.setp(ax.collections, alpha=.3)
-ax = seaborn.scatterplot(data = lat_dfrm_mean, ax=ax) # palette='mako'
+ax = seaborn.scatterplot(data = lat_dfrm_mean, ax=ax, marker='d', color='white')
+# , kwargs = {'zorder':'10'}
+
 
 ax.set_xlim(xlim)
 ax.set_ylim(5, 30)
 ax.set_title('friendster, Load Latency (cycles)')
+
+#-------------------------------------------------------
 
 #seaborn.plt.show()
 pyplt.show()
