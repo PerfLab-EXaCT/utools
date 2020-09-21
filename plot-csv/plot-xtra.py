@@ -2358,7 +2358,8 @@ fig, axes = pyplt.subplots(ncols=2, figsize=(10, 4))
 ax = seaborn.violinplot(data=bw_dfrm_wide, ax=axes[0], cut = 0,
                           palette='muted', scale = 'area', inner = 'box')
 xlim = ax.get_xlim()
-ax = seaborn.scatterplot(data = bw_dfrm_mean, ax=ax, marker='d', color='white', zorder=10)
+ax = seaborn.scatterplot(data = bw_dfrm_mean, ax=ax,
+                         marker='d', color='white', zorder=10)
 
 ax.set_xlim(xlim)
 ax.set_ylim(0, 110)
@@ -2375,9 +2376,8 @@ ax = seaborn.violinplot(data=lat_dfrm_wide, ax=axes[1], cut = 0,
 xlim = ax.get_xlim()
 
 #pyplt.setp(ax.collections, alpha=.3)
-ax = seaborn.scatterplot(data = lat_dfrm_mean, ax=ax, marker='d', color='white')
-# , kwargs = {'zorder':'10'}
-
+ax = seaborn.scatterplot(data = lat_dfrm_mean, ax=ax,
+                         marker='d', color='white', zorder=10)
 
 ax.set_xlim(xlim)
 ax.set_ylim(5, 30)
