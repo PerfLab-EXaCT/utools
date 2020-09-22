@@ -148,8 +148,8 @@ def main():
     vt1 = vtcsv.VTuneCSV(pathL1, group_by = 'csv')
     vt2 = vtcsv.VTuneCSV(pathL2, group_by = 'csv', makeColL = makeColL)
 
-    widthL_p = (3.3, 3.5, 1.8)
-    widthL_f = (3.3, 3.5, 2.7)
+    widthL_p = (3.6, 3.9, 1.8)
+    widthL_f = (3.5, 3.9, 2.7)
     (fig1a, fig1b) = plot_pkg(vt1, graphL_med, widthL_p, metricL1, metricL2)
     (fig2a, fig2b) = plot_fn (vt2, graphL_med, widthL_f, metricL1b, metricL2)
 
@@ -166,8 +166,8 @@ def main():
     vt3 = vtcsv.VTuneCSV(pathL3, group_by = 'csv')
     vt4 = vtcsv.VTuneCSV(pathL4, group_by = 'csv', makeColL = makeColL)
 
-    widthL_p = (1.5, 2.0, 1.8)
-    widthL_f = (3.3, 3.4, 2.7)
+    widthL_p = (2.1, 2.1, 1.8)
+    widthL_f = (2.3, 2.3, 2.7)
     (fig3a, fig3b) = plot_pkg(vt3, graphL_big, widthL_p, metricL1, metricL2)
     (fig4a, fig4b) = plot_fn (vt4, graphL_big, widthL_f, metricL1b, metricL2)
 
