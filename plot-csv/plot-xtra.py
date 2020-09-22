@@ -265,7 +265,7 @@ dramBw_kmem_str = """
 #----------------------------------------------------------------------------
 
 latency_dram_str = """
-    latency	loads
+    Latency	Loads
     6	32570268150
     7	393529223360
     8	36692404420
@@ -2332,9 +2332,8 @@ scaleL = [ 4901470.0, 4201260.0, 4201260.0 ]
 
 #-------------------------------------------------------
 
-df0 = lat_dfrm_hist.iloc[:, 0] # latency buckets
+#df0 = lat_dfrm_hist.iloc[:, 0] # latency buckets
 #print("df0\n", df0)
-
 
 # for i in range(0, 3):
 #     # weights and weighted latencies
@@ -2368,14 +2367,11 @@ ax.set_title('friendster, DRAM BW (GB/s)')
 
 #-------------------------------------------------------
 
-# Show mean rather than median
 lat_dfrm_mean = lat_dfrm_wide.mean(axis=0)
 
-ax = seaborn.violinplot(data=lat_dfrm_wide, ax=axes[1], cut = 0,
+ax = seaborn.violinplot(data=lat_dfrm_wide, ax=axes[1], cut = 0, # alpha=.3
                         palette='muted', scale = 'area', inner = 'box')
 xlim = ax.get_xlim()
-
-#pyplt.setp(ax.collections, alpha=.3)
 ax = seaborn.scatterplot(data = lat_dfrm_mean, ax=ax,
                          marker='d', color='white', zorder=10)
 
