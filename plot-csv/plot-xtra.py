@@ -89,15 +89,23 @@ def makeDataFrames(data_nameL, data_stringL, convert, scale = None):
 
 
 #----------------------------------------------------------------------------
-# Run time
+# Run time (seconds)
 #----------------------------------------------------------------------------
 
 runtime_str = """
-graph            dram      pmem   kmem      mmem
-orkut          19.486    19.201     ?
-friendster   1081.808   878.044   739.163
-moliere201   1054.310  1059.695     ?
+graph           dram      pmem      kmem      mmem
+orkut         19.486    19.202       ?        ?
+friendster  1081.808   878.044   739.163      ?
+moliere201  1054.310  1059.696       ?        ?
 """
+
+#clueweb12/kmem
+"""
+graph     kmem/plain     kmem/vtune
+clueweb12 12688.375245   13062.025550
+uk2014      764.455450   793.211607
+"""
+
 
 runtime_data = io.StringIO(runtime_str)
 dfrm = pandas.read_csv(runtime_data, sep='\s+', index_col=0)
@@ -107,7 +115,7 @@ print(dfrm)
 
 
 #----------------------------------------------------------------------------
-# friendster DRAM bandwidth (GB/sec)
+# friendster DRAM bandwidth (GB/s)
 #----------------------------------------------------------------------------
 
 dramBw_dram_str = """
@@ -259,6 +267,7 @@ dramBw_kmem_str = """
   440	0
   450	0
 """
+
 
 #----------------------------------------------------------------------------
 # friendster Load Latency (cycles)
@@ -2384,6 +2393,4 @@ ax.set_title('friendster, Load Latency (cycles)')
 #seaborn.plt.show()
 pyplt.show()
 
-# clueweb12
-# uk2014
 
