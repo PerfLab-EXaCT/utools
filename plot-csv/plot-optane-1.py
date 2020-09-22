@@ -44,10 +44,10 @@ def main():
     #csv_pathL = sys.argv[1:]
     
     #-------------------------------------------------------
-    # Medium graphs
+    # Medium graphs/All memory modes
     #-------------------------------------------------------
 
-    graphL_a = ['orkut', 'friendster', 'moliere2016']
+    graphL_med = ['orkut', 'friendster', 'moliere2016']
 
     # grappolo-orkut-appdirect-dram-pkg.csv
     # grappolo-orkut-appdirect-pdax-pkg.csv
@@ -62,39 +62,43 @@ def main():
     # grappolo-moliere2016-appdirect-pdax-fn.csv
     # grappolo-orkut-appdirect-dram-fn.csv
     # grappolo-orkut-appdirect-pdax-fn.csv
-    
+
+    #???
+    # grappolo-friendster-appdirect-kdax-pkg.csv
+    # grappolo-friendster-appdirect-kdax-fn.csv
+
+
     path_pfx = './1grappolo/grappolo-'
 
     pathL1 = [
         [path_pfx + x + '-appdirect-dram-pkg.csv',
-         path_pfx + x + '-appdirect-pdax-pkg.csv'] for x in graphL_a ]
+         path_pfx + x + '-appdirect-pdax-pkg.csv',
+         path_pfx + x + '-appdirect-kdax-pkg.csv'] for x in graphL_med ]
 
     pathL1 = [x for pair in pathL1 for x in pair ] # flatten
 
     pathL2 = [
         [path_pfx + x + '-appdirect-dram-fn.csv',
-         path_pfx + x + '-appdirect-pdax-fn.csv'] for x in graphL_a ]
+         path_pfx + x + '-appdirect-pdax-fn.csv'] for x in graphL_med ]
 
     pathL2 = [x for pair in pathL2 for x in pair ] # flatten
 
     
     #-------------------------------------------------------
-    # Large graphs
+    # Large graphs/Big memory modes
     #-------------------------------------------------------
 
-    graphL_b = ['friendster', 'clueweb12', 'uk2014']
+    graphL_big = ['clueweb12', 'uk2014']
 
-    # grappolo-friendster-appdirect-kdax-pkg.csv
     # grappolo-clueweb12-appdirect-kdax-pkg.csv
     # grappolo-uk2014-appdirect-kdax-pkg.csv
 
-    # grappolo-friendster-appdirect-kdax-fn.csv
     # grappolo-clueweb12-appdirect-kdax-fn.csv
     # grappolo-uk2014-appdirect-kdax-fn.csv
 
-    pathL3 = [path_pfx + x + '-appdirect-kdax-pkg.csv' for x in graphL_b ]
+    pathL3 = [path_pfx + x + '-appdirect-kdax-pkg.csv' for x in graphL_big ]
 
-    pathL4 = [path_pfx + x + '-appdirect-kdax-fn.csv' for x in graphL_b ]
+    pathL4 = [path_pfx + x + '-appdirect-kdax-fn.csv' for x in graphL_big ]
 
     
     #-------------------------------------------------------
@@ -137,14 +141,14 @@ def main():
     
     
     #-------------------------------------------------------
-    # pdax
+    # Medium graphs
     #-------------------------------------------------------
 
     vt1 = vtcsv.VTuneCSV(pathL1, group_by = 'csv')
     vt2 = vtcsv.VTuneCSV(pathL2, group_by = 'csv', makeColL = makeColL)
     
-    (fig1a, fig1b) = plot_pkg(vt1, graphL_a, metricL1, metricL2)
-    (fig2a, fig2b) = plot_fn (vt2, graphL_a, metricL1b, metricL2)
+    (fig1a, fig1b) = plot_pkg(vt1, graphL_med, metricL1, metricL2)
+    (fig2a, fig2b) = plot_fn (vt2, graphL_med, metricL1b, metricL2)
 
     fig1a.savefig("chart-grappolo-pdax-pkg-metric1.pdf", bbox_inches='tight')
     fig1b.savefig("chart-grappolo-pdax-pkg-metric2.pdf", bbox_inches='tight')
@@ -153,14 +157,14 @@ def main():
     fig2b.savefig("chart-grappolo-pdax-fn-metric2.pdf", bbox_inches='tight')
 
     #-------------------------------------------------------
-    # kdax
+    # Large graphs
     #-------------------------------------------------------
 
     vt3 = vtcsv.VTuneCSV(pathL3, group_by = 'csv')
     vt4 = vtcsv.VTuneCSV(pathL4, group_by = 'csv', makeColL = makeColL)
     
-    (fig3a, fig3b) = plot_pkg(vt3, graphL_b, metricL1, metricL2)
-    (fig4a, fig4b) = plot_fn (vt4, graphL_b, metricL1b, metricL2)
+    (fig3a, fig3b) = plot_pkg(vt3, graphL_big, metricL1, metricL2)
+    (fig4a, fig4b) = plot_fn (vt4, graphL_big, metricL1b, metricL2)
 
     fig3a.savefig("chart-grappolo-kdax-pkg-metric1.pdf", bbox_inches='tight')
     fig3b.savefig("chart-grappolo-kdax-pkg-metric2.pdf", bbox_inches='tight')
