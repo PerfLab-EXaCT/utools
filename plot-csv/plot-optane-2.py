@@ -92,7 +92,7 @@ def makeDataFrames(data_nameL, data_stringL, convert, scale = None):
 # Run time (seconds)
 #----------------------------------------------------------------------------
 
-# vtune
+# 192 threads/vtune
 runtime_str = """
 graph           dram      pdax      kdax      mem
 orkut         19.486    19.202       ?        ?
@@ -100,8 +100,16 @@ friendster  1081.808   878.044   739.163      ?
 moliere201  1054.310  1059.696       ?        ?
 """
 
+# 192 threads/non-vtune (???)
+"""
+graph             dram         pdax
+orkut        19.486751    19.201794
+friendster  968.778346   887.835935
+moliere201  1054.31008  1059.69578
+"""
 
-#
+
+# 192 threads/vtune
 """
 graph     kdax/plain     kdax/vtune
 clueweb12 12688.375245   13062.025550
