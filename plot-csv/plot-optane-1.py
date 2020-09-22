@@ -79,7 +79,8 @@ def main():
 
     pathL2 = [
         [path_pfx + x + '-appdirect-dram-fn.csv',
-         path_pfx + x + '-appdirect-pdax-fn.csv'] for x in graphL_med ]
+         path_pfx + x + '-appdirect-pdax-fn.csv',
+         path_pfx + x + '-appdirect-kdax-fn.csv'] for x in graphL_med ]
 
     pathL2 = [x for pair in pathL2 for x in pair ] # flatten
 
@@ -146,15 +147,17 @@ def main():
 
     vt1 = vtcsv.VTuneCSV(pathL1, group_by = 'csv')
     vt2 = vtcsv.VTuneCSV(pathL2, group_by = 'csv', makeColL = makeColL)
-    
-    (fig1a, fig1b) = plot_pkg(vt1, graphL_med, metricL1, metricL2)
-    (fig2a, fig2b) = plot_fn (vt2, graphL_med, metricL1b, metricL2)
 
-    fig1a.savefig("chart-grappolo-pdax-pkg-metric1.pdf", bbox_inches='tight')
-    fig1b.savefig("chart-grappolo-pdax-pkg-metric2.pdf", bbox_inches='tight')
+    widthL_p = (3.3, 3.5, 1.8)
+    widthL_f = (3.3, 3.5, 2.7)
+    (fig1a, fig1b) = plot_pkg(vt1, graphL_med, widthL_p, metricL1, metricL2)
+    (fig2a, fig2b) = plot_fn (vt2, graphL_med, widthL_f, metricL1b, metricL2)
 
-    fig2a.savefig("chart-grappolo-pdax-fn-metric1.pdf", bbox_inches='tight')
-    fig2b.savefig("chart-grappolo-pdax-fn-metric2.pdf", bbox_inches='tight')
+    fig1a.savefig("chart-grappolo-med-pkg-metric1.pdf", bbox_inches='tight')
+    fig1b.savefig("chart-grappolo-med-pkg-metric2.pdf", bbox_inches='tight')
+
+    fig2a.savefig("chart-grappolo-med-fn-metric1.pdf", bbox_inches='tight')
+    fig2b.savefig("chart-grappolo-med-fn-metric2.pdf", bbox_inches='tight')
 
     #-------------------------------------------------------
     # Large graphs
@@ -162,22 +165,24 @@ def main():
 
     vt3 = vtcsv.VTuneCSV(pathL3, group_by = 'csv')
     vt4 = vtcsv.VTuneCSV(pathL4, group_by = 'csv', makeColL = makeColL)
-    
-    (fig3a, fig3b) = plot_pkg(vt3, graphL_big, metricL1, metricL2)
-    (fig4a, fig4b) = plot_fn (vt4, graphL_big, metricL1b, metricL2)
 
-    fig3a.savefig("chart-grappolo-kdax-pkg-metric1.pdf", bbox_inches='tight')
-    fig3b.savefig("chart-grappolo-kdax-pkg-metric2.pdf", bbox_inches='tight')
+    widthL_p = (1.5, 2.0, 1.8)
+    widthL_f = (3.3, 3.4, 2.7)
+    (fig3a, fig3b) = plot_pkg(vt3, graphL_big, widthL_p, metricL1, metricL2)
+    (fig4a, fig4b) = plot_fn (vt4, graphL_big, widthL_f, metricL1b, metricL2)
 
-    fig4a.savefig("chart-grappolo-kdax-fn-metric1.pdf", bbox_inches='tight')
-    fig4b.savefig("chart-grappolo-kdax-fn-metric2.pdf", bbox_inches='tight')
+    fig3a.savefig("chart-grappolo-big-pkg-metric1.pdf", bbox_inches='tight')
+    fig3b.savefig("chart-grappolo-big-pkg-metric2.pdf", bbox_inches='tight')
+
+    fig4a.savefig("chart-grappolo-big-fn-metric1.pdf", bbox_inches='tight')
+    fig4b.savefig("chart-grappolo-big-fn-metric2.pdf", bbox_inches='tight')
 
     pyplt.show()
 
     
 #****************************************************************************
 
-def plot_pkg(vt, graphL, metricL1, metricL2):
+def plot_pkg(vt, graphL, widthL, metricL1, metricL2):
 
     # Massage 'vt' in-place
     # for kv in vt.dataL:
@@ -190,12 +195,14 @@ def plot_pkg(vt, graphL, metricL1, metricL2):
     # 
     #-------------------------------------------------------
 
+    (w1, w2, h) = (widthL[0], widthL[1], widthL[2])
+    
     num_metric1 = len(metricL1)
-    fig1, axesL1 = pyplt.subplots(nrows=1, ncols=(num_metric1), figsize=(3.3*num_metric1,1.8))
+    fig1, axesL1 = pyplt.subplots(nrows=1, ncols=(num_metric1), figsize=(w1*num_metric1,h))
     plot_row(vt, fig1, axesL1, metricL1, dfrm_pkg_xform(graphL), 'Socket', graphL)
 
     num_metric2 = len(metricL2)
-    fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(num_metric2), figsize=(3.5*num_metric2,1.8))
+    fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(num_metric2), figsize=(w2*num_metric2,h))
     plot_row(vt, fig2, axesL2, metricL2, dfrm_pkg_xform(graphL), 'Socket', graphL)
 
     return (fig1, fig2)
@@ -212,7 +219,7 @@ def dfrm_pkg_xform(graphL):
 
 #****************************************************************************
 
-def plot_fn(vt, graphL, metricL1, metricL2):
+def plot_fn(vt, graphL, widthL, metricL1, metricL2):
 
     functionH = collections.OrderedDict( [
         ('buildLocalMapCounter', 'blmc'),
@@ -232,12 +239,14 @@ def plot_fn(vt, graphL, metricL1, metricL2):
     # 
     #-------------------------------------------------------
 
+    (w1, w2, h) = (widthL[0], widthL[1], widthL[2])
+
     num_metric1 = len(metricL1)
-    fig1, axesL1 = pyplt.subplots(nrows=1, ncols=(num_metric1), figsize=(3.3*num_metric1,2.7))
+    fig1, axesL1 = pyplt.subplots(nrows=1, ncols=(num_metric1), figsize=(w1*num_metric1,h))
     plot_row(vt, fig1, axesL1, metricL1, dfrm_fn_xform(functionH, graphL), 'Functions', graphL)
 
     num_metric2 = len(metricL2)
-    fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(num_metric2), figsize=(3.4*num_metric2,2.7))
+    fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(num_metric2), figsize=(w2*num_metric2,h))
     plot_row(vt, fig2, axesL2, metricL2, dfrm_fn_xform(functionH, graphL), 'Functions', graphL)
 
     return (fig1, fig2)

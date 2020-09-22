@@ -92,30 +92,39 @@ def makeDataFrames(data_nameL, data_stringL, convert, scale = None):
 # Run time (seconds)
 #----------------------------------------------------------------------------
 
+#-------------------------------------------------------
+# Medium graphs
+#-------------------------------------------------------
 
-# 192 threads (plain, 1 phase, excludes I/O)
-"""
+# 192 threads: plain, 1 phase, excludes I/O
+runtime_str = """
 graph             dram         pdax  kdax   mem
-orkut        19.486751    19.201794   ?      ?
+orkut         19.486751   19.201794   ?      ?
 friendster  968.778346   887.835935   ?      ?
 moliere201  1054.31008  1059.69578    ?      ?
 """
 
+# 192 threads: vtune total
 """
-graph             kdax   mem
-clueweb12 12688.375245
-uk2014      764.455450
-"""
-
-
-# 192 threads (vtune total)
-runtime_str = """
 graph           dram      pdax      kdax      mem
 orkut         21.864    31.600       ?        ?
 friendster  1081.808   878.044   739.163      ?
 moliere201  1160.216  1394.221       ?        ?
 """
 
+
+#-------------------------------------------------------
+# 192 threads (vtune total)
+#-------------------------------------------------------
+
+# 192 threads: plain, 1 phase, excludes I/O
+"""
+graph             kdax   mem
+clueweb12 12688.375245
+uk2014      764.455450
+"""
+
+# 192 threads: vtune total
 """
 graph          kdax  kdax/IO-only
 clueweb12 18746.645  13062.025550
