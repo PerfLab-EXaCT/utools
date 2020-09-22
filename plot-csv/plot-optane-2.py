@@ -92,17 +92,18 @@ def makeDataFrames(data_nameL, data_stringL, convert, scale = None):
 # Run time (seconds)
 #----------------------------------------------------------------------------
 
+# vtune
 runtime_str = """
-graph           dram      pmem      kmem      mmem
+graph           dram      pdax      kdax      mem
 orkut         19.486    19.202       ?        ?
 friendster  1081.808   878.044   739.163      ?
 moliere201  1054.310  1059.696       ?        ?
 """
 
 
-#clueweb12/kmem
+#
 """
-graph     kmem/plain     kmem/vtune
+graph     kdax/plain     kdax/vtune
 clueweb12 12688.375245   13062.025550
 uk2014      764.455450   793.211607
 """
@@ -169,7 +170,7 @@ dramBw_dram_str = """
   450	0
 """
 
-dramBw_pmem_str = """
+dramBw_pdax_str = """
   dram_bw time
   0	188.37429006909997
   10	79.14
@@ -219,7 +220,7 @@ dramBw_pmem_str = """
   450	0
 """
 
-dramBw_kmem_str = """
+dramBw_kdax_str = """
   dram_bw time
   0	62.142981342099986
   10	76.75000000000001
@@ -1068,7 +1069,7 @@ latency_dram_str = """
     3324	4901470
 """
 
-latency_pmem_str = """
+latency_pdax_str = """
     Latency	Loads
     6	31879160880
     7	364812210840
@@ -1699,7 +1700,7 @@ latency_pmem_str = """
     2786	4201260
 """
 
-latency_kmem_str = """
+latency_kdax_str = """
     Latency	Loads
     6	30496946340
     7	364955053680
@@ -2317,14 +2318,14 @@ latency_kmem_str = """
 # Create DataFrames
 #-------------------------------------------------------
 
-bw_data_nmL =  ['dram', 'pmem', 'kmem']
-bw_data_strL = [ dramBw_dram_str, dramBw_pmem_str, dramBw_kmem_str ]
+bw_data_nmL =  ['dram', 'pdax', 'kdax']
+bw_data_strL = [ dramBw_dram_str, dramBw_pdax_str, dramBw_kdax_str ]
 
 (bw_dfrm_hist, bw_dfrm_wide) = makeDataFrames(bw_data_nmL, bw_data_strL,
                                               convert = 'sample')
 
-lat_data_nmL =  ['dram', 'pmem', 'kmem']
-lat_data_strL = [ latency_dram_str, latency_pmem_str, latency_kmem_str ]
+lat_data_nmL =  ['dram', 'pdax', 'kdax']
+lat_data_strL = [ latency_dram_str, latency_pdax_str, latency_kdax_str ]
 
 scaleL = [ 4901470.0, 4201260.0, 4201260.0 ]
 (lat_dfrm_hist, lat_dfrm_wide) = makeDataFrames(lat_data_nmL, lat_data_strL,

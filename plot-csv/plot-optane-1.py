@@ -50,30 +50,30 @@ def main():
     graphL_a = ['orkut', 'friendster', 'moliere2016']
 
     # grappolo-orkut-appdirect-dram-pkg.csv
-    # grappolo-orkut-appdirect-pmem-pkg.csv
+    # grappolo-orkut-appdirect-pdax-pkg.csv
     # grappolo-friendster-appdirect-dram-pkg.csv
-    # grappolo-friendster-appdirect-pmem-pkg.csv
+    # grappolo-friendster-appdirect-pdax-pkg.csv
     # grappolo-moliere2016-appdirect-dram-pkg.csv
-    # grappolo-moliere2016-appdirect-pmem-pkg.csv
+    # grappolo-moliere2016-appdirect-pdax-pkg.csv
 
     # grappolo-friendster-appdirect-dram-fn.csv
-    # grappolo-friendster-appdirect-pmem-fn.csv
+    # grappolo-friendster-appdirect-pdax-fn.csv
     # grappolo-moliere2016-appdirect-dram-fn.csv
-    # grappolo-moliere2016-appdirect-pmem-fn.csv
+    # grappolo-moliere2016-appdirect-pdax-fn.csv
     # grappolo-orkut-appdirect-dram-fn.csv
-    # grappolo-orkut-appdirect-pmem-fn.csv
+    # grappolo-orkut-appdirect-pdax-fn.csv
     
     path_pfx = './1grappolo/grappolo-'
 
     pathL1 = [
         [path_pfx + x + '-appdirect-dram-pkg.csv',
-         path_pfx + x + '-appdirect-pmem-pkg.csv'] for x in graphL_a ]
+         path_pfx + x + '-appdirect-pdax-pkg.csv'] for x in graphL_a ]
 
     pathL1 = [x for pair in pathL1 for x in pair ] # flatten
 
     pathL2 = [
         [path_pfx + x + '-appdirect-dram-fn.csv',
-         path_pfx + x + '-appdirect-pmem-fn.csv'] for x in graphL_a ]
+         path_pfx + x + '-appdirect-pdax-fn.csv'] for x in graphL_a ]
 
     pathL2 = [x for pair in pathL2 for x in pair ] # flatten
 
@@ -84,17 +84,17 @@ def main():
 
     graphL_b = ['friendster', 'clueweb12', 'uk2014']
 
-    # grappolo-friendster-appdirect-kmem-pkg.csv
-    # grappolo-clueweb12-appdirect-kmem-pkg.csv
-    # grappolo-uk2014-appdirect-kmem-pkg.csv
+    # grappolo-friendster-appdirect-kdax-pkg.csv
+    # grappolo-clueweb12-appdirect-kdax-pkg.csv
+    # grappolo-uk2014-appdirect-kdax-pkg.csv
 
-    # grappolo-friendster-appdirect-kmem-fn.csv
-    # grappolo-clueweb12-appdirect-kmem-fn.csv
-    # grappolo-uk2014-appdirect-kmem-fn.csv
+    # grappolo-friendster-appdirect-kdax-fn.csv
+    # grappolo-clueweb12-appdirect-kdax-fn.csv
+    # grappolo-uk2014-appdirect-kdax-fn.csv
 
-    pathL3 = [path_pfx + x + '-appdirect-kmem-pkg.csv' for x in graphL_b ]
+    pathL3 = [path_pfx + x + '-appdirect-kdax-pkg.csv' for x in graphL_b ]
 
-    pathL4 = [path_pfx + x + '-appdirect-kmem-fn.csv' for x in graphL_b ]
+    pathL4 = [path_pfx + x + '-appdirect-kdax-fn.csv' for x in graphL_b ]
 
     
     #-------------------------------------------------------
@@ -108,7 +108,7 @@ def main():
         ('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
         ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
         ('Memory Bound:Store Bound(%)', 'Store Bound (%)')
-        #('Memory Bound:Persistent Memory Bound(%)', 'PMem Bound (%)')
+        #('Memory Bound:Persistent Memory Bound(%)', 'Pdax Bound (%)')
         ]
 
     makeColL = [ ('CPU Time', 'CPU Time (%)', 'percent') ]
@@ -121,7 +121,7 @@ def main():
         ('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
         ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
         #('Memory Bound:Store Bound(%)', 'Store Bound (%)')
-        #('Memory Bound:Persistent Memory Bound(%)', 'PMem Bound (%)')
+        #('Memory Bound:Persistent Memory Bound(%)', 'Pdax Bound (%)')
         ]
     
     metricL2 = [
@@ -130,14 +130,14 @@ def main():
         #('LLC Miss Count', 'LLC Miss'),
         ('LLC Miss Count:Remote DRAM Access Count', 'LLC Miss:Remote DRAM'),
         ('LLC Miss Count:Local DRAM Access Count',  'LLC Miss:Local DRAM'),
-        #('LLC Miss Count:Local Persistent Memory Access Count', 'LLC Miss:Local PMem'),
-        #('LLC Miss Count:Remote Persistent Memory Access Count', 'LLC Miss:Remote PMem'),
+        #('LLC Miss Count:Local Persistent Memory Access Count', 'LLC Miss:Local Pdax'),
+        #('LLC Miss Count:Remote Persistent Memory Access Count', 'LLC Miss:Remote Pdax'),
         ('LLC Miss Count:Remote Cache Access Count', 'LLC Miss:Remote Cache')
         ]
     
     
     #-------------------------------------------------------
-    # pmem-dax
+    # pdax
     #-------------------------------------------------------
 
     vt1 = vtcsv.VTuneCSV(pathL1, group_by = 'csv')
@@ -153,7 +153,7 @@ def main():
     fig2b.savefig("chart-grappolo-pdax-fn-metric2.pdf", bbox_inches='tight')
 
     #-------------------------------------------------------
-    # kmem-dax
+    # kdax
     #-------------------------------------------------------
 
     vt3 = vtcsv.VTuneCSV(pathL3, group_by = 'csv')
