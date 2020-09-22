@@ -93,10 +93,10 @@ def makeDataFrames(data_nameL, data_stringL, convert, scale = None):
 #----------------------------------------------------------------------------
 
 runtime_str = """
-graph            dram      pmem   kmem
-orkut          19.486    19.201   0
+graph            dram      pmem   kmem      mmem
+orkut          19.486    19.201     ?
 friendster   1081.808   878.044   739.163
-moliere201   1054.310  1059.695   0
+moliere201   1054.310  1059.695     ?
 """
 
 runtime_data = io.StringIO(runtime_str)
@@ -2356,7 +2356,7 @@ bw_dfrm_mean = bw_dfrm_wide.mean(axis=0)
 fig, axes = pyplt.subplots(ncols=2, figsize=(10, 4))
 
 ax = seaborn.violinplot(data=bw_dfrm_wide, ax=axes[0], cut = 0,
-                          palette='muted', scale = 'area', inner = 'box')
+                        palette='muted', scale = 'area', inner = 'box')
 xlim = ax.get_xlim()
 ax = seaborn.scatterplot(data = bw_dfrm_mean, ax=ax,
                          marker='d', color='white', zorder=10)
@@ -2372,7 +2372,7 @@ ax.set_title('friendster, DRAM BW (GB/s)')
 lat_dfrm_mean = lat_dfrm_wide.mean(axis=0)
 
 ax = seaborn.violinplot(data=lat_dfrm_wide, ax=axes[1], cut = 0,
-                          palette='muted', scale = 'area', inner = 'box')
+                        palette='muted', scale = 'area', inner = 'box')
 xlim = ax.get_xlim()
 
 #pyplt.setp(ax.collections, alpha=.3)
