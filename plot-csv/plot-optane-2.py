@@ -113,9 +113,9 @@ moliere201  1054.31008  1059.69578
 
 # 192 threads
 """
-graph     kdax/plain     kdax/vtune    profile (!!!)
-clueweb12 12688.375245   13062.025550 (18746.645!!!)
-uk2014      764.455450   793.211607   (7375.198!!!)
+graph     kdax/plain     kdax/vtune    kdax/vtune-me (???)
+clueweb12 12688.375245   13062.025550  18746.645
+uk2014      764.455450   793.211607    7375.198
 """
 
 
