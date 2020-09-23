@@ -51,40 +51,25 @@ def main():
 
     graphL_med = ['orkut', 'friendster', 'moliere2016']
 
-    # grappolo-orkut-appdirect-dram-pkg.csv
-    # grappolo-orkut-appdirect-pdax-pkg.csv
-    # grappolo-friendster-appdirect-dram-pkg.csv
-    # grappolo-friendster-appdirect-pdax-pkg.csv
-    # grappolo-moliere2016-appdirect-dram-pkg.csv
-    # grappolo-moliere2016-appdirect-pdax-pkg.csv
-
-    # grappolo-friendster-appdirect-dram-fn.csv
-    # grappolo-friendster-appdirect-pdax-fn.csv
-    # grappolo-moliere2016-appdirect-dram-fn.csv
-    # grappolo-moliere2016-appdirect-pdax-fn.csv
-    # grappolo-orkut-appdirect-dram-fn.csv
-    # grappolo-orkut-appdirect-pdax-fn.csv
-
-    #???
-    # grappolo-friendster-appdirect-kdax-pkg.csv
-    # grappolo-friendster-appdirect-kdax-fn.csv
+    # grappolo-<graph>-<type>-pkg.csv
+    # grappolo-<graph>-<type>-fn.csv
 
 
     path_pfx = './1grappolo/grappolo-'
 
-    pathL1 = [
-        [path_pfx + x + '-appdirect-dram-pkg.csv',
-         path_pfx + x + '-appdirect-pdax-pkg.csv',
-         path_pfx + x + '-appdirect-kdax-pkg.csv'] for x in graphL_med ]
+    pathL_Mp = [
+        [path_pfx + x + '-dram-pkg.csv',
+         path_pfx + x + '-pdax-pkg.csv',
+         path_pfx + x + '-kdax-pkg.csv'] for x in graphL_med ]
 
-    pathL1 = [x for pair in pathL1 for x in pair ] # flatten
+    pathL_Mp = [x for pair in pathL_Mp for x in pair ] # flatten
 
-    pathL2 = [
-        [path_pfx + x + '-appdirect-dram-fn.csv',
-         path_pfx + x + '-appdirect-pdax-fn.csv',
-         path_pfx + x + '-appdirect-kdax-fn.csv'] for x in graphL_med ]
+    pathL_Mf = [
+        [path_pfx + x + '-dram-fn.csv',
+         path_pfx + x + '-pdax-fn.csv',
+         path_pfx + x + '-kdax-fn.csv'] for x in graphL_med ]
 
-    pathL2 = [x for pair in pathL2 for x in pair ] # flatten
+    pathL_Mf = [x for pair in pathL_Mf for x in pair ] # flatten
 
     
     #-------------------------------------------------------
@@ -93,15 +78,15 @@ def main():
 
     graphL_big = ['clueweb12', 'uk2014']
 
-    # grappolo-clueweb12-appdirect-kdax-pkg.csv
-    # grappolo-uk2014-appdirect-kdax-pkg.csv
+    # grappolo-clueweb12-kdax-pkg.csv
+    # grappolo-uk2014-kdax-pkg.csv
 
-    # grappolo-clueweb12-appdirect-kdax-fn.csv
-    # grappolo-uk2014-appdirect-kdax-fn.csv
+    # grappolo-clueweb12-kdax-fn.csv
+    # grappolo-uk2014-kdax-fn.csv
 
-    pathL3 = [path_pfx + x + '-appdirect-kdax-pkg.csv' for x in graphL_big ]
+    pathL_Bp = [path_pfx + x + '-kdax-pkg.csv' for x in graphL_big ]
 
-    pathL4 = [path_pfx + x + '-appdirect-kdax-fn.csv' for x in graphL_big ]
+    pathL_Bf = [path_pfx + x + '-kdax-fn.csv' for x in graphL_big ]
 
     
     #-------------------------------------------------------
@@ -147,8 +132,8 @@ def main():
     # Medium graphs
     #-------------------------------------------------------
 
-    vt_Mp = vtcsv.VTuneCSV(pathL1, group_by = 'csv')
-    vt_Mf = vtcsv.VTuneCSV(pathL2, group_by = 'csv', makeColL = makeColL_f)
+    vt_Mp = vtcsv.VTuneCSV(pathL_Mp, group_by = 'csv')
+    vt_Mf = vtcsv.VTuneCSV(pathL_Mf, group_by = 'csv', makeColL = makeColL_f)
 
     widthL_p = (3.4, 3.9, 1.8)
     widthL_f = (3.5, 3.9, 1.8) # h=2.7
@@ -165,8 +150,8 @@ def main():
     # Big graphs
     #-------------------------------------------------------
 
-    vt_Bp = vtcsv.VTuneCSV(pathL3, group_by = 'csv')
-    vt_Bf = vtcsv.VTuneCSV(pathL4, group_by = 'csv', makeColL = makeColL_f)
+    vt_Bp = vtcsv.VTuneCSV(pathL_Bp, group_by = 'csv')
+    vt_Bf = vtcsv.VTuneCSV(pathL_Bf, group_by = 'csv', makeColL = makeColL_f)
 
     widthL_p = (2.1, 2.1, 1.8)
     widthL_f = (2.3, 2.3, 1.8) # h=2.7
@@ -181,7 +166,9 @@ def main():
 
     pyplt.show()
 
+
     
+
 #****************************************************************************
 
 def plot_pkg(vt, graphL, widthL, metricL1, metricL2):
@@ -365,7 +352,7 @@ def rename_col(x, graphL):
 
     for g in graphL: x0 = x0.replace(g, "")
     
-    x0 = x0.replace("grappolo--appdirect-", "") # not a typo!
+    x0 = x0.replace("grappolo--", "") # not a typo!
     x0 = x0.replace("-pkg", "")
     x0 = x0.replace("-fn", "")
     
