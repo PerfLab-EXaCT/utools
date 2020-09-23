@@ -26,6 +26,8 @@ import VTuneCSV as vtcsv
 txt_sz_heatmap = 10
 txt_sz_heatmap_scale = 10
 
+do_view = 0
+
 #****************************************************************************
 #
 #****************************************************************************
@@ -86,7 +88,7 @@ def main():
 
     
     #-------------------------------------------------------
-    # Large graphs/Big memory modes
+    # Big graphs/Big memory modes
     #-------------------------------------------------------
 
     graphL_big = ['clueweb12', 'uk2014']
@@ -104,7 +106,7 @@ def main():
     
     #-------------------------------------------------------
 
-    metricL1 = [
+    metricL1_p = [
         #('CPU Time', ''),
         ('Average Latency (cycles)',    'Latency (cycles)'),
         #('Memory Bound(%)', ''), ''),
@@ -112,13 +114,13 @@ def main():
         ('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
         ('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
         ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
-        ('Memory Bound:Store Bound(%)', 'Store Bound (%)')
+        #('Memory Bound:Store Bound(%)', 'Store Bound (%)')
         #('Memory Bound:Persistent Memory Bound(%)', 'Pdax Bound (%)')
         ]
 
-    makeColL = [ ('CPU Time', 'CPU Time (%)', 'percent') ]
-    metricL1b = [
-        (makeColL[0][1], ''),
+    makeColL_f = [ ('CPU Time', 'CPU Time (%)', 'percent') ]
+    metricL1_f = [
+        (makeColL_f[0][1], ''),
         ('Average Latency (cycles)',    'Latency (cycles)'),
         #('Memory Bound(%)', ''), ''),
         ('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
@@ -145,37 +147,37 @@ def main():
     # Medium graphs
     #-------------------------------------------------------
 
-    vt1 = vtcsv.VTuneCSV(pathL1, group_by = 'csv')
-    vt2 = vtcsv.VTuneCSV(pathL2, group_by = 'csv', makeColL = makeColL)
+    vt_Mp = vtcsv.VTuneCSV(pathL1, group_by = 'csv')
+    vt_Mf = vtcsv.VTuneCSV(pathL2, group_by = 'csv', makeColL = makeColL_f)
 
-    widthL_p = (3.6, 3.9, 1.8)
-    widthL_f = (3.5, 3.9, 2.7)
-    (fig1a, fig1b) = plot_pkg(vt1, graphL_med, widthL_p, metricL1, metricL2)
-    (fig2a, fig2b) = plot_fn (vt2, graphL_med, widthL_f, metricL1b, metricL2)
+    widthL_p = (3.4, 3.9, 1.8)
+    widthL_f = (3.5, 3.9, 1.8) # h=2.7
+    (fig_Mp1, fig_Mp2) = plot_pkg(vt_Mp, graphL_med, widthL_p, metricL1_p, metricL2)
+    (fig_Mf1, fig_Mf2) = plot_fn (vt_Mf, graphL_med, widthL_f, metricL1_f, metricL2)
 
-    fig1a.savefig("chart-grappolo-med-pkg-metric1.pdf", bbox_inches='tight')
-    fig1b.savefig("chart-grappolo-med-pkg-metric2.pdf", bbox_inches='tight')
+    fig_Mp1.savefig("chart-grappolo-med-pkg-metric1.pdf", bbox_inches='tight')
+    #fig_Mp2.savefig("chart-grappolo-med-pkg-metric2.pdf", bbox_inches='tight')
 
-    fig2a.savefig("chart-grappolo-med-fn-metric1.pdf", bbox_inches='tight')
-    fig2b.savefig("chart-grappolo-med-fn-metric2.pdf", bbox_inches='tight')
+    fig_Mf1.savefig("chart-grappolo-med-fn-metric1.pdf", bbox_inches='tight')
+    #fig_Mf2.savefig("chart-grappolo-med-fn-metric2.pdf", bbox_inches='tight')
 
     #-------------------------------------------------------
-    # Large graphs
+    # Big graphs
     #-------------------------------------------------------
 
-    vt3 = vtcsv.VTuneCSV(pathL3, group_by = 'csv')
-    vt4 = vtcsv.VTuneCSV(pathL4, group_by = 'csv', makeColL = makeColL)
+    vt_Bp = vtcsv.VTuneCSV(pathL3, group_by = 'csv')
+    vt_Bf = vtcsv.VTuneCSV(pathL4, group_by = 'csv', makeColL = makeColL_f)
 
     widthL_p = (2.1, 2.1, 1.8)
-    widthL_f = (2.3, 2.3, 2.7)
-    (fig3a, fig3b) = plot_pkg(vt3, graphL_big, widthL_p, metricL1, metricL2)
-    (fig4a, fig4b) = plot_fn (vt4, graphL_big, widthL_f, metricL1b, metricL2)
+    widthL_f = (2.3, 2.3, 1.8) # h=2.7
+    (fig_Bp1, fig_Bp2) = plot_pkg(vt_Bp, graphL_big, widthL_p, metricL1_p, metricL2)
+    (fig_Bf1, fig_Bf2) = plot_fn (vt_Bf, graphL_big, widthL_f, metricL1_f, metricL2)
 
-    fig3a.savefig("chart-grappolo-big-pkg-metric1.pdf", bbox_inches='tight')
-    fig3b.savefig("chart-grappolo-big-pkg-metric2.pdf", bbox_inches='tight')
+    fig_Bp1.savefig("chart-grappolo-big-pkg-metric1.pdf", bbox_inches='tight')
+    #fig_Bp2.savefig("chart-grappolo-big-pkg-metric2.pdf", bbox_inches='tight')
 
-    fig4a.savefig("chart-grappolo-big-fn-metric1.pdf", bbox_inches='tight')
-    fig4b.savefig("chart-grappolo-big-fn-metric2.pdf", bbox_inches='tight')
+    fig_Bf1.savefig("chart-grappolo-big-fn-metric1.pdf", bbox_inches='tight')
+    #fig_Bf2.savefig("chart-grappolo-big-fn-metric2.pdf", bbox_inches='tight')
 
     pyplt.show()
 
@@ -225,12 +227,12 @@ def plot_fn(vt, graphL, widthL, metricL1, metricL2):
         ('buildLocalMapCounter', 'blmc'),
         ('std::_Rb_tree_insert_and_rebalance', 'blmc->map'),
         ('max', 'max'),
-        ('_INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_wait_template<kmp_flag_64, (int)1, (bool)0, (bool)1>', 'omp'),
-        ('plm_analyzeClusters$omp$parallel_for@64', 'plm'),
-        ('_int_malloc', 'malloc'),
-        ('__GI___libc_malloc', 'malloc2'),
+        ('_INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_wait_template<kmp_flag_64, (int)1, (bool)0, (bool)1>', 'omp')
+        #('plm_analyzeClusters$omp$parallel_for@64', 'plm'),
+        #('_int_malloc', 'malloc'),
+        #('__GI___libc_malloc', 'malloc2'),
         #('__gnu_cxx::new_allocator<double>::construct<double, double const&>', 'new'),
-        ('_int_free',   'free')
+        #('_int_free',   'free')
     ] )
 
     #functionL = list(functionH.items())
@@ -282,7 +284,8 @@ def plot_row(vt, fig, axesL, metricL, dfrm_xformF, ytitle_txt, graphL):
 
     fig.subplots_adjust(left=0.02, right=0.98, bottom=0.01, top=0.99,
                         wspace=0.02, hspace=0.0)
-    #fig.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
+    if (do_view):
+        fig.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
     
 
 def plot(dfrm, axes, metricPair, ytitle, xticks2L = None):
