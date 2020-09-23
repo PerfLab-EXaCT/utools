@@ -10,8 +10,11 @@
 import os
 import sys
 
+import re
+
 # https://pandas.pydata.org
 import pandas
+import numpy
 
 #import matplotlib.pyplot as pyplt
 
@@ -135,7 +138,7 @@ class VTuneCSV():
             print(("Skipping non-existent file: '%s'" % csv_fnm))
             return
 
-        csv_nm = os.path.basename(csv_fnm).strip(".csv")
+        csv_nm = re.sub('\.csv$', '', os.path.basename(csv_fnm))
 
         dfrm = pandas.read_csv(csv_fnm, error_bad_lines = False)
 
@@ -266,10 +269,13 @@ class VTuneCSV():
         w_fig = 2.5 + w_axis + (n_axes - 1) * w_axis
 
         (fig, axesL) = pyplt.subplots(nrows=1, ncols=n_axes, figsize=(w_fig, 20))
-        if (not isinstance(axesL, list)):
-            axesL = [axesL] # true when n_axes == 1
 
-        for i in range(len(self.dataL)):
+        # Need to test commented code when n_axes == 1
+        assert(n_axes > 1)
+        #if (not isinstance(axesL, numpy.array)):
+        #    axesL = numpy.array([axesL]) # true when n_axes == 1
+
+        for i in range(n_axes):
         #for kv in self.dataL:
             kv = self.dataL[i]
             title = kv[0]

@@ -11,6 +11,7 @@ import os
 import sys
 #import argparse
 
+import re
 import collections
 
 import pandas
@@ -44,51 +45,9 @@ def main():
     
     #assert(len(sys.argv) > 1)
     #csv_pathL = sys.argv[1:]
-    
+
     #-------------------------------------------------------
-    # Medium graphs/All memory modes
-    #-------------------------------------------------------
-
-    graphL_med = ['orkut', 'friendster', 'moliere2016']
-
-    # grappolo-<graph>-<type>-pkg.csv
-    # grappolo-<graph>-<type>-fn.csv
-
-
-    path_pfx = './1grappolo/grappolo-'
-
-    pathL_Mp = [
-        [path_pfx + x + '-dram-pkg.csv',
-         path_pfx + x + '-pdax-pkg.csv',
-         path_pfx + x + '-kdax-pkg.csv'] for x in graphL_med ]
-
-    pathL_Mp = [x for pair in pathL_Mp for x in pair ] # flatten
-
-    pathL_Mf = [
-        [path_pfx + x + '-dram-fn.csv',
-         path_pfx + x + '-pdax-fn.csv',
-         path_pfx + x + '-kdax-fn.csv'] for x in graphL_med ]
-
-    pathL_Mf = [x for pair in pathL_Mf for x in pair ] # flatten
-
-    
-    #-------------------------------------------------------
-    # Big graphs/Big memory modes
-    #-------------------------------------------------------
-
-    graphL_big = ['clueweb12', 'uk2014']
-
-    # grappolo-clueweb12-kdax-pkg.csv
-    # grappolo-uk2014-kdax-pkg.csv
-
-    # grappolo-clueweb12-kdax-fn.csv
-    # grappolo-uk2014-kdax-fn.csv
-
-    pathL_Bp = [path_pfx + x + '-kdax-pkg.csv' for x in graphL_big ]
-
-    pathL_Bf = [path_pfx + x + '-kdax-fn.csv' for x in graphL_big ]
-
-    
+    # 
     #-------------------------------------------------------
 
     metricL1_p = [
@@ -126,7 +85,80 @@ def main():
         #('LLC Miss Count:Remote Persistent Memory Access Count', 'LLC Miss:Remote Pdax'),
         ('LLC Miss Count:Remote Cache Access Count', 'LLC Miss:Remote Cache')
         ]
+
+    #-------------------------------------------------------
+    # 
+    #-------------------------------------------------------
+
+    main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2)
+    main_ripples(metricL1_p, metricL1_f, makeColL_f, metricL2)
+
+    pyplt.show()
+
     
+def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
+    
+    #-------------------------------------------------------
+    # Medium graphs/All memory modes
+    #-------------------------------------------------------
+
+    # grappolo-<graph>-<type>-pkg.csv
+    # grappolo-<graph>-<type>-fn.csv
+
+    graphL_med = ['orkut', 'friendster', 'moliere2016']
+
+    path_pfx = './1grappolo/grappolo-'
+
+    pathL_Mp = [
+        [path_pfx + x + '-dram-pkg.csv',
+         path_pfx + x + '-pdax-pkg.csv',
+         path_pfx + x + '-kdax-pkg.csv'] for x in graphL_med ]
+
+    pathL_Mp = [x for pair in pathL_Mp for x in pair ] # flatten
+
+    pathL_Mf = [
+        [path_pfx + x + '-dram-fn.csv',
+         path_pfx + x + '-pdax-fn.csv',
+         path_pfx + x + '-kdax-fn.csv'] for x in graphL_med ]
+
+    pathL_Mf = [x for pair in pathL_Mf for x in pair ] # flatten
+
+    
+    #-------------------------------------------------------
+    # Big graphs/Big memory modes
+    #-------------------------------------------------------
+
+    graphL_big = ['clueweb12', 'uk2014']
+
+    # grappolo-clueweb12-kdax-pkg.csv
+    # grappolo-uk2014-kdax-pkg.csv
+
+    # grappolo-clueweb12-kdax-fn.csv
+    # grappolo-uk2014-kdax-fn.csv
+
+    pathL_Bp = [path_pfx + x + '-kdax-pkg.csv' for x in graphL_big ]
+
+    pathL_Bf = [path_pfx + x + '-kdax-fn.csv' for x in graphL_big ]
+
+
+    #-------------------------------------------------------
+    # 
+    #-------------------------------------------------------
+
+    functionH = collections.OrderedDict( [
+        ('buildLocalMapCounter', 'blmc'),
+        ('std::_Rb_tree_insert_and_rebalance', 'blmc->map'),
+        ('max', 'max'),
+        ('_INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_wait_template<kmp_flag_64, (int)1, (bool)0, (bool)1>', 'omp')
+        #('plm_analyzeClusters$omp$parallel_for@64', 'plm'),
+        #('_int_malloc', 'malloc'),
+        #('__GI___libc_malloc', 'malloc2'),
+        #('__gnu_cxx::new_allocator<double>::construct<double, double const&>', 'new'),
+        #('_int_free',   'free')
+    ] )
+
+    #functionL = list(functionH.items())
+
     
     #-------------------------------------------------------
     # Medium graphs
@@ -138,13 +170,13 @@ def main():
     widthL_p = (3.4, 3.9, 1.8)
     widthL_f = (3.5, 3.9, 1.8) # h=2.7
     (fig_Mp1, fig_Mp2) = plot_pkg(vt_Mp, graphL_med, widthL_p, metricL1_p, metricL2)
-    (fig_Mf1, fig_Mf2) = plot_fn (vt_Mf, graphL_med, widthL_f, metricL1_f, metricL2)
+    (fig_Mf1, fig_Mf2) = plot_fn (vt_Mf, graphL_med, widthL_f, functionH, metricL1_f, metricL2)
 
-    fig_Mp1.savefig("chart-grappolo-med-pkg-metric1.pdf", bbox_inches='tight')
-    #fig_Mp2.savefig("chart-grappolo-med-pkg-metric2.pdf", bbox_inches='tight')
+    fig_Mp1.savefig('chart-grappolo-med-pkg-metric1.pdf', bbox_inches='tight')
+    #fig_Mp2.savefig('chart-grappolo-med-pkg-metric2.pdf', bbox_inches='tight')
 
-    fig_Mf1.savefig("chart-grappolo-med-fn-metric1.pdf", bbox_inches='tight')
-    #fig_Mf2.savefig("chart-grappolo-med-fn-metric2.pdf", bbox_inches='tight')
+    fig_Mf1.savefig('chart-grappolo-med-fn-metric1.pdf', bbox_inches='tight')
+    #fig_Mf2.savefig('chart-grappolo-med-fn-metric2.pdf', bbox_inches='tight')
 
     #-------------------------------------------------------
     # Big graphs
@@ -156,17 +188,74 @@ def main():
     widthL_p = (2.1, 2.1, 1.8)
     widthL_f = (2.3, 2.3, 1.8) # h=2.7
     (fig_Bp1, fig_Bp2) = plot_pkg(vt_Bp, graphL_big, widthL_p, metricL1_p, metricL2)
-    (fig_Bf1, fig_Bf2) = plot_fn (vt_Bf, graphL_big, widthL_f, metricL1_f, metricL2)
+    (fig_Bf1, fig_Bf2) = plot_fn (vt_Bf, graphL_big, widthL_f, functionH, metricL1_f, metricL2)
 
-    fig_Bp1.savefig("chart-grappolo-big-pkg-metric1.pdf", bbox_inches='tight')
-    #fig_Bp2.savefig("chart-grappolo-big-pkg-metric2.pdf", bbox_inches='tight')
+    fig_Bp1.savefig('chart-grappolo-big-pkg-metric1.pdf', bbox_inches='tight')
+    #fig_Bp2.savefig('chart-grappolo-big-pkg-metric2.pdf', bbox_inches='tight')
 
-    fig_Bf1.savefig("chart-grappolo-big-fn-metric1.pdf", bbox_inches='tight')
-    #fig_Bf2.savefig("chart-grappolo-big-fn-metric2.pdf", bbox_inches='tight')
-
-    pyplt.show()
+    fig_Bf1.savefig('chart-grappolo-big-fn-metric1.pdf', bbox_inches='tight')
+    #fig_Bf2.savefig('chart-grappolo-big-fn-metric2.pdf', bbox_inches='tight')
 
 
+
+def main_ripples(metricL1_p, metricL1_f, makeColL_f, metricL2):
+
+    #-------------------------------------------------------
+    # Ripples
+    #-------------------------------------------------------
+
+    # <graph>.imm-<type>.T64.R0-pkg.csv
+    # <graph>.imm-<type>.T64.R0-fn.csv
+
+    graphL = ['soc-Slashdot0902', 'soc-pokec-relationships', 'soc-twitter-combined', 'wiki-talk', 'wiki-topcats']
+
+    path_pfx = './2ripples/'
+
+    pathL_p = [
+        [path_pfx + x + '.imm-dram.T64.R0-pkg.csv',
+         path_pfx + x + '.imm-kdax.T64.R0-pkg.csv'] for x in graphL ]
+
+    pathL_p = [x for pair in pathL_p for x in pair ] # flatten
+
+    pathL_f = [
+        [path_pfx + x + '.imm-dram.T64.R0-fn.csv',
+         path_pfx + x + '.imm-kdax.T64.R0-fn.csv'] for x in graphL ]
+
+    pathL_f = [x for pair in pathL_f for x in pair ] # flatten
+
+    #-------------------------------------------------------
+    # 
+    #-------------------------------------------------------
+
+    functionH = collections.OrderedDict( [
+        ('ripples::AddRRRSet<ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>, trng::lcg64, ripples::independent_cascade_tag>', 'AddRRRSet'),
+        ('[vmlinux]', 'vmlinux'),
+        ('std::__move_merge<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'move_merge'),
+        ('std::vector<unsigned int, std::allocator<unsigned int>>::push_back', 'push_back'),
+        ('__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>::operator++', 'operator++'),
+        ('ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::neighbors', 'neighbors'),
+        ('trng::lcg64::step', 'trng::step')
+    ] )
+
+    #functionL = list(functionH.items())
+
+    #-------------------------------------------------------
+    # 
+    #-------------------------------------------------------
+
+    vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv')
+    vt_f = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL_f)
+
+    widthL_p = (3.7, 4.1, 1.9)
+    widthL_f = (4.0, 5.0, 2.7) # h=1.8
+    (fig_p1, fig_p2) = plot_pkg(vt_p, graphL, widthL_p, metricL1_p, metricL2)
+    (fig_f1, fig_f2) = plot_fn (vt_f, graphL, widthL_f, functionH, metricL1_f, metricL2)
+
+    fig_p1.savefig('chart-ripples-pkg-metric1.pdf', bbox_inches='tight')
+    #fig_p2.savefig('chart-ripples-pkg-metric2.pdf', bbox_inches='tight')
+
+    fig_f1.savefig('chart-ripples-fn-metric1.pdf', bbox_inches='tight')
+    #fig_f2.savefig('chart-ripples-fn-metric2.pdf', bbox_inches='tight')
     
 
 #****************************************************************************
@@ -177,7 +266,7 @@ def plot_pkg(vt, graphL, widthL, metricL1, metricL2):
     # for kv in vt.dataL:
     #     dfrm = kv[1]
     #     dfrm.sort_index(axis=0, ascending=True, inplace=True)
-    #     dfrm.rename(index = (lambda x: x.replace("package_", "")), inplace=True)
+    #     dfrm.rename(index = (lambda x: x.replace('package_', '')), inplace=True)
     #     dfrm.rename(columns = (lambda x: rename_col(x, graphL)), inplace=True)
 
     #-------------------------------------------------------
@@ -200,7 +289,7 @@ def plot_pkg(vt, graphL, widthL, metricL1, metricL2):
 def dfrm_pkg_xform(graphL):
     def dfrm_pkg_xform1(dfrm):
         dfrm.sort_index(axis=0, ascending=True, inplace=True)
-        dfrm.rename(index = (lambda x: x.replace("package_", "")), inplace=True)
+        dfrm.rename(index = (lambda x: x.replace('package_', '')), inplace=True)
         dfrm.rename(columns = (lambda x: rename_col(x, graphL)), inplace=True)
         return dfrm
     return dfrm_pkg_xform1
@@ -208,25 +297,7 @@ def dfrm_pkg_xform(graphL):
 
 #****************************************************************************
 
-def plot_fn(vt, graphL, widthL, metricL1, metricL2):
-
-    functionH = collections.OrderedDict( [
-        ('buildLocalMapCounter', 'blmc'),
-        ('std::_Rb_tree_insert_and_rebalance', 'blmc->map'),
-        ('max', 'max'),
-        ('_INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_wait_template<kmp_flag_64, (int)1, (bool)0, (bool)1>', 'omp')
-        #('plm_analyzeClusters$omp$parallel_for@64', 'plm'),
-        #('_int_malloc', 'malloc'),
-        #('__GI___libc_malloc', 'malloc2'),
-        #('__gnu_cxx::new_allocator<double>::construct<double, double const&>', 'new'),
-        #('_int_free',   'free')
-    ] )
-
-    #functionL = list(functionH.items())
-
-    #-------------------------------------------------------
-    # 
-    #-------------------------------------------------------
+def plot_fn(vt, graphL, widthL, functionH, metricL1, metricL2):
 
     (w1, w2, h) = (widthL[0], widthL[1], widthL[2])
 
@@ -303,7 +374,7 @@ def plot(dfrm, axes, metricPair, ytitle, xticks2L = None):
     do_y_lbl = True if (ytitle) else False
     
     axes = seaborn.heatmap(dfrm, ax=axes, annot=True,
-                           cbar=True, cmap="RdBu_r",# coolwarm
+                           cbar=True, cmap='RdBu_r',# coolwarm
                            fmt=txt_fmt,
                            yticklabels=do_y_lbl,
                            annot_kws={'size' : txt_sz,
@@ -350,11 +421,17 @@ def plot(dfrm, axes, metricPair, ytitle, xticks2L = None):
 def rename_col(x, graphL):
     x0 = x
 
-    for g in graphL: x0 = x0.replace(g, "")
+    for g in graphL: x0 = x0.replace(g, '')
+
+
+    x0 = x0.replace('grappolo--', '') # not a typo!
+
+    x0 = x0.replace('.imm-', '') # not a typo!
+    x0 = re.sub('\.T\d+\.R?', '', x0)
+    #x0 = x0.replace('.T64.R0', '')
     
-    x0 = x0.replace("grappolo--", "") # not a typo!
-    x0 = x0.replace("-pkg", "")
-    x0 = x0.replace("-fn", "")
+    x0 = x0.replace('-pkg', '')
+    x0 = x0.replace('-fn', '')
     
     return x0
 
