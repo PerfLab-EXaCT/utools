@@ -43,18 +43,18 @@ Example
 
 ```
 myL=(
-  grappolo-vtune-clueweb12-appdirect-kdax
-  grappolo-vtune-friendster-appdirect-kdax
-  grappolo-vtune-uk2014-appdirect-kdax
+  grappolo-vtune-clueweb12-kdax
+  grappolo-vtune-friendster-kdax
+  grappolo-vtune-uk2014-kdax
 )
 
 myL=(
-  grappolo-vtune-friendster-appdirect-dram
-  grappolo-vtune-friendster-appdirect-pdax
-  grappolo-vtune-moliere2016-appdirect-dram
-  grappolo-vtune-moliere2016-appdirect-pdax
-  grappolo-vtune-orkut-appdirect-dram
-  grappolo-vtune-orkut-appdirect-pdax
+  grappolo-vtune-friendster-dram
+  grappolo-vtune-friendster-pdax
+  grappolo-vtune-moliere2016-dram
+  grappolo-vtune-moliere2016-pdax
+  grappolo-vtune-orkut-dram
+  grappolo-vtune-orkut-pdax
 )
 
 # vtune -report summary
