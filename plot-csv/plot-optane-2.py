@@ -69,14 +69,9 @@ def makeDataFrames(data_nameL, data_stringL, convert, scale = None):
         # Merge into final result
         #---------------------------------------
         idx += 1
+        dfrm_hist = pandas.concat([dfrm_hist, dfrm_hist_x], axis=1)
+        dfrm_wide = pandas.concat([dfrm_wide, dfrm_wide_x], axis=1)
 
-        if (dfrm_hist.empty):
-            dfrm_hist = dfrm_hist_x
-            dfrm_wide = dfrm_wide_x
-        else:
-            dfrm_hist = pandas.concat([dfrm_hist, dfrm_hist_x], axis=1)
-            dfrm_wide = pandas.concat([dfrm_wide, dfrm_wide_x], axis=1)
-            #dfrm.join(dfrm_hist_x, on='dram_bw')
 
     dfrm_hist.reset_index(inplace=True)
 
