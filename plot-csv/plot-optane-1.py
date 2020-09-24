@@ -58,8 +58,6 @@ def main():
         ('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
         ('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
         ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
-        #('Memory Bound:Store Bound(%)', 'Store Bound (%)')
-        #('Memory Bound:Persistent Memory Bound(%)', 'Pdax Bound (%)')
         ]
 
     makeColL_f = [ ('CPU Time', 'CPU Time (%)', 'percent') ]
@@ -71,11 +69,11 @@ def main():
         ('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
         ('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
         ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
-        #('Memory Bound:Store Bound(%)', 'Store Bound (%)')
-        #('Memory Bound:Persistent Memory Bound(%)', 'Pdax Bound (%)')
         ]
     
     metricL2 = [
+        ('Memory Bound:Store Bound(%)', 'Store Bound (%)'),
+        ('Memory Bound:Persistent Memory Bound(%)', 'Pmem Bound (%)'),
         ('Loads', ''),
         ('Stores', ''),
         #('LLC Miss Count', 'LLC Miss'),
@@ -90,7 +88,7 @@ def main():
     # 
     #-------------------------------------------------------
 
-    #main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2)
+    main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2)
     main_ripples(metricL1_p, metricL1_f, makeColL_f, metricL2)
 
     pyplt.show()
@@ -190,11 +188,11 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
     (fig_Bp1, fig_Bp2) = plot_pkg(vt_Bp, graphL_big, widthL_p, metricL1_p, metricL2)
     (fig_Bf1, fig_Bf2) = plot_fn (vt_Bf, graphL_big, widthL_f, functionH, metricL1_f, metricL2)
 
-    fig_Bp1.savefig('chart-grappolo-big-pkg-metric1.pdf', bbox_inches='tight')
-    #fig_Bp2.savefig('chart-grappolo-big-pkg-metric2.pdf', bbox_inches='tight')
+    fig_Bp1.savefig('chart-grappolo-big-pkg-metrics.pdf', bbox_inches='tight')
+    #fig_Bp2.savefig('chart-grappolo-big-pkg-metrics2.pdf', bbox_inches='tight')
 
-    fig_Bf1.savefig('chart-grappolo-big-fn-metric1.pdf', bbox_inches='tight')
-    #fig_Bf2.savefig('chart-grappolo-big-fn-metric2.pdf', bbox_inches='tight')
+    fig_Bf1.savefig('chart-grappolo-big-fn-metrics.pdf', bbox_inches='tight')
+    #fig_Bf2.savefig('chart-grappolo-big-fn-metrics2.pdf', bbox_inches='tight')
 
 
 
@@ -208,10 +206,10 @@ def main_ripples(metricL1_p, metricL1_f, makeColL_f, metricL2):
     # <graph>.imm-<type>.T64.R0-fn.csv
 
     graphL = [ ('soc-Slashdot0902', 'slash'),
-               ('soc-pokec-relationships', 'pokec'),
                ('soc-twitter-combined', 'twitter'),
                ('wiki-talk', 'talk'),
-               ('wiki-topcats', 'topcats') ]
+               ('wiki-topcats', 'topcats'),
+               ('soc-pokec-relationships', 'pokec') ]
 
     graphL_0 = [ x[0] for x in graphL ]
 
@@ -256,10 +254,6 @@ def main_ripples(metricL1_p, metricL1_f, makeColL_f, metricL2):
     ] )
 
 
-    # 'ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.12'
-
-
-
     #functionL = list(functionH.items())
 
     #-------------------------------------------------------
@@ -274,11 +268,11 @@ def main_ripples(metricL1_p, metricL1_f, makeColL_f, metricL2):
     (fig_p1, fig_p2) = plot_pkg(vt_p, graphL, widthL_p, metricL1_p, metricL2)
     (fig_f1, fig_f2) = plot_fn (vt_f, graphL, widthL_f, functionH, metricL1_f, metricL2)
 
-    fig_p1.savefig('chart-ripples-pkg-metric1.pdf', bbox_inches='tight')
-    #fig_p2.savefig('chart-ripples-pkg-metric2.pdf', bbox_inches='tight')
+    fig_p1.savefig('chart-ripples-pkg-metrics.pdf', bbox_inches='tight')
+    #fig_p2.savefig('chart-ripples-pkg-metrics2.pdf', bbox_inches='tight')
 
-    fig_f1.savefig('chart-ripples-fn-metric1.pdf', bbox_inches='tight')
-    #fig_f2.savefig('chart-ripples-fn-metric2.pdf', bbox_inches='tight')
+    fig_f1.savefig('chart-ripples-fn-metrics.pdf', bbox_inches='tight')
+    #fig_f2.savefig('chart-ripples-fn-metrics2.pdf', bbox_inches='tight')
     
 
 #****************************************************************************
@@ -380,7 +374,11 @@ def plot_row(vt, fig, axesL, metricL, dfrm_xformF, ytitle_txt, graphL):
         metricPair = metricL[i]
         ytitle = ytitle_txt if (i == 0) else None
 
-        dfrm = vt.dataH[metricPair[0]]
+        try:
+            dfrm = vt.dataH[metricPair[0]]
+        except KeyError:
+            print("Warning: Skipping metric:", metricPair[0])
+            continue
 
         dfrm = dfrm_xformF(dfrm)
 
