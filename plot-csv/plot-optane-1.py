@@ -27,7 +27,7 @@ import VTuneCSV as vtcsv
 txt_sz_heatmap = 10
 txt_sz_heatmap_scale = 10
 
-do_view = 0
+do_view = 1
 
 #****************************************************************************
 #
@@ -90,7 +90,7 @@ def main():
     # 
     #-------------------------------------------------------
 
-    main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2)
+    #main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2)
     main_ripples(metricL1_p, metricL1_f, makeColL_f, metricL2)
 
     pyplt.show()
@@ -228,14 +228,28 @@ def main_ripples(metricL1_p, metricL1_f, makeColL_f, metricL2):
     #-------------------------------------------------------
 
     functionH = collections.OrderedDict( [
+        ('func@0x1d6d0', 'func@0x1d6d0'),
         ('ripples::AddRRRSet<ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>, trng::lcg64, ripples::independent_cascade_tag>', 'AddRRRSet'),
         ('[vmlinux]', 'vmlinux'),
+        ('func@0x1d860', 'func@0x1d860'),
+        
         ('std::__move_merge<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'move_merge'),
+        ('std::__move_merge<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'move_merge'),
+
         ('std::vector<unsigned int, std::allocator<unsigned int>>::push_back', 'push_back'),
+        ('std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>::push_back', 'push_back'),
+        
         ('__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>::operator++', 'operator++'),
+        ('__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>::operator++', 'operator++'),
+        
         ('ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::neighbors', 'neighbors'),
         ('trng::lcg64::step', 'trng::step')
     ] )
+
+
+    # 'ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.12'
+
+
 
     #functionL = list(functionH.items())
 
@@ -314,11 +328,34 @@ def plot_fn(vt, graphL, widthL, functionH, metricL1, metricL2):
     
 def dfrm_fn_xform(functionH, graphL):
     def dfrm_fn_xform1(dfrm):
-        functionLkey = functionH.keys()
-        dfrm = dfrm.loc[functionLkey]
-        dfrm.rename(index = functionH, inplace=True)
+        #functionH_key = functionH.keys()
+        #dfrm = dfrm.loc[functionH_key]
+        #dfrm.rename(index = functionH, inplace=True)
+        #dfrm.rename(columns = (lambda x: rename_col(x, graphL)), inplace=True)
+
+        # N.B.: functionH can map multiple keys to same target function
+
+        # 1. Unique target names from functionH, in original order
+        functionHx = { x : None for x in functionH.values() }
+        functionHx_keys = functionHx.keys()
+
+        # 2. Rename columns
         dfrm.rename(columns = (lambda x: rename_col(x, graphL)), inplace=True)
-        return dfrm
+
+        # 3. Rename rows
+        dfrm.rename(index = functionH, inplace=True)
+
+        # 4. Select and merge rows with same target name
+        rowL = [ dfrm.loc[ [fn] ].sum(axis=0).to_frame().transpose()
+                 for fn in functionHx_keys ]
+        #print(rowL)
+        
+        dfrm1 = pandas.concat(rowL, axis=0)
+        dfrm1.index = functionHx_keys
+        #print(dfrm1)
+        
+        return dfrm1
+
     return dfrm_fn_xform1
 
     
