@@ -207,19 +207,25 @@ def main_ripples(metricL1_p, metricL1_f, makeColL_f, metricL2):
     # <graph>.imm-<type>.T64.R0-pkg.csv
     # <graph>.imm-<type>.T64.R0-fn.csv
 
-    graphL = ['soc-Slashdot0902', 'soc-pokec-relationships', 'soc-twitter-combined', 'wiki-talk', 'wiki-topcats']
+    graphL = [ ('soc-Slashdot0902', 'slash'),
+               ('soc-pokec-relationships', 'pokec'),
+               ('soc-twitter-combined', 'twitter'),
+               ('wiki-talk', 'talk'),
+               ('wiki-topcats', 'topcats') ]
+
+    graphL_0 = [ x[0] for x in graphL ]
 
     path_pfx = './2ripples/'
 
     pathL_p = [
         [path_pfx + x + '.imm-dram.T64.R0-pkg.csv',
-         path_pfx + x + '.imm-kdax.T64.R0-pkg.csv'] for x in graphL ]
+         path_pfx + x + '.imm-kdax.T64.R0-pkg.csv'] for x in graphL_0 ]
 
     pathL_p = [x for pair in pathL_p for x in pair ] # flatten
 
     pathL_f = [
         [path_pfx + x + '.imm-dram.T64.R0-fn.csv',
-         path_pfx + x + '.imm-kdax.T64.R0-fn.csv'] for x in graphL ]
+         path_pfx + x + '.imm-kdax.T64.R0-fn.csv'] for x in graphL_0 ]
 
     pathL_f = [x for pair in pathL_f for x in pair ] # flatten
 
@@ -228,17 +234,20 @@ def main_ripples(metricL1_p, metricL1_f, makeColL_f, metricL2):
     #-------------------------------------------------------
 
     functionH = collections.OrderedDict( [
-        ('func@0x1d6d0', 'func@0x1d6d0'),
         ('ripples::AddRRRSet<ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>, trng::lcg64, ripples::independent_cascade_tag>', 'AddRRRSet'),
-        ('[vmlinux]', 'vmlinux'),
+        ('func@0x1d6d0', 'func@0x1d6d0'),
         ('func@0x1d860', 'func@0x1d860'),
-        
+        ('[vmlinux]', 'vmlinux'),
+
+        # move_merge
         ('std::__move_merge<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'move_merge'),
         ('std::__move_merge<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'move_merge'),
 
+        # push_back
         ('std::vector<unsigned int, std::allocator<unsigned int>>::push_back', 'push_back'),
         ('std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>::push_back', 'push_back'),
-        
+
+        # operator++
         ('__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>::operator++', 'operator++'),
         ('__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>::operator++', 'operator++'),
         
@@ -437,9 +446,11 @@ def plot(dfrm, axes, metricPair, ytitle, xticks2L = None):
     #    x.set_rotation(0)
 
     #-------------------------------------------------------
-    # Secondary X labels
+    # Secondary X labels (graphL)
     #-------------------------------------------------------
     if (xticks2L):
+        nmL = [ x[1] for x in xticks2L ] if (isinstance(xticks2L[0], tuple)) else xticks2L
+
         n_x1 = len(dfrm.columns)
         n_x2 = len(xticks2L)
         x2_skip = int(n_x1 / n_x2)
@@ -448,7 +459,7 @@ def plot(dfrm, axes, metricPair, ytitle, xticks2L = None):
         axes2 = axes.twiny() # twin y
         axes2_ticks = [ (x/n_x1) for x in list(numpy.arange(x2_beg, n_x1, x2_skip)) ]
         axes2.set_xticks(axes2_ticks)
-        axes2.set_xticklabels(xticks2L, rotation=0, ha='center')
+        axes2.set_xticklabels(nmL, rotation=0, ha='center')
     
     return axes
 
@@ -458,15 +469,17 @@ def plot(dfrm, axes, metricPair, ytitle, xticks2L = None):
 def rename_col(x, graphL):
     x0 = x
 
-    for g in graphL: x0 = x0.replace(g, '')
-
+    for g_nm in graphL:
+        g_nm = g_nm[0] if (isinstance(g_nm, tuple)) else g_nm
+        x0 = x0.replace(g_nm, '')
 
     x0 = x0.replace('grappolo--', '') # not a typo!
 
+    # ripples
     x0 = x0.replace('.imm-', '') # not a typo!
-    x0 = re.sub('\.T\d+\.R?', '', x0)
-    #x0 = x0.replace('.T64.R0', '')
-    
+    x0 = re.sub('\.T\d+\.R0', '', x0) #x0 = x0.replace('.T64.R0', '')
+
+    # both
     x0 = x0.replace('-pkg', '')
     x0 = x0.replace('-fn', '')
     

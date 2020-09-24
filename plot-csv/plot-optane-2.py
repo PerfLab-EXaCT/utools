@@ -95,19 +95,24 @@ def makeDataFrames(data_nameL, data_stringL, convert, scale = None):
 runtime_str = """
 graph             dram         pdax          kdax   mem
 orkut         19.486751    19.201794    19.957072     ?
-friendster   968.778346   887.835935   811.575385     ?
-moliere201  1054.31008   1059.69578   1087.108672     ?
+friendster   968.778346   887.835935   672.734348     ?
+moliere201  1054.31008   1059.69578   1016.924445s    ?
 """
+
+# OMP_PLACES=cores, OMP_BIND=true
+# moliere201  1054.31008   1059.69578   1087.108672     ?
+
 
 # 192 threads: vtune total
 """
 graph           dram      pdax      kdax      mem
 orkut         21.864    31.600   20.055675    ?
-friendster  1081.808   878.044   818.219840   ?
-moliere201  1160.216  1394.221   1066.978739  ?
+friendster  1081.808   878.044   674.307471   ?
+moliere201  1160.216  1394.221   1002.636274  ?
 """
 
-# friendster/kdax  739.163 (1 less iteration)
+# OMP_PLACES=cores, OMP_BIND=true
+# moliere201  1160.216  1394.221   1066.978739  ?
 
 
 #-------------------------------------------------------
