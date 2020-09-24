@@ -87,32 +87,35 @@ def makeDataFrames(data_nameL, data_stringL, convert, scale = None):
 # Run time (seconds)
 #----------------------------------------------------------------------------
 
+# time:   non-vtune, phase 1 only (excludes I/O)
+# vrunte: vtune, entire run for 1 phase (includes I/O)
+
 #-------------------------------------------------------
 # Medium graphs
 #-------------------------------------------------------
 
-# 192 threads: plain, 1 phase, excludes I/O
+# 192 threads
 runtime_str = """
-graph             dram         pdax          kdax   mem
-orkut         19.486751    19.201794    19.957072     ?
-friendster   968.778346   887.835935   672.734348     ?
-moliere201  1054.31008   1059.69578   1016.924445s    ?
+graph         type    time          vtune
+orkut         dram    19.486751     21.864      
+orkut         pdax    19.201794     31.600      
+orkut         kdax    19.957072     20.055675   
+orkut         mem      0            0           
+friendster    dram    968.778346    1081.808    
+friendster    pdax    887.835935    878.044     
+friendster    kdax    672.734348    674.307471  
+friendster    mem        0          0           
+moliere2016   dram    1054.31008    1160.216    
+moliere2016   pdax    1059.69578    1394.221    
+moliere2016   kdax    1016.924445   1002.636274 
+moliere2016   mem        0          0           
 """
 
-# OMP_PLACES=cores, OMP_BIND=true
-# moliere201  1054.31008   1059.69578   1087.108672     ?
+# time: OMP_PLACES=cores, OMP_BIND=true
+# moliere2016  1054.31008   1059.69578   1087.108672     ?
 
-
-# 192 threads: vtune total
-"""
-graph           dram      pdax      kdax      mem
-orkut         21.864    31.600   20.055675    ?
-friendster  1081.808   878.044   674.307471   ?
-moliere201  1160.216  1394.221   1002.636274  ?
-"""
-
-# OMP_PLACES=cores, OMP_BIND=true
-# moliere201  1160.216  1394.221   1066.978739  ?
+# vtune: OMP_PLACES=cores, OMP_BIND=true
+# moliere2016  1160.216  1394.221   1066.978739  ?
 
 
 #-------------------------------------------------------
@@ -121,25 +124,12 @@ moliere201  1160.216  1394.221   1002.636274  ?
 
 # 192 threads: plain, 1 phase, excludes I/O
 """
-graph             kdax   mem
-clueweb12 12688.375245
-uk2014      764.455450
+graph        type   time              vtune   vtune/no-IO
+clueweb12    kdax   12688.375245  18746.645   13062.025550
+             mem                   
+uk2014       kdax   764.455450     7375.198   793.211607
+             mem 
 """
-
-# 192 threads: vtune total
-"""
-graph          kdax  kdax/IO-only
-clueweb12 18746.645  13062.025550
-uk2014     7375.198  793.211607
-"""
-
-
-runtime_data = io.StringIO(runtime_str)
-dfrm = pandas.read_csv(runtime_data, sep='\s+', index_col=0)
-print(dfrm)
-
-# dfrm = pandas.DataFrame(data = timeL_med, index = timeL_ty)
-
 
 #----------------------------------------------------------------------------
 # friendster DRAM bandwidth (GB/s)
@@ -2339,8 +2329,18 @@ latency_kdax_str = """
 """
 
 
+#****************************************************************************
+# Grappolo
+#****************************************************************************
+
 #-------------------------------------------------------
 # Create DataFrames
+#-------------------------------------------------------
+
+runtime_data = io.StringIO(runtime_str)
+runtime_dfrm = pandas.read_csv(runtime_data, sep='\s+', index_col=0)
+#print(runtime_dfrm)
+
 #-------------------------------------------------------
 
 bw_data_nmL =  ['dram', 'pdax', 'kdax']
@@ -2356,6 +2356,9 @@ scaleL = [ 4901470.0, 4201260.0, 4201260.0 ]
 (lat_dfrm_hist, lat_dfrm_wide) = makeDataFrames(lat_data_nmL, lat_data_strL,
                                                 convert = 'repeat',
                                                 scale = scaleL)
+
+bw_dfrm_mean = bw_dfrm_wide.mean(axis=0)
+lat_dfrm_mean = lat_dfrm_wide.mean(axis=0)
 
 # print("bw_dfrm_hist\n", bw_dfrm_hist)
 # print("bw_dfrm_wide\n", bw_dfrm_wide)
@@ -2386,11 +2389,17 @@ scaleL = [ 4901470.0, 4201260.0, 4201260.0 ]
 # Plot
 #-------------------------------------------------------
 
-bw_dfrm_mean = bw_dfrm_wide.mean(axis=0)
+fig, axes = pyplt.subplots(ncols=3, figsize=(12, 4))
 
-fig, axes = pyplt.subplots(ncols=2, figsize=(10, 4))
+#-------------------------------------------------------
 
-ax = seaborn.violinplot(data=bw_dfrm_wide, ax=axes[0], cut = 0,
+ax = axes[0]
+ax = seaborn.lineplot(data=runtime_dfrm, x='type', y='time', hue='graph', ax=ax)
+
+#-------------------------------------------------------
+
+ax = axes[1]
+ax = seaborn.violinplot(data=bw_dfrm_wide, ax=ax, cut = 0,
                         palette='muted', scale = 'area', inner = 'box')
 xlim = ax.get_xlim()
 ax = seaborn.scatterplot(data = bw_dfrm_mean, ax=ax,
@@ -2400,12 +2409,10 @@ ax.set_xlim(xlim)
 ax.set_ylim(0, 110)
 ax.set_title('friendster, DRAM BW (GB/s)')
 
-
 #-------------------------------------------------------
 
-lat_dfrm_mean = lat_dfrm_wide.mean(axis=0)
-
-ax = seaborn.violinplot(data=lat_dfrm_wide, ax=axes[1], cut = 0, # alpha=.3
+ax = axes[2]
+ax = seaborn.violinplot(data=lat_dfrm_wide, ax=ax, cut = 0, # alpha=.3
                         palette='muted', scale = 'area', inner = 'box')
 xlim = ax.get_xlim()
 ax = seaborn.scatterplot(data = lat_dfrm_mean, ax=ax,
@@ -2417,7 +2424,7 @@ ax.set_title('friendster, Load Latency (cycles)')
 
 #-------------------------------------------------------
 
+fig.savefig('chart-grappolo-med-sum.pdf', bbox_inches='tight')
+
 #seaborn.plt.show()
 pyplt.show()
-
-

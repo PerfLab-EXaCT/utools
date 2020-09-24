@@ -145,7 +145,7 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
 
     functionH = collections.OrderedDict( [
         ('buildLocalMapCounter', 'blmc'),
-        ('std::_Rb_tree_insert_and_rebalance', 'blmc->map'),
+        ('std::_Rb_tree_insert_and_rebalance', 'blmc/map'),
         ('max', 'max'),
         ('_INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_wait_template<kmp_flag_64, (int)1, (bool)0, (bool)1>', 'omp')
         #('plm_analyzeClusters$omp$parallel_for@64', 'plm'),
@@ -165,15 +165,15 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
     vt_Mp = vtcsv.VTuneCSV(pathL_Mp, group_by = 'csv')
     vt_Mf = vtcsv.VTuneCSV(pathL_Mf, group_by = 'csv', makeColL = makeColL_f)
 
-    widthL_p = (3.4, 3.9, 1.8)
-    widthL_f = (3.5, 3.9, 1.8) # h=2.7
+    widthL_p = (3.5, 3.9, 1.8)
+    widthL_f = (3.6, 3.9, 1.8) # h=2.7
     (fig_Mp1, fig_Mp2) = plot_pkg(vt_Mp, graphL_med, widthL_p, metricL1_p, metricL2)
     (fig_Mf1, fig_Mf2) = plot_fn (vt_Mf, graphL_med, widthL_f, functionH, metricL1_f, metricL2)
 
-    fig_Mp1.savefig('chart-grappolo-med-pkg-metric1.pdf', bbox_inches='tight')
+    fig_Mp1.savefig('chart-grappolo-med-pkg-metrics.pdf', bbox_inches='tight')
     #fig_Mp2.savefig('chart-grappolo-med-pkg-metric2.pdf', bbox_inches='tight')
 
-    fig_Mf1.savefig('chart-grappolo-med-fn-metric1.pdf', bbox_inches='tight')
+    fig_Mf1.savefig('chart-grappolo-med-fn-metrics.pdf', bbox_inches='tight')
     #fig_Mf2.savefig('chart-grappolo-med-fn-metric2.pdf', bbox_inches='tight')
 
     #-------------------------------------------------------
@@ -233,8 +233,8 @@ def main_ripples(metricL1_p, metricL1_f, makeColL_f, metricL2):
 
     functionH = collections.OrderedDict( [
         ('ripples::AddRRRSet<ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>, trng::lcg64, ripples::independent_cascade_tag>', 'AddRRRSet'),
-        ('func@0x1d6d0', 'func@0x1d6d0'),
-        ('func@0x1d860', 'func@0x1d860'),
+        ('func@0x1d6d0', 'omp/lock'),
+        ('func@0x1d860', 'omp/reduce'),
         ('[vmlinux]', 'vmlinux'),
 
         # move_merge
