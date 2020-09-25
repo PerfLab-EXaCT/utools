@@ -165,8 +165,12 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
     vt_Mp = vtcsv.VTuneCSV(pathL_Mp, group_by = 'csv')
     vt_Mf = vtcsv.VTuneCSV(pathL_Mf, group_by = 'csv', makeColL = makeColL_f)
 
+    global fig_adjust
     widthL_p = (3.5, 3.9, 1.8)
     widthL_f = (3.6, 3.9, 1.8) # h=2.7
+    fig_adjust = { 'left':0.02, 'right':0.98, 'bottom':0.01, 'top':0.99,
+                   'wspace':0.01, 'hspace':0.0 }
+    
     (fig_Mp1, fig_Mp2) = plot_pkg(vt_Mp, graphL_med, widthL_p, metricL1_p, metricL2)
     (fig_Mf1, fig_Mf2) = plot_fn (vt_Mf, graphL_med, widthL_f, functionH, metricL1_f, metricL2)
 
@@ -384,8 +388,10 @@ def plot_row(vt, fig, axesL, metricL, dfrm_xformF, ytitle_txt, graphL):
 
         axes1 = plot(dfrm, axes, metricPair, ytitle, graphL)
 
-    fig.subplots_adjust(left=0.02, right=0.98, bottom=0.01, top=0.99,
-                        wspace=0.02, hspace=0.0)
+    global fig_adjust
+    fig.subplots_adjust(left=fig_adjust['left'], right=fig_adjust['right'],
+                        bottom=fig_adjust['bottom'], top=fig_adjust['top'],
+                        wspace=fig_adjust['wspace'], hspace=fig_adjust['hspace'])
     if (do_view):
         fig.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
     
