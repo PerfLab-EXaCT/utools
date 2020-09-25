@@ -165,16 +165,16 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
     vt_Mp = vtcsv.VTuneCSV(pathL_Mp, group_by = 'csv')
     vt_Mf = vtcsv.VTuneCSV(pathL_Mf, group_by = 'csv', makeColL = makeColL_f)
 
-    global fig_adjust1, fig_adjust2
-    widthL_p = (3.5, 3.9, 1.8)
-    widthL_f = (3.6, 3.9, 1.8) # h=2.7
-    fig_adjust1 = { 'left':0.02, 'right':0.98, 'bottom':0.01, 'top':0.99,
-                    'wspace':0.00, 'hspace':0.0 }
-    fig_adjust2 = { 'left':0.02, 'right':0.98, 'bottom':0.01, 'top':0.99,
-                    'wspace':0.02, 'hspace':0.0 }
+    widthH_p = { 'width1':4.5, 'width2':3.9, 'height':1.8 }
+    widthH_f = { 'width1':4.7, 'width2':3.9, 'height':1.8 } # h=2.7
+    adjustH = { 'left':0.02, 'right':0.98, 'bottom':0.01, 'top':0.99,
+                'wspace':0.00, 'hspace':0.0 }
 
-    (fig_Mp1, fig_Mp2) = plot_pkg(vt_Mp, graphL_med, widthL_p, metricL1_p, metricL2)
-    (fig_Mf1, fig_Mf2) = plot_fn (vt_Mf, graphL_med, widthL_f, functionH, metricL1_f, metricL2)
+    (fig_Mp1, fig_Mp2) = plot_pkg(vt_Mp, graphL_med, metricL1_p, metricL2,
+                                  widthH_p, adjustH, adjustH)
+    (fig_Mf1, fig_Mf2) = plot_fn (vt_Mf, graphL_med, functionH,
+                                  metricL1_f, metricL2,
+                                  widthH_f, adjustH, adjustH)
 
     fig_Mp1.savefig('chart-grappolo-med-pkg-metrics.pdf', bbox_inches='tight')
     #fig_Mp2.savefig('chart-grappolo-med-pkg-metric2.pdf', bbox_inches='tight')
@@ -189,10 +189,15 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
     vt_Bp = vtcsv.VTuneCSV(pathL_Bp, group_by = 'csv')
     vt_Bf = vtcsv.VTuneCSV(pathL_Bf, group_by = 'csv', makeColL = makeColL_f)
 
-    widthL_p = (2.1, 2.1, 1.8)
-    widthL_f = (2.3, 2.3, 1.8) # h=2.7
-    (fig_Bp1, fig_Bp2) = plot_pkg(vt_Bp, graphL_big, widthL_p, metricL1_p, metricL2)
-    (fig_Bf1, fig_Bf2) = plot_fn (vt_Bf, graphL_big, widthL_f, functionH, metricL1_f, metricL2)
+    widthH_p = {'width1':1.5, 'width2':2.1, 'height':1.8}
+    widthH_f = {'width1':1.9, 'width2':2.3, 'height':1.8} # h=2.7
+    adjustH['wspace'] = 0.10
+
+    (fig_Bp1, fig_Bp2) = plot_pkg(vt_Bp, graphL_big, metricL1_p, metricL2,
+                                  widthH_p, adjustH, adjustH)
+    (fig_Bf1, fig_Bf2) = plot_fn (vt_Bf, graphL_big, functionH,
+                                  metricL1_f, metricL2,
+                                  widthH_f, adjustH, adjustH)
 
     fig_Bp1.savefig('chart-grappolo-big-pkg-metrics.pdf', bbox_inches='tight')
     #fig_Bp2.savefig('chart-grappolo-big-pkg-metrics2.pdf', bbox_inches='tight')
@@ -269,10 +274,13 @@ def main_ripples(metricL1_p, metricL1_f, makeColL_f, metricL2):
     vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv')
     vt_f = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL_f)
 
-    widthL_p = (3.7, 4.1, 1.9)
-    widthL_f = (4.0, 5.0, 2.7) # h=1.8
-    (fig_p1, fig_p2) = plot_pkg(vt_p, graphL, widthL_p, metricL1_p, metricL2)
-    (fig_f1, fig_f2) = plot_fn (vt_f, graphL, widthL_f, functionH, metricL1_f, metricL2)
+    widthH_p = {'width1':4.2, 'width2':4.1, 'height':1.9}
+    widthH_f = {'width1':4.5, 'width2':5.0, 'height':2.7} # h=1.8
+    adjustH = { 'left':0.02, 'right':0.98, 'bottom':0.01, 'top':0.99,
+                'wspace':0.00, 'hspace':0.0 }
+
+    (fig_p1, fig_p2) = plot_pkg(vt_p, graphL, metricL1_p, metricL2, widthH_p, adjustH, adjustH)
+    (fig_f1, fig_f2) = plot_fn (vt_f, graphL, functionH, metricL1_f, metricL2, widthH_f, adjustH, adjustH)
 
     fig_p1.savefig('chart-ripples-pkg-metrics.pdf', bbox_inches='tight')
     #fig_p2.savefig('chart-ripples-pkg-metrics2.pdf', bbox_inches='tight')
@@ -283,7 +291,7 @@ def main_ripples(metricL1_p, metricL1_f, makeColL_f, metricL2):
 
 #****************************************************************************
 
-def plot_pkg(vt, graphL, widthL, metricL1, metricL2):
+def plot_pkg(vt, graphL, metricL1, metricL2, widthH, adjustH1, adjustH2):
 
     # Massage 'vt' in-place
     # for kv in vt.dataL:
@@ -296,7 +304,7 @@ def plot_pkg(vt, graphL, widthL, metricL1, metricL2):
     # 
     #-------------------------------------------------------
 
-    (w1, w2, h) = (widthL[0], widthL[1], widthL[2])
+    (w1, w2, h) = (widthH['width1'], widthH['width2'], widthH['height'])
     
     num_metric1 = len(metricL1)
     fig1, axesL1 = pyplt.subplots(nrows=1, ncols=(num_metric1), figsize=(w1*num_metric1,h))
@@ -306,13 +314,16 @@ def plot_pkg(vt, graphL, widthL, metricL1, metricL2):
     fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(num_metric2), figsize=(w2*num_metric2,h))
     plot_row(vt, fig2, axesL2, metricL2, dfrm_pkg_xform(graphL), 'Socket', graphL)
 
-    global fig_adjust1, fig_adjust2
-    fig1.subplots_adjust(left=fig_adjust1['left'], right=fig_adjust1['right'],
-                        bottom=fig_adjust1['bottom'], top=fig_adjust1['top'],
-                        wspace=fig_adjust1['wspace'], hspace=fig_adjust1['hspace'])
-    fig2.subplots_adjust(left=fig_adjust2['left'], right=fig_adjust2['right'],
-                        bottom=fig_adjust2['bottom'], top=fig_adjust2['top'],
-                        wspace=fig_adjust2['wspace'], hspace=fig_adjust2['hspace'])
+    fig1.subplots_adjust(left=adjustH1['left'], right=adjustH1['right'],
+                        bottom=adjustH1['bottom'], top=adjustH1['top'],
+                        wspace=adjustH1['wspace'], hspace=adjustH1['hspace'])
+    fig2.subplots_adjust(left=adjustH2['left'], right=adjustH2['right'],
+                        bottom=adjustH2['bottom'], top=adjustH2['top'],
+                        wspace=adjustH2['wspace'], hspace=adjustH2['hspace'])
+
+    if (do_view):
+        fig1.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
+        fig2.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
 
     return (fig1, fig2)
 
@@ -328,9 +339,9 @@ def dfrm_pkg_xform(graphL):
 
 #****************************************************************************
 
-def plot_fn(vt, graphL, widthL, functionH, metricL1, metricL2):
+def plot_fn(vt, graphL, functionH, metricL1, metricL2, widthH, adjustH1, adjustH2):
 
-    (w1, w2, h) = (widthL[0], widthL[1], widthL[2])
+    (w1, w2, h) = (widthH['width1'], widthH['width2'], widthH['height'])
 
     num_metric1 = len(metricL1)
     fig1, axesL1 = pyplt.subplots(nrows=1, ncols=(num_metric1), figsize=(w1*num_metric1,h))
@@ -340,13 +351,16 @@ def plot_fn(vt, graphL, widthL, functionH, metricL1, metricL2):
     fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(num_metric2), figsize=(w2*num_metric2,h))
     plot_row(vt, fig2, axesL2, metricL2, dfrm_fn_xform(functionH, graphL), 'Functions', graphL)
 
-    global fig_adjust1, fig_adjust2
-    fig1.subplots_adjust(left=fig_adjust1['left'], right=fig_adjust1['right'],
-                        bottom=fig_adjust1['bottom'], top=fig_adjust1['top'],
-                        wspace=fig_adjust1['wspace'], hspace=fig_adjust1['hspace'])
-    fig2.subplots_adjust(left=fig_adjust2['left'], right=fig_adjust2['right'],
-                        bottom=fig_adjust2['bottom'], top=fig_adjust2['top'],
-                        wspace=fig_adjust2['wspace'], hspace=fig_adjust2['hspace'])
+    fig1.subplots_adjust(left=adjustH1['left'], right=adjustH1['right'],
+                        bottom=adjustH1['bottom'], top=adjustH1['top'],
+                        wspace=adjustH1['wspace'], hspace=adjustH1['hspace'])
+    fig2.subplots_adjust(left=adjustH2['left'], right=adjustH2['right'],
+                        bottom=adjustH2['bottom'], top=adjustH2['top'],
+                        wspace=adjustH2['wspace'], hspace=adjustH2['hspace'])
+
+    if (do_view):
+        fig1.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
+        fig2.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
 
     return (fig1, fig2)
 
@@ -407,11 +421,10 @@ def plot_row(vt, fig, axesL, metricL, dfrm_xformF, ytitle_txt, graphL):
         axes1 = plot(dfrm, axes, metricPair, ytitle, graphL)
 
     #fig.subplots_adjust(left=, right=, bottom=, top=, wspace=, hspace=)
-    if (do_view):
-        fig.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
+    #fig.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
     
 
-def plot(dfrm, axes, metricPair, ytitle, xticks2L = None):
+def plot(dfrm, axes, metricPair, ytitle, x_groupL = None):
 
     #-------------------------------------------------------
     # Scale data values for nice formattting
@@ -465,21 +478,28 @@ def plot(dfrm, axes, metricPair, ytitle, xticks2L = None):
     #    x.set_rotation(0)
 
     #-------------------------------------------------------
-    # Secondary X labels (graphL)
+    # Secondary x groups and labels (graphL)
     #-------------------------------------------------------
-    if (xticks2L):
-        nmL = [ x[1] for x in xticks2L ] if (isinstance(xticks2L[0], tuple)) else xticks2L
+    if (x_groupL):
+        # if x_groupL is a list of pairs, grab second item in each pair
+        nmL = [ x[1] for x in x_groupL ] if (isinstance(x_groupL[0], tuple)) else x_groupL
 
-        n_x1 = len(dfrm.columns)
-        n_x2 = len(xticks2L)
-        x2_skip = int(n_x1 / n_x2)
+        (x_beg, x_end) = axes.get_xlim()
+        n_x = int(x_end) # len(dfrm.columns)
+        n_x2 = len(x_groupL)
+        x2_skip = int(n_x / n_x2)
         x2_beg = x2_skip / 2.0 # midpoint
 
+        g_beg = x2_skip
+        axes.vlines(list(range(g_beg, n_x, x2_skip)), *axes.get_ylim(), colors='white', linewidths=0.8)
+
         axes2 = axes.twiny() # twin y
-        axes2_ticks = [ (x/n_x1) for x in list(numpy.arange(x2_beg, n_x1, x2_skip)) ]
+        axes2_ticks = [ (x/n_x) for x in list(numpy.arange(x2_beg, x_end, x2_skip)) ]
         axes2.set_xticks(axes2_ticks)
         axes2.set_xticklabels(nmL, rotation=0, ha='center')
-    
+
+
+
     return axes
 
 #****************************************************************************
