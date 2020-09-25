@@ -165,12 +165,14 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
     vt_Mp = vtcsv.VTuneCSV(pathL_Mp, group_by = 'csv')
     vt_Mf = vtcsv.VTuneCSV(pathL_Mf, group_by = 'csv', makeColL = makeColL_f)
 
-    global fig_adjust
+    global fig_adjust1, fig_adjust2
     widthL_p = (3.5, 3.9, 1.8)
     widthL_f = (3.6, 3.9, 1.8) # h=2.7
-    fig_adjust = { 'left':0.02, 'right':0.98, 'bottom':0.01, 'top':0.99,
-                   'wspace':0.01, 'hspace':0.0 }
-    
+    fig_adjust1 = { 'left':0.02, 'right':0.98, 'bottom':0.01, 'top':0.99,
+                    'wspace':0.00, 'hspace':0.0 }
+    fig_adjust2 = { 'left':0.02, 'right':0.98, 'bottom':0.01, 'top':0.99,
+                    'wspace':0.02, 'hspace':0.0 }
+
     (fig_Mp1, fig_Mp2) = plot_pkg(vt_Mp, graphL_med, widthL_p, metricL1_p, metricL2)
     (fig_Mf1, fig_Mf2) = plot_fn (vt_Mf, graphL_med, widthL_f, functionH, metricL1_f, metricL2)
 
@@ -304,6 +306,14 @@ def plot_pkg(vt, graphL, widthL, metricL1, metricL2):
     fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(num_metric2), figsize=(w2*num_metric2,h))
     plot_row(vt, fig2, axesL2, metricL2, dfrm_pkg_xform(graphL), 'Socket', graphL)
 
+    global fig_adjust1, fig_adjust2
+    fig1.subplots_adjust(left=fig_adjust1['left'], right=fig_adjust1['right'],
+                        bottom=fig_adjust1['bottom'], top=fig_adjust1['top'],
+                        wspace=fig_adjust1['wspace'], hspace=fig_adjust1['hspace'])
+    fig2.subplots_adjust(left=fig_adjust2['left'], right=fig_adjust2['right'],
+                        bottom=fig_adjust2['bottom'], top=fig_adjust2['top'],
+                        wspace=fig_adjust2['wspace'], hspace=fig_adjust2['hspace'])
+
     return (fig1, fig2)
 
 
@@ -329,6 +339,14 @@ def plot_fn(vt, graphL, widthL, functionH, metricL1, metricL2):
     num_metric2 = len(metricL2)
     fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(num_metric2), figsize=(w2*num_metric2,h))
     plot_row(vt, fig2, axesL2, metricL2, dfrm_fn_xform(functionH, graphL), 'Functions', graphL)
+
+    global fig_adjust1, fig_adjust2
+    fig1.subplots_adjust(left=fig_adjust1['left'], right=fig_adjust1['right'],
+                        bottom=fig_adjust1['bottom'], top=fig_adjust1['top'],
+                        wspace=fig_adjust1['wspace'], hspace=fig_adjust1['hspace'])
+    fig2.subplots_adjust(left=fig_adjust2['left'], right=fig_adjust2['right'],
+                        bottom=fig_adjust2['bottom'], top=fig_adjust2['top'],
+                        wspace=fig_adjust2['wspace'], hspace=fig_adjust2['hspace'])
 
     return (fig1, fig2)
 
@@ -388,10 +406,7 @@ def plot_row(vt, fig, axesL, metricL, dfrm_xformF, ytitle_txt, graphL):
 
         axes1 = plot(dfrm, axes, metricPair, ytitle, graphL)
 
-    global fig_adjust
-    fig.subplots_adjust(left=fig_adjust['left'], right=fig_adjust['right'],
-                        bottom=fig_adjust['bottom'], top=fig_adjust['top'],
-                        wspace=fig_adjust['wspace'], hspace=fig_adjust['hspace'])
+    #fig.subplots_adjust(left=, right=, bottom=, top=, wspace=, hspace=)
     if (do_view):
         fig.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
     
