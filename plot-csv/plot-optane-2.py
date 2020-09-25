@@ -100,15 +100,15 @@ graph         type    time          vtune
 orkut         dram    19.486751     21.864      
 orkut         pdax    19.201794     31.600      
 orkut         kdax    19.957072     20.055675   
-orkut         mem      0            0           
+orkut         mem      nan           nan       
 friendster    dram    968.778346    1081.808    
 friendster    pdax    887.835935    878.044     
 friendster    kdax    672.734348    674.307471  
-friendster    mem        0          0           
+friendster    mem        nan        nan          
 moliere2016   dram    1054.31008    1160.216    
 moliere2016   pdax    1059.69578    1394.221    
 moliere2016   kdax    1016.924445   1002.636274 
-moliere2016   mem        0          0           
+moliere2016   mem        nan        nan         
 """
 
 # time: OMP_PLACES=cores, OMP_BIND=true
@@ -2337,9 +2337,28 @@ latency_kdax_str = """
 # Create DataFrames
 #-------------------------------------------------------
 
-runtime_data = io.StringIO(runtime_str)
-runtime_dfrm = pandas.read_csv(runtime_data, sep='\s+', index_col=0)
-#print(runtime_dfrm)
+time_index = [0,1]
+
+time_data = io.StringIO(runtime_str)
+time_dfrm = pandas.read_csv(time_data, sep='\s+', index_col=time_index)
+#print(time_dfrm)
+
+m_dat = []
+v_ty_base = 'dram'
+m_src = 'time'
+m_dst = 'relative time'
+
+for (graph, ty) in time_dfrm.index:
+    #print(graph, ty)
+    v_base = time_dfrm.at[(graph, v_ty_base), m_src]
+    v = time_dfrm.at[(graph, ty), m_src]
+    v_norm = (v / v_base) * 100
+    m_dat.append(v_norm)
+
+time_dfrm[m_dst] = m_dat # concat
+#time_dfrm.insert(len(time_dfrm.columns), m_dst, m_dat)
+#print(time_dfrm)
+
 
 #-------------------------------------------------------
 
@@ -2389,18 +2408,24 @@ lat_dfrm_mean = lat_dfrm_wide.mean(axis=0)
 # Plot
 #-------------------------------------------------------
 
-fig, axes = pyplt.subplots(ncols=3, figsize=(12, 4))
+fig, axes = pyplt.subplots(ncols=3, figsize=(13, 4))
 
 #-------------------------------------------------------
 
 ax = axes[0]
-ax = seaborn.lineplot(data=runtime_dfrm, x='type', y='time', hue='graph', ax=ax)
+ax = seaborn.lineplot(data=time_dfrm, x='type', y=m_src, hue='graph', ax=ax,
+                      palette='pastel', marker='^')
+
+ax1 = ax.twinx()
+ax = seaborn.lineplot(data=time_dfrm, x='type', y=m_dst, hue='graph',
+                      palette='dark', ax=ax1, marker='o', linestyle="--")
+#dashes=[(2, 2), (2, 2), (2, 2)]
 
 #-------------------------------------------------------
 
 ax = axes[1]
 ax = seaborn.violinplot(data=bw_dfrm_wide, ax=ax, cut = 0,
-                        palette='muted', scale = 'area', inner = 'box')
+                        palette='deep', scale = 'area', inner = 'box')
 xlim = ax.get_xlim()
 ax = seaborn.scatterplot(data = bw_dfrm_mean, ax=ax,
                          marker='d', color='white', zorder=10)
@@ -2413,7 +2438,7 @@ ax.set_title('friendster, DRAM BW (GB/s)')
 
 ax = axes[2]
 ax = seaborn.violinplot(data=lat_dfrm_wide, ax=ax, cut = 0, # alpha=.3
-                        palette='muted', scale = 'area', inner = 'box')
+                        palette='deep', scale = 'area', inner = 'box')
 xlim = ax.get_xlim()
 ax = seaborn.scatterplot(data = lat_dfrm_mean, ax=ax,
                          marker='d', color='white', zorder=10)
