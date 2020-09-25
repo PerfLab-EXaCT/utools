@@ -2449,6 +2449,9 @@ ax.set_title('friendster, Load Latency (cycles)')
 
 #-------------------------------------------------------
 
+fig.subplots_adjust(left=0.02, right=0.98, bottom=0.01, top=0.99,
+                    wspace=0.02, hspace=0.0)
+    
 fig.savefig('chart-grappolo-med-sum.pdf', bbox_inches='tight')
 
 #seaborn.plt.show()
