@@ -314,12 +314,8 @@ def plot_pkg(vt, graphL, metricL1, metricL2, widthH, adjustH1, adjustH2):
     fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(num_metric2), figsize=(w2*num_metric2,h))
     plot_row(vt, fig2, axesL2, metricL2, dfrm_pkg_xform(graphL), 'Socket', graphL)
 
-    fig1.subplots_adjust(left=adjustH1['left'], right=adjustH1['right'],
-                        bottom=adjustH1['bottom'], top=adjustH1['top'],
-                        wspace=adjustH1['wspace'], hspace=adjustH1['hspace'])
-    fig2.subplots_adjust(left=adjustH2['left'], right=adjustH2['right'],
-                        bottom=adjustH2['bottom'], top=adjustH2['top'],
-                        wspace=adjustH2['wspace'], hspace=adjustH2['hspace'])
+    fig1.subplots_adjust(**adjustH1)
+    fig2.subplots_adjust(**adjustH2)
 
     if (do_view):
         fig1.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
@@ -351,12 +347,8 @@ def plot_fn(vt, graphL, functionH, metricL1, metricL2, widthH, adjustH1, adjustH
     fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(num_metric2), figsize=(w2*num_metric2,h))
     plot_row(vt, fig2, axesL2, metricL2, dfrm_fn_xform(functionH, graphL), 'Functions', graphL)
 
-    fig1.subplots_adjust(left=adjustH1['left'], right=adjustH1['right'],
-                        bottom=adjustH1['bottom'], top=adjustH1['top'],
-                        wspace=adjustH1['wspace'], hspace=adjustH1['hspace'])
-    fig2.subplots_adjust(left=adjustH2['left'], right=adjustH2['right'],
-                        bottom=adjustH2['bottom'], top=adjustH2['top'],
-                        wspace=adjustH2['wspace'], hspace=adjustH2['hspace'])
+    fig1.subplots_adjust(**adjustH1)
+    fig2.subplots_adjust(**adjustH2)
 
     if (do_view):
         fig1.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
@@ -491,7 +483,7 @@ def plot(dfrm, axes, metricPair, ytitle, x_groupL = None):
         x2_beg = x2_skip / 2.0 # midpoint
 
         g_beg = x2_skip
-        axes.vlines(list(range(g_beg, n_x, x2_skip)), *axes.get_ylim(), colors='white', linewidths=0.8)
+        axes.vlines(list(range(g_beg, n_x, x2_skip)), *axes.get_ylim(), colors='white', linewidths=1.0)
 
         axes2 = axes.twiny() # twin y
         axes2_ticks = [ (x/n_x) for x in list(numpy.arange(x2_beg, x_end, x2_skip)) ]
