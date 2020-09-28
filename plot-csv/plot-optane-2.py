@@ -16,7 +16,24 @@ import seaborn
 #
 #****************************************************************************
 
-def makeDataFrames(data_nameL, data_stringL, convert, scale = None):
+def makeRelTime(dfrm, row_src, col_src, col_dst):
+    col_dat = []
+
+    for (graph, ty) in dfrm.index:
+        #print(graph, ty)
+        v_base = dfrm.at[(graph, row_src), col_src]
+        v = dfrm.at[(graph, ty), col_src]
+        v_norm = (v / v_base) * 100
+        col_dat.append(v_norm)
+
+    dfrm[col_dst] = col_dat # concat
+    #dfrm.insert(len(dfrm.columns), col_dst, col_dat)
+    #print(dfrm)
+
+    return dfrm
+
+
+def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = None):
     dfrm_hist = pandas.DataFrame()
     dfrm_wide = pandas.DataFrame()
 
@@ -95,7 +112,7 @@ def makeDataFrames(data_nameL, data_stringL, convert, scale = None):
 #-------------------------------------------------------
 
 # 192 threads
-runtime_str = """
+time_med_str = """
 graph         type    time          vtune
 orkut         dram    19.486751     21.864      
 orkut         pdax    19.201794     31.600      
@@ -123,13 +140,14 @@ moliere2016   mem        nan        nan
 #-------------------------------------------------------
 
 # 192 threads: plain, 1 phase, excludes I/O
+time_big_str = """
+graph        type   time           vtune
+uk2014       kdax   712.128346     877.898523
+uk2014       mem    nan            nan
+clueweb12    kdax   7193.721465    6928.046121
+clueweb12    mem    nan            nan
 """
-graph        type   time              vtune   vtune/no-IO
-clueweb12    kdax   12688.375245  18746.645   13062.025550
-             mem                   
-uk2014       kdax   764.455450     7375.198   793.211607
-             mem 
-"""
+
 
 #----------------------------------------------------------------------------
 # friendster DRAM bandwidth (GB/s)
@@ -2337,27 +2355,19 @@ latency_kdax_str = """
 # Create DataFrames
 #-------------------------------------------------------
 
-time_index = [0,1]
+time_med_data = io.StringIO(time_med_str)
+time_med_dfrm = pandas.read_csv(time_med_data, sep='\s+', index_col=[0,1])
+#print(time_med_dfrm)
 
-time_data = io.StringIO(runtime_str)
-time_dfrm = pandas.read_csv(time_data, sep='\s+', index_col=time_index)
-#print(time_dfrm)
+time_big_data = io.StringIO(time_big_str)
+time_big_dfrm = pandas.read_csv(time_big_data, sep='\s+', index_col=[0,1])
+print(time_big_dfrm)
 
-m_dat = []
-v_ty_base = 'dram'
-m_src = 'time'
-m_dst = 'relative time'
+row_src = 'dram'
+col_src = 'time'
+col_dst = 'relative time'
 
-for (graph, ty) in time_dfrm.index:
-    #print(graph, ty)
-    v_base = time_dfrm.at[(graph, v_ty_base), m_src]
-    v = time_dfrm.at[(graph, ty), m_src]
-    v_norm = (v / v_base) * 100
-    m_dat.append(v_norm)
-
-time_dfrm[m_dst] = m_dat # concat
-#time_dfrm.insert(len(time_dfrm.columns), m_dst, m_dat)
-#print(time_dfrm)
+makeRelTime(time_med_dfrm, row_src, col_src, col_dst)
 
 
 #-------------------------------------------------------
@@ -2365,16 +2375,16 @@ time_dfrm[m_dst] = m_dat # concat
 bw_data_nmL =  ['dram', 'pdax', 'kdax']
 bw_data_strL = [ dramBw_dram_str, dramBw_pdax_str, dramBw_kdax_str ]
 
-(bw_dfrm_hist, bw_dfrm_wide) = makeDataFrames(bw_data_nmL, bw_data_strL,
-                                              convert = 'sample')
+(bw_dfrm_hist, bw_dfrm_wide) = \
+    makeFrameFromHistL(bw_data_nmL, bw_data_strL, convert = 'sample')
 
 lat_data_nmL =  ['dram', 'pdax', 'kdax']
 lat_data_strL = [ latency_dram_str, latency_pdax_str, latency_kdax_str ]
 
 scaleL = [ 4901470.0, 4201260.0, 4201260.0 ]
-(lat_dfrm_hist, lat_dfrm_wide) = makeDataFrames(lat_data_nmL, lat_data_strL,
-                                                convert = 'repeat',
-                                                scale = scaleL)
+(lat_dfrm_hist, lat_dfrm_wide) = \
+    makeFrameFromHistL(lat_data_nmL, lat_data_strL, convert = 'repeat',
+                          scale = scaleL)
 
 bw_dfrm_mean = bw_dfrm_wide.mean(axis=0)
 lat_dfrm_mean = lat_dfrm_wide.mean(axis=0)
@@ -2413,11 +2423,11 @@ fig, axes = pyplt.subplots(ncols=3, figsize=(13, 4))
 #-------------------------------------------------------
 
 ax = axes[0]
-ax = seaborn.lineplot(data=time_dfrm, x='type', y=m_src, hue='graph', ax=ax,
+ax = seaborn.lineplot(data=time_med_dfrm, x='type', y=col_src, hue='graph', ax=ax,
                       palette='pastel', marker='^')
 
 ax1 = ax.twinx()
-ax = seaborn.lineplot(data=time_dfrm, x='type', y=m_dst, hue='graph',
+ax = seaborn.lineplot(data=time_med_dfrm, x='type', y=col_dst, hue='graph',
                       palette='dark', ax=ax1, marker='o', linestyle="--")
 #dashes=[(2, 2), (2, 2), (2, 2)]
 
