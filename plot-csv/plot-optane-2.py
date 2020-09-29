@@ -48,8 +48,8 @@ def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = None):
         dfrm_hist_x = pandas.read_csv(str_data, sep='\s+', index_col=0)
 
         # N.B.: Drop 'class' column
-        if (dfrm_hist_x.columns.isin('class')): # df.shape[1]
-            dfrm_hist_x.drop(['class'], axis=1)
+        if (dfrm_hist_x.columns.isin(['class']).any()): # df.shape[1]
+            dfrm_hist_x.drop(['class'], axis=1, inplace=True)
         
         dfrm_hist_x.columns = [data_nm]
         #print(dfrm_hist_x)
