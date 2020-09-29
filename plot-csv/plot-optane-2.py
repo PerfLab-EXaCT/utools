@@ -3045,14 +3045,25 @@ fig, axes = pyplt.subplots(ncols=3, figsize=(13, 4))
 
 #-------------------------------------------------------
 
+ln_sty = ':' # --
+mrk_sty = 'o' # --
+
 ax = axes[0]
 ax = seaborn.lineplot(data=time_med_dfrm, x='type', y=col_src, hue='graph', ax=ax,
-                      palette='pastel', marker='^')
+                      palette='dark', marker='^')
+ax.legend(title=col_src, loc='lower left',  bbox_to_anchor=(0.0, 0.35)) # prop={'size': text_sz}
 
 ax1 = ax.twinx()
 ax = seaborn.lineplot(data=time_med_dfrm, x='type', y=col_dst, hue='graph',
-                      palette='dark', ax=ax1, marker='o', linestyle="--")
-#dashes=[(2, 2), (2, 2), (2, 2)]
+                      palette='pastel', ax=ax1, marker=mrk_sty, linestyle=ln_sty)
+
+# Should not be necessary!
+lineL = ax.legend().get_lines()
+for x in lineL:
+    x.set_linestyle(ln_sty)
+    #x.set_marker(mrk_sty)
+ax.legend(handles=lineL, title=col_dst, loc='lower left', bbox_to_anchor=(0.0, 0.07)) # prop={'size': text_sz}
+
 
 #-------------------------------------------------------
 
@@ -3083,7 +3094,7 @@ ax.set_title('friendster, Load Latency (cycles)')
 #-------------------------------------------------------
 
 fig.subplots_adjust(left=0.05, right=0.95, bottom=0.05, top=0.95,
-                    wspace=0.25, hspace=0.0)
+                    wspace=0.35, hspace=0.0)
     
 fig.savefig('chart-grappolo-med-sum.pdf', bbox_inches='tight')
 
