@@ -19,10 +19,10 @@ import seaborn
 def makeRelTime(dfrm, row_src, col_src, col_dst):
     col_dat = []
 
-    for (graph, ty) in dfrm.index:
-        #print(graph, ty)
-        v_base = dfrm.at[(graph, row_src), col_src]
-        v = dfrm.at[(graph, ty), col_src]
+    for (graph, thrd, ty) in dfrm.index:
+        #print(graph, ty, thrd)
+        v      = dfrm.at[(graph, thrd, ty),      col_src]
+        v_base = dfrm.at[(graph, thrd, row_src), col_src]
         v_norm = (v / v_base) * 100
         col_dat.append(v_norm)
 
@@ -114,21 +114,21 @@ def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = False):
 
 # OMP_PLACES="", OMP_BIND=""
 time_med_str = """
-graph         type  threads  time          vtune
-orkut         dram   192     19.486751     21.864      
-orkut         pdax   192     19.201794     31.600      
-orkut         kdax   192     19.957072     20.055675   
-orkut         mem    192      nan           nan   
-   
-friendster    dram   192     968.778346    1081.808    
-friendster    pdax   192     887.835935    878.044     
-friendster    kdax   192     672.734348    674.307471  
-friendster    mem    192        nan        nan    
-      
-moliere2016   dram   192     1054.31008    1160.216    
-moliere2016   pdax   192     1059.69578    1394.221    
-moliere2016   kdax   192     1016.924445   1002.636274 
-moliere2016   mem    192        nan        nan         
+graph        threads  type   time          vtune
+orkut         192     dram   19.486751     21.864      
+orkut         192     pdax   19.201794     31.600      
+orkut         192     kdax   19.957072     20.055675   
+orkut         192     mem     nan           nan   
+                      
+friendster    192     dram   968.778346    1081.808    
+friendster    192     pdax   887.835935    878.044     
+friendster    192     kdax   672.734348    674.307471  
+friendster    192     mem       nan        nan    
+                      
+moliere2016   192     dram   1054.31008    1160.216    
+moliere2016   192     pdax   1059.69578    1394.221    
+moliere2016   192     kdax   1016.924445   1002.636274 
+moliere2016   192     mem       nan        nan         
 """
 
 # OMP_PLACES=cores, OMP_BIND=true
@@ -136,30 +136,38 @@ moliere2016   mem    192        nan        nan
 #   moliere2016  vtune                 1160.216    1394.221    1066.978739
 
 
+"""
+    friendster moliere2016
+16  5226.60543 2695.37773
+32  2918.01598 1869.58418
+64  1849.58258 952.60032
+128 983.552994 1068.94742
+"""
+
 #-------------------------------------------------------
 # Big graphs
 #-------------------------------------------------------
 
 # OMP_PLACES="", OMP_BIND=""
 time_big_str = """
-graph      type   threads  time           vtune
-uk2014     kdax   192      712.128346     877.898523
-uk2014     mem    192      nan            nan
-
-clueweb12  kdax   192      7193.721465    6928.046121
-clueweb12  mem    192      nan            nan
+graph      threads type    time           vtune
+uk2014     192     kdax    712.128346     877.898523
+uk2014     192     mem     nan            nan
+                   
+clueweb12  192     kdax    7193.721465    6928.046121
+clueweb12  192     mem     nan            nan
 """
 
 """
-uk2014     kdax    16   2401.95688
-uk2014     kdax    32   1427.67375
-uk2014     kdax    64   1008.83288
-uk2014     kdax   128    818.054033
-
-clueweb12  kdax    16  11534.8596 
-clueweb12  kdax    32  10163.9093 
-clueweb12  kdax    64   6123.48138 
-clueweb12  kdax   128   7028.44282 
+uk2014      16  kdax     2401.95688
+uk2014      32  kdax     1427.67375
+uk2014      64  kdax     1008.83288
+uk2014     128  kdax      818.054033
+               
+clueweb12   16  kdax    11534.8596 
+clueweb12   32  kdax    10163.9093 
+clueweb12   64  kdax     6123.48138 
+clueweb12  128  kdax     7028.44282 
 """
 
 
@@ -2979,12 +2987,14 @@ latency_kdax_str = """
 # Create DataFrames
 #-------------------------------------------------------
 
+tm_index = [0,1,2] # graph threads type
+
 time_med_data = io.StringIO(time_med_str)
-time_med_dfrm = pandas.read_csv(time_med_data, sep='\s+', index_col=[0,1])
+time_med_dfrm = pandas.read_csv(time_med_data, sep='\s+', index_col=tm_index)
 #print(time_med_dfrm)
 
 time_big_data = io.StringIO(time_big_str)
-time_big_dfrm = pandas.read_csv(time_big_data, sep='\s+', index_col=[0,1])
+time_big_dfrm = pandas.read_csv(time_big_data, sep='\s+', index_col=tm_index)
 print(time_big_dfrm)
 
 row_src = 'dram'
@@ -2992,7 +3002,6 @@ col_src = 'time'
 col_dst = 'relative time'
 
 makeRelTime(time_med_dfrm, row_src, col_src, col_dst)
-
 
 #-------------------------------------------------------
 
@@ -3045,16 +3054,19 @@ fig, axes = pyplt.subplots(ncols=3, figsize=(13, 4))
 
 #-------------------------------------------------------
 
+time_med_192 = time_med_dfrm.xs(192, level='threads')
+#print(time_med_192)
+
 ln_sty = ':' # --
 mrk_sty = 'o' # --
 
 ax = axes[0]
-ax = seaborn.lineplot(data=time_med_dfrm, x='type', y=col_src, hue='graph', ax=ax,
+ax = seaborn.lineplot(data=time_med_192, x='type', y=col_src, hue='graph', ax=ax,
                       palette='dark', marker='^')
 ax.legend(title=col_src, loc='lower left',  bbox_to_anchor=(0.0, 0.35)) # prop={'size': text_sz}
 
 ax1 = ax.twinx()
-ax = seaborn.lineplot(data=time_med_dfrm, x='type', y=col_dst, hue='graph',
+ax = seaborn.lineplot(data=time_med_192, x='type', y=col_dst, hue='graph',
                       palette='pastel', ax=ax1, marker=mrk_sty, linestyle=ln_sty)
 
 # Should not be necessary!
