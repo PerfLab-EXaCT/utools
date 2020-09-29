@@ -123,7 +123,7 @@ orkut         192     mem     nan           nan
 friendster    192     dram   968.778346    1081.808    
 friendster    192     pdax   887.835935    878.044     
 friendster    192     kdax   672.734348    674.307471  
-friendster    192     mem       nan        nan    
+friendster    192     mem       nan        
                       
 moliere2016   192     dram   1054.31008    1160.216    
 moliere2016   192     pdax   1059.69578    1394.221    
@@ -131,18 +131,22 @@ moliere2016   192     kdax   1016.924445   1002.636274
 moliere2016   192     mem       nan        nan         
 """
 
+"""
+friendster     16     kdax  5226.60543     nan
+friendster     32     kdax  2918.01598     nan
+friendster     64     kdax  1849.58258     nan
+friendster     128    kdax  983.552994     nan
+
+moliere2016    16     kdax   2695.37773   nan
+moliere2016    32     kdax   1869.58418   nan
+moliere2016    64     kdax   952.60032    nan
+moliere2016   128     kdax   1068.94742   nan
+"""
+
 # OMP_PLACES=cores, OMP_BIND=true
 #   moliere2016  time (dram,pdax,kdax) 1054.31008  1059.69578  1087.108672
 #   moliere2016  vtune                 1160.216    1394.221    1066.978739
 
-
-"""
-    friendster moliere2016
-16  5226.60543 2695.37773
-32  2918.01598 1869.58418
-64  1849.58258 952.60032
-128 983.552994 1068.94742
-"""
 
 #-------------------------------------------------------
 # Big graphs
