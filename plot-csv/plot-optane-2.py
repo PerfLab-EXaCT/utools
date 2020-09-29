@@ -111,41 +111,54 @@ def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = None):
 # Medium graphs
 #-------------------------------------------------------
 
-# 192 threads
+# OMP_PLACES="", OMP_BIND=""
 time_med_str = """
-graph         type    time          vtune
-orkut         dram    19.486751     21.864      
-orkut         pdax    19.201794     31.600      
-orkut         kdax    19.957072     20.055675   
-orkut         mem      nan           nan       
-friendster    dram    968.778346    1081.808    
-friendster    pdax    887.835935    878.044     
-friendster    kdax    672.734348    674.307471  
-friendster    mem        nan        nan          
-moliere2016   dram    1054.31008    1160.216    
-moliere2016   pdax    1059.69578    1394.221    
-moliere2016   kdax    1016.924445   1002.636274 
-moliere2016   mem        nan        nan         
+graph         type  threads  time          vtune
+orkut         dram   192     19.486751     21.864      
+orkut         pdax   192     19.201794     31.600      
+orkut         kdax   192     19.957072     20.055675   
+orkut         mem    192      nan           nan   
+   
+friendster    dram   192     968.778346    1081.808    
+friendster    pdax   192     887.835935    878.044     
+friendster    kdax   192     672.734348    674.307471  
+friendster    mem    192        nan        nan    
+      
+moliere2016   dram   192     1054.31008    1160.216    
+moliere2016   pdax   192     1059.69578    1394.221    
+moliere2016   kdax   192     1016.924445   1002.636274 
+moliere2016   mem    192        nan        nan         
 """
 
-# time: OMP_PLACES=cores, OMP_BIND=true
-# moliere2016  1054.31008   1059.69578   1087.108672     ?
-
-# vtune: OMP_PLACES=cores, OMP_BIND=true
-# moliere2016  1160.216  1394.221   1066.978739  ?
+# OMP_PLACES=cores, OMP_BIND=true
+#   moliere2016  time (dram,pdax,kdax) 1054.31008  1059.69578  1087.108672
+#   moliere2016  vtune                 1160.216    1394.221    1066.978739
 
 
 #-------------------------------------------------------
-# 192 threads (vtune total)
+# Big graphs
 #-------------------------------------------------------
 
-# 192 threads: plain, 1 phase, excludes I/O
+# OMP_PLACES="", OMP_BIND=""
 time_big_str = """
-graph        type   time           vtune
-uk2014       kdax   712.128346     877.898523
-uk2014       mem    nan            nan
-clueweb12    kdax   7193.721465    6928.046121
-clueweb12    mem    nan            nan
+graph      type   threads  time           vtune
+uk2014     kdax   192      712.128346     877.898523
+uk2014     mem    192      nan            nan
+
+clueweb12  kdax   192      7193.721465    6928.046121
+clueweb12  mem    192      nan            nan
+"""
+
+"""
+uk2014     kdax    16   2401.95688
+uk2014     kdax    32   1427.67375
+uk2014     kdax    64   1008.83288
+uk2014     kdax   128    818.054033
+
+clueweb12  kdax    16  11534.8596 
+clueweb12  kdax    32  10163.9093 
+clueweb12  kdax    64   6123.48138 
+clueweb12  kdax   128   7028.44282 
 """
 
 
