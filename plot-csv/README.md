@@ -43,25 +43,28 @@ Example
 
 ```
 myL=(
-  grappolo-vtune-clueweb12-kdax
-  grappolo-vtune-friendster-kdax
-  grappolo-vtune-uk2014-kdax
-)
-
-myL=(
-  grappolo-vtune-friendster-dram
-  grappolo-vtune-friendster-pdax
-  grappolo-vtune-moliere2016-dram
-  grappolo-vtune-moliere2016-pdax
   grappolo-vtune-orkut-dram
   grappolo-vtune-orkut-pdax
+  grappolo-vtune-orkut-kdax
+  #
+  grappolo-vtune-friendster-dram
+  grappolo-vtune-friendster-pdax
+  grappolo-vtune-friendster-kdax
+  #
+  grappolo-vtune-moliere2016-dram
+  grappolo-vtune-moliere2016-pdax
+  grappolo-vtune-moliere2016-kdax
+  #
+  grappolo-vtune-clueweb12-kdax
+  grappolo-vtune-uk2014-kdax
 )
 
 # vtune -report summary
 
 for path in "${myL[@]}" ; do
-  out1="${path}-fn.csv"
-  out2="${path}-pkg.csv"
+  path_new="${path//-vtune-/-}" ;
+  out1="${path_new}-fn.csv"
+  out2="${path_new}-pkg.csv"
   printf "${path} --> ${out1}\n"
   vtune_cmd='vtune -report hotspots -format csv -csv-delimiter comma -result-dir'
   ${vtune_cmd} "${path}" -report-output "${out1}"
