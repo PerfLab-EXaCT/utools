@@ -44,17 +44,19 @@ Example
 ```
 myL=(
   grappolo-vtune-clueweb12-kdax
-  grappolo-vtune-friendster-kdax
   grappolo-vtune-uk2014-kdax
 )
 
 myL=(
-  grappolo-vtune-friendster-dram
-  grappolo-vtune-friendster-pdax
-  grappolo-vtune-moliere2016-dram
-  grappolo-vtune-moliere2016-pdax
   grappolo-vtune-orkut-dram
   grappolo-vtune-orkut-pdax
+  grappolo-vtune-orkut-kdax
+  grappolo-vtune-friendster-dram
+  grappolo-vtune-friendster-pdax
+  grappolo-vtune-friendster-kdax
+  grappolo-vtune-moliere2016-dram
+  grappolo-vtune-moliere2016-pdax
+  grappolo-vtune-moliere2016-kdax
 )
 
 # vtune -report summary
