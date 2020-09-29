@@ -33,7 +33,7 @@ def makeRelTime(dfrm, row_src, col_src, col_dst):
     return dfrm
 
 
-def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = None):
+def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = False):
     dfrm_hist = pandas.DataFrame()
     dfrm_wide = pandas.DataFrame()
 
@@ -55,10 +55,7 @@ def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = None):
         #print(dfrm_hist_x)
 
         if (scale):
-            s = scale
-            if (isinstance(scale, list)):
-                s = scale[idx]
-
+            s = dfrm_hist_x.min(axis=0)
             dfrm_hist_x = dfrm_hist_x.applymap(lambda x: x / s)
 
         #---------------------------------------
@@ -3008,10 +3005,9 @@ bw_data_strL = [ dramBw_dram_str, dramBw_pdax_str, dramBw_kdax_str ]
 lat_data_nmL =  ['dram', 'pdax', 'kdax']
 lat_data_strL = [ latency_dram_str, latency_pdax_str, latency_kdax_str ]
 
-scaleL = [ 4901470.0, 4201260.0, 4201260.0 ]
 (lat_dfrm_hist, lat_dfrm_wide) = \
     makeFrameFromHistL(lat_data_nmL, lat_data_strL, convert = 'repeat',
-                          scale = scaleL)
+                          scale = True)
 
 bw_dfrm_mean = bw_dfrm_wide.mean(axis=0)
 lat_dfrm_mean = lat_dfrm_wide.mean(axis=0)
