@@ -20,7 +20,7 @@ def makeRelTime(dfrm, row_src, col_src, col_dst):
     col_dat = []
 
     for (graph, thrd, ty) in dfrm.index:
-        #print(graph, ty, thrd)
+        #print(graph, thrd, ty)
         v      = dfrm.at[(graph, thrd, ty),      col_src]
         v_base = dfrm.at[(graph, thrd, row_src), col_src]
         v_norm = (v / v_base) * 100
