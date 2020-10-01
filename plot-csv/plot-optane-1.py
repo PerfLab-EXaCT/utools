@@ -27,7 +27,9 @@ import VTuneCSV as vtcsv
 txt_sz_heatmap = 10
 txt_sz_heatmap_scale = 10
 
-do_view = 1
+Do_view = 1
+Do_rows = 1
+
 
 #****************************************************************************
 #
@@ -168,8 +170,8 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
     vt_Mp = vtcsv.VTuneCSV(pathL_Mp, group_by = 'csv')
     vt_Mf = vtcsv.VTuneCSV(pathL_Mf, group_by = 'csv', makeColL = makeColL_f)
 
-    widthH_p = { 'width1':4.5, 'width2':3.9, 'height':1.8 }
-    widthH_f = { 'width1':4.7, 'width2':3.9, 'height':1.8 } # h=2.7
+    widthH_p = { 'width1':4.6, 'width2':3.9, 'height':1.8 }
+    widthH_f = { 'width1':4.8, 'width2':3.9, 'height':1.8 } # h=2.7
     adjustH = { 'left':0.02, 'right':0.98, 'bottom':0.01, 'top':0.99,
                 'wspace':0.00, 'hspace':0.0 }
 
@@ -382,8 +384,7 @@ def dfrm_fn_xform(functionH, graphL):
 def plotL_mk(metricL, w, h):
     num_metric = len(metricL)
 
-    do_rows = False
-    if (do_rows):
+    if (Do_rows):
         fig, axesL = pyplt.subplots(nrows=1, ncols=(num_metric),
                                     figsize=(w * num_metric, h))
     else:
@@ -416,7 +417,7 @@ def plotL_do(vt, fig, axesL, metricL, dfrm_xformF, ytitle_txt, graphL):
 
 def plotL_adj(fig, adjustH):
     fig.subplots_adjust(**adjustH)
-    if (do_view):
+    if (Do_view):
         fig.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
 
 
