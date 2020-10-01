@@ -230,8 +230,12 @@ class VTuneCSV():
                     dfrm_new = dfrm
                     dfrm_new.columns = [(csv_nm + self.COL_SEP + x) for x in dfrm.columns]
                 else:
-                    dfrm_new = dfrm[[key0]]
-                    dfrm_new.columns = [ csv_nm ]
+                    try:
+                        dfrm_new = dfrm[[key0]]
+                        dfrm_new.columns = [ csv_nm ]
+                    except KeyError:
+                        print("Warning: Skipping column: '%s'" % key0)
+                        continue
                 
                 if (dfrm0.empty):
                     self.dataH[key0] = dfrm_new

@@ -110,17 +110,20 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
     pathL_Mp = [
         [path_pfx + x + '-dram-pkg.csv',
          path_pfx + x + '-pdax-pkg.csv',
-         path_pfx + x + '-kdax-pkg.csv'] for x in graphL_med ]
+         path_pfx + x + '-kdax-pkg.csv',
+         path_pfx + x + '-mem-pkg.csv'] for x in graphL_med ]
 
     pathL_Mp = [x for pair in pathL_Mp for x in pair ] # flatten
 
     pathL_Mf = [
         [path_pfx + x + '-dram-fn.csv',
          path_pfx + x + '-pdax-fn.csv',
-         path_pfx + x + '-kdax-fn.csv'] for x in graphL_med ]
+         path_pfx + x + '-kdax-fn.csv',
+         path_pfx + x + '-mem-fn.csv'] for x in graphL_med ]
 
     pathL_Mf = [x for pair in pathL_Mf for x in pair ] # flatten
 
+    print("***Warning: missing orkut-mem\n")
     
     #-------------------------------------------------------
     # Big graphs/Big memory modes
@@ -303,23 +306,15 @@ def plot_pkg(vt, graphL, metricL1, metricL2, widthH, adjustH1, adjustH2):
     #-------------------------------------------------------
     # 
     #-------------------------------------------------------
-
     (w1, w2, h) = (widthH['width1'], widthH['width2'], widthH['height'])
     
-    num_metric1 = len(metricL1)
-    fig1, axesL1 = pyplt.subplots(nrows=1, ncols=(num_metric1), figsize=(w1*num_metric1,h))
-    plot_row(vt, fig1, axesL1, metricL1, dfrm_pkg_xform(graphL), 'Socket', graphL)
-
-    num_metric2 = len(metricL2)
-    fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(num_metric2), figsize=(w2*num_metric2,h))
-    plot_row(vt, fig2, axesL2, metricL2, dfrm_pkg_xform(graphL), 'Socket', graphL)
-
-    fig1.subplots_adjust(**adjustH1)
-    fig2.subplots_adjust(**adjustH2)
-
-    if (do_view):
-        fig1.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
-        fig2.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
+    fig1, axesL1 = plotL_mk(metricL1, w1, h)
+    plotL_do(vt, fig1, axesL1, metricL1, dfrm_pkg_xform(graphL), 'Socket', graphL)
+    plotL_adj(fig1, adjustH1)
+    
+    fig2, axesL2 = plotL_mk(metricL2, w2, h)
+    plotL_do(vt, fig2, axesL2, metricL2, dfrm_pkg_xform(graphL), 'Socket', graphL)
+    plotL_adj(fig2, adjustH2)
 
     return (fig1, fig2)
 
@@ -336,23 +331,15 @@ def dfrm_pkg_xform(graphL):
 #****************************************************************************
 
 def plot_fn(vt, graphL, functionH, metricL1, metricL2, widthH, adjustH1, adjustH2):
-
     (w1, w2, h) = (widthH['width1'], widthH['width2'], widthH['height'])
+    
+    fig1, axesL1 = plotL_mk(metricL1, w1, h)
+    plotL_do(vt, fig1, axesL1, metricL1, dfrm_fn_xform(functionH, graphL), 'Functions', graphL)
+    plotL_adj(fig1, adjustH1)
 
-    num_metric1 = len(metricL1)
-    fig1, axesL1 = pyplt.subplots(nrows=1, ncols=(num_metric1), figsize=(w1*num_metric1,h))
-    plot_row(vt, fig1, axesL1, metricL1, dfrm_fn_xform(functionH, graphL), 'Functions', graphL)
-
-    num_metric2 = len(metricL2)
-    fig2, axesL2 = pyplt.subplots(nrows=1, ncols=(num_metric2), figsize=(w2*num_metric2,h))
-    plot_row(vt, fig2, axesL2, metricL2, dfrm_fn_xform(functionH, graphL), 'Functions', graphL)
-
-    fig1.subplots_adjust(**adjustH1)
-    fig2.subplots_adjust(**adjustH2)
-
-    if (do_view):
-        fig1.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
-        fig2.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
+    fig2, axesL2 = plotL_mk(metricL2, w2, h)
+    plotL_do(vt, fig2, axesL2, metricL2, dfrm_fn_xform(functionH, graphL), 'Functions', graphL)
+    plotL_adj(fig2, adjustH2)
 
     return (fig1, fig2)
 
@@ -392,7 +379,21 @@ def dfrm_fn_xform(functionH, graphL):
     
 #****************************************************************************
 
-def plot_row(vt, fig, axesL, metricL, dfrm_xformF, ytitle_txt, graphL):
+def plotL_mk(metricL, w, h):
+    num_metric = len(metricL)
+
+    do_rows = False
+    if (do_rows):
+        fig, axesL = pyplt.subplots(nrows=1, ncols=(num_metric),
+                                    figsize=(w * num_metric, h))
+    else:
+        fig, axesL = pyplt.subplots(nrows=(num_metric), ncols=1,
+                                    figsize=(w, h * num_metric))
+
+    return (fig, axesL)
+
+
+def plotL_do(vt, fig, axesL, metricL, dfrm_xformF, ytitle_txt, graphL):
     num_metric = len(metricL)
     for i in range(num_metric):
         axes = axesL[i]
@@ -412,9 +413,12 @@ def plot_row(vt, fig, axesL, metricL, dfrm_xformF, ytitle_txt, graphL):
 
         axes1 = plot(dfrm, axes, metricPair, ytitle, graphL)
 
-    #fig.subplots_adjust(left=, right=, bottom=, top=, wspace=, hspace=)
-    #fig.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
-    
+
+def plotL_adj(fig, adjustH):
+    fig.subplots_adjust(**adjustH)
+    if (do_view):
+        fig.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
+
 
 def plot(dfrm, axes, metricPair, ytitle, x_groupL = None):
 
