@@ -50,13 +50,18 @@ myL=(
   grappolo-vtune-friendster-dram
   grappolo-vtune-friendster-pdax
   grappolo-vtune-friendster-kdax
+  grappolo-vtune-friendster-mem
   #
   grappolo-vtune-moliere2016-dram
   grappolo-vtune-moliere2016-pdax
   grappolo-vtune-moliere2016-kdax
+  grappolo-vtune-moliere2016-mem
+  #
+  grappolo-vtune-uk2014-kdax
+  grappolo-vtune-uk2014-mem
   #
   grappolo-vtune-clueweb12-kdax
-  grappolo-vtune-uk2014-kdax
+  grappolo-vtune-clueweb12-mem
 )
 
 # vtune -report summary
