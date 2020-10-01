@@ -176,7 +176,7 @@ clueweb12  128  kdax     7028.44282
 
 
 #----------------------------------------------------------------------------
-# friendster DRAM bandwidth (GB/s)
+# friendster, 192 threads, DRAM bandwidth (GB/s)
 #----------------------------------------------------------------------------
 
 dramBw_dram_str = """
@@ -380,7 +380,7 @@ dram_bw time                   class
 
 
 #----------------------------------------------------------------------------
-# friendster Load Latency (cycles)
+# friendster, 192 threads, Load Latency (cycles)
 #----------------------------------------------------------------------------
 
 latency_dram_str = """
