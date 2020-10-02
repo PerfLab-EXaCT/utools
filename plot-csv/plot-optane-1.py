@@ -110,18 +110,18 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
     path_pfx = './1grappolo/grappolo-'
 
     pathL_Mp = [
-        [path_pfx + x + '-dram-pkg.csv',
-         path_pfx + x + '-pdax-pkg.csv',
-         path_pfx + x + '-kdax-pkg.csv',
-         path_pfx + x + '-mem-pkg.csv'] for x in graphL_med ]
+        [path_pfx + x + '-t192-dram-pkg.csv',
+         path_pfx + x + '-t192-pdax-pkg.csv',
+         path_pfx + x + '-t192-kdax-pkg.csv',
+         path_pfx + x + '-t192-mem-pkg.csv'] for x in graphL_med ]
 
     pathL_Mp = [x for pair in pathL_Mp for x in pair ] # flatten
 
     pathL_Mf = [
-        [path_pfx + x + '-dram-fn.csv',
-         path_pfx + x + '-pdax-fn.csv',
-         path_pfx + x + '-kdax-fn.csv',
-         path_pfx + x + '-mem-fn.csv'] for x in graphL_med ]
+        [path_pfx + x + '-t192-dram-fn.csv',
+         path_pfx + x + '-t192-pdax-fn.csv',
+         path_pfx + x + '-t192-kdax-fn.csv',
+         path_pfx + x + '-t192-mem-fn.csv'] for x in graphL_med ]
 
     pathL_Mf = [x for pair in pathL_Mf for x in pair ] # flatten
 
@@ -139,11 +139,18 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
     # grappolo-clueweb12-kdax-fn.csv
     # grappolo-uk2014-kdax-fn.csv
 
-    pathL_Bp = [path_pfx + x + '-kdax-pkg.csv' for x in graphL_big ]
+    pathL_Bp = [
+        [path_pfx + x + '-t192-kdax-pkg.csv',
+         path_pfx + x + '-t192-mem-pkg.csv'] for x in graphL_big ]
 
-    pathL_Bf = [path_pfx + x + '-kdax-fn.csv' for x in graphL_big ]
+    pathL_Bp = [x for pair in pathL_Bp for x in pair ] # flatten
+    
+    pathL_Bf = [
+        [path_pfx + x + '-t192-kdax-fn.csv',
+         path_pfx + x + '-t192-mem-fn.csv'] for x in graphL_big ]
 
-
+    pathL_Bf = [x for pair in pathL_Bf for x in pair ] # flatten
+    
     #-------------------------------------------------------
     # 
     #-------------------------------------------------------

@@ -229,7 +229,7 @@ friendster_t192_dramBw_dram_str = """
   450	0
 """
 
-dramBw_pdax_str = """
+friendster_t192_dramBw_pdax_str = """
   dram_bw time
   0	188.37429006909997
   10	79.14
@@ -279,7 +279,7 @@ dramBw_pdax_str = """
   450	0
 """
 
-dramBw_kdax_str = """
+friendster_t192_dramBw_kdax_str = """
 dram_bw time                   class
     0	89.90187841810001	Low
     10	67.88999999999999	Low
@@ -378,11 +378,8 @@ dram_bw time                   class
 #   440	0
 #   450	0
 
-dramBw_mem_str = """
+friendster_t192_dramBw_mem_str = """
 dram_bw time                   class
-Bandwidth Utilization Histogram
-    Bandwidth Domain:	DRAM, GB/sec
-    Bandwidth Utilization	Elapsed Time	Bandwidth utilization threshold
     0	121.29940788809998	Low
     9	54.870000000000005	Low
     18	104.99000000000001	Low
@@ -440,7 +437,7 @@ Bandwidth Utilization Histogram
 # friendster, 192 threads, Load Latency (cycles)
 #----------------------------------------------------------------------------
 
-latency_dram_str = """
+friendster_t192_latency_dram_str = """
     Latency	Loads
     6	32570268150
     7	393529223360
@@ -1234,7 +1231,7 @@ latency_dram_str = """
     3324	4901470
 """
 
-latency_pdax_str = """
+friendster_t192_latency_pdax_str = """
     Latency	Loads
     6	31879160880
     7	364812210840
@@ -1865,7 +1862,7 @@ latency_pdax_str = """
     2786	4201260
 """
 
-latency_kdax_str = """
+friendster_t192_latency_kdax_str = """
     Latency	Loads
     6	30202858140
     7	366026374980
@@ -3039,7 +3036,7 @@ latency_kdax_str = """
 #     2676	4201260
 #     3182	4201260
 
-latency_mem_str = """
+friendster_t192_latency_mem_str = """
     Latency	Loads
     6	30744820680
     7	371748491100
@@ -3655,14 +3652,20 @@ makeRelTime(time_med_dfrm, row_src, col_src, col_dst)
 
 #-------------------------------------------------------
 
-bw_data_nmL =  ['dram', 'pdax', 'kdax']
-bw_data_strL = [ friendster_t192_dramBw_dram_str, dramBw_pdax_str, dramBw_kdax_str ]
+bw_data_nmL =  ['dram', 'pdax', 'kdax', 'mem']
+bw_data_strL = [ friendster_t192_dramBw_dram_str,
+                 friendster_t192_dramBw_pdax_str,
+                 friendster_t192_dramBw_kdax_str,
+                 friendster_t192_dramBw_mem_str]
 
 (bw_dfrm_hist, bw_dfrm_wide) = \
     makeFrameFromHistL(bw_data_nmL, bw_data_strL, convert = 'sample')
 
-lat_data_nmL =  ['dram', 'pdax', 'kdax']
-lat_data_strL = [ latency_dram_str, latency_pdax_str, latency_kdax_str ]
+lat_data_nmL =  bw_data_nmL
+lat_data_strL = [ friendster_t192_latency_dram_str,
+                  friendster_t192_latency_pdax_str,
+                  friendster_t192_latency_kdax_str,
+                  friendster_t192_latency_mem_str ]
 
 (lat_dfrm_hist, lat_dfrm_wide) = \
     makeFrameFromHistL(lat_data_nmL, lat_data_strL, convert = 'repeat',
@@ -3738,7 +3741,7 @@ ax = seaborn.scatterplot(data = bw_dfrm_mean, ax=ax,
 
 ax.set_xlim(xlim)
 ax.set_ylim(0, 110)
-ax.set_title('friendster, DRAM BW (GB/s)')
+ax.set_title('friendster t192, DRAM BW (GB/s)')
 
 #-------------------------------------------------------
 
@@ -3751,7 +3754,7 @@ ax = seaborn.scatterplot(data = lat_dfrm_mean, ax=ax,
 
 ax.set_xlim(xlim)
 ax.set_ylim(5, 30)
-ax.set_title('friendster, Load Latency (cycles)')
+ax.set_title('friendster t192, Load Latency (cycles)')
 
 #-------------------------------------------------------
 
