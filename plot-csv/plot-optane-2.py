@@ -8394,11 +8394,11 @@ XXX_t192_latency_mem_str = """
 
 
 #****************************************************************************
-# 
+# Helpers
 #****************************************************************************
 
 
-def plot_bw_lat(ax_bw, ax_lat, bw_data_strL, lat_data_strL, data_nmL):
+def plot_bw_lat(ax_bw, ax_lat, bw_data_strL, lat_data_strL, graph, data_nmL):
     #-------------------------------------------------------
     # BW
     #-------------------------------------------------------
@@ -8420,9 +8420,12 @@ def plot_bw_lat(ax_bw, ax_lat, bw_data_strL, lat_data_strL, data_nmL):
     ax = seaborn.scatterplot(data = bw_dfrm_mean, ax=ax,
                              marker='d', color='white', zorder=10)
 
+    max_mean = bw_dfrm_mean.max()
+    y_hi = 2 * max_mean
+
     ax.set_xlim(xlim)
-    ax.set_ylim(0, 110)
-    ax.set_title('friendster t192, DRAM BW (GB/s)')
+    ax.set_ylim(0, y_hi)
+    ax.set_title(graph + ' t192, DRAM BW (GB/s)')
 
 
     #-------------------------------------------------------
@@ -8450,9 +8453,16 @@ def plot_bw_lat(ax_bw, ax_lat, bw_data_strL, lat_data_strL, data_nmL):
     ax = seaborn.scatterplot(data = lat_dfrm_mean, ax=ax,
                              marker='d', color='white', zorder=10)
 
+
+    lat_min = lat_dfrm_hist.index.min() # to_numpy()
+    y_lo = lat_min / 2
+    
+    max_mean = lat_dfrm_mean.max()
+    y_hi = 2 * max_mean
+    
     ax.set_xlim(xlim)
-    ax.set_ylim(5, 30)
-    ax.set_title('friendster t192, Load Latency (cycles)')
+    ax.set_ylim(y_lo, y_hi)
+    ax.set_title(graph + ' t192, Load Latency (cycles)')
 
 
 #****************************************************************************
@@ -8534,7 +8544,8 @@ def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = False):
         dfrm_wide = pandas.concat([dfrm_wide, dfrm_wide_x], axis=1)
 
 
-    dfrm_hist.reset_index(inplace=True)
+    # histogram bins will be unique, so retain them as index
+    #dfrm_hist.reset_index(inplace=True)
 
     return (dfrm_hist, dfrm_wide)
 
@@ -8544,8 +8555,11 @@ def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = False):
 # Main
 #****************************************************************************
 
+#----------------------------------------------------------------------------
+# friendster
+#----------------------------------------------------------------------------
 
-fig, axes = pyplt.subplots(ncols=3, figsize=(13, 4))
+fig, axes = pyplt.subplots(nrows=4, ncols=3, figsize=(13, 12))
 
 #-------------------------------------------------------
 # Time
@@ -8575,7 +8589,7 @@ time_med_192 = time_med_dfrm.xs(192, level='threads')
 ln_sty = ':' # --
 mrk_sty = 'o' # --
 
-ax = axes[0]
+ax = axes[0,0]
 ax = seaborn.lineplot(data=time_med_192, x='type', y=col_src, hue='graph', ax=ax,
                       palette='dark', marker='^')
 ax.legend(title=col_src, loc='lower left',  bbox_to_anchor=(0.0, 0.35)) # prop={'size': text_sz}
@@ -8596,6 +8610,7 @@ ax.legend(handles=lineL, title=col_dst, loc='lower left', bbox_to_anchor=(0.0, 0
 # 
 #-------------------------------------------------------
 
+nm = 'friendster'
 data_nmL =  ['dram', 'pdax', 'kdax', 'mem']
 bw_data_strL = [ friendster_t192_dramBw_dram_str,
                  friendster_t192_dramBw_pdax_str,
@@ -8608,30 +8623,68 @@ lat_data_strL = [ friendster_t192_latency_dram_str,
                   friendster_t192_latency_kdax_str,
                   friendster_t192_latency_mem_str ]
 
-#-------------------------------------------------------
+plot_bw_lat(axes[0,1], axes[0,2], bw_data_strL, lat_data_strL, nm, data_nmL)
 
-x_bw_data_strL = [ moliere2016_t192_dramBw_dram_str,
-                   moliere2016_t192_dramBw_pdax_str,
-                   moliere2016_t192_dramBw_kdax_str,
-                   moliere2016_t192_dramBw_mem_str]
 
-x_bw_data_strL = [ uk2014_t192_dramBw_kdax_str,
-                   uk2014_t192_dramBw_mem_str]
+#----------------------------------------------------------------------------
+# 
+#----------------------------------------------------------------------------
 
-x_bw_data_strL = [ clueweb12_t192_dramBw_kdax_str,
-                   clueweb12_t192_dramBw_mem_str]
+nm = 'moliere2016'
+data_nmL =  ['dram', 'pdax', 'kdax', 'mem']
+bw_data_strL = [ moliere2016_t192_dramBw_dram_str,
+                 moliere2016_t192_dramBw_pdax_str,
+                 moliere2016_t192_dramBw_kdax_str,
+                 moliere2016_t192_dramBw_mem_str]
 
-plot_bw_lat(axes[1], axes[2], bw_data_strL, lat_data_strL, data_nmL)
+lat_data_strL = [ moliere2016_t192_latency_dram_str,
+                  moliere2016_t192_latency_pdax_str,
+                  moliere2016_t192_latency_kdax_str,
+                  moliere2016_t192_latency_mem_str ]
 
+plot_bw_lat(axes[1,1], axes[1,2], bw_data_strL, lat_data_strL, nm, data_nmL)
 
 #-------------------------------------------------------
 # 
 #-------------------------------------------------------
 
+nm = 'uk2014'
+data_nmL =  ['kdax', 'mem']
+
+bw_data_strL = [ uk2014_t192_dramBw_kdax_str,
+                 uk2014_t192_dramBw_mem_str]
+
+lat_data_strL = [ uk2014_t192_latency_kdax_str,
+                  uk2014_t192_latency_mem_str ]
+
+
+plot_bw_lat(axes[2,1], axes[2,2], bw_data_strL, lat_data_strL, nm, data_nmL)
+
+#-------------------------------------------------------
+# 
+#-------------------------------------------------------
+
+nm = 'clueweb12'
+data_nmL =  ['kdax', 'mem']
+
+bw_data_strL = [ clueweb12_t192_dramBw_kdax_str,
+                 clueweb12_t192_dramBw_mem_str]
+
+lat_data_strL = [ clueweb12_t192_latency_kdax_str,
+                  clueweb12_t192_latency_mem_str ]
+
+plot_bw_lat(axes[3,1], axes[3,2], bw_data_strL, lat_data_strL, nm, data_nmL)
+
+
+#-------------------------------------------------------
+
+
 fig.subplots_adjust(left=0.05, right=0.95, bottom=0.05, top=0.95,
-                    wspace=0.35, hspace=0.0)
-    
+                    wspace=0.35, hspace=0.2)
+
 fig.savefig('chart-grappolo-med-sum.pdf', bbox_inches='tight')
+
+
 
 #seaborn.plt.show()
 pyplt.show()
