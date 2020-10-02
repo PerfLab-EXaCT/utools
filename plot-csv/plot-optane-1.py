@@ -201,8 +201,8 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
     vt_Bp = vtcsv.VTuneCSV(pathL_Bp, group_by = 'csv')
     vt_Bf = vtcsv.VTuneCSV(pathL_Bf, group_by = 'csv', makeColL = makeColL_f)
 
-    widthH_p = {'width1':1.5, 'width2':2.1, 'height':1.8}
-    widthH_f = {'width1':1.9, 'width2':2.3, 'height':1.8} # h=2.7
+    widthH_p = {'width1':2.5, 'width2':2.6, 'height':1.8}
+    widthH_f = {'width1':2.5, 'width2':2.7, 'height':1.8} # h=2.7
     adjustH['wspace'] = 0.10
 
     (fig_Bp1, fig_Bp2) = plot_pkg(vt_Bp, graphL_big, metricL1_p, metricL2,
@@ -517,6 +517,7 @@ def rename_col(x, graphL):
         x0 = x0.replace(g_nm, '')
 
     x0 = x0.replace('grappolo--', '') # not a typo!
+    x0 = x0.replace('t192-', '')
 
     # ripples
     x0 = x0.replace('.imm-', '') # not a typo!

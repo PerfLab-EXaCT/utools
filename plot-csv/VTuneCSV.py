@@ -18,12 +18,11 @@ import numpy
 
 #import matplotlib.pyplot as pyplt
 
-
 #****************************************************************************
 #
 #****************************************************************************
 
-class VTuneCSV():
+class VTuneCSV:
     """
     Create a hash of DataFrames that have rows indexed by 'data_index_nm'.
     The grouping for each DataFrame is controlled with <group_by>.
@@ -46,6 +45,8 @@ class VTuneCSV():
                 (TODO: abstract to function)
     """
 
+    NM = "" #VTuneCSV.__name__
+
     dataH = None
     dataL = None
     group_by = None
@@ -61,6 +62,8 @@ class VTuneCSV():
                   columnL = None,
                   makeColL = None):
 
+        VTuneCSV.NM = type(self).__name__
+    
         self.dataH = { }
         self.dataL = [ ]
         self.group_by = group_by
@@ -105,7 +108,7 @@ class VTuneCSV():
         msg = ""
 
         for kv in self.dataL:
-            msg += ("*** %s: %s (index: %s) ***\n%s\n") % (type(self).__name__, kv[0], self.index_name, kv[1])
+            msg += ("*** %s: %s (index: %s) ***\n%s\n") % (VTuneCSV.NM, kv[0], self.index_name, kv[1])
 
         #for x, y in self.dataH.items():
         #    msg += ("*** %s ***\n%s\n") % (x, y)
@@ -135,7 +138,7 @@ class VTuneCSV():
     
     def add_csv(self, csv_fnm, indexL, columnL, makeColL):
         if (not os.path.exists(csv_fnm)):
-            print(("Skipping non-existent file: '%s'" % csv_fnm))
+            print(("%s: Warning: skipping non-existent file '%s'" % (VTuneCSV.NM, csv_fnm)))
             return
 
         csv_nm = re.sub('\.csv$', '', os.path.basename(csv_fnm))
@@ -145,7 +148,7 @@ class VTuneCSV():
         self.index_name = dfrm.columns[0]
         dfrm.set_index(self.index_name, inplace = True)
 
-        print(("*** %s: '%s' (%s)" % (type(self).__name__, csv_fnm, self.index_name)))
+        print(("*** %s: '%s' (%s)" % (VTuneCSV.NM, csv_fnm, self.index_name)))
 
         #-------------------------------------------------------
         # Normalize
@@ -234,7 +237,7 @@ class VTuneCSV():
                         dfrm_new = dfrm[[key0]]
                         dfrm_new.columns = [ csv_nm ]
                     except KeyError:
-                        print("Warning: Skipping column: '%s'" % key0)
+                        print(("%s: Warning: skipping column '%s'" % (VTuneCSV.NM, key0)))
                         continue
                 
                 if (dfrm0.empty):
