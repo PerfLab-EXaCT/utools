@@ -43,25 +43,25 @@ Example
 
 ```
 myL=(
-  grappolo-vtune-orkut-dram
-  grappolo-vtune-orkut-pdax
-  grappolo-vtune-orkut-kdax
+  grappolo-vtune-orkut-t192-dram
+  grappolo-vtune-orkut-t192-pdax
+  grappolo-vtune-orkut-t192-kdax
   #
-  grappolo-vtune-friendster-dram
-  grappolo-vtune-friendster-pdax
-  grappolo-vtune-friendster-kdax
-  grappolo-vtune-friendster-mem
+  grappolo-vtune-friendster-t192-dram
+  grappolo-vtune-friendster-t192-pdax
+  grappolo-vtune-friendster-t192-kdax
+  grappolo-vtune-friendster-t192-mem
   #
-  grappolo-vtune-moliere2016-dram
-  grappolo-vtune-moliere2016-pdax
-  grappolo-vtune-moliere2016-kdax
-  grappolo-vtune-moliere2016-mem
+  grappolo-vtune-moliere2016-t192-dram
+  grappolo-vtune-moliere2016-t192-pdax
+  grappolo-vtune-moliere2016-t192-kdax
+  grappolo-vtune-moliere2016-t192-mem
   #
-  grappolo-vtune-uk2014-kdax
-  grappolo-vtune-uk2014-mem
+  grappolo-vtune-uk2014-t192-kdax
+  grappolo-vtune-uk2014-t192-mem
   #
-  grappolo-vtune-clueweb12-kdax
-  grappolo-vtune-clueweb12-mem
+  grappolo-vtune-clueweb12-t192-kdax
+  grappolo-vtune-clueweb12-t192-mem
 )
 
 # vtune -report summary
