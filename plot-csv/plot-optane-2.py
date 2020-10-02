@@ -8525,6 +8525,20 @@ lat_data_strL = [ friendster_t192_latency_dram_str,
 bw_dfrm_mean = bw_dfrm_wide.mean(axis=0)
 lat_dfrm_mean = lat_dfrm_wide.mean(axis=0)
 
+
+#-------------------------------------------------------
+
+x_bw_data_strL = [ moliere2016_t192_dramBw_dram_str,
+                   moliere2016_t192_dramBw_pdax_str,
+                   moliere2016_t192_dramBw_kdax_str,
+                   moliere2016_t192_dramBw_mem_str]
+
+x_bw_data_strL = [ uk2014_t192_dramBw_kdax_str,
+                   uk2014_t192_dramBw_mem_str]
+
+x_bw_data_strL = [ clueweb12_t192_dramBw_kdax_str,
+                   clueweb12_t192_dramBw_mem_str]
+
 # print("bw_dfrm_hist\n", bw_dfrm_hist)
 # print("bw_dfrm_wide\n", bw_dfrm_wide)
 
