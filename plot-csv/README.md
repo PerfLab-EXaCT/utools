@@ -77,6 +77,15 @@ for path in "${myL[@]}" ; do
 done
 ```
 
+```
+for src in /files0/tallent/xxx-optane/grappolo/*.csv ; do
+  csv=$(basename ${src})
+  if ! diff ${src} ${csv} >& /dev/null ; then
+    echo ${csv}
+    cp ${src} ${csv}
+  fi
+done
+```
 
 
 1. Plot
