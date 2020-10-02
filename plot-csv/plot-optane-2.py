@@ -8559,7 +8559,7 @@ def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = False):
 # friendster
 #----------------------------------------------------------------------------
 
-fig, axes = pyplt.subplots(nrows=4, ncols=3, figsize=(13, 12))
+fig, axes = pyplt.subplots(nrows=4, ncols=3, figsize=(13, 11))
 
 #-------------------------------------------------------
 # Time
@@ -8680,7 +8680,7 @@ plot_bw_lat(axes[3,1], axes[3,2], bw_data_strL, lat_data_strL, nm, data_nmL)
 
 
 fig.subplots_adjust(left=0.05, right=0.95, bottom=0.05, top=0.95,
-                    wspace=0.35, hspace=0.2)
+                    wspace=0.35, hspace=0.25)
 
 fig.savefig('chart-grappolo-med-sum.pdf', bbox_inches='tight')
 
