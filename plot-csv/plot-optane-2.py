@@ -13,90 +13,6 @@ import seaborn
 
 
 #****************************************************************************
-#
-#****************************************************************************
-
-def makeRelTime(dfrm, row_src, col_src, col_dst):
-    col_dat = []
-
-    for (graph, thrd, ty) in dfrm.index:
-        #print(graph, thrd, ty)
-        v      = dfrm.at[(graph, thrd, ty),      col_src]
-        v_base = dfrm.at[(graph, thrd, row_src), col_src]
-        v_norm = (v / v_base) * 100
-        col_dat.append(v_norm)
-
-    dfrm[col_dst] = col_dat # concat
-    #dfrm.insert(len(dfrm.columns), col_dst, col_dat)
-    #print(dfrm)
-
-    return dfrm
-
-
-def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = False):
-    dfrm_hist = pandas.DataFrame()
-    dfrm_wide = pandas.DataFrame()
-
-    idx = 0
-    for data_str in data_stringL:
-        #---------------------------------------
-        # Create histogram
-        #---------------------------------------
-        data_nm = data_nameL[idx]
-        
-        str_data = io.StringIO(data_str)
-        dfrm_hist_x = pandas.read_csv(str_data, sep='\s+', index_col=0)
-
-        # N.B.: Drop 'class' column
-        if (dfrm_hist_x.columns.isin(['class']).any()): # df.shape[1]
-            dfrm_hist_x.drop(['class'], axis=1, inplace=True)
-        
-        dfrm_hist_x.columns = [data_nm]
-        #print(dfrm_hist_x)
-
-        if (scale):
-            s = dfrm_hist_x.min(axis=0)
-            dfrm_hist_x = dfrm_hist_x.applymap(lambda x: x / s)
-
-        #---------------------------------------
-        # Convert the histogram to Seaborn 'wide form'
-        #---------------------------------------
-        #   https://stackoverflow.com/questions/62709719/violinplot-from-histogram-values
-        #   https://anvil.works/blog/tidy-data
-        #   https://sejdemyr.github.io/r-tutorials/basics/wide-and-long/
-
-        hist_bin  = dfrm_hist_x.index
-        hist_freq = dfrm_hist_x.iloc[:, 0]
-        
-        #print("hist_bin\n", hist_bin)
-        #print("hist_freq\n", hist_freq)
-
-        if (convert == 'repeat'):
-            hist_smpl = numpy.repeat(hist_bin, hist_freq)
-        elif (convert == 'sample'):
-            hist_smpl = numpy.random.uniform(numpy.repeat(hist_bin, hist_freq),
-                                             numpy.repeat(hist_bin, hist_freq))
-        #print("hist_smpl\n", hist_smpl)
-
-        dfrm_wide_x = pandas.DataFrame(hist_smpl)
-        dfrm_wide_x.columns = [data_nm]
-        
-        #print("dfrm_wide_x\n", dfrm_wide_x)
-
-        #---------------------------------------
-        # Merge into final result
-        #---------------------------------------
-        idx += 1
-        dfrm_hist = pandas.concat([dfrm_hist, dfrm_hist_x], axis=1)
-        dfrm_wide = pandas.concat([dfrm_wide, dfrm_wide_x], axis=1)
-
-
-    dfrm_hist.reset_index(inplace=True)
-
-    return (dfrm_hist, dfrm_wide)
-
-
-#****************************************************************************
 # Grappolo, Single phase: Run time
 #****************************************************************************
 
@@ -8478,11 +8394,161 @@ XXX_t192_latency_mem_str = """
 
 
 #****************************************************************************
-# Grappolo
+# 
 #****************************************************************************
 
+
+def plot_bw_lat(ax_bw, ax_lat, bw_data_strL, lat_data_strL, data_nmL):
+    #-------------------------------------------------------
+    # BW
+    #-------------------------------------------------------
+
+    (bw_dfrm_hist, bw_dfrm_wide) = \
+        makeFrameFromHistL(data_nmL, bw_data_strL, convert = 'sample')
+
+    bw_dfrm_mean = bw_dfrm_wide.mean(axis=0)
+
+    # print("bw_dfrm_hist\n", bw_dfrm_hist)
+    # print("bw_dfrm_wide\n", bw_dfrm_wide)
+
+    #-------------------------------------------------------
+    
+    ax = ax_bw
+    ax = seaborn.violinplot(data=bw_dfrm_wide, ax=ax, cut = 0,
+                            palette='deep', scale = 'area', inner = 'box')
+    xlim = ax.get_xlim()
+    ax = seaborn.scatterplot(data = bw_dfrm_mean, ax=ax,
+                             marker='d', color='white', zorder=10)
+
+    ax.set_xlim(xlim)
+    ax.set_ylim(0, 110)
+    ax.set_title('friendster t192, DRAM BW (GB/s)')
+
+
+    #-------------------------------------------------------
+    # Lat
+    #-------------------------------------------------------
+
+    (lat_dfrm_hist, lat_dfrm_wide) = \
+        makeFrameFromHistL(data_nmL, lat_data_strL, convert = 'repeat',
+                           scale = True)
+
+    lat_dfrm_mean = lat_dfrm_wide.mean(axis=0)
+
+    # print("lat_dfrm_hist\n", lat_dfrm_hist)
+    # print("lat_dfrm_wide\n", lat_dfrm_wide)
+
+    # print(lat_dfrm_wide.median(axis=0))
+    # print(lat_dfrm_wide.mean(axis=0))
+
+    #-------------------------------------------------------
+
+    ax = ax_lat
+    ax = seaborn.violinplot(data=lat_dfrm_wide, ax=ax, cut = 0, # alpha=.3
+                            palette='deep', scale = 'area', inner = 'box')
+    xlim = ax.get_xlim()
+    ax = seaborn.scatterplot(data = lat_dfrm_mean, ax=ax,
+                             marker='d', color='white', zorder=10)
+
+    ax.set_xlim(xlim)
+    ax.set_ylim(5, 30)
+    ax.set_title('friendster t192, Load Latency (cycles)')
+
+
+#****************************************************************************
+#
+#****************************************************************************
+
+def makeRelTime(dfrm, row_src, col_src, col_dst):
+    col_dat = []
+
+    for (graph, thrd, ty) in dfrm.index:
+        #print(graph, thrd, ty)
+        v      = dfrm.at[(graph, thrd, ty),      col_src]
+        v_base = dfrm.at[(graph, thrd, row_src), col_src]
+        v_norm = (v / v_base) * 100
+        col_dat.append(v_norm)
+
+    dfrm[col_dst] = col_dat # concat
+    #dfrm.insert(len(dfrm.columns), col_dst, col_dat)
+    #print(dfrm)
+
+    return dfrm
+
+
+def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = False):
+    dfrm_hist = pandas.DataFrame()
+    dfrm_wide = pandas.DataFrame()
+
+    idx = 0
+    for data_str in data_stringL:
+        #---------------------------------------
+        # Create histogram
+        #---------------------------------------
+        data_nm = data_nameL[idx]
+        
+        str_data = io.StringIO(data_str)
+        dfrm_hist_x = pandas.read_csv(str_data, sep='\s+', index_col=0)
+
+        # N.B.: Drop 'class' column
+        if (dfrm_hist_x.columns.isin(['class']).any()): # df.shape[1]
+            dfrm_hist_x.drop(['class'], axis=1, inplace=True)
+        
+        dfrm_hist_x.columns = [data_nm]
+        #print(dfrm_hist_x)
+
+        if (scale):
+            s = dfrm_hist_x.min(axis=0)
+            dfrm_hist_x = dfrm_hist_x.applymap(lambda x: x / s)
+
+        #---------------------------------------
+        # Convert the histogram to Seaborn 'wide form'
+        #---------------------------------------
+        #   https://stackoverflow.com/questions/62709719/violinplot-from-histogram-values
+        #   https://anvil.works/blog/tidy-data
+        #   https://sejdemyr.github.io/r-tutorials/basics/wide-and-long/
+
+        hist_bin  = dfrm_hist_x.index
+        hist_freq = dfrm_hist_x.iloc[:, 0]
+        
+        #print("hist_bin\n", hist_bin)
+        #print("hist_freq\n", hist_freq)
+
+        if (convert == 'repeat'):
+            hist_smpl = numpy.repeat(hist_bin, hist_freq)
+        elif (convert == 'sample'):
+            hist_smpl = numpy.random.uniform(numpy.repeat(hist_bin, hist_freq),
+                                             numpy.repeat(hist_bin, hist_freq))
+        #print("hist_smpl\n", hist_smpl)
+
+        dfrm_wide_x = pandas.DataFrame(hist_smpl)
+        dfrm_wide_x.columns = [data_nm]
+        
+        #print("dfrm_wide_x\n", dfrm_wide_x)
+
+        #---------------------------------------
+        # Merge into final result
+        #---------------------------------------
+        idx += 1
+        dfrm_hist = pandas.concat([dfrm_hist, dfrm_hist_x], axis=1)
+        dfrm_wide = pandas.concat([dfrm_wide, dfrm_wide_x], axis=1)
+
+
+    dfrm_hist.reset_index(inplace=True)
+
+    return (dfrm_hist, dfrm_wide)
+
+
+
+#****************************************************************************
+# Main
+#****************************************************************************
+
+
+fig, axes = pyplt.subplots(ncols=3, figsize=(13, 4))
+
 #-------------------------------------------------------
-# Create DataFrames
+# Time
 #-------------------------------------------------------
 
 tm_index = [0,1,2] # graph threads type
@@ -8500,75 +8566,6 @@ col_src = 'time'
 col_dst = 'relative time'
 
 makeRelTime(time_med_dfrm, row_src, col_src, col_dst)
-
-#-------------------------------------------------------
-
-bw_data_nmL =  ['dram', 'pdax', 'kdax', 'mem']
-bw_data_strL = [ friendster_t192_dramBw_dram_str,
-                 friendster_t192_dramBw_pdax_str,
-                 friendster_t192_dramBw_kdax_str,
-                 friendster_t192_dramBw_mem_str]
-
-(bw_dfrm_hist, bw_dfrm_wide) = \
-    makeFrameFromHistL(bw_data_nmL, bw_data_strL, convert = 'sample')
-
-lat_data_nmL =  bw_data_nmL
-lat_data_strL = [ friendster_t192_latency_dram_str,
-                  friendster_t192_latency_pdax_str,
-                  friendster_t192_latency_kdax_str,
-                  friendster_t192_latency_mem_str ]
-
-(lat_dfrm_hist, lat_dfrm_wide) = \
-    makeFrameFromHistL(lat_data_nmL, lat_data_strL, convert = 'repeat',
-                          scale = True)
-
-bw_dfrm_mean = bw_dfrm_wide.mean(axis=0)
-lat_dfrm_mean = lat_dfrm_wide.mean(axis=0)
-
-
-#-------------------------------------------------------
-
-x_bw_data_strL = [ moliere2016_t192_dramBw_dram_str,
-                   moliere2016_t192_dramBw_pdax_str,
-                   moliere2016_t192_dramBw_kdax_str,
-                   moliere2016_t192_dramBw_mem_str]
-
-x_bw_data_strL = [ uk2014_t192_dramBw_kdax_str,
-                   uk2014_t192_dramBw_mem_str]
-
-x_bw_data_strL = [ clueweb12_t192_dramBw_kdax_str,
-                   clueweb12_t192_dramBw_mem_str]
-
-# print("bw_dfrm_hist\n", bw_dfrm_hist)
-# print("bw_dfrm_wide\n", bw_dfrm_wide)
-
-# print("lat_dfrm_hist\n", lat_dfrm_hist)
-# print("lat_dfrm_wide\n", lat_dfrm_wide)
-
-# print(lat_dfrm_wide.median(axis=0))
-# print(lat_dfrm_wide.mean(axis=0))
-
-#-------------------------------------------------------
-
-#df0 = lat_dfrm_hist.iloc[:, 0] # latency buckets
-#print("df0\n", df0)
-
-# for i in range(0, 3):
-#     # weights and weighted latencies
-#     weight = lat_dfrm_hist.iloc[:, i+1]
-#     w_lat = df0.multiply(weight, axis='index', fill_value = 0.0)
-#     print("Lat1: ", w_lat.sum() / weight.sum(), w_lat.sum(), weight.sum())
-#
-#     df_lat = lat_dfrm_wide.iloc[:, i]
-#     #print("df_lat\n", df_lat)
-#     print("Lat2: ", df_lat.sum() / df_lat.count(), df_lat.mean(), df_lat.median(), df_lat.sum(), df_lat.count())
-
-
-#-------------------------------------------------------
-# Plot
-#-------------------------------------------------------
-
-fig, axes = pyplt.subplots(ncols=3, figsize=(13, 4))
 
 #-------------------------------------------------------
 
@@ -8596,31 +8593,39 @@ ax.legend(handles=lineL, title=col_dst, loc='lower left', bbox_to_anchor=(0.0, 0
 
 
 #-------------------------------------------------------
+# 
+#-------------------------------------------------------
 
-ax = axes[1]
-ax = seaborn.violinplot(data=bw_dfrm_wide, ax=ax, cut = 0,
-                        palette='deep', scale = 'area', inner = 'box')
-xlim = ax.get_xlim()
-ax = seaborn.scatterplot(data = bw_dfrm_mean, ax=ax,
-                         marker='d', color='white', zorder=10)
+data_nmL =  ['dram', 'pdax', 'kdax', 'mem']
+bw_data_strL = [ friendster_t192_dramBw_dram_str,
+                 friendster_t192_dramBw_pdax_str,
+                 friendster_t192_dramBw_kdax_str,
+                 friendster_t192_dramBw_mem_str]
 
-ax.set_xlim(xlim)
-ax.set_ylim(0, 110)
-ax.set_title('friendster t192, DRAM BW (GB/s)')
+
+lat_data_strL = [ friendster_t192_latency_dram_str,
+                  friendster_t192_latency_pdax_str,
+                  friendster_t192_latency_kdax_str,
+                  friendster_t192_latency_mem_str ]
 
 #-------------------------------------------------------
 
-ax = axes[2]
-ax = seaborn.violinplot(data=lat_dfrm_wide, ax=ax, cut = 0, # alpha=.3
-                        palette='deep', scale = 'area', inner = 'box')
-xlim = ax.get_xlim()
-ax = seaborn.scatterplot(data = lat_dfrm_mean, ax=ax,
-                         marker='d', color='white', zorder=10)
+x_bw_data_strL = [ moliere2016_t192_dramBw_dram_str,
+                   moliere2016_t192_dramBw_pdax_str,
+                   moliere2016_t192_dramBw_kdax_str,
+                   moliere2016_t192_dramBw_mem_str]
 
-ax.set_xlim(xlim)
-ax.set_ylim(5, 30)
-ax.set_title('friendster t192, Load Latency (cycles)')
+x_bw_data_strL = [ uk2014_t192_dramBw_kdax_str,
+                   uk2014_t192_dramBw_mem_str]
 
+x_bw_data_strL = [ clueweb12_t192_dramBw_kdax_str,
+                   clueweb12_t192_dramBw_mem_str]
+
+plot_bw_lat(axes[1], axes[2], bw_data_strL, lat_data_strL, data_nmL)
+
+
+#-------------------------------------------------------
+# 
 #-------------------------------------------------------
 
 fig.subplots_adjust(left=0.05, right=0.95, bottom=0.05, top=0.95,
