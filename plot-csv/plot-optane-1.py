@@ -179,7 +179,8 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
     #-------------------------------------------------------
 
     vt_Mp = vtcsv.VTuneCSV(pathL_Mp, group_by = 'csv')
-    vt_Mf = vtcsv.VTuneCSV(pathL_Mf, group_by = 'csv', makeColL = makeColL_f)
+    vt_Mf = vtcsv.VTuneCSV(pathL_Mf, group_by = 'csv', makeColL = None)
+    #makeColL_f)
 
     widthH_p = { 'width1':4.6, 'width2':3.9, 'height':1.8 }
     widthH_f = { 'width1':4.8, 'width2':3.9, 'height':1.8 } # h=2.7
