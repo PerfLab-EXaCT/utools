@@ -53,13 +53,19 @@ def main():
     #-------------------------------------------------------
 
     # Make new columns in 'vtcsv'
-    makeColL_f = [ ('CPU Time', 'CPU Time (%)', vtcsv.makeCol_percent) ]
+    makeColL_Gf = [ ('CPU Time', 'CPU Time (%)', vtcsv.makeCol_percent) ]
+    makeColL_Rf = makeColL_Gf
 
+    #makeColL_Gf = [ ('CPU Time', 'CPU Time (s)', makeCol_wallclock(1.0) ) ]
+    #makeColL_Rf = [ ('CPU Time', 'CPU Time (s)', makeCol_wallclock(1.0) ) ]
+    assert(makeColL_Gf[0][1] == makeColL_Rf[0][1])
     
     # Locally map old -> new names
     metricL1_p = [
         #('CPU Time'),
+        #
         ('Average Latency (cycles)',    'Latency (cycles)'),
+        #
         #('Memory Bound(%)',),
         ('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
         ('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
@@ -68,8 +74,11 @@ def main():
         ]
 
     metricL1_f = [
-        (makeColL_f[0][1],),
+        #('CPU Time',),
+        (makeColL_Gf[0][1] ,),
+        #
         ('Average Latency (cycles)',    'Latency (cycles)'),
+        #
         #('Memory Bound(%)',),
         ('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
         ('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
@@ -94,8 +103,8 @@ def main():
     # 
     #-------------------------------------------------------
 
-    main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2)
-    main_ripples(metricL1_p, metricL1_f, makeColL_f, metricL2)
+    main_grappolo(metricL1_p, metricL1_f, makeColL_Gf, metricL2)
+    main_ripples (metricL1_p, metricL1_f, makeColL_Rf, metricL2)
 
     pyplt.show()
 
@@ -129,7 +138,7 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
 
     pathL_Mf = [x for pair in pathL_Mf for x in pair ] # flatten
 
-    print("***Warning: missing orkut-mem\n")
+    vtcsv.printRed("*** Warning: missing orkut-mem! ***")
     
     #-------------------------------------------------------
     # Big graphs (192 threads)/Big memory modes
@@ -179,8 +188,7 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
     #-------------------------------------------------------
 
     vt_Mp = vtcsv.VTuneCSV(pathL_Mp, group_by = 'csv')
-    vt_Mf = vtcsv.VTuneCSV(pathL_Mf, group_by = 'csv', makeColL = None)
-    #makeColL_f)
+    vt_Mf = vtcsv.VTuneCSV(pathL_Mf, group_by = 'csv', makeColL = makeColL_f)
 
     widthH_p = { 'width1':4.6, 'width2':3.9, 'height':1.8 }
     widthH_f = { 'width1':4.8, 'width2':3.9, 'height':1.8 } # h=2.7
@@ -419,7 +427,7 @@ def plotL_do(vt, fig, axesL, metricL, dfrm_xformF, ytitle_txt, graphL):
         try:
             dfrm = vt.dataH[metricPair[0]]
         except KeyError:
-            print("Warning: Skipping metric:", metricPair[0])
+            vtcsv.printRed(("Warning: Skipping metric: '%s'" % metricPair[0]))
             continue
 
         dfrm = dfrm_xformF(dfrm)
@@ -513,7 +521,6 @@ def plot(dfrm, axes, metricPair, ytitle, x_groupL = None):
 
 #****************************************************************************
 
-
 def rename_col(x, graphL):
     x0 = x
 
@@ -533,6 +540,16 @@ def rename_col(x, graphL):
     x0 = x0.replace('-fn', '')
     
     return x0
+
+#****************************************************************************
+
+def makeCol_wallclock(n_threads):
+
+    def mk_fn(dfrm, col_src):
+        dfrm_dst = dfrm[col_src] / n_threads
+        return dfrm_dst
+        
+    return mk_fn
 
 
 #****************************************************************************

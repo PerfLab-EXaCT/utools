@@ -139,7 +139,7 @@ class VTuneCSV:
     
     def add_csv(self, csv_fnm, indexL, columnL, makeColL):
         if (not os.path.exists(csv_fnm)):
-            print(("%s: Warning: skipping non-existent file '%s'" % (VTuneCSV.NM, csv_fnm)))
+            print(("%s: Warning: Skipping non-existent file '%s'" % (VTuneCSV.NM, csv_fnm)))
             return
 
         csv_nm = re.sub('\.csv$', '', os.path.basename(csv_fnm))
@@ -149,7 +149,7 @@ class VTuneCSV:
         self.index_name = dfrm.columns[0]
         dfrm.set_index(self.index_name, inplace = True)
 
-        print(("*** %s: '%s' (%s)" % (VTuneCSV.NM, csv_fnm, self.index_name)))
+        print(("%s: '%s' (%s)" % (VTuneCSV.NM, csv_fnm, self.index_name)))
 
         #-------------------------------------------------------
         # Normalize
@@ -234,7 +234,7 @@ class VTuneCSV:
                         dfrm_new = dfrm[[key0]]
                         dfrm_new.columns = [ csv_nm ]
                     except KeyError:
-                        print(("%s: Warning: skipping column '%s'" % (VTuneCSV.NM, key0)))
+                        printPurple(("%s: Warning: Skipping column '%s'" % (VTuneCSV.NM, key0)))
                         continue
                 
                 if (dfrm0.empty):
@@ -351,6 +351,21 @@ def makeCol_percent(dfrm, col_src):
     dfrm_dst = dfrm[col_src] / col_sum * 100.0
     return dfrm_dst
 
+#****************************************************************************
+# 
+#****************************************************************************
+
+# https://www.geeksforgeeks.org/print-colors-python-terminal/
+
+_color_reset = r'\033[0m'
+_color_bold  = r'\033[01m'
+_color_red   = r'\033[31m'
+_color_purpl = r'\033[35m' # lightblue='\033[94m'
+
+#def printRed(skk): print("${_color_bold}${_color_red}{}${_color_reset}".format(skk))
+def printRed(skk): print("\033[01m\033[31m{}\033[0m".format(skk))
+#def printPurple(skk): print("${_color_bold}${_color_purpl}{}${_color_reset}".format(skk))
+def printPurple(skk): print("\033[01m\033[35m{}\033[0m".format(skk))
 
 #****************************************************************************
 #
