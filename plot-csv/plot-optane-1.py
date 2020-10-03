@@ -52,22 +52,25 @@ def main():
     # 
     #-------------------------------------------------------
 
+    # Make new columns in 'vtcsv'
+    makeColL_f = [ ('CPU Time', 'CPU Time (%)', vtcsv.makeCol_percent) ]
+
+    
+    # Locally map old -> new names
     metricL1_p = [
-        #('CPU Time', ''),
+        #('CPU Time'),
         ('Average Latency (cycles)',    'Latency (cycles)'),
-        #('Memory Bound(%)', ''), ''),
+        #('Memory Bound(%)'),
         ('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
         ('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
         ('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
         ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
         ]
 
-    makeColL_f = [ ('CPU Time', 'CPU Time (%)', vtcsv.makeCol_percent) ]
-
     metricL1_f = [
-        (makeColL_f[0][1], ''),
+        (makeColL_f[0][1]),
         ('Average Latency (cycles)',    'Latency (cycles)'),
-        #('Memory Bound(%)', ''), ''),
+        #('Memory Bound(%)'),
         ('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
         ('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
         ('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
@@ -77,8 +80,8 @@ def main():
     metricL2 = [
         ('Memory Bound:Store Bound(%)', 'Store Bound (%)'),
         ('Memory Bound:Persistent Memory Bound(%)', 'Pmem Bound (%)'),
-        ('Loads', ''),
-        ('Stores', ''),
+        ('Loads'),
+        ('Stores'),
         #('LLC Miss Count', 'LLC Miss'),
         ('LLC Miss Count:Remote DRAM Access Count', 'LLC Miss:Remote DRAM'),
         ('LLC Miss Count:Local DRAM Access Count',  'LLC Miss:Local DRAM'),
@@ -100,7 +103,7 @@ def main():
 def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
     
     #-------------------------------------------------------
-    # Medium graphs/All memory modes
+    # Medium graphs (192 threads)/All memory modes
     #-------------------------------------------------------
 
     # grappolo-<graph>-<type>-pkg.csv
@@ -129,7 +132,7 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
     print("***Warning: missing orkut-mem\n")
     
     #-------------------------------------------------------
-    # Big graphs/Big memory modes
+    # Big graphs (192 threads)/Big memory modes
     #-------------------------------------------------------
 
     graphL_big = ['clueweb12', 'uk2014']
@@ -471,7 +474,7 @@ def plot(dfrm, axes, metricPair, ytitle, x_groupL = None):
     # 
     #-------------------------------------------------------
 
-    title_txt = metricPair[1] if (metricPair[1]) else metricPair[0]
+    title_txt = metricPair[1] if (len(metricPair) > 1) else metricPair[0]
     axes.set_title(title_txt)
 
     if (ytitle):
