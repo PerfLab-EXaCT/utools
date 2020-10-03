@@ -357,15 +357,13 @@ def makeCol_percent(dfrm, col_src):
 
 # https://www.geeksforgeeks.org/print-colors-python-terminal/
 
-_color_reset = r'\033[0m'
-_color_bold  = r'\033[01m'
-_color_red   = r'\033[31m'
-_color_purpl = r'\033[35m' # lightblue='\033[94m'
+_color_reset = '\033[0m'
+_color_bold  = '\033[01m'
+_color_red   = '\033[31m'
+_color_purpl = '\033[35m' # lightblue='\033[94m'
 
-#def printRed(skk): print("${_color_bold}${_color_red}{}${_color_reset}".format(skk))
-def printRed(skk): print("\033[01m\033[31m{}\033[0m".format(skk))
-#def printPurple(skk): print("${_color_bold}${_color_purpl}{}${_color_reset}".format(skk))
-def printPurple(skk): print("\033[01m\033[35m{}\033[0m".format(skk))
+def printRed(str): print("{}{}{}{}".format(_color_bold, _color_red, str, _color_reset) )
+def printPurple(str): print("{}{}{}{}".format(_color_bold, _color_purpl, str, _color_reset) )
 
 #****************************************************************************
 #
