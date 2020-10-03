@@ -62,7 +62,8 @@ def main():
         ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
         ]
 
-    makeColL_f = [ ('CPU Time', 'CPU Time (%)', 'percent') ]
+    makeColL_f = [ ('CPU Time', 'CPU Time (%)', vtcsv.makeCol_percent) ]
+
     metricL1_f = [
         (makeColL_f[0][1], ''),
         ('Average Latency (cycles)',    'Latency (cycles)'),

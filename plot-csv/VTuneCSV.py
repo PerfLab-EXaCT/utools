@@ -41,8 +41,9 @@ class VTuneCSV:
                For 'csv',    'None' means '<each>', i.e., one column/csv
                              '[]' means '<all>', i.e., all columns/csv
 
-    <makeColL>: Make new columns. List of (source-col, new-col, 'percent')
-                (TODO: abstract to function)
+    <makeColL>: Make new columns. List of (source-col, new-col, make-fn),
+                where 'make-fn' is a function with the signature of 
+                'makeCol_percent' (below).
     """
 
     NM = "" #VTuneCSV.__name__
@@ -173,20 +174,16 @@ class VTuneCSV:
         for makeTuple in makeColL:
             col_src = makeTuple[0]
             col_dst = makeTuple[1]
-            col_ty =  makeTuple[2]
+            mkcol_fn =  makeTuple[2]
 
             col_src_i = dfrm.columns.get_loc(col_src)
             # except: sys.exit("Cannot find column '%s'" % col)
 
             col_dst_i = col_src_i + 1
 
-            assert(col_ty == 'percent')
-                
-            col_sum = dfrm[col_src].sum()
-            
-            dfrm.insert(loc = col_dst_i,
-                        column = col_dst,
-                        value = dfrm[col_src] / col_sum * 100.0)
+            dfrm_dst = mkcol_fn(dfrm, col_src)
+
+            dfrm.insert(loc = col_dst_i, column = col_dst, value = dfrm_dst)
 
 
         #-------------------------------------------------------
@@ -309,6 +306,7 @@ class VTuneCSV:
         pyplt.show()
         return (fig, axesL)
 
+#****************************************************************************
 
 def plot_heat(dfrm, axes, title, do_yticks):
     import seaborn
@@ -325,6 +323,7 @@ def plot_heat(dfrm, axes, title, do_yticks):
 
     return axes
 
+#****************************************************************************
         
 def my_sort_keyval(kv):
     key = kv[0]
@@ -341,7 +340,20 @@ def my_sort_key(key):
     except (ValueError, TypeError):
         return splitL[0]
 
+    
 
+#****************************************************************************
+# makeCol_x: returns the new column
+#****************************************************************************
+
+def makeCol_percent(dfrm, col_src):
+    col_sum = dfrm[col_src].sum()
+    dfrm_dst = dfrm[col_src] / col_sum * 100.0
+    return dfrm_dst
+
+
+#****************************************************************************
+#
 #****************************************************************************
 
 if __name__ == "__main__":
