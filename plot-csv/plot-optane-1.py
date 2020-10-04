@@ -53,11 +53,11 @@ def main():
     #-------------------------------------------------------
 
     # Make new columns in 'vtcsv'
-    makeColL_Gf = [ ('CPU Time', 'CPU Time (%)', vtcsv.makeCol_percent) ]
-    makeColL_Rf = makeColL_Gf
+    # makeColL_Gf = [ ('CPU Time', 'CPU Time (%)', vtcsv.makeCol_percent) ]
+    # makeColL_Rf = makeColL_Gf
 
-    #makeColL_Gf = [ ('CPU Time', 'CPU Time (s)', makeCol_wallclock(1.0) ) ]
-    #makeColL_Rf = [ ('CPU Time', 'CPU Time (s)', makeCol_wallclock(1.0) ) ]
+    makeColL_Gf = [ ('CPU Time', 'CPU Time (s)', makeCol_wallclock(192) ) ]
+    makeColL_Rf = [ ('CPU Time', 'CPU Time (s)', makeCol_wallclock(64) ) ]
     assert(makeColL_Gf[0][1] == makeColL_Rf[0][1])
     
     # Locally map old -> new names
