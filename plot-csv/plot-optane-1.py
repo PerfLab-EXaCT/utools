@@ -74,6 +74,10 @@ def main():
         ('Memory Bound:Store Bound(%)', 'Store Bound (%)'),
         ]
 
+    metricL1_p_rip = metricL1_p.copy()
+    metricL1_p_rip.pop() # no 'Store Bound (%)'
+
+    
     metricL1_f = [
         #('CPU Time',),
         (makeColL_Gf[0][1] ,),
@@ -87,6 +91,9 @@ def main():
         ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
         ('Memory Bound:Store Bound(%)', 'Store Bound (%)'),
         ]
+
+    metricL1_f_rip = metricL1_f.copy()
+    metricL1_f_rip.pop() # no 'Store Bound (%)'
     
     metricL2 = [
         ('Memory Bound:Persistent Memory Bound(%)', 'Pmem Bound (%)'),
@@ -97,7 +104,7 @@ def main():
         ('LLC Miss Count:Local DRAM Access Count',  'LLC Miss:Local DRAM'),
         #('LLC Miss Count:Local Persistent Memory Access Count', 'LLC Miss:Local Pdax'),
         #('LLC Miss Count:Remote Persistent Memory Access Count', 'LLC Miss:Remote Pdax'),
-        ('LLC Miss Count:Remote Cache Access Count', 'LLC Miss:Remote Cache')
+        ('LLC Miss Count:Remote Cache Access Count', 'LLC Miss:Remote Cache'),
         ]
 
     #-------------------------------------------------------
@@ -105,7 +112,7 @@ def main():
     #-------------------------------------------------------
 
     main_grappolo(metricL1_p, metricL1_f, makeColL_Gf, metricL2)
-    main_ripples (metricL1_p, metricL1_f, makeColL_Rf, metricL2)
+    main_ripples (metricL1_p_rip, metricL1_f_rip, makeColL_Rf, metricL2)
 
     pyplt.show()
 
@@ -121,21 +128,31 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
 
     graphL_med = ['orkut', 'friendster', 'moliere2016']
 
+    graph_sfx = ['-t192-dram',
+                 '-t192-pdax',
+                 '-t192-kdax',
+                 '-t192-mem']
+
+
     path_pfx = './1grappolo/grappolo-'
 
     pathL_Mp = [
-        [path_pfx + x + '-t192-dram-pkg.csv',
-         path_pfx + x + '-t192-pdax-pkg.csv',
-         path_pfx + x + '-t192-kdax-pkg.csv',
-         path_pfx + x + '-t192-mem-pkg.csv'] for x in graphL_med ]
+        [ (path_pfx + grph + sfx + '-pkg.csv') for sfx in graph_sfx ]
+        # [path_pfx + grph + '-t192-dram-pkg.csv',
+        #  path_pfx + grph + '-t192-pdax-pkg.csv',
+        #  path_pfx + grph + '-t192-kdax-pkg.csv',
+        #  path_pfx + grph + '-t192-mem-pkg.csv']
+        for grph in graphL_med ]
 
     pathL_Mp = [x for pair in pathL_Mp for x in pair ] # flatten
 
     pathL_Mf = [
-        [path_pfx + x + '-t192-dram-fn.csv',
-         path_pfx + x + '-t192-pdax-fn.csv',
-         path_pfx + x + '-t192-kdax-fn.csv',
-         path_pfx + x + '-t192-mem-fn.csv'] for x in graphL_med ]
+        [ (path_pfx + grph + sfx + '-fn.csv') for sfx in graph_sfx ]
+        # [path_pfx + grph + '-t192-dram-fn.csv',
+        #  path_pfx + grph + '-t192-pdax-fn.csv',
+        #  path_pfx + grph + '-t192-kdax-fn.csv',
+        #  path_pfx + grph + '-t192-mem-fn.csv']
+        for grph in graphL_med ]
 
     pathL_Mf = [x for pair in pathL_Mf for x in pair ] # flatten
 
@@ -154,14 +171,14 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
     # grappolo-uk2014-kdax-fn.csv
 
     pathL_Bp = [
-        [path_pfx + x + '-t192-kdax-pkg.csv',
-         path_pfx + x + '-t192-mem-pkg.csv'] for x in graphL_big ]
+        [path_pfx + grph + '-t192-kdax-pkg.csv',
+         path_pfx + grph + '-t192-mem-pkg.csv'] for grph in graphL_big ]
 
     pathL_Bp = [x for pair in pathL_Bp for x in pair ] # flatten
     
     pathL_Bf = [
-        [path_pfx + x + '-t192-kdax-fn.csv',
-         path_pfx + x + '-t192-mem-fn.csv'] for x in graphL_big ]
+        [path_pfx + grph + '-t192-kdax-fn.csv',
+         path_pfx + grph + '-t192-mem-fn.csv'] for grph in graphL_big ]
 
     pathL_Bf = [x for pair in pathL_Bf for x in pair ] # flatten
     
@@ -238,7 +255,7 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
 
 
 def main_ripples(metricL1_p, metricL1_f, makeColL_f, metricL2):
-
+    
     #-------------------------------------------------------
     # Ripples
     #-------------------------------------------------------
