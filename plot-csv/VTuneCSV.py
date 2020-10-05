@@ -149,7 +149,7 @@ class VTuneCSV:
         self.index_name = dfrm.columns[0]
         dfrm.set_index(self.index_name, inplace = True)
 
-        print(("%s: '%s' (%s)" % (VTuneCSV.NM, csv_fnm, self.index_name)))
+        print(("%s: Reading '%s' (%s)" % (VTuneCSV.NM, csv_fnm, self.index_name)))
 
         #-------------------------------------------------------
         # Normalize

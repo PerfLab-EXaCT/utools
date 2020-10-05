@@ -66,11 +66,12 @@ def main():
         #
         ('Average Latency (cycles)',    'Latency (cycles)'),
         #
-        #('Memory Bound(%)',),
-        ('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
-        ('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
-        ('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
-        ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
+        ('Memory Bound(%)',),
+        #('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
+        #('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
+        #('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
+        #('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
+        ('Memory Bound:Store Bound(%)', 'Store Bound (%)'),
         ]
 
     metricL1_f = [
@@ -84,10 +85,10 @@ def main():
         ('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
         ('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
         ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
+        ('Memory Bound:Store Bound(%)', 'Store Bound (%)'),
         ]
     
     metricL2 = [
-        ('Memory Bound:Store Bound(%)', 'Store Bound (%)'),
         ('Memory Bound:Persistent Memory Bound(%)', 'Pmem Bound (%)'),
         ('Loads',),
         ('Stores',),
@@ -170,14 +171,18 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
 
     functionH = collections.OrderedDict( [
         ('buildLocalMapCounter', 'blmc'),
+        ('parallelLouvianMethod$omp$parallel_for@237', 'plm'),
         ('std::_Rb_tree_insert_and_rebalance', 'blmc/map'),
         ('max', 'max'),
-        ('_INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_wait_template<kmp_flag_64, (int)1, (bool)0, (bool)1>', 'omp')
-        #('plm_analyzeClusters$omp$parallel_for@64', 'plm'),
+        ('_INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_wait_template<kmp_flag_64, (int)1, (bool)0, (bool)1>', 'omp'),
+        ('duplicateGivenGraph$omp$parallel_for@171', 'copy'),
+        ('[vmlinux]', 'kernel'),
+
+        #('plm_analyzeClusters$omp$parallel_for@64', 'plm2'),
         #('_int_malloc', 'malloc'),
         #('__GI___libc_malloc', 'malloc2'),
         #('__gnu_cxx::new_allocator<double>::construct<double, double const&>', 'new'),
-        #('_int_free',   'free')
+        #('_int_free',   'free'),
     ] )
 
     #functionL = list(functionH.items())
@@ -191,7 +196,7 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
     vt_Mf = vtcsv.VTuneCSV(pathL_Mf, group_by = 'csv', makeColL = makeColL_f)
 
     widthH_p = { 'width1':4.6, 'width2':3.9, 'height':1.8 }
-    widthH_f = { 'width1':4.8, 'width2':3.9, 'height':1.8 } # h=2.7
+    widthH_f = { 'width1':4.8, 'width2':3.9, 'height':2.7 } # h=2.7,1.8
     adjustH = { 'left':0.02, 'right':0.98, 'bottom':0.01, 'top':0.99,
                 'wspace':0.00, 'hspace':0.0 }
 
@@ -215,7 +220,7 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
     vt_Bf = vtcsv.VTuneCSV(pathL_Bf, group_by = 'csv', makeColL = makeColL_f)
 
     widthH_p = {'width1':2.5, 'width2':2.6, 'height':1.8}
-    widthH_f = {'width1':2.5, 'width2':2.7, 'height':1.8} # h=2.7
+    widthH_f = {'width1':2.5, 'width2':2.7, 'height':2.7} # h=2.7,1.8
     adjustH['wspace'] = 0.10
 
     (fig_Bp1, fig_Bp2) = plot_pkg(vt_Bp, graphL_big, metricL1_p, metricL2,
@@ -269,9 +274,7 @@ def main_ripples(metricL1_p, metricL1_f, makeColL_f, metricL2):
 
     functionH = collections.OrderedDict( [
         ('ripples::AddRRRSet<ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>, trng::lcg64, ripples::independent_cascade_tag>', 'AddRRRSet'),
-        ('func@0x1d6d0', 'omp/lock'),
-        ('func@0x1d860', 'omp/reduce'),
-        ('[vmlinux]', 'vmlinux'),
+        ('ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::neighbors', 'neighbors'),
 
         # move_merge
         ('std::__move_merge<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'move_merge'),
@@ -284,9 +287,12 @@ def main_ripples(metricL1_p, metricL1_f, makeColL_f, metricL2):
         # operator++
         ('__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>::operator++', 'operator++'),
         ('__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>::operator++', 'operator++'),
-        
-        ('ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::neighbors', 'neighbors'),
-        ('trng::lcg64::step', 'trng::step')
+
+        ('trng::lcg64::step', 'trng::step'),
+
+        ('func@0x1d6d0', 'omp/lock'),
+        ('func@0x1d860', 'omp/reduce'),
+        ('[vmlinux]', 'vmlinux')
     ] )
 
 
