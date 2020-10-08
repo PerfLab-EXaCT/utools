@@ -14,6 +14,9 @@ import sys
 import re
 import collections
 
+import functools
+import operator
+
 import pandas
 import numpy
 import math
@@ -144,7 +147,8 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
         #  path_pfx + grph + '-t192-mem-pkg.csv']
         for grph in graphL_med ]
 
-    pathL_Mp = [x for pair in pathL_Mp for x in pair ] # flatten
+    pathL_Mp = flattenL(pathL_Mp)
+
 
     pathL_Mf = [
         [ (path_pfx + grph + sfx + '-fn.csv') for sfx in graph_sfx ]
@@ -154,7 +158,7 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
         #  path_pfx + grph + '-t192-mem-fn.csv']
         for grph in graphL_med ]
 
-    pathL_Mf = [x for pair in pathL_Mf for x in pair ] # flatten
+    pathL_Mf = flattenL(pathL_Mf)
 
     vtcsv.printRed("*** Warning: missing orkut-mem! ***")
     
@@ -174,13 +178,13 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
         [path_pfx + grph + '-t192-kdax-pkg.csv',
          path_pfx + grph + '-t192-mem-pkg.csv'] for grph in graphL_big ]
 
-    pathL_Bp = [x for pair in pathL_Bp for x in pair ] # flatten
+    pathL_Bp = flattenL(pathL_Bp)
     
     pathL_Bf = [
         [path_pfx + grph + '-t192-kdax-fn.csv',
          path_pfx + grph + '-t192-mem-fn.csv'] for grph in graphL_big ]
 
-    pathL_Bf = [x for pair in pathL_Bf for x in pair ] # flatten
+    pathL_Bf = flattenL(pathL_Bf)
     
     #-------------------------------------------------------
     # 
@@ -277,13 +281,13 @@ def main_ripples(metricL1_p, metricL1_f, makeColL_f, metricL2):
         [path_pfx + x + '.imm-dram.T64.R0-pkg.csv',
          path_pfx + x + '.imm-kdax.T64.R0-pkg.csv'] for x in graphL_0 ]
 
-    pathL_p = [x for pair in pathL_p for x in pair ] # flatten
+    pathL_p = flattenL(pathL_p)
 
     pathL_f = [
         [path_pfx + x + '.imm-dram.T64.R0-fn.csv',
          path_pfx + x + '.imm-kdax.T64.R0-fn.csv'] for x in graphL_0 ]
 
-    pathL_f = [x for pair in pathL_f for x in pair ] # flatten
+    pathL_f = flattenL(pathL_f)
 
     #-------------------------------------------------------
     # 
@@ -574,6 +578,10 @@ def makeCol_wallclock(n_threads):
         
     return mk_fn
 
+
+def flattenL(L):
+    #return [x for L_inner in L for x in L_inner ] # flatten
+    return functools.reduce(operator.concat, L)
 
 #****************************************************************************
 
