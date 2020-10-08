@@ -221,9 +221,9 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
     adjustH = { 'left':0.02, 'right':0.98, 'bottom':0.01, 'top':0.99,
                 'wspace':0.00, 'hspace':0.0 }
 
-    (fig_Mp1, fig_Mp2) = plot_pkg(vt_Mp, graphL_med, metricL1_p, metricL2,
+    (fig_Mp1, fig_Mp2) = plot_pkg(vt_Mp, [graphL_med], metricL1_p, metricL2,
                                   widthH_p, adjustH, adjustH)
-    (fig_Mf1, fig_Mf2) = plot_fn (vt_Mf, graphL_med, functionH,
+    (fig_Mf1, fig_Mf2) = plot_fn (vt_Mf, [graphL_med], functionH,
                                   metricL1_f, metricL2,
                                   widthH_f, adjustH, adjustH)
 
@@ -244,9 +244,9 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
     widthH_f = {'width1':2.5, 'width2':2.7, 'height':2.7} # h=2.7,1.8
     adjustH['wspace'] = 0.10
 
-    (fig_Bp1, fig_Bp2) = plot_pkg(vt_Bp, graphL_big, metricL1_p, metricL2,
+    (fig_Bp1, fig_Bp2) = plot_pkg(vt_Bp, [graphL_big], metricL1_p, metricL2,
                                   widthH_p, adjustH, adjustH)
-    (fig_Bf1, fig_Bf2) = plot_fn (vt_Bf, graphL_big, functionH,
+    (fig_Bf1, fig_Bf2) = plot_fn (vt_Bf, [graphL_big], functionH,
                                   metricL1_f, metricL2,
                                   widthH_f, adjustH, adjustH)
 
@@ -267,13 +267,13 @@ def main_ripples(metricL1_p, metricL1_f, makeColL_f, metricL2):
     # <graph>.imm-<type>.T64.R0-pkg.csv
     # <graph>.imm-<type>.T64.R0-fn.csv
 
-    graphL = [ ('soc-Slashdot0902', 'slash'),
-               ('soc-twitter-combined', 'twitter'),
-               ('wiki-talk', 'talk'),
-               ('wiki-topcats', 'topcats'),
-               ('soc-pokec-relationships', 'pokec') ]
+    graphL = [ [('soc-Slashdot0902', 'slash'),
+                ('soc-twitter-combined', 'twitter'),
+                ('wiki-talk', 'talk'),
+                ('wiki-topcats', 'topcats'),
+                ('soc-pokec-relationships', 'pokec')] ]
 
-    graphL_0 = [ x[0] for x in graphL ]
+    graphL_0 = [ x[0] for x in flattenL(graphL) ]
 
     path_pfx = './2ripples/'
 
@@ -343,62 +343,62 @@ def main_ripples(metricL1_p, metricL1_f, makeColL_f, metricL2):
 
 #****************************************************************************
 
-def plot_pkg(vt, graphL, metricL1, metricL2, widthH, adjustH1, adjustH2):
+def plot_pkg(vt, graph_grpL, metricL1, metricL2, widthH, adjustH1, adjustH2):
 
     # Massage 'vt' in-place
     # for kv in vt.dataL:
     #     dfrm = kv[1]
     #     dfrm.sort_index(axis=0, ascending=True, inplace=True)
     #     dfrm.rename(index = (lambda x: x.replace('package_', '')), inplace=True)
-    #     dfrm.rename(columns = (lambda x: rename_col(x, graphL)), inplace=True)
+    #     dfrm.rename(columns = (lambda x: rename_col(x, graph_grpL)), inplace=True)
 
     #-------------------------------------------------------
     # 
     #-------------------------------------------------------
     (w1, w2, h) = (widthH['width1'], widthH['width2'], widthH['height'])
     
-    fig1, axesL1 = plotL_mk(metricL1, w1, h)
-    plotL_do(vt, fig1, axesL1, metricL1, dfrm_pkg_xform(graphL), 'Socket', graphL)
+    fig1, axesL1 = plotL_mk(metricL1, w1, h, graph_grpL)
+    plotL_do(vt, fig1, axesL1, metricL1, dfrm_pkg_xform(graph_grpL), 'Socket', graph_grpL)
     plotL_adj(fig1, adjustH1)
     
-    fig2, axesL2 = plotL_mk(metricL2, w2, h)
-    plotL_do(vt, fig2, axesL2, metricL2, dfrm_pkg_xform(graphL), 'Socket', graphL)
+    fig2, axesL2 = plotL_mk(metricL2, w2, h, graph_grpL)
+    plotL_do(vt, fig2, axesL2, metricL2, dfrm_pkg_xform(graph_grpL), 'Socket', graph_grpL)
     plotL_adj(fig2, adjustH2)
 
     return (fig1, fig2)
 
 
-def dfrm_pkg_xform(graphL):
+def dfrm_pkg_xform(graph_grpL):
     def dfrm_pkg_xform1(dfrm):
         dfrm.sort_index(axis=0, ascending=True, inplace=True)
         dfrm.rename(index = (lambda x: x.replace('package_', '')), inplace=True)
-        dfrm.rename(columns = (lambda x: rename_col(x, graphL)), inplace=True)
+        dfrm.rename(columns = (lambda x: rename_col(x, graph_grpL)), inplace=True)
         return dfrm
     return dfrm_pkg_xform1
     
 
 #****************************************************************************
 
-def plot_fn(vt, graphL, functionH, metricL1, metricL2, widthH, adjustH1, adjustH2):
+def plot_fn(vt, graph_grpL, functionH, metricL1, metricL2, widthH, adjustH1, adjustH2):
     (w1, w2, h) = (widthH['width1'], widthH['width2'], widthH['height'])
     
-    fig1, axesL1 = plotL_mk(metricL1, w1, h)
-    plotL_do(vt, fig1, axesL1, metricL1, dfrm_fn_xform(functionH, graphL), 'Functions', graphL)
+    fig1, axesL1 = plotL_mk(metricL1, w1, h, graph_grpL)
+    plotL_do(vt, fig1, axesL1, metricL1, dfrm_fn_xform(functionH, graph_grpL), 'Functions', graph_grpL)
     plotL_adj(fig1, adjustH1)
 
-    fig2, axesL2 = plotL_mk(metricL2, w2, h)
-    plotL_do(vt, fig2, axesL2, metricL2, dfrm_fn_xform(functionH, graphL), 'Functions', graphL)
+    fig2, axesL2 = plotL_mk(metricL2, w2, h, graph_grpL)
+    plotL_do(vt, fig2, axesL2, metricL2, dfrm_fn_xform(functionH, graph_grpL), 'Functions', graph_grpL)
     plotL_adj(fig2, adjustH2)
 
     return (fig1, fig2)
 
     
-def dfrm_fn_xform(functionH, graphL):
+def dfrm_fn_xform(functionH, graph_grpL):
     def dfrm_fn_xform1(dfrm):
         #functionH_key = functionH.keys()
         #dfrm = dfrm.loc[functionH_key]
         #dfrm.rename(index = functionH, inplace=True)
-        #dfrm.rename(columns = (lambda x: rename_col(x, graphL)), inplace=True)
+        #dfrm.rename(columns = (lambda x: rename_col(x, graph_grpL)), inplace=True)
 
         # N.B.: functionH can map multiple keys to same target function
 
@@ -407,7 +407,7 @@ def dfrm_fn_xform(functionH, graphL):
         functionHx_keys = functionHx.keys()
 
         # 2. Rename columns
-        dfrm.rename(columns = (lambda x: rename_col(x, graphL)), inplace=True)
+        dfrm.rename(columns = (lambda x: rename_col(x, graph_grpL)), inplace=True)
 
         # 3. Rename rows
         dfrm.rename(index = functionH, inplace=True)
@@ -428,38 +428,52 @@ def dfrm_fn_xform(functionH, graphL):
     
 #****************************************************************************
 
-def plotL_mk(metricL, w, h):
+def plotL_mk(metricL, w, h, graph_grpL):
     num_metric = len(metricL)
 
+    grp_per_metric = len(graph_grpL)
+
+    num_axes = num_metric * grp_per_metric
+    
     if (Do_rows):
-        fig, axesL = pyplt.subplots(nrows=1, ncols=(num_metric),
-                                    figsize=(w * num_metric, h))
+        fig, axesL = pyplt.subplots(nrows=1, ncols=(num_axes),
+                                    figsize=(w * num_axes, h))
     else:
-        fig, axesL = pyplt.subplots(nrows=(num_metric), ncols=1,
-                                    figsize=(w, h * num_metric))
+        fig, axesL = pyplt.subplots(nrows=(num_axes), ncols=1,
+                                    figsize=(w, h * num_axes))
 
     return (fig, axesL)
 
 
-def plotL_do(vt, fig, axesL, metricL, dfrm_xformF, ytitle_txt, graphL):
+def plotL_do(vt, fig, axesL, metricL, dfrm_xformF, ytitle_txt, graph_grpL):
+
+    grp_per_metric = len(graph_grpL)
+    
     num_metric = len(metricL)
-    for i in range(num_metric):
-        axes = axesL[i]
+    for i_m in range(num_metric):
 
-        axes.margins(tight=True)
+        for i_g in range(grp_per_metric):
 
-        metricPair = metricL[i]
-        ytitle = ytitle_txt if (i == 0) else None
+            graph_grp = graph_grpL[i_g]
+        
+            axes_i = (i_m * grp_per_metric) + i_g
 
-        try:
-            dfrm = vt.dataH[metricPair[0]]
-        except KeyError:
-            vtcsv.printRed(("Warning: Skipping metric: '%s'" % metricPair[0]))
-            continue
+            axes = axesL[axes_i]
 
-        dfrm = dfrm_xformF(dfrm)
+            axes.margins(tight=True)
 
-        axes1 = plot(dfrm, axes, metricPair, ytitle, graphL)
+            metricPair = metricL[i_m]
+            ytitle = ytitle_txt if (i_m == 0) else None
+
+            try:
+                dfrm = vt.dataH[metricPair[0]]
+            except KeyError:
+                vtcsv.printRed(("Warning: Skipping metric: '%s'" % metricPair[0]))
+                continue
+
+            dfrm = dfrm_xformF(dfrm)
+
+            axes1 = plot(dfrm, axes, metricPair, ytitle, graph_grp)
 
 
 def plotL_adj(fig, adjustH):
@@ -522,7 +536,7 @@ def plot(dfrm, axes, metricPair, ytitle, x_groupL = None):
     #    x.set_rotation(0)
 
     #-------------------------------------------------------
-    # Secondary x groups and labels (graphL)
+    # Secondary x groups and labels (x_groupL)
     #-------------------------------------------------------
     if (x_groupL):
         # if x_groupL is a list of pairs, grab second item in each pair
@@ -548,9 +562,11 @@ def plot(dfrm, axes, metricPair, ytitle, x_groupL = None):
 
 #****************************************************************************
 
-def rename_col(x, graphL):
+def rename_col(x, graph_grpL):
     x0 = x
 
+    graphL = flattenL(graph_grpL)
+    
     for g_nm in graphL:
         g_nm = g_nm[0] if (isinstance(g_nm, tuple)) else g_nm
         x0 = x0.replace(g_nm, '')
