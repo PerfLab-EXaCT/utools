@@ -114,7 +114,7 @@ def main():
     # 
     #-------------------------------------------------------
 
-    main_grappolo(metricL1_p, metricL1_f, makeColL_Gf, metricL2)
+    #main_grappolo(metricL1_p, metricL1_f, makeColL_Gf, metricL2)
     main_ripples (metricL1_p_rip, metricL1_f_rip, makeColL_Rf, metricL2)
 
     pyplt.show()
@@ -269,8 +269,8 @@ def main_ripples(metricL1_p, metricL1_f, makeColL_f, metricL2):
 
     graphL = [ [('soc-Slashdot0902', 'slash'),
                 ('soc-twitter-combined', 'twitter'),
-                ('wiki-talk', 'talk'),
-                ('wiki-topcats', 'topcats'),
+                ('wiki-talk', 'talk') ],
+               [('wiki-topcats', 'topcats'),
                 ('soc-pokec-relationships', 'pokec')] ]
 
     graphL_0 = [ x[0] for x in flattenL(graphL) ]
@@ -463,14 +463,20 @@ def plotL_do(vt, fig, axesL, metricL, dfrm_xformF, ytitle_txt, graph_grpL):
             axes.margins(tight=True)
 
             metricPair = metricL[i_m]
-            ytitle = ytitle_txt if (i_m == 0) else None
+            ytitle = ytitle_txt if (i_m == 0 and i_g == 0) else None
 
+            # find DataFrame for 'metricPair'
             try:
                 dfrm = vt.dataH[metricPair[0]]
             except KeyError:
                 vtcsv.printRed(("Warning: Skipping metric: '%s'" % metricPair[0]))
                 continue
 
+            # select columns for 'graph_grp'
+            dfrm = select_dfrm_col(dfrm, graph_grp)
+            #print(dfrm)
+            #sys.exit()
+            
             dfrm = dfrm_xformF(dfrm)
 
             axes1 = plot(dfrm, axes, metricPair, ytitle, graph_grp)
@@ -561,6 +567,35 @@ def plot(dfrm, axes, metricPair, ytitle, x_groupL = None):
     return axes
 
 #****************************************************************************
+
+def select_dfrm_col(dfrm, graph_grpL):
+    colL = dfrm.columns
+
+    def find_beg_col():
+        for i_col in range(len(colL)):
+            for g in graph_grpL:
+                g_nm = g[0] if (isinstance(g, tuple)) else g
+                col_nm = colL[i_col]
+                if (col_nm.find(g_nm) >= 0):
+                    return col_nm
+        return colL[0]
+
+    def find_end_col():
+        for i_col in reversed(range(len(colL))):
+            for g in graph_grpL:
+                g_nm = g[0] if (isinstance(g, tuple)) else g
+                col_nm = colL[i_col]
+                if (col_nm.find(g_nm) >= 0):
+                    return col_nm
+        return colL[-1]
+
+    beg_col = find_beg_col()
+    end_col = find_end_col() # beg_i + len(graph_grpL)
+    #print(beg_col, end_col)
+    
+    return dfrm.loc[:, beg_col : end_col]
+
+
 
 def rename_col(x, graph_grpL):
     x0 = x
