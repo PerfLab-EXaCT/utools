@@ -129,7 +129,9 @@ def main():
 
     
 def main_grappolo(makeColL_f, metricL1_p, metricL1_f, metricL3):
-    
+
+    path_pfx = './1grappolo/grappolo-'
+
     #-------------------------------------------------------
     # Medium graphs (192 threads)/All memory modes
     #-------------------------------------------------------
@@ -143,9 +145,6 @@ def main_grappolo(makeColL_f, metricL1_p, metricL1_f, metricL3):
                  '-t192-pdax',
                  '-t192-kdax',
                  '-t192-mem']
-
-
-    path_pfx = './1grappolo/grappolo-'
 
     pathL_Mp = [
         [ (path_pfx + grph + sfx + '-pkg.csv') for sfx in graph_sfx ]
@@ -215,25 +214,25 @@ def main_grappolo(makeColL_f, metricL1_p, metricL1_f, metricL3):
     # Medium graphs
     #-------------------------------------------------------
 
-    vt_Mp = vtcsv.VTuneCSV(pathL_p, group_by = 'csv')
-    vt_Mf = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL_f)
+    vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv')
+    vt_f = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL_f)
 
     widthH_p = { 'width1':4.6, 'width2':3.9, 'height':1.8 }
     widthH_f = { 'width1':4.8, 'width2':3.9, 'height':2.7 } # h=2.7,1.8
     adjustH = { 'left':0.02, 'right':0.98, 'bottom':0.01, 'top':0.99,
                 'wspace':0.00, 'hspace':0.0 }
 
-    (fig_Mp1, fig_Mp2) = plot_pkg(vt_Mp, graphL, metricL1_p, metricL3,
+    (fig_p1, fig_p2) = plot_pkg(vt_p, graphL, metricL1_p, metricL3,
                                   widthH_p, adjustH, adjustH)
-    (fig_Mf1, fig_Mf2) = plot_fn (vt_Mf, graphL, functionH,
+    (fig_f1, fig_f2) = plot_fn (vt_f, graphL, functionH,
                                   metricL1_f, metricL3,
                                   widthH_f, adjustH, adjustH)
 
-    fig_Mp1.savefig('chart-grappolo-med-pkg-metrics.pdf', bbox_inches='tight')
-    #fig_Mp2.savefig('chart-grappolo-med-pkg-metric2.pdf', bbox_inches='tight')
+    fig_p1.savefig('chart-grappolo-med-pkg-metrics.pdf', bbox_inches='tight')
+    #fig_p2.savefig('chart-grappolo-med-pkg-metric2.pdf', bbox_inches='tight')
 
-    fig_Mf1.savefig('chart-grappolo-med-fn-metrics.pdf', bbox_inches='tight')
-    #fig_Mf2.savefig('chart-grappolo-med-fn-metric2.pdf', bbox_inches='tight')
+    fig_f1.savefig('chart-grappolo-med-fn-metrics.pdf', bbox_inches='tight')
+    #fig_f2.savefig('chart-grappolo-med-fn-metric2.pdf', bbox_inches='tight')
 
     #-------------------------------------------------------
     # Big graphs
@@ -359,11 +358,11 @@ def plot_pkg(vt, graph_grpL, metricL1, metricL2, widthH, adjustH1, adjustH2):
     #-------------------------------------------------------
     (w1, w2, h) = (widthH['width1'], widthH['width2'], widthH['height'])
     
-    fig1, axesL1 = plotL_mk(metricL1, w1, h, graph_grpL)
+    fig1, axesL1 = plotL_mk(vt, metricL1, w1, h, graph_grpL)
     plotL_do(vt, fig1, axesL1, metricL1, dfrm_pkg_xform(graph_grpL), 'Socket', graph_grpL)
     plotL_adj(fig1, adjustH1)
     
-    fig2, axesL2 = plotL_mk(metricL2, w2, h, graph_grpL)
+    fig2, axesL2 = plotL_mk(vt, metricL2, w2, h, graph_grpL)
     plotL_do(vt, fig2, axesL2, metricL2, dfrm_pkg_xform(graph_grpL), 'Socket', graph_grpL)
     plotL_adj(fig2, adjustH2)
 
@@ -384,11 +383,11 @@ def dfrm_pkg_xform(graph_grpL):
 def plot_fn(vt, graph_grpL, functionH, metricL1, metricL2, widthH, adjustH1, adjustH2):
     (w1, w2, h) = (widthH['width1'], widthH['width2'], widthH['height'])
     
-    fig1, axesL1 = plotL_mk(metricL1, w1, h, graph_grpL)
+    fig1, axesL1 = plotL_mk(vt, metricL1, w1, h, graph_grpL)
     plotL_do(vt, fig1, axesL1, metricL1, dfrm_fn_xform(functionH, graph_grpL), 'Functions', graph_grpL)
     plotL_adj(fig1, adjustH1)
 
-    fig2, axesL2 = plotL_mk(metricL2, w2, h, graph_grpL)
+    fig2, axesL2 = plotL_mk(vt, metricL2, w2, h, graph_grpL)
     plotL_do(vt, fig2, axesL2, metricL2, dfrm_fn_xform(functionH, graph_grpL), 'Functions', graph_grpL)
     plotL_adj(fig2, adjustH2)
 
@@ -430,21 +429,54 @@ def dfrm_fn_xform(functionH, graph_grpL):
     
 #****************************************************************************
 
-def plotL_mk(metricL, w, h, graph_grpL):
+def plotL_mk(vt, metricL, w, h, graph_grpL):
     num_metric = len(metricL)
 
     grp_per_metric = len(graph_grpL)
 
     num_axes = num_metric * grp_per_metric
+
+    # width_ratios are proportional to 'select_dfrm_col'
+    widthL = plotL_mk_widths(vt, metricL, graph_grpL)
+    #print(widthL)
+
+    # pyplt.subplots(1, 2, gridspec_kw={'width_ratios': [3, 1]})
     
     if (Do_rows):
         fig, axesL = pyplt.subplots(nrows=1, ncols=(num_axes),
-                                    figsize=(w * num_axes, h))
+                                    figsize=(w * num_axes, h),
+                                    gridspec_kw={'width_ratios': widthL})
     else:
         fig, axesL = pyplt.subplots(nrows=(num_axes), ncols=1,
-                                    figsize=(w, h * num_axes))
+                                    figsize=(w, h * num_axes),
+                                    gridspec_kw={'width_ratios': widthL})
 
     return (fig, axesL)
+
+
+def plotL_mk_widths(vt, metricL, graph_grpL):
+    widthL = []
+
+    grp_per_metric = len(graph_grpL)
+
+    num_metric = len(metricL)
+    for i_m in range(num_metric):
+        for i_g in range(grp_per_metric):
+            graph_grp = graph_grpL[i_g]
+
+            metricPair = metricL[i_m]
+
+            # find DataFrame for 'metricPair'
+            try:
+                dfrm = vt.dataH[metricPair[0]]
+            except KeyError:
+                vtcsv.printRed(("Warning: Skipping metric: '%s'" % metricPair[0]))
+                continue
+
+            n_col = find_fig_width(dfrm, graph_grp)
+            widthL.append(n_col)
+
+    return widthL
 
 
 def plotL_do(vt, fig, axesL, metricL, dfrm_xformF, ytitle_txt, graph_grpL):
@@ -485,7 +517,10 @@ def plotL_do(vt, fig, axesL, metricL, dfrm_xformF, ytitle_txt, graph_grpL):
 
 
 def plotL_adj(fig, adjustH):
+
+
     fig.subplots_adjust(**adjustH)
+
     if (Do_view):
         fig.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
 
@@ -570,33 +605,43 @@ def plot(dfrm, axes, metricPair, ytitle, x_groupL = None):
 
 #****************************************************************************
 
+def find_fig_width(dfrm, graph_grpL):
+    colL = dfrm.columns
+
+    beg_i, beg_col = find_beg_col(colL, graph_grpL)
+    end_i, end_col = find_end_col(colL, graph_grpL)
+
+    return (end_i - beg_i) + 1
+
+
 def select_dfrm_col(dfrm, graph_grpL):
     colL = dfrm.columns
 
-    def find_beg_col():
-        for i_col in range(len(colL)):
-            for g in graph_grpL:
-                g_nm = g[0] if (isinstance(g, tuple)) else g
-                col_nm = colL[i_col]
-                if (col_nm.find(g_nm) >= 0):
-                    return col_nm
-        return colL[0]
-
-    def find_end_col():
-        for i_col in reversed(range(len(colL))):
-            for g in graph_grpL:
-                g_nm = g[0] if (isinstance(g, tuple)) else g
-                col_nm = colL[i_col]
-                if (col_nm.find(g_nm) >= 0):
-                    return col_nm
-        return colL[-1]
-
-    beg_col = find_beg_col()
-    end_col = find_end_col() # beg_i + len(graph_grpL)
+    beg_i, beg_col = find_beg_col(colL, graph_grpL)
+    end_i, end_col = find_end_col(colL, graph_grpL) # beg_i + len(graph_grpL)
     #print(beg_col, end_col)
     
     return dfrm.loc[:, beg_col : end_col]
 
+
+def find_beg_col(columnL, graph_grpL):
+    for i_col in range(len(columnL)):
+        for g in graph_grpL:
+            g_nm = g[0] if (isinstance(g, tuple)) else g
+            col_nm = columnL[i_col]
+            if (col_nm.find(g_nm) >= 0):
+                return (i_col, col_nm)
+    return (0, columnL[0])
+
+
+def find_end_col(columnL, graph_grpL):
+    for i_col in reversed(range(len(columnL))):
+        for g in graph_grpL:
+            g_nm = g[0] if (isinstance(g, tuple)) else g
+            col_nm = columnL[i_col]
+            if (col_nm.find(g_nm) >= 0):
+                return (i_col, col_nm)
+    return (len(columnL) - 1, columnL[-1])
 
 
 def rename_col(x, graph_grpL):
