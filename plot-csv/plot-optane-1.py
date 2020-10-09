@@ -52,18 +52,20 @@ def main():
     #csv_pathL = sys.argv[1:]
 
     #-------------------------------------------------------
-    # 
+    # Make new columns in 'vtcsv'
     #-------------------------------------------------------
 
-    # Make new columns in 'vtcsv'
     # makeColL_Gf = [ ('CPU Time', 'CPU Time (%)', vtcsv.makeCol_percent) ]
     # makeColL_Rf = makeColL_Gf
 
     makeColL_Gf = [ ('CPU Time', 'CPU Time (s)', makeCol_wallclock(192) ) ]
     makeColL_Rf = [ ('CPU Time', 'CPU Time (s)', makeCol_wallclock(64) ) ]
     assert(makeColL_Gf[0][1] == makeColL_Rf[0][1])
-    
-    # Locally map old -> new names
+
+    #-------------------------------------------------------
+    # Metrics: Locally map old -> new names
+    #-------------------------------------------------------
+
     metricL1_p = [
         #('CPU Time'),
         #
@@ -80,6 +82,7 @@ def main():
     metricL1_p_rip = metricL1_p.copy()
     metricL1_p_rip.pop() # no 'Store Bound (%)'
 
+    #-------------------------------------------------------
     
     metricL1_f = [
         #('CPU Time',),
@@ -87,6 +90,9 @@ def main():
         #
         ('Average Latency (cycles)',    'Latency (cycles)'),
         #
+        ]
+
+    metricL2_f = [
         #('Memory Bound(%)',),
         ('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
         ('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
@@ -95,10 +101,12 @@ def main():
         ('Memory Bound:Store Bound(%)', 'Store Bound (%)'),
         ]
 
-    metricL1_f_rip = metricL1_f.copy()
-    metricL1_f_rip.pop() # no 'Store Bound (%)'
-    
-    metricL2 = [
+    metricL2_f_rip = metricL2_f.copy()
+    metricL2_f_rip.pop() # no 'Store Bound (%)'
+
+    #-------------------------------------------------------
+
+    metricL3 = [
         ('Memory Bound:Persistent Memory Bound(%)', 'Pmem Bound (%)'),
         ('Loads',),
         ('Stores',),
@@ -114,13 +122,13 @@ def main():
     # 
     #-------------------------------------------------------
 
-    #main_grappolo(metricL1_p, metricL1_f, makeColL_Gf, metricL2)
-    main_ripples (metricL1_p_rip, metricL1_f_rip, makeColL_Rf, metricL2)
+    main_grappolo(makeColL_Gf, metricL1_p, metricL1_f, metricL3)
+    main_ripples (makeColL_Rf, metricL1_p_rip, metricL1_f, metricL3)
 
     pyplt.show()
 
     
-def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
+def main_grappolo(makeColL_f, metricL1_p, metricL1_f, metricL3):
     
     #-------------------------------------------------------
     # Medium graphs (192 threads)/All memory modes
@@ -141,10 +149,6 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
 
     pathL_Mp = [
         [ (path_pfx + grph + sfx + '-pkg.csv') for sfx in graph_sfx ]
-        # [path_pfx + grph + '-t192-dram-pkg.csv',
-        #  path_pfx + grph + '-t192-pdax-pkg.csv',
-        #  path_pfx + grph + '-t192-kdax-pkg.csv',
-        #  path_pfx + grph + '-t192-mem-pkg.csv']
         for grph in graphL_med ]
 
     pathL_Mp = flattenL(pathL_Mp)
@@ -152,10 +156,6 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
 
     pathL_Mf = [
         [ (path_pfx + grph + sfx + '-fn.csv') for sfx in graph_sfx ]
-        # [path_pfx + grph + '-t192-dram-fn.csv',
-        #  path_pfx + grph + '-t192-pdax-fn.csv',
-        #  path_pfx + grph + '-t192-kdax-fn.csv',
-        #  path_pfx + grph + '-t192-mem-fn.csv']
         for grph in graphL_med ]
 
     pathL_Mf = flattenL(pathL_Mf)
@@ -168,12 +168,6 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
 
     graphL_big = ['clueweb12', 'uk2014']
 
-    # grappolo-clueweb12-kdax-pkg.csv
-    # grappolo-uk2014-kdax-pkg.csv
-
-    # grappolo-clueweb12-kdax-fn.csv
-    # grappolo-uk2014-kdax-fn.csv
-
     pathL_Bp = [
         [path_pfx + grph + '-t192-kdax-pkg.csv',
          path_pfx + grph + '-t192-mem-pkg.csv'] for grph in graphL_big ]
@@ -185,6 +179,14 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
          path_pfx + grph + '-t192-mem-fn.csv'] for grph in graphL_big ]
 
     pathL_Bf = flattenL(pathL_Bf)
+
+    #-------------------------------------------------------
+
+    graphL = [ graphL_med, graphL_big ]
+    
+    pathL_p = pathL_Mp + pathL_Bp
+
+    pathL_f = pathL_Mf + pathL_Bf
     
     #-------------------------------------------------------
     # 
@@ -213,18 +215,18 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
     # Medium graphs
     #-------------------------------------------------------
 
-    vt_Mp = vtcsv.VTuneCSV(pathL_Mp, group_by = 'csv')
-    vt_Mf = vtcsv.VTuneCSV(pathL_Mf, group_by = 'csv', makeColL = makeColL_f)
+    vt_Mp = vtcsv.VTuneCSV(pathL_p, group_by = 'csv')
+    vt_Mf = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL_f)
 
     widthH_p = { 'width1':4.6, 'width2':3.9, 'height':1.8 }
     widthH_f = { 'width1':4.8, 'width2':3.9, 'height':2.7 } # h=2.7,1.8
     adjustH = { 'left':0.02, 'right':0.98, 'bottom':0.01, 'top':0.99,
                 'wspace':0.00, 'hspace':0.0 }
 
-    (fig_Mp1, fig_Mp2) = plot_pkg(vt_Mp, [graphL_med], metricL1_p, metricL2,
+    (fig_Mp1, fig_Mp2) = plot_pkg(vt_Mp, graphL, metricL1_p, metricL3,
                                   widthH_p, adjustH, adjustH)
-    (fig_Mf1, fig_Mf2) = plot_fn (vt_Mf, [graphL_med], functionH,
-                                  metricL1_f, metricL2,
+    (fig_Mf1, fig_Mf2) = plot_fn (vt_Mf, graphL, functionH,
+                                  metricL1_f, metricL3,
                                   widthH_f, adjustH, adjustH)
 
     fig_Mp1.savefig('chart-grappolo-med-pkg-metrics.pdf', bbox_inches='tight')
@@ -237,28 +239,28 @@ def main_grappolo(metricL1_p, metricL1_f, makeColL_f, metricL2):
     # Big graphs
     #-------------------------------------------------------
 
-    vt_Bp = vtcsv.VTuneCSV(pathL_Bp, group_by = 'csv')
-    vt_Bf = vtcsv.VTuneCSV(pathL_Bf, group_by = 'csv', makeColL = makeColL_f)
+    # vt_Bp = vtcsv.VTuneCSV(pathL_Bp, group_by = 'csv')
+    # vt_Bf = vtcsv.VTuneCSV(pathL_Bf, group_by = 'csv', makeColL = makeColL_f)
 
-    widthH_p = {'width1':2.5, 'width2':2.6, 'height':1.8}
-    widthH_f = {'width1':2.5, 'width2':2.7, 'height':2.7} # h=2.7,1.8
-    adjustH['wspace'] = 0.10
+    # widthH_p = {'width1':2.5, 'width2':2.6, 'height':1.8}
+    # widthH_f = {'width1':2.5, 'width2':2.7, 'height':2.7} # h=2.7,1.8
+    # adjustH['wspace'] = 0.10
 
-    (fig_Bp1, fig_Bp2) = plot_pkg(vt_Bp, [graphL_big], metricL1_p, metricL2,
-                                  widthH_p, adjustH, adjustH)
-    (fig_Bf1, fig_Bf2) = plot_fn (vt_Bf, [graphL_big], functionH,
-                                  metricL1_f, metricL2,
-                                  widthH_f, adjustH, adjustH)
+    # (fig_Bp1, fig_Bp2) = plot_pkg(vt_Bp, [graphL_big], metricL1_p, metricL3,
+    #                               widthH_p, adjustH, adjustH)
+    # (fig_Bf1, fig_Bf2) = plot_fn (vt_Bf, [graphL_big], functionH,
+    #                               metricL1_f, metricL3,
+    #                               widthH_f, adjustH, adjustH)
 
-    fig_Bp1.savefig('chart-grappolo-big-pkg-metrics.pdf', bbox_inches='tight')
-    #fig_Bp2.savefig('chart-grappolo-big-pkg-metrics2.pdf', bbox_inches='tight')
+    # fig_Bp1.savefig('chart-grappolo-big-pkg-metrics.pdf', bbox_inches='tight')
+    # #fig_Bp2.savefig('chart-grappolo-big-pkg-metrics2.pdf', bbox_inches='tight')
 
-    fig_Bf1.savefig('chart-grappolo-big-fn-metrics.pdf', bbox_inches='tight')
-    #fig_Bf2.savefig('chart-grappolo-big-fn-metrics2.pdf', bbox_inches='tight')
+    # fig_Bf1.savefig('chart-grappolo-big-fn-metrics.pdf', bbox_inches='tight')
+    # #fig_Bf2.savefig('chart-grappolo-big-fn-metrics2.pdf', bbox_inches='tight')
 
 
 
-def main_ripples(metricL1_p, metricL1_f, makeColL_f, metricL2):
+def main_ripples(makeColL_f, metricL1_p, metricL1_f, metricL3):
     
     #-------------------------------------------------------
     # Ripples
@@ -331,8 +333,8 @@ def main_ripples(metricL1_p, metricL1_f, makeColL_f, metricL2):
     adjustH = { 'left':0.02, 'right':0.98, 'bottom':0.01, 'top':0.99,
                 'wspace':0.00, 'hspace':0.0 }
 
-    (fig_p1, fig_p2) = plot_pkg(vt_p, graphL, metricL1_p, metricL2, widthH_p, adjustH, adjustH)
-    (fig_f1, fig_f2) = plot_fn (vt_f, graphL, functionH, metricL1_f, metricL2, widthH_f, adjustH, adjustH)
+    (fig_p1, fig_p2) = plot_pkg(vt_p, graphL, metricL1_p, metricL3, widthH_p, adjustH, adjustH)
+    (fig_f1, fig_f2) = plot_fn (vt_f, graphL, functionH, metricL1_f, metricL3, widthH_f, adjustH, adjustH)
 
     fig_p1.savefig('chart-ripples-pkg-metrics.pdf', bbox_inches='tight')
     #fig_p2.savefig('chart-ripples-pkg-metrics2.pdf', bbox_inches='tight')
