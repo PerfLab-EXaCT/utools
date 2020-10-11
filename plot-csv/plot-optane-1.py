@@ -21,6 +21,7 @@ import pandas
 import numpy
 import math
 import matplotlib.pyplot as pyplt
+import matplotlib.patches as patches
 import seaborn
 
 import VTuneCSV as vtcsv
@@ -219,7 +220,7 @@ def main_grappolo(makeColL_f, metricL1_p, metricL1_f, metricL2_f, metricL3):
 
     widthH_p = { 'width1':3.0, 'width2':3.0, 'height':1.8 }
     widthH_f = { 'width1':3.6, 'width2':4.8, 'height':2.7 } # h=2.7,1.8
-    adjustH = { 'left':0.02, 'right':0.98, 'bottom':0.01, 'top':0.99,
+    adjustH = { 'left':0.0, 'right':1.0, 'bottom':0.01, 'top':0.99,
                 'wspace':0.00, 'hspace':0.0 }
 
     (fig_p1, fig_p2) = \
@@ -306,26 +307,49 @@ def main_ripples(makeColL_f, metricL1_p, metricL1_f, metricL2_f, metricL3):
     #-------------------------------------------------------
 
     functionH = collections.OrderedDict( [
-        ('ripples::AddRRRSet<ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>, trng::lcg64, ripples::independent_cascade_tag>', 'AddRRRSet'),
-        ('ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::neighbors', 'neighbors'),
+        ('ripples::AddRRRSet<ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>, trng::lcg64, ripples::independent_cascade_tag>', 'AddRRR'),
 
-        # move_merge
-        ('std::__move_merge<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'move_merge'),
-        ('std::__move_merge<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'move_merge'),
+        ('ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::neighbors', 'neigh'),
+
+        ('ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::Neighborhood::Neighborhood', 'neigh-hood'),
+
+        # count
+        ('ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, std::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, std::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, std::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.12', 'count'),
+        ('ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.12', 'count'),
+
 
         # push_back
         ('std::vector<unsigned int, std::allocator<unsigned int>>::push_back', 'push_back'),
         ('std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>::push_back', 'push_back'),
 
-        # operator++
-        ('__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>::operator++', 'operator++'),
-        ('__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>::operator++', 'operator++'),
-
-        ('trng::lcg64::step', 'trng::step'),
+        # move_merge (int*) [FIX: SHARED]
+        ('std::__move_merge<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'move_merge'),
+        ('std::__move_merge<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'move_merge'),
+        # move_merge (it) 
+        ('std::__move_merge<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, unsigned int*, __gnu_cxx::__ops::_Iter_less_iter>', 'move_merge'),
+        ('std::__move_merge<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, unsigned int*, __gnu_cxx::__ops::_Iter_less_iter>', 'move_merge'),
+        
+        # operator++ [FIX: SHARED]
+        ('__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>::operator++', 'op'),
+        ('__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>::operator++', 'op'),
+        # operator< 
+        ('__gnu_cxx::__ops::_Iter_less_iter::operator()<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>', 'op'),
+        ('__gnu_cxx::__ops::_Iter_less_iter::operator()<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>', 'op'),
+        
+        # operator< [FIX: SHARED]
+        ('trng::lcg64::step', 'trng'),
+        ('trng::utility::u01xx_traits<float, (unsigned long)1, trng::lcg64>::addin', 'trng'),
+        ('trng::utility::u01xx_traits<float, (unsigned long)1, trng::lcg64>::co', 'trng'),
+        
+        #'libmemkind::static_kind::allocator<unsigned int>::construct<unsigned int, unsigned int>'
+        #'__memmove_avx_unaligned_erms'
+        #'std::vector<bool, std::allocator<bool>>::operator[]'
+        #'__GI___libc_malloc'
 
         ('func@0x1d6d0', 'omp/lock'),
         ('func@0x1d860', 'omp/reduce'),
-        ('[vmlinux]', 'vmlinux')
+        
+        ('[vmlinux]', 'kernel'),
     ] )
 
 
@@ -340,7 +364,7 @@ def main_ripples(makeColL_f, metricL1_p, metricL1_f, metricL2_f, metricL3):
 
     widthH_p = { 'width1':3.2, 'width2':3.0, 'height':1.8 }
     widthH_f = { 'width1':3.5, 'width2':4.8, 'height':2.7 } # h=2.7,1.8
-    adjustH = { 'left':0.02, 'right':0.98, 'bottom':0.01, 'top':0.99,
+    adjustH = { 'left':0.00, 'right':1.0, 'bottom':0.01, 'top':0.99,
                 'wspace':0.00, 'hspace':0.0 }
 
     (fig_p1, fig_p2) = \
@@ -376,7 +400,7 @@ def plot_pkg(vt, graph_grpL, metricL1, metricL2, widthH, adjustH1, adjustH2):
 
 
 def dfrm_pkg_xform(graph_grpL):
-    def dfrm_pkg_xform1(dfrm):
+    def dfrm_pkg_xform1(dfrm, metric):
         dfrm.sort_index(axis=0, ascending=True, inplace=True)
         dfrm.rename(index = (lambda x: x.replace('package_', '')), inplace=True)
         dfrm.rename(columns = (lambda x: rename_col(x, graph_grpL)), inplace=True)
@@ -414,7 +438,7 @@ def plot_fn(vt, graph_grpL, functionH, metricL1, metricL2, metricL3, widthH, adj
 
     
 def dfrm_fn_xform(functionH, graph_grpL):
-    def dfrm_fn_xform1(dfrm):
+    def dfrm_fn_xform1(dfrm, metric):
         #functionH_key = functionH.keys()
         #dfrm = dfrm.loc[functionH_key]
         #dfrm.rename(index = functionH, inplace=True)
@@ -433,9 +457,16 @@ def dfrm_fn_xform(functionH, graph_grpL):
         dfrm.rename(index = functionH, inplace=True)
 
         # 4. Select and merge rows with same target name
-        rowL = [ dfrm.loc[ [fn] ].sum(axis=0).to_frame().transpose()
-                 for fn in functionHx_keys ]
+        if (metric.find('(%)') > 0):
+            # FIXME: should be mean, weighted by cpu time
+            rowL = [ dfrm.loc[ [fn] ].mean(axis=0).to_frame().transpose()
+                     for fn in functionHx_keys ]
+        else:
+            rowL = [ dfrm.loc[ [fn] ].sum(axis=0).to_frame().transpose()
+                     for fn in functionHx_keys ]
         #print(rowL)
+
+        # Create row for everything else???: pandas.Index.difference
         
         dfrm1 = pandas.concat(rowL, axis=0)
         dfrm1.index = functionHx_keys
@@ -463,6 +494,9 @@ def plotL_mk(vt, metricL, w, h, graph_grpL):
     if (Do_rows):
         fig, axesL = pyplt.subplots(nrows=1, ncols=(num_axes),
                                     figsize=(w * num_axes, h),
+                                    #edgecolor='black', bad
+                                    #frame_on=True, bad
+                                    #facecolor='white',
                                     gridspec_kw={'width_ratios': widthL})
     else:
         fig, axesL = pyplt.subplots(nrows=(num_axes), ncols=1,
@@ -473,6 +507,8 @@ def plotL_mk(vt, metricL, w, h, graph_grpL):
 
 
 def plotL_mk_widths(vt, metricL, graph_grpL):
+    fixed_w = 2
+
     widthL = []
 
     grp_per_metric = len(graph_grpL)
@@ -493,7 +529,7 @@ def plotL_mk_widths(vt, metricL, graph_grpL):
                 continue
 
             n_col = find_fig_width(dfrm, graph_grp)
-            widthL.append(n_col)
+            widthL.append(n_col + fixed_w)
 
     return widthL
 
@@ -513,26 +549,35 @@ def plotL_do(vt, fig, axesL, metricL, dfrm_xformF, ytitle_txt, graph_grpL):
 
             axes = axesL[axes_i]
 
-            axes.margins(tight=True)
-
             metricPair = metricL[i_m]
+            metric0 = metricPair[0]
+
             ytitle = ytitle_txt if (i_m == 0 and i_g == 0) else None
 
             # find DataFrame for 'metricPair'
             try:
-                dfrm = vt.dataH[metricPair[0]]
+                dfrm = vt.dataH[metric0]
             except KeyError:
-                vtcsv.printRed(("Warning: Skipping metric: '%s'" % metricPair[0]))
+                vtcsv.printRed(("Warning: Skipping metric: '%s'" % metric0))
                 continue
 
             # select columns for 'graph_grp'
             dfrm = select_dfrm_col(dfrm, graph_grp)
             #print(dfrm)
             #sys.exit()
-            
-            dfrm = dfrm_xformF(dfrm)
 
+            dfrm = dfrm_xformF(dfrm, metric0)
+
+            axes.margins(x=0.00, y=0.00)
             axes1 = plot(dfrm, axes, metricPair, ytitle, graph_grp)
+
+            # FIXME:
+            #print(axes1.get_tightbbox(fig.canvas.get_renderer()))
+            bbox = axes1.bbox.get_points()
+            #print(bbox)
+            bbox_w = bbox[1][0] - bbox[0][0]
+            bbox_h = bbox[1][1] - bbox[0][1]
+            axes1.add_patch(patches.Rectangle(xy=bbox[0], width=bbox_w, height=bbox_h, edgecolor='red', linewidth=2.0, fill=True, zorder=100))
 
 
 def plotL_adj(fig, adjustH):
@@ -572,12 +617,14 @@ def plot(dfrm, axes, metricPair, ytitle, x_groupL = None):
     do_y_lbl = True if (ytitle) else False
     
     axes = seaborn.heatmap(dfrm, ax=axes, annot=True,
-                           cbar=True, cmap='RdBu_r',# coolwarm
+                           cbar=True,
+                           cmap='RdBu_r',# coolwarm
                            fmt=txt_fmt,
                            yticklabels=do_y_lbl,
-                           annot_kws={'size' : txt_sz,
-                                      'rotation' : txt_rot } )
-
+                           annot_kws= dict(size=txt_sz, rotation=txt_rot))
+                           #cbar_kws = dict(use_gridspec=False, location='right')
+    
+    
     if (dfrm_scale_exp):
         axes.text(1.06, 0.997, (r'$\times10^{%s}$' % dfrm_scale_exp),
                    transform=axes.transAxes, ha='left', va='bottom') # size=txt_sz_heatmap_scale
@@ -619,7 +666,6 @@ def plot(dfrm, axes, metricPair, ytitle, x_groupL = None):
         axes2_ticks = [ (x/n_x) for x in list(numpy.arange(x2_beg, x_end, x2_skip)) ]
         axes2.set_xticks(axes2_ticks)
         axes2.set_xticklabels(nmL, rotation=0, ha='center')
-
 
 
     return axes
