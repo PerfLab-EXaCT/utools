@@ -270,9 +270,9 @@ class VTuneCSV:
 
         n_axes = len(self.dataL)
         w_axis = (0.5 * dfrm0_ncol + 1.0)
-        w_fig = 2.5 + w_axis + (n_axes - 1) * w_axis
+        w_fig = 2.2 + w_axis + (n_axes - 1) * w_axis
 
-        (fig, axesL) = pyplt.subplots(nrows=1, ncols=n_axes, figsize=(w_fig, 20))
+        (fig, axesL) = pyplt.subplots(nrows=1, ncols=n_axes, figsize=(w_fig, 19))
 
         # Need to test commented code when n_axes == 1
         assert(n_axes > 1)
@@ -286,6 +286,8 @@ class VTuneCSV:
             dfrm = kv[1]
 
             dfrm = dfrm.rename(index = (lambda x: x[0:30]))
+
+            dfrm = make_stats(dfrm)
 
             axes = axesL[i]
 
@@ -302,7 +304,11 @@ class VTuneCSV:
 
                 axes.set_ylabel(title)
 
-        fig.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.1)
+        adjustH = { 'left':0.09, 'right':1.0, 'bottom':0.08, 'top':0.99,
+                    'wspace':0.01, 'hspace':0.00 }
+        fig.subplots_adjust(**adjustH)
+        #fig.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.1)
+
         pyplt.show()
         return (fig, axesL)
 
@@ -310,21 +316,34 @@ class VTuneCSV:
 
 def plot_heat(dfrm, axes, title, do_yticks):
     import seaborn
-
+    
     axes = seaborn.heatmap(dfrm, ax=axes, annot=True,
                            cbar=False, cmap="RdBu_r", # coolwarm
                            yticklabels = do_yticks)
 
+    if (not do_yticks):
+        #axes.set_yticks([])
+        axes.set_ylabel('')
+    
     # correct x-ticks and x-labels
     axes.set_xticks(numpy.arange(0.5, len(dfrm.columns)))
 
     if (len(dfrm.columns) == 1):
-        axes.set_xticklabels([title], rotation=20, ha='right')
+        axes.set_xticklabels([title], rotation=10, ha='right')
     else:
         axes.set_title(title)
-        axes.set_xticklabels(dfrm.columns, rotation=20, ha='right')
+        axes.set_xticklabels(dfrm.columns, rotation=10, ha='right')
 
     return axes
+
+
+def make_stats(dfrm):
+
+    dfrm.loc['[sum]'] = dfrm.sum(axis=0)   # sum per column
+    dfrm.loc['[mean]'] = dfrm.mean(axis=0) # mean per column
+    
+    return dfrm
+
 
 #****************************************************************************
         

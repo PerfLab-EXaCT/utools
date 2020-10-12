@@ -31,7 +31,7 @@ import VTuneCSV as vtcsv
 txt_sz_heatmap = 10
 txt_sz_heatmap_scale = 10
 
-Do_view = 1
+Do_view = 0 # resets 'subplots_adjust'
 Do_rows = 1
 
 
@@ -218,10 +218,10 @@ def main_grappolo(makeColL_f, metricL1_p, metricL1_f, metricL2_f, metricL3):
     vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv')
     vt_f = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL_f)
 
-    widthH_p = { 'width1':3.0, 'width2':3.0, 'height':1.8 }
-    widthH_f = { 'width1':3.6, 'width2':4.8, 'height':2.7 } # h=2.7,1.8
-    adjustH = { 'left':0.0, 'right':1.0, 'bottom':0.01, 'top':0.99,
-                'wspace':0.00, 'hspace':0.0 }
+    widthH_p = { 'width1':2.6, 'width2':3.0, 'height':1.8 }
+    widthH_f = { 'width1':3.1, 'width2':3.5, 'height':2.7 } # h=2.7,1.8
+    adjustH = { 'left':0.05, 'right':0.95, 'bottom':0.10, 'top':0.80,
+                'wspace':0.10, 'hspace':0.0 }
 
     (fig_p1, fig_p2) = \
         plot_pkg(vt_p, graphL, metricL1_p, metricL3, widthH_p, adjustH, adjustH)
@@ -311,44 +311,77 @@ def main_ripples(makeColL_f, metricL1_p, metricL1_f, metricL2_f, metricL3):
 
         ('ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::neighbors', 'neigh'),
 
-        ('ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::Neighborhood::Neighborhood', 'neigh-hood'),
-
-        # count
-        ('ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, std::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, std::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, std::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.12', 'count'),
-        ('ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.12', 'count'),
-
-
-        # push_back
-        ('std::vector<unsigned int, std::allocator<unsigned int>>::push_back', 'push_back'),
-        ('std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>::push_back', 'push_back'),
-
         # move_merge (int*) [FIX: SHARED]
         ('std::__move_merge<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'move_merge'),
         ('std::__move_merge<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'move_merge'),
+        #
         # move_merge (it) 
         ('std::__move_merge<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, unsigned int*, __gnu_cxx::__ops::_Iter_less_iter>', 'move_merge'),
         ('std::__move_merge<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, unsigned int*, __gnu_cxx::__ops::_Iter_less_iter>', 'move_merge'),
-        
+        #
+        ('std::__move_merge_adaptive_backward<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'move_merge'),
+        ('std::__move_merge_adaptive_backward<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'move_merge'),
+        #
+        ('std::__move_merge_adaptive<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'move_merge'),
+        ('std::__move_merge_adaptive<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'move_merge'),
+
         # operator++ [FIX: SHARED]
         ('__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>::operator++', 'op'),
         ('__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>::operator++', 'op'),
+        #
+        ('__gnu_cxx::__ops::_Iter_less_iter::operator()<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>', 'op'),
+        ('__gnu_cxx::__ops::_Iter_less_iter::operator()<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>', 'op'),
+        #
+        ('__gnu_cxx::__ops::_Val_less_iter::operator()<unsigned int, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>', 'op'),
+        ('__gnu_cxx::__ops::_Val_less_iter::operator()<unsigned int, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>', 'op'),
         # operator< 
         ('__gnu_cxx::__ops::_Iter_less_iter::operator()<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>', 'op'),
         ('__gnu_cxx::__ops::_Iter_less_iter::operator()<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>', 'op'),
+        #
+        ('__gnu_cxx::__ops::_Iter_less_iter::operator()<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, unsigned int*>', 'op'),
+        ('__gnu_cxx::__ops::_Iter_less_iter::operator()<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, unsigned int*>', 'op'),
+        #
+        ('std::__unguarded_linear_insert<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Val_less_iter>', 'op'),
+        ('std::__unguarded_linear_insert<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Val_less_iter>', 'op'),
+        #
+        ('std::__copy_move_backward<(bool)1, (bool)1, std::random_access_iterator_tag>::__copy_move_b<unsigned int>', 'op'),
         
-        # operator< [FIX: SHARED]
+        # [FIX: SHARED]
         ('trng::lcg64::step', 'trng'),
         ('trng::utility::u01xx_traits<float, (unsigned long)1, trng::lcg64>::addin', 'trng'),
         ('trng::utility::u01xx_traits<float, (unsigned long)1, trng::lcg64>::co', 'trng'),
         
-        #'libmemkind::static_kind::allocator<unsigned int>::construct<unsigned int, unsigned int>'
-        #'__memmove_avx_unaligned_erms'
-        #'std::vector<bool, std::allocator<bool>>::operator[]'
-        #'__GI___libc_malloc'
+        # [FIX: SHARED]
+        ('ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::Neighborhood::Neighborhood', 'xtra'), # 'neigh-hood'
+        # push_back
+        ('std::vector<unsigned int, std::allocator<unsigned int>>::push_back', 'xtra'), # 'push_back'
+        ('std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>::push_back', 'xtra'), # 'push_back'
+        # count
+        ('ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, std::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, std::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, std::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.12', 'xtra'), # 'count'
+        ('ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.12', 'xtra'), # 'count'
+        #
+        ('std::allocator<unsigned int>::construct<unsigned int, unsigned int>', 'xtra'),
+        ('libmemkind::static_kind::allocator<unsigned int>::construct<unsigned int, unsigned int>', 'xtra'),
+        #
+        ('std::allocator<unsigned int>::construct<unsigned int, unsigned int const&>', 'xtra'),
+        ('libmemkind::static_kind::allocator<unsigned int>::construct<unsigned int, unsigned int const&>', 'xtra'),
+        #
+        ('std::__insertion_sort<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'xtra'),
+        ('std::__insertion_sort<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'xtra'),
+        #
+        ('__memmove_avx_unaligned_erms', 'xtra'),
+        ('std::vector<bool, std::allocator<bool>>::operator[]', 'xtra'),
+        ('__GI___libc_malloc', 'xtra'),
+        ('_int_free', 'xtra'),
 
-        ('func@0x1d6d0', 'omp/lock'),
-        ('func@0x1d860', 'omp/reduce'),
-        
+        # DRAM
+        # 'unlink_chunk'
+
+        # omp [FIX: SHARED]
+        ('func@0x1d6d0', 'omp'), # 'omp/lock'
+        ('func@0x1d860', 'omp'), # 'omp/reduce'
+        ('func@0xa7d0', 'omp'), # 
+
         ('[vmlinux]', 'kernel'),
     ] )
 
@@ -362,10 +395,10 @@ def main_ripples(makeColL_f, metricL1_p, metricL1_f, metricL2_f, metricL3):
     vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv')
     vt_f = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL_f)
 
-    widthH_p = { 'width1':3.2, 'width2':3.0, 'height':1.8 }
-    widthH_f = { 'width1':3.5, 'width2':4.8, 'height':2.7 } # h=2.7,1.8
-    adjustH = { 'left':0.00, 'right':1.0, 'bottom':0.01, 'top':0.99,
-                'wspace':0.00, 'hspace':0.0 }
+    widthH_p = { 'width1':2.6, 'width2':3.0, 'height':1.8 }
+    widthH_f = { 'width1':3.1, 'width2':4.0, 'height':2.7 } # h=2.7,1.8
+    adjustH = { 'left':0.05, 'right':0.95, 'bottom':0.10, 'top':0.80,
+                'wspace':0.10, 'hspace':0.0 }
 
     (fig_p1, fig_p2) = \
         plot_pkg(vt_p, graphL, metricL1_p, metricL3, widthH_p, adjustH, adjustH)
@@ -420,11 +453,11 @@ def plot_fn(vt, graph_grpL, functionH, metricL1, metricL2, metricL3, widthH, adj
     plotL_adj(fig1, adjustH1)
 
     #-------------------------------------------------------
-        
-    # Percentage metrics
-    graph_grpL1 = [ flattenL(graph_grpL) ]
-    
-    fig2, axesL2 = plotL_mk(vt, metricL2, w2, h, graph_grpL1)
+
+    # Percentage metrics (FIXME)
+    graph_grpL1 = graph_grpL #[ flattenL(graph_grpL) ]
+
+    fig2, axesL2 = plotL_mk(vt, metricL2, w1, h, graph_grpL1)
     plotL_do(vt, fig2, axesL2, metricL2, dfrm_fn_xform(functionH, graph_grpL1), 'Functions', graph_grpL1)
     plotL_adj(fig2, adjustH2)
 
@@ -571,26 +604,28 @@ def plotL_do(vt, fig, axesL, metricL, dfrm_xformF, ytitle_txt, graph_grpL):
             axes.margins(x=0.00, y=0.00)
             axes1 = plot(dfrm, axes, metricPair, ytitle, graph_grp)
 
-            # FIXME:
-            #print(axes1.get_tightbbox(fig.canvas.get_renderer()))
-            bbox = axes1.bbox.get_points()
-            #print(bbox)
-            bbox_w = bbox[1][0] - bbox[0][0]
-            bbox_h = bbox[1][1] - bbox[0][1]
-            axes1.add_patch(patches.Rectangle(xy=bbox[0], width=bbox_w, height=bbox_h, edgecolor='red', linewidth=2.0, fill=True, zorder=100))
+            # # FIXME:
+            # #print(axes1.get_tightbbox(fig.canvas.get_renderer()))
+            # bbox = axes1.bbox.get_points()
+            # #print(bbox)
+            # bbox_w = bbox[1][0] - bbox[0][0]
+            # bbox_h = bbox[1][1] - bbox[0][1]
+            # axes1.add_patch(patches.Rectangle(xy=bbox[0], width=bbox_w, height=bbox_h, edgecolor='red', linewidth=2.0, fill=True, zorder=100))
 
 
 def plotL_adj(fig, adjustH):
 
-
     fig.subplots_adjust(**adjustH)
 
     if (Do_view):
+        # Changes 'subplots_adjust'!
         fig.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
 
 
 def plot(dfrm, axes, metricPair, ytitle, x_groupL = None):
 
+    n_col = len(dfrm.columns)
+    
     #-------------------------------------------------------
     # Scale data values for nice formattting
     #-------------------------------------------------------
@@ -615,20 +650,28 @@ def plot(dfrm, axes, metricPair, ytitle, x_groupL = None):
     #-------------------------------------------------------
 
     do_y_lbl = True if (ytitle) else False
+
+    cbar_frac = 0.16 if (n_col <= 4) else 0.08
+    cbar_pad  = 0.05 if (n_col <= 4) else 0.02
     
     axes = seaborn.heatmap(dfrm, ax=axes, annot=True,
                            cbar=True,
                            cmap='RdBu_r',# coolwarm
                            fmt=txt_fmt,
                            yticklabels=do_y_lbl,
-                           annot_kws= dict(size=txt_sz, rotation=txt_rot))
-                           #cbar_kws = dict(use_gridspec=False, location='right')
-    
-    
+                           annot_kws= {'size':txt_sz, 'rotation':txt_rot},
+                           cbar_kws = dict(fraction=cbar_frac, pad=cbar_pad))
+                           # use_gridspec=False location='right'
+
+
+    # adjust colorbar
+    cbar_ax = axes.collections[0].colorbar.ax # get_axes()
+    cbar_ax.set_yticklabels(cbar_ax.get_yticklabels(), rotation=270, va='center')
+
     if (dfrm_scale_exp):
         axes.text(1.06, 0.997, (r'$\times10^{%s}$' % dfrm_scale_exp),
                    transform=axes.transAxes, ha='left', va='bottom') # size=txt_sz_heatmap_scale
-
+        
     #-------------------------------------------------------
     # 
     #-------------------------------------------------------
@@ -640,8 +683,8 @@ def plot(dfrm, axes, metricPair, ytitle, x_groupL = None):
         axes.set_ylabel(ytitle)
 
     # correct x-ticks and x-labels
-    axes.set_xticks(numpy.arange(0.5, len(dfrm.columns)))
-    axes.set_xticklabels(dfrm.columns, rotation=15, ha='right')
+    axes.set_xticks(numpy.arange(0.5, n_col))
+    axes.set_xticklabels(dfrm.columns, rotation=20, ha='right')
 
     #for x in axes.get_xticklabels():
     #    x.set_rotation(0)
@@ -654,7 +697,7 @@ def plot(dfrm, axes, metricPair, ytitle, x_groupL = None):
         nmL = [ x[1] for x in x_groupL ] if (isinstance(x_groupL[0], tuple)) else x_groupL
 
         (x_beg, x_end) = axes.get_xlim()
-        n_x = int(x_end) # len(dfrm.columns)
+        n_x = int(x_end) # n_col
         n_x2 = len(x_groupL)
         x2_skip = int(n_x / n_x2)
         x2_beg = x2_skip / 2.0 # midpoint

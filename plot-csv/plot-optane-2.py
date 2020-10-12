@@ -8406,7 +8406,7 @@ def plot_bw_lat(ax_bw, ax_lat, bw_data_strL, lat_data_strL, graph, data_nmL):
     (bw_dfrm_hist, bw_dfrm_wide) = \
         makeFrameFromHistL(data_nmL, bw_data_strL, convert = 'sample')
 
-    bw_dfrm_mean = bw_dfrm_wide.mean(axis=0)
+    bw_dfrm_mean = bw_dfrm_wide.mean(axis=0) # mean per column
 
     # print("bw_dfrm_hist\n", bw_dfrm_hist)
     # print("bw_dfrm_wide\n", bw_dfrm_wide)
