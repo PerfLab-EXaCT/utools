@@ -671,7 +671,7 @@ def plot(dfrm, axes, metricPair, ytitle, x_groupL = None):
     if (dfrm_scale_exp):
         axes.text(1.06, 0.997, (r'$\times10^{%s}$' % dfrm_scale_exp),
                    transform=axes.transAxes, ha='left', va='bottom') # size=txt_sz_heatmap_scale
-        
+    
     #-------------------------------------------------------
     # 
     #-------------------------------------------------------
