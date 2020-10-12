@@ -639,7 +639,7 @@ def plot(dfrm, axes, metricPair, ytitle, x_groupL = None):
     if (ytitle):
         axes.set_ylabel(ytitle)
 
-    # correct x labels
+    # correct x-ticks and x-labels
     axes.set_xticks(numpy.arange(0.5, len(dfrm.columns)))
     axes.set_xticklabels(dfrm.columns, rotation=15, ha='right')
 

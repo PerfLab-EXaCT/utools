@@ -312,14 +312,17 @@ def plot_heat(dfrm, axes, title, do_yticks):
     import seaborn
 
     axes = seaborn.heatmap(dfrm, ax=axes, annot=True,
-                           cbar=True, cmap="RdBu_r", # coolwarm
-                           yticklabels=do_yticks)
+                           cbar=False, cmap="RdBu_r", # coolwarm
+                           yticklabels = do_yticks)
+
+    # correct x-ticks and x-labels
+    axes.set_xticks(numpy.arange(0.5, len(dfrm.columns)))
 
     if (len(dfrm.columns) == 1):
-        axes.set_xticklabels([title], rotation=25, ha='right')
+        axes.set_xticklabels([title], rotation=20, ha='right')
     else:
         axes.set_title(title)
-        axes.set_xticklabels(dfrm.columns, rotation=25, ha='right')
+        axes.set_xticklabels(dfrm.columns, rotation=20, ha='right')
 
     return axes
 
