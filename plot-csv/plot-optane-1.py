@@ -140,7 +140,9 @@ def main_grappolo(makeColL_f, metricL1_p, metricL1_f, metricL2_f, metricL3):
     # grappolo-<graph>-<type>-pkg.csv
     # grappolo-<graph>-<type>-fn.csv
 
-    graphL_med = ['orkut', 'friendster', 'moliere2016']
+    graphL_med = ['orkut',
+                  'friendster',
+                  'moliere2016']
 
     graph_sfx = ['-t192-dram',
                  '-t192-pdax',
@@ -166,17 +168,21 @@ def main_grappolo(makeColL_f, metricL1_p, metricL1_f, metricL2_f, metricL3):
     # Big graphs (192 threads)/Big memory modes
     #-------------------------------------------------------
 
-    graphL_big = ['clueweb12', 'uk2014']
+    graphL_big = [ ('clueweb12', 'clueweb'),
+                   ('uk2014', 'uk') ]
+
+    graphL_0 = [ x[0] for x in graphL_big ]
+
 
     pathL_Bp = [
         [path_pfx + grph + '-t192-kdax-pkg.csv',
-         path_pfx + grph + '-t192-mem-pkg.csv'] for grph in graphL_big ]
+         path_pfx + grph + '-t192-mem-pkg.csv'] for grph in graphL_0 ]
 
     pathL_Bp = flattenL(pathL_Bp)
     
     pathL_Bf = [
         [path_pfx + grph + '-t192-kdax-fn.csv',
-         path_pfx + grph + '-t192-mem-fn.csv'] for grph in graphL_big ]
+         path_pfx + grph + '-t192-mem-fn.csv'] for grph in graphL_0 ]
 
     pathL_Bf = flattenL(pathL_Bf)
 
@@ -198,7 +204,10 @@ def main_grappolo(makeColL_f, metricL1_p, metricL1_f, metricL2_f, metricL3):
         ('std::_Rb_tree_insert_and_rebalance', 'blmc/map'),
         ('max', 'max'),
         ('_INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_wait_template<kmp_flag_64, (int)1, (bool)0, (bool)1>', 'omp'),
+
         ('duplicateGivenGraph$omp$parallel_for@171', 'copy'),
+        ('duplicateGivenGraph$omp$parallel_for@152', 'copy'),
+
         ('[vmlinux]', 'kernel'),
 
         #('plm_analyzeClusters$omp$parallel_for@64', 'plm2'),
@@ -219,7 +228,7 @@ def main_grappolo(makeColL_f, metricL1_p, metricL1_f, metricL2_f, metricL3):
     vt_f = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL_f)
 
     widthH_p = { 'width1':2.6, 'width2':3.0, 'height':1.8 }
-    widthH_f = { 'width1':3.1, 'width2':3.5, 'height':2.7 } # h=2.7,1.8
+    widthH_f = { 'width1':3.2, 'width2':3.5, 'height':2.7 } # h=2.7,1.8
     adjustH = { 'left':0.05, 'right':0.95, 'bottom':0.10, 'top':0.80,
                 'wspace':0.10, 'hspace':0.0 }
 
@@ -396,7 +405,7 @@ def main_ripples(makeColL_f, metricL1_p, metricL1_f, metricL2_f, metricL3):
     vt_f = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL_f)
 
     widthH_p = { 'width1':2.6, 'width2':3.0, 'height':1.8 }
-    widthH_f = { 'width1':3.1, 'width2':4.0, 'height':2.7 } # h=2.7,1.8
+    widthH_f = { 'width1':3.2, 'width2':4.0, 'height':2.7 } # h=2.7,1.8
     adjustH = { 'left':0.05, 'right':0.95, 'bottom':0.10, 'top':0.80,
                 'wspace':0.10, 'hspace':0.0 }
 
