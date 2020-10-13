@@ -30,10 +30,10 @@ import VTuneCSV as vtcsv
 
 txt_sz_heatmap = 10
 txt_sz_heatmap_scale = 10
+fixed_cmap_w = 2
 
 Do_view = 0 # resets 'subplots_adjust'
 Do_rows = 1
-
 
 #****************************************************************************
 #
@@ -140,8 +140,7 @@ def main_grappolo(makeColL_f, metricL1_p, metricL1_f, metricL2_f, metricL3):
     # grappolo-<graph>-<type>-pkg.csv
     # grappolo-<graph>-<type>-fn.csv
 
-    graphL_med = ['orkut',
-                  'friendster',
+    graphL_med = ['friendster',
                   'moliere2016']
 
     graph_sfx = ['-t192-dram',
@@ -200,21 +199,28 @@ def main_grappolo(makeColL_f, metricL1_p, metricL1_f, metricL2_f, metricL3):
 
     functionH = collections.OrderedDict( [
         ('buildLocalMapCounter', 'blmc'),
-        ('parallelLouvianMethod$omp$parallel_for@237', 'plm'),
-        ('std::_Rb_tree_insert_and_rebalance', 'blmc/map'),
+
+        ('std::_Rb_tree_insert_and_rebalance', 'map'),
+
         ('max', 'max'),
+
+        ('_int_free', 'mem'), # 'free'
+        ('__GI___libc_malloc', 'mem'), # 'malloc2'
+        ('_int_malloc', 'mem'), # 'malloc'
+        ('malloc_consolidate', 'mem'),
+
+        #('__gnu_cxx::new_allocator<double>::construct<double, double const&>', 'new'),
+
+        ('parallelLouvianMethod$omp$parallel_for@237', 'plm'),
+        ('plm_analyzeClusters$omp$parallel_for@64', 'plm'), # 'plm2'
+        
         ('_INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_wait_template<kmp_flag_64, (int)1, (bool)0, (bool)1>', 'omp'),
 
-        ('duplicateGivenGraph$omp$parallel_for@171', 'copy'),
-        ('duplicateGivenGraph$omp$parallel_for@152', 'copy'),
+        # OLD
+        #('duplicateGivenGraph$omp$parallel_for@171', 'copy'),
+        #('duplicateGivenGraph$omp$parallel_for@152', 'copy'),
 
         ('[vmlinux]', 'kernel'),
-
-        #('plm_analyzeClusters$omp$parallel_for@64', 'plm2'),
-        #('_int_malloc', 'malloc'),
-        #('__GI___libc_malloc', 'malloc2'),
-        #('__gnu_cxx::new_allocator<double>::construct<double, double const&>', 'new'),
-        #('_int_free',   'free'),
     ] )
 
     #functionL = list(functionH.items())
@@ -227,7 +233,7 @@ def main_grappolo(makeColL_f, metricL1_p, metricL1_f, metricL2_f, metricL3):
     vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv')
     vt_f = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL_f)
 
-    widthH_p = { 'width1':2.6, 'width2':3.0, 'height':1.8 }
+    widthH_p = { 'width1':2.7, 'width2':3.0, 'height':1.8 }
     widthH_f = { 'width1':3.2, 'width2':3.5, 'height':2.7 } # h=2.7,1.8
     adjustH = { 'left':0.05, 'right':0.95, 'bottom':0.10, 'top':0.80,
                 'wspace':0.10, 'hspace':0.0 }
@@ -536,11 +542,9 @@ def plotL_mk(vt, metricL, w, h, graph_grpL):
     if (Do_rows):
         fig, axesL = pyplt.subplots(nrows=1, ncols=(num_axes),
                                     figsize=(w * num_axes, h),
-                                    #edgecolor='black', bad
-                                    #frame_on=True, bad
-                                    #facecolor='white',
                                     gridspec_kw={'width_ratios': widthL})
     else:
+        # FIXME: ncol = num_groups
         fig, axesL = pyplt.subplots(nrows=(num_axes), ncols=1,
                                     figsize=(w, h * num_axes),
                                     gridspec_kw={'width_ratios': widthL})
@@ -549,8 +553,6 @@ def plotL_mk(vt, metricL, w, h, graph_grpL):
 
 
 def plotL_mk_widths(vt, metricL, graph_grpL):
-    fixed_w = 2
-
     widthL = []
 
     grp_per_metric = len(graph_grpL)
@@ -571,7 +573,7 @@ def plotL_mk_widths(vt, metricL, graph_grpL):
                 continue
 
             n_col = find_fig_width(dfrm, graph_grp)
-            widthL.append(n_col + fixed_w)
+            widthL.append(n_col + fixed_cmap_w)
 
     return widthL
 
@@ -688,7 +690,7 @@ def plot(dfrm, axes, metricPair, ytitle, x_groupL = None):
     title_txt = metricPair[1] if (len(metricPair) > 1) else metricPair[0]
     axes.set_title(title_txt)
 
-    if (ytitle):
+    if ((not Do_rows) or ytitle):
         axes.set_ylabel(ytitle)
 
     # correct x-ticks and x-labels

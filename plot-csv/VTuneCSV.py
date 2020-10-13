@@ -18,6 +18,8 @@ import numpy
 
 #import matplotlib.pyplot as pyplt
 
+plot_stats_cutoff = 50
+
 #****************************************************************************
 #
 #****************************************************************************
@@ -338,11 +340,17 @@ def plot_heat(dfrm, axes, title, do_yticks):
 
 
 def make_stats(dfrm):
+    plot_stats_cutoff = 50
 
-    dfrm.loc['[sum]'] = dfrm.sum(axis=0)   # sum per column
-    dfrm.loc['[mean]'] = dfrm.mean(axis=0) # mean per column
+    if (len(dfrm.index) >= plot_stats_cutoff):
+        dfrm1 = dfrm.iloc[0:plot_stats_cutoff, :].copy()
+    else:
+        dfrm1 = dfrm
+
+    dfrm1.loc['[mean]'] = dfrm.mean(axis=0) # mean per column
+    dfrm1.loc['[sum]']  = dfrm.sum(axis=0)  # sum per column
     
-    return dfrm
+    return dfrm1
 
 
 #****************************************************************************
