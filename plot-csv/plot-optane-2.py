@@ -31,11 +31,7 @@ import seaborn
 # OMP_PLACES="", OMP_BIND=""
 time_med_str = """
 graph        threads  type   time          vtune
-orkut         192     dram   19.486751     21.864      
-orkut         192     pdax   19.201794     31.600      
-orkut         192     kdax   19.957072     20.055675   
-orkut         192     mem     nan           nan   
-                      
+friendster     192    kdax  887.835935     nan
 friendster    192     dram   889.073929    1081.808    
 friendster    192     pdax   692.835406    878.044     
 friendster    192     kdax   887.835935    674.307471  
@@ -43,8 +39,8 @@ friendster    192     mem    724.622542    698.334183
                       
 moliere2016   192     dram   1054.31008    1160.216    
 moliere2016   192     pdax   1059.69578    1394.221    
-moliere2016   192     kdax   1016.924445   1002.636274 
-moliere2016   192     mem    1161.987154   1104.891963         
+moliere2016   192     kdax   1059.69577   nan
+moliere2016   192     mem    1161.987154   1104.891963
 """
 
 """
@@ -65,6 +61,11 @@ moliere2016   192     kdax   1059.69577   nan
 #   moliere2016  time (dram,pdax,kdax) 1054.31008  1059.69578  1087.108672
 #   moliere2016  vtune                 1160.216    1394.221    1066.978739
 
+# orkut         192     dram   19.486751     21.864      
+# orkut         192     pdax   19.201794     31.600      
+# orkut         192     kdax   19.957072     20.055675   
+# orkut         192     mem     nan           nan   
+
 
 #-------------------------------------------------------
 # Big graphs
@@ -73,10 +74,10 @@ moliere2016   192     kdax   1059.69577   nan
 # OMP_PLACES="", OMP_BIND=""
 time_big_str = """
 graph      threads type    time           vtune
-uk2014     192     kdax    712.128346     877.898523
+uk2014     192  kdax      604.974474
 uk2014     192     mem     nan            nan
                    
-clueweb12  192     kdax    7193.721465    6928.046121
+clueweb12  192  kdax     4719.64721 
 clueweb12  192     mem     nan            nan
 """
 
@@ -105,54 +106,55 @@ clueweb12  192  kdax     4719.64721
 #----------------------------------------------------------------------------
 
 friendster_t192_dramBw_dram_str = """
-  dram_bw time
-  0	81.76752655810002
-  10	107.71000000000002
-  20	47.09
-  30	94.27000000000002
-  40	699.2400000000001
-  50	8.36
-  60	15.919999999999993
-  70	13.090000000000002
-  80	2.9099999999999997
-  90	1.640000000000001
-  100	1.9300000000000013
-  110	1.350000000000001
-  120	1.2400000000000009
-  130	1.1400000000000006
-  140	1.0600000000000005
-  150	0.8600000000000004
-  160	0.5800000000000002
-  170	0.3800000000000002
-  180	0.3200000000000001
-  190	0.27
-  200	0.07
-  210	0.03
-  220	0.01
-  230	0.01
-  240	0
-  250	0.01
-  260	0
-  270	0.05
-  280	0.07
-  290	0.01
-  300	0.01
-  310	0
-  320	0
-  330	0
-  340	0.01
-  350	0.02
-  360	0.07
-  370	0.31000000000000005
-  380	0
-  390	0
-  400	0
-  410	0
-  420	0
-  430	0
-  440	0
-  450	0
+dram_bw time                   class
+    0	81.76752655810002	Low
+    10	107.71000000000002	Low
+    20	47.09	Low
+    30	94.27000000000002	Low
+    40	699.2400000000001	Low
+    50	8.36	Low
+    60	15.919999999999993	Low
+    70	13.090000000000002	Low
+    80	2.9099999999999997	Low
+    90	1.640000000000001	Low
+    100	1.9300000000000013	Low
+    110	1.350000000000001	Low
+    120	1.2400000000000009	Low
+    130	1.1400000000000006	Low
+    140	1.0600000000000005	Medium
+    150	0.8600000000000004	Medium
+    160	0.5800000000000002	Medium
+    170	0.3800000000000002	Medium
+    180	0.3200000000000001	Medium
+    190	0.27	Medium
+    200	0.07	Medium
+    210	0.03	Medium
+    220	0.01	Medium
+    230	0.01	Medium
+    240	0	Medium
+    250	0.01	Medium
+    260	0	Medium
+    270	0.05	Medium
+    280	0.07	Medium
+    290	0.01	Medium
+    300	0.01	Medium
+    310	0	Medium
+    320	0	High
+    330	0	High
+    340	0.01	High
+    350	0.02	High
+    360	0.07	High
+    370	0.31000000000000005	High
+    380	0	High
+    390	0	High
+    400	0	High
+    410	0	High
+    420	0	High
+    430	0	High
+    440	0	High
+    450	0	High
 """
+
 
 friendster_t192_dramBw_pdax_str = """
   dram_bw time
@@ -522,10 +524,6 @@ dram_bw time                   class
 # uk2014, 192 threads, DRAM bandwidth (GB/s)
 #----------------------------------------------------------------------------
 
-uk2014_t192_dramBw_dram_str = """
-dram_bw time                   class
-"""
-
 uk2014_t192_dramBw_pdax_str = """
 dram_bw time                   class
 """
@@ -636,10 +634,6 @@ dram_bw time                   class
 #----------------------------------------------------------------------------
 # clueweb12, 192 threads, DRAM bandwidth (GB/s)
 #----------------------------------------------------------------------------
-
-clueweb12_t192_dramBw_dram_str = """
-dram_bw time                   class
-"""
 
 clueweb12_t192_dramBw_pdax_str = """
 dram_bw time                   class
@@ -5953,10 +5947,6 @@ moliere2016_t192_latency_mem_str = """
 # uk2014, 192 threads, Load Latency (cycles)
 #----------------------------------------------------------------------------
 
-uk2014_t192_latency_dram_str = """
-    Latency	Loads
-"""
-
 uk2014_t192_latency_pdax_str = """
     Latency	Loads
 """
@@ -7052,10 +7042,6 @@ uk2014_t192_latency_mem_str = """
 #----------------------------------------------------------------------------
 # clueweb12, 192 threads, Load Latency (cycles)
 #----------------------------------------------------------------------------
-
-clueweb12_t192_latency_dram_str = """
-    Latency	Loads
-"""
 
 clueweb12_t192_latency_pdax_str = """
     Latency	Loads
