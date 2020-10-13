@@ -32,24 +32,24 @@ import seaborn
 time_med_str = """
 graph        threads  type   time          vtune
 friendster    192     dram   889.073929    1081.808    
-friendster    192     mem    724.622542    698.334183      
-friendster    192     pdax   692.835406    878.044     
+friendster    192     mem    724.622542    698.334183    
 friendster    192     kdax   887.835935    674.307471
+friendster    192     pdax   692.835406    878.044     
                       
 moliere2016   192     dram   1054.31008    1160.216    
 moliere2016   192     mem    1161.987154   1104.891963
-moliere2016   192     pdax   1059.69578    1394.221    
 moliere2016   192     kdax   1059.69577     nan
+moliere2016   192     pdax   1059.69578    1394.221    
 
 uk2014     192  dram      nan                 nan
 uk2014     192  mem       664.700333          nan
-uk2014     192  pdax      nan                 nan
 uk2014     192  kdax      604.974474          nan
+uk2014     192  pdax      nan                 nan
                    
 clueweb12     192  dram      nan              nan
 clueweb12     192  mem      5830.2333         nan
-clueweb12     192  pdax      nan              nan
 clueweb12     192  kdax     4719.64721        nan
+clueweb12     192  pdax      nan              nan
 """
 
 """
@@ -8591,7 +8591,7 @@ def plot_bw_lat(ax_bw, ax_lat, bw_data_strL, lat_data_strL, graph,
     #-------------------------------------------------------
     # BW
     #-------------------------------------------------------
-
+    
     (bw_dfrm_hist, bw_dfrm_wide) = \
         makeFrameFromHistL(bw_data_nmL, bw_data_strL, convert = 'sample')
 
@@ -8669,7 +8669,7 @@ def makeRelTime(dfrm, row_srcL, col_src, col_dst):
         if (numpy.isnan(v_base)):
             v_base = dfrm.at[(graph, thrd, row_srcL[1]), col_src]
         
-        v_norm = (v / v_base) * 100
+        v_norm = (v / v_base) # * 100
         col_dat.append(v_norm)
 
     dfrm[col_dst] = col_dat # concat
@@ -8679,6 +8679,7 @@ def makeRelTime(dfrm, row_srcL, col_src, col_dst):
     return dfrm
 
 
+# When 'data_stringL' may contain duplicate to indicate merged results!
 def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = False):
     dfrm_hist = pandas.DataFrame()
     dfrm_wide = pandas.DataFrame()
@@ -8728,14 +8729,27 @@ def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = False):
         dfrm_wide_x.columns = [data_nm]
         
         #print("dfrm_wide_x\n", dfrm_wide_x)
-
+        
         #---------------------------------------
         # Merge into final result
         #---------------------------------------
         idx += 1
+
         dfrm_hist = pandas.concat([dfrm_hist, dfrm_hist_x], axis=1)
         dfrm_wide = pandas.concat([dfrm_wide, dfrm_wide_x], axis=1)
 
+        if (dfrm_hist.columns.tolist().count(data_nm) > 1):
+            dfrm_hist_x = dfrm_hist[data_nm].sum(axis=1).copy()
+            dfrm_wide_x = dfrm_wide[data_nm].sum(axis=1).copy()
+            
+            dfrm_hist.drop(data_nm, axis=1, inplace=True)
+            dfrm_wide.drop(data_nm, axis=1, inplace=True)
+            
+            dfrm_hist[data_nm] = dfrm_hist_x
+            dfrm_wide[data_nm] = dfrm_wide_x
+            #print(dfrm_hist)
+
+        #if (data_nm in dfrm_hist.columns)
 
     # histogram bins will be unique, so retain them as index
     #dfrm_hist.reset_index(inplace=True)
@@ -8779,24 +8793,29 @@ makeRelTime(time_med_dfrm, row_srcL, col_src, col_dst)
 time_med_192 = time_med_dfrm.xs(192, level='threads')
 #print(time_med_192)
 
-ln_sty = ':' # --
+ln_sty = '-' # ':' # --
 mrk_sty = 'o' # --
 
 ax = axes[0,0]
-ax = seaborn.lineplot(data=time_med_192, x='type', y=col_src, hue='graph', ax=ax,
-                      palette='dark', marker='^')
-ax.legend(title=col_src, loc='lower left',  bbox_to_anchor=(0.0, 0.35)) # prop={'size': text_sz}
+# ax = seaborn.lineplot(data=time_med_192, x='type', y=col_src, hue='graph', ax=ax,
+#                       palette='dark', marker='^')
+# ax.legend(title=col_src, loc='lower left',  bbox_to_anchor=(0.0, 0.35)) # prop={'size': text_sz}
 
-ax1 = ax.twinx()
+#ax1 = ax.twinx()
 ax = seaborn.lineplot(data=time_med_192, x='type', y=col_dst, hue='graph',
-                      palette='pastel', ax=ax1, marker=mrk_sty, linestyle=ln_sty)
+                      palette='dark', ax=ax, marker=mrk_sty, linestyle=ln_sty)
+ax.set_ylim(bottom=0.50)
+
+
+# 'pastel'
+
 
 # Should not be necessary!
 lineL = ax.legend().get_lines()
 for x in lineL:
     x.set_linestyle(ln_sty)
     #x.set_marker(mrk_sty)
-ax.legend(handles=lineL, title=col_dst, loc='lower left', bbox_to_anchor=(0.0, 0.07)) # prop={'size': text_sz}
+ax.legend(handles=lineL, loc='lower left', bbox_to_anchor=(0.0, 0.0)) # title=col_dst, prop={'size': text_sz} 
 
 
 #-------------------------------------------------------
@@ -8804,18 +8823,18 @@ ax.legend(handles=lineL, title=col_dst, loc='lower left', bbox_to_anchor=(0.0, 0
 #-------------------------------------------------------
 
 nm = 'friendster'
-data_nmL =  ['dram', 'mem', 'pdax', 'kdax']
+data_nmL =  ['dram', 'mem', 'kdax', 'pdax' ]
 
 bw_data_strL = [ friendster_t192_dramBw_dram_str,
                  friendster_t192_dramBw_mem_str,
-                 friendster_t192_dramBw_pdax_str,
-                 friendster_t192_dramBw_kdax_str ]
+                 friendster_t192_dramBw_kdax_str,
+                 friendster_t192_dramBw_pdax_str ]
 
 
 lat_data_strL = [ friendster_t192_latency_dram_str,
                   friendster_t192_latency_mem_str,
-                  friendster_t192_latency_pdax_str,
-                  friendster_t192_latency_kdax_str ]
+                  friendster_t192_latency_kdax_str,
+                  friendster_t192_latency_pdax_str ]
 
 plot_bw_lat(axes[0,1], axes[0,2], bw_data_strL, lat_data_strL, nm, data_nmL, data_nmL)
 
@@ -8828,13 +8847,13 @@ nm = 'moliere2016'
 
 bw_data_strL = [ moliere2016_t192_dramBw_dram_str,
                  moliere2016_t192_dramBw_mem_str,
-                 moliere2016_t192_dramBw_pdax_str,
-                 moliere2016_t192_dramBw_kdax_str ]
+                 moliere2016_t192_dramBw_kdax_str,
+                 moliere2016_t192_dramBw_pdax_str ]
 
 lat_data_strL = [ moliere2016_t192_latency_dram_str,
                   moliere2016_t192_latency_mem_str,
-                  moliere2016_t192_latency_pdax_str,
-                  moliere2016_t192_latency_kdax_str ]
+                  moliere2016_t192_latency_kdax_str,
+                  moliere2016_t192_latency_pdax_str ]
 
 plot_bw_lat(axes[1,1], axes[1,2], bw_data_strL, lat_data_strL, nm, data_nmL, data_nmL)
 
@@ -8843,13 +8862,14 @@ plot_bw_lat(axes[1,1], axes[1,2], bw_data_strL, lat_data_strL, nm, data_nmL, dat
 #-------------------------------------------------------
 
 nm = 'uk2014'
-bw_data_nmL =  ['mem/d', 'mem/p', 'kdax/d', 'kdax/p']
+bw_data_nmL =  ['mem', 'mem', 'kdax', 'kdax']
 lat_data_nmL =  ['mem', 'kdax']
 
 bw_data_strL = [ uk2014_t192_dramBw_mem_str,
                  uk2014_t192_pmemBw_mem_str,
                  uk2014_t192_dramBw_kdax_str,
                  uk2014_t192_pmemBw_kdax_str ]
+
 
 lat_data_strL = [ uk2014_t192_latency_mem_str,
                   uk2014_t192_latency_kdax_str ]
@@ -8880,7 +8900,7 @@ plot_bw_lat(axes[3,1], axes[3,2], bw_data_strL, lat_data_strL, nm, bw_data_nmL, 
 fig.subplots_adjust(left=0.05, right=0.95, bottom=0.05, top=0.95,
                     wspace=0.35, hspace=0.25)
 
-fig.savefig('chart-grappolo-med-sum.pdf', bbox_inches='tight')
+fig.savefig('chart-grappolo-sum.pdf', bbox_inches='tight')
 
 
 

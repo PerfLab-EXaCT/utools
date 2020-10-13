@@ -77,11 +77,11 @@ def main():
         #('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
         #('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
         #('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
-        ('Memory Bound:Store Bound(%)', 'Store Bound (%)'),
+        #('Memory Bound:Store Bound(%)', 'Store Bound (%)'),
         ]
 
     metricL1r_p = metricL1_p.copy()
-    metricL1r_p.pop() # no 'Store Bound (%)'
+    #metricL1r_p.pop() # no 'Store Bound (%)'
 
     #-------------------------------------------------------
     
@@ -144,9 +144,9 @@ def main_grappolo(makeColL_f, metricL1_p, metricL1_f, metricL2_f, metricL3):
                   'moliere2016']
 
     graph_sfx = ['-t192-dram',
-                 '-t192-pdax',
+                 '-t192-mem',
                  '-t192-kdax',
-                 '-t192-mem']
+                 '-t192-pdax']
 
     pathL_Mp = [
         [ (path_pfx + grph + sfx + '-pkg.csv') for sfx in graph_sfx ]
@@ -161,7 +161,6 @@ def main_grappolo(makeColL_f, metricL1_p, metricL1_f, metricL2_f, metricL3):
 
     pathL_Mf = flattenL(pathL_Mf)
 
-    vtcsv.printRed("*** Warning: missing orkut-mem! ***")
     
     #-------------------------------------------------------
     # Big graphs (192 threads)/Big memory modes
@@ -174,14 +173,14 @@ def main_grappolo(makeColL_f, metricL1_p, metricL1_f, metricL2_f, metricL3):
 
 
     pathL_Bp = [
-        [path_pfx + grph + '-t192-kdax-pkg.csv',
-         path_pfx + grph + '-t192-mem-pkg.csv'] for grph in graphL_0 ]
+        [path_pfx + grph + '-t192-mem-pkg.csv',
+         path_pfx + grph + '-t192-kdax-pkg.csv'] for grph in graphL_0 ]
 
     pathL_Bp = flattenL(pathL_Bp)
     
     pathL_Bf = [
-        [path_pfx + grph + '-t192-kdax-fn.csv',
-         path_pfx + grph + '-t192-mem-fn.csv'] for grph in graphL_0 ]
+        [path_pfx + grph + '-t192-mem-fn.csv',
+         path_pfx + grph + '-t192-kdax-fn.csv'] for grph in graphL_0 ]
 
     pathL_Bf = flattenL(pathL_Bf)
 
@@ -293,8 +292,8 @@ def main_ripples(makeColL_f, metricL1_p, metricL1_f, metricL2_f, metricL3):
     graphL_0 = [ x[0] for x in flattenL(graphL) ]
 
     graph_sfx = ['.imm-dram.T64.R0',
-                 '.imm-kdax.T64.R0',
-                 '.imm-mem.T64.R0']
+                 '.imm-mem.T64.R0',
+                 '.imm-kdax.T64.R0']
 
 
     pathL_p = [
@@ -327,18 +326,18 @@ def main_ripples(makeColL_f, metricL1_p, metricL1_f, metricL2_f, metricL3):
         ('ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::neighbors', 'neigh'),
 
         # move_merge (int*) [FIX: SHARED]
-        ('std::__move_merge<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'move_merge'),
-        ('std::__move_merge<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'move_merge'),
+        ('std::__move_merge<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'mv_mrg'),
+        ('std::__move_merge<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'mv_mrg'),
         #
         # move_merge (it) 
-        ('std::__move_merge<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, unsigned int*, __gnu_cxx::__ops::_Iter_less_iter>', 'move_merge'),
-        ('std::__move_merge<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, unsigned int*, __gnu_cxx::__ops::_Iter_less_iter>', 'move_merge'),
+        ('std::__move_merge<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, unsigned int*, __gnu_cxx::__ops::_Iter_less_iter>', 'mv_mrg'),
+        ('std::__move_merge<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, unsigned int*, __gnu_cxx::__ops::_Iter_less_iter>', 'mv_mrg'),
         #
-        ('std::__move_merge_adaptive_backward<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'move_merge'),
-        ('std::__move_merge_adaptive_backward<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'move_merge'),
+        ('std::__move_merge_adaptive_backward<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'mv_mrg'),
+        ('std::__move_merge_adaptive_backward<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'mv_mrg'),
         #
-        ('std::__move_merge_adaptive<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'move_merge'),
-        ('std::__move_merge_adaptive<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'move_merge'),
+        ('std::__move_merge_adaptive<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'mv_mrg'),
+        ('std::__move_merge_adaptive<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'mv_mrg'),
 
         # operator++ [FIX: SHARED]
         ('__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>::operator++', 'op'),
