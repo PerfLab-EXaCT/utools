@@ -36,15 +36,15 @@ orkut         192     pdax   19.201794     31.600
 orkut         192     kdax   19.957072     20.055675   
 orkut         192     mem     nan           nan   
                       
-friendster    192     dram   968.778346    1081.808    
-friendster    192     pdax   887.835935    878.044     
-friendster    192     kdax   672.734348    674.307471  
-friendster    192     mem       nan        
+friendster    192     dram   889.073929    1081.808    
+friendster    192     pdax   692.835406    878.044     
+friendster    192     kdax   887.835935    674.307471  
+friendster    192     mem    724.622542    698.334183      
                       
 moliere2016   192     dram   1054.31008    1160.216    
 moliere2016   192     pdax   1059.69578    1394.221    
 moliere2016   192     kdax   1016.924445   1002.636274 
-moliere2016   192     mem       nan        nan         
+moliere2016   192     mem    1161.987154   1104.891963         
 """
 
 """
@@ -52,11 +52,13 @@ friendster     16     kdax  5226.60543     nan
 friendster     32     kdax  2918.01598     nan
 friendster     64     kdax  1849.58258     nan
 friendster     128    kdax  983.552994     nan
+friendster     192    kdax  887.835935     nan
 
 moliere2016    16     kdax   2695.37773   nan
 moliere2016    32     kdax   1869.58418   nan
 moliere2016    64     kdax   952.60032    nan
 moliere2016   128     kdax   1068.94742   nan
+moliere2016   192     kdax   1059.69577   nan
 """
 
 # OMP_PLACES=cores, OMP_BIND=true
@@ -83,11 +85,13 @@ uk2014      16  kdax     2401.95688
 uk2014      32  kdax     1427.67375
 uk2014      64  kdax     1008.83288
 uk2014     128  kdax      818.054033
+uk2014     192  kdax      604.974474
                
 clueweb12   16  kdax    11534.8596 
 clueweb12   32  kdax    10163.9093 
 clueweb12   64  kdax     6123.48138 
 clueweb12  128  kdax     7028.44282 
+clueweb12  192  kdax     4719.64721 
 """
 
 
