@@ -31,7 +31,6 @@ import seaborn
 # OMP_PLACES="", OMP_BIND=""
 time_med_str = """
 graph        threads  type   time          vtune
-friendster     192    kdax  887.835935     nan
 friendster    192     dram   889.073929    1081.808    
 friendster    192     pdax   692.835406    878.044     
 friendster    192     kdax   887.835935    674.307471  
@@ -41,6 +40,16 @@ moliere2016   192     dram   1054.31008    1160.216
 moliere2016   192     pdax   1059.69578    1394.221    
 moliere2016   192     kdax   1059.69577   nan
 moliere2016   192     mem    1161.987154   1104.891963
+
+uk2014     192  dram      nan
+uk2014     192  pdax      nan
+uk2014     192  kdax      604.974474
+uk2014     192  mem       664.700333          nan
+                   
+clueweb12     192  dram      nan
+clueweb12     192  pdax      nan
+clueweb12  192  kdax     4719.64721 
+clueweb12  192  mem      5830.2333            nan
 """
 
 """
@@ -75,11 +84,12 @@ moliere2016   192     kdax   1059.69577   nan
 time_big_str = """
 graph      threads type    time           vtune
 uk2014     192  kdax      604.974474
-uk2014     192     mem     nan            nan
+uk2014     192  mem       664.700333          nan
                    
 clueweb12  192  kdax     4719.64721 
-clueweb12  192     mem     nan            nan
+clueweb12  192  mem      5830.2333            nan
 """
+
 
 """
 uk2014      16  kdax     2401.95688
@@ -8459,13 +8469,17 @@ def plot_bw_lat(ax_bw, ax_lat, bw_data_strL, lat_data_strL, graph, data_nmL):
 #
 #****************************************************************************
 
-def makeRelTime(dfrm, row_src, col_src, col_dst):
+def makeRelTime(dfrm, row_srcL, col_src, col_dst):
     col_dat = []
 
     for (graph, thrd, ty) in dfrm.index:
         #print(graph, thrd, ty)
-        v      = dfrm.at[(graph, thrd, ty),      col_src]
-        v_base = dfrm.at[(graph, thrd, row_src), col_src]
+        v = dfrm.at[(graph, thrd, ty),      col_src]
+        
+        v_base = dfrm.at[(graph, thrd, row_srcL[0]), col_src]
+        if (numpy.isnan(v_base)):
+            v_base = dfrm.at[(graph, thrd, row_srcL[1]), col_src]
+        
         v_norm = (v / v_base) * 100
         col_dat.append(v_norm)
 
@@ -8563,13 +8577,13 @@ time_med_dfrm = pandas.read_csv(time_med_data, sep='\s+', index_col=tm_index)
 
 time_big_data = io.StringIO(time_big_str)
 time_big_dfrm = pandas.read_csv(time_big_data, sep='\s+', index_col=tm_index)
-print(time_big_dfrm)
+#print(time_big_dfrm)
 
-row_src = 'dram'
+row_srcL = ['dram', 'mem']
 col_src = 'time'
 col_dst = 'relative time'
 
-makeRelTime(time_med_dfrm, row_src, col_src, col_dst)
+makeRelTime(time_med_dfrm, row_srcL, col_src, col_dst)
 
 #-------------------------------------------------------
 
@@ -8639,7 +8653,7 @@ plot_bw_lat(axes[1,1], axes[1,2], bw_data_strL, lat_data_strL, nm, data_nmL)
 #-------------------------------------------------------
 
 nm = 'uk2014'
-data_nmL =  ['kdax', 'mem']
+data_nmL =  ['mem', 'kdax']
 
 bw_data_strL = [ uk2014_t192_dramBw_kdax_str,
                  uk2014_t192_dramBw_mem_str]
@@ -8655,7 +8669,7 @@ plot_bw_lat(axes[2,1], axes[2,2], bw_data_strL, lat_data_strL, nm, data_nmL)
 #-------------------------------------------------------
 
 nm = 'clueweb12'
-data_nmL =  ['kdax', 'mem']
+data_nmL =  ['mem', 'kdax']
 
 bw_data_strL = [ clueweb12_t192_dramBw_kdax_str,
                  clueweb12_t192_dramBw_mem_str]
