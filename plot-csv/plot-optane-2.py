@@ -165,6 +165,8 @@ dram_bw time                   class
     450	0	High
 """
 
+#----------------------------------------
+
 friendster_t192_dramBw_mem_str = """
 dram_bw time                   class
     0	121.29940788809998	Low
@@ -264,6 +266,8 @@ dram_bw time                   class
     120	0	High
 """
 
+#----------------------------------------
+
 friendster_t192_dramBw_pdax_str = """
 dram_bw time                   class
     0	188.37429006909997	Low
@@ -359,6 +363,7 @@ dram_bw time                   class
     120	0	High
 """
 
+#----------------------------------------
 
 friendster_t192_dramBw_kdax_str = """
 dram_bw time                   class
@@ -409,7 +414,6 @@ dram_bw time                   class
     440	0	High
     450	0	High
 """
-
 
 friendster_t192_pmemBw_kdax_str = """
 dram_bw time                   class
@@ -511,6 +515,7 @@ dram_bw time                   class
     450	0	High
 """
 
+#----------------------------------------
 
 moliere2016_t192_dramBw_mem_str = """
 dram_bw time                   class
@@ -611,6 +616,8 @@ dram_bw time                   class
     120	0	High
 """
 
+#----------------------------------------
+
 moliere2016_t192_dramBw_pdax_str = """
 dram_bw time                   class
     0	1180.4308701981	Low
@@ -706,6 +713,7 @@ dram_bw time                   class
     120	0	High
 """
 
+#----------------------------------------
 
 moliere2016_t192_dramBw_kdax_str = """
 dram_bw time                   class
@@ -8887,7 +8895,7 @@ def plot_bw_lat(ax_bw, ax_lat, bw_data_strL, lat_data_strL, graph,
 
     ax.set_xlim(xlim)
     ax.set_ylim(0, y_hi)
-    ax.set_title(graph + ' t192, DRAM BW (GB/s)')
+    ax.set_title(graph + ' t192, Memory BW (GB/s)')
 
 
     #-------------------------------------------------------
@@ -9096,13 +9104,22 @@ ax.legend(handles=lineL, loc='lower left', bbox_to_anchor=(0.0, 0.0)) # title=co
 # 
 #-------------------------------------------------------
 
+# TODO: Make pairs of (data_str, data_nm)
+
 nm = 'friendster'
-data_nmL =  ['dram', 'mem', 'kdax', 'pdax' ]
+bw_data_nmL =  ['dram', 'mem', 'kdax', 'kdax', 'pdax', 'pdax' ]
+lat_data_nmL = ['dram', 'mem', 'kdax', 'pdax' ]
 
 bw_data_strL = [ friendster_t192_dramBw_dram_str,
+
                  friendster_t192_dramBw_mem_str,
+                 #friendster_t192_pmemBw_mem_str,
+                 
                  friendster_t192_dramBw_kdax_str,
-                 friendster_t192_dramBw_pdax_str ]
+                 friendster_t192_pmemBw_kdax_str,
+                 
+                 friendster_t192_dramBw_pdax_str,
+                 friendster_t192_pmemBw_pdax_str ]
 
 
 lat_data_strL = [ friendster_t192_latency_dram_str,
@@ -9110,7 +9127,7 @@ lat_data_strL = [ friendster_t192_latency_dram_str,
                   friendster_t192_latency_kdax_str,
                   friendster_t192_latency_pdax_str ]
 
-plot_bw_lat(axes[0,1], axes[0,2], bw_data_strL, lat_data_strL, nm, data_nmL, data_nmL)
+plot_bw_lat(axes[0,1], axes[0,2], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL)
 
 
 #-------------------------------------------------------
@@ -9120,27 +9137,34 @@ plot_bw_lat(axes[0,1], axes[0,2], bw_data_strL, lat_data_strL, nm, data_nmL, dat
 nm = 'moliere2016'
 
 bw_data_strL = [ moliere2016_t192_dramBw_dram_str,
+
                  moliere2016_t192_dramBw_mem_str,
+                 #moliere2016_t192_pmemBw_mem_str,
+                 
                  moliere2016_t192_dramBw_kdax_str,
-                 moliere2016_t192_dramBw_pdax_str ]
+                 moliere2016_t192_pmemBw_kdax_str,
+                 
+                 moliere2016_t192_dramBw_pdax_str,
+                 moliere2016_t192_pmemBw_pdax_str ]
 
 lat_data_strL = [ moliere2016_t192_latency_dram_str,
                   moliere2016_t192_latency_mem_str,
                   moliere2016_t192_latency_kdax_str,
                   moliere2016_t192_latency_pdax_str ]
 
-plot_bw_lat(axes[1,1], axes[1,2], bw_data_strL, lat_data_strL, nm, data_nmL, data_nmL)
+plot_bw_lat(axes[1,1], axes[1,2], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL)
 
 #-------------------------------------------------------
 # 
 #-------------------------------------------------------
 
 nm = 'uk2014'
-bw_data_nmL =  ['mem', 'mem', 'kdax', 'kdax']
+bw_data_nmL =  ['mem', 'kdax', 'kdax'] # 'mem',
 lat_data_nmL =  ['mem', 'kdax']
 
 bw_data_strL = [ uk2014_t192_dramBw_mem_str,
-                 uk2014_t192_pmemBw_mem_str,
+                 #uk2014_t192_pmemBw_mem_str,
+
                  uk2014_t192_dramBw_kdax_str,
                  uk2014_t192_pmemBw_kdax_str ]
 
@@ -9158,7 +9182,8 @@ plot_bw_lat(axes[2,1], axes[2,2], bw_data_strL, lat_data_strL, nm, bw_data_nmL, 
 nm = 'clueweb12'
 
 bw_data_strL = [ clueweb12_t192_dramBw_mem_str,
-                 clueweb12_t192_pmemBw_mem_str,
+                 #clueweb12_t192_pmemBw_mem_str,
+                 
                  clueweb12_t192_dramBw_kdax_str,
                  clueweb12_t192_pmemBw_kdax_str ]
 
