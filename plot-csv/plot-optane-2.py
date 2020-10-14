@@ -8748,6 +8748,7 @@ def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = False):
             dfrm_hist[data_nm] = dfrm_hist_x
             dfrm_wide[data_nm] = dfrm_wide_x
             #print(dfrm_hist)
+            #print(dfrm_wide)
 
         #if (data_nm in dfrm_hist.columns)
 
