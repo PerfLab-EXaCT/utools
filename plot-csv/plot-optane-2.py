@@ -511,6 +511,7 @@ dram_bw time                   class
     450	0	High
 """
 
+
 moliere2016_t192_dramBw_mem_str = """
 dram_bw time                   class
     0	1254.5813556320995	Low
@@ -565,6 +566,51 @@ dram_bw time                   class
     441	0	High
 """
 
+moliere2016_t192_pmemBw_mem_str = """
+dram_bw time                   class
+    0	1146.4513556320999	Low
+    3	154.82000000000002	Low
+    6	41.150000000000006	Low
+    9	41.29	Low
+    12	55.9	Low
+    15	0.18000000000000005	Low
+    18	0	Low
+    21	0.02	Low
+    24	0.02	Low
+    27	0.03	Low
+    30	0.03	Low
+    33	0	Low
+    36	0	Medium
+    39	0	Medium
+    42	0	Medium
+    45	0	Medium
+    48	0	Medium
+    51	0	Medium
+    54	0	Medium
+    57	0	Medium
+    60	0	Medium
+    63	0	Medium
+    66	0	Medium
+    69	0	Medium
+    72	0	Medium
+    75	0	Medium
+    78	0	Medium
+    81	0	Medium
+    84	0	High
+    87	0	High
+    90	0	High
+    93	0	High
+    96	0	High
+    99	0	High
+    102	0	High
+    105	0	High
+    108	0	High
+    111	0	High
+    114	0	High
+    117	0	High
+    120	0	High
+"""
+
 moliere2016_t192_dramBw_pdax_str = """
 dram_bw time                   class
     0	1180.4308701981	Low
@@ -614,6 +660,52 @@ dram_bw time                   class
     440	0	High
     450	0	High
 """
+
+moliere2016_t192_pmemBw_pdax_str = """
+dram_bw time                   class
+    0	1145.7608701980998	Low
+    3	98.57000000000002	Low
+    6	5.019999999999997	Low
+    9	137.79	Low
+    12	7.08	Low
+    15	0	Low
+    18	0	Low
+    21	0	Low
+    24	0	Low
+    27	0	Low
+    30	0	Low
+    33	0	Low
+    36	0	Medium
+    39	0	Medium
+    42	0	Medium
+    45	0	Medium
+    48	0	Medium
+    51	0	Medium
+    54	0	Medium
+    57	0	Medium
+    60	0	Medium
+    63	0	Medium
+    66	0	Medium
+    69	0	Medium
+    72	0	Medium
+    75	0	Medium
+    78	0	Medium
+    81	0	Medium
+    84	0	High
+    87	0	High
+    90	0	High
+    93	0	High
+    96	0	High
+    99	0	High
+    102	0	High
+    105	0	High
+    108	0	High
+    111	0	High
+    114	0	High
+    117	0	High
+    120	0	High
+"""
+
 
 moliere2016_t192_dramBw_kdax_str = """
 dram_bw time                   class
@@ -665,6 +757,50 @@ dram_bw time                   class
     450	0	High
 """
 
+moliere2016_t192_pmemBw_kdax_str = """
+dram_bw time                   class
+    0	1001.0617153501	Low
+    3	281.96000000000004	Low
+    6	37.5	Low
+    9	0.04	Low
+    12	0.7000000000000001	Low
+    15	0.7900000000000003	Low
+    18	0.19	Low
+    21	0	Low
+    24	0	Low
+    27	0	Low
+    30	0	Low
+    33	0	Low
+    36	0	Medium
+    39	0	Medium
+    42	0	Medium
+    45	0	Medium
+    48	0	Medium
+    51	0	Medium
+    54	0	Medium
+    57	0	Medium
+    60	0	Medium
+    63	0	Medium
+    66	0	Medium
+    69	0	Medium
+    72	0	Medium
+    75	0	Medium
+    78	0	Medium
+    81	0	Medium
+    84	0	High
+    87	0	High
+    90	0	High
+    93	0	High
+    96	0	High
+    99	0	High
+    102	0	High
+    105	0	High
+    108	0	High
+    111	0	High
+    114	0	High
+    117	0	High
+    120	0	High
+"""
 
 #----------------------------------------------------------------------------
 # uk2014, 192 threads, DRAM bandwidth (GB/s)
