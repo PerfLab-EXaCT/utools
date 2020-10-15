@@ -31,39 +31,39 @@ import seaborn
 # OMP_PLACES="", OMP_BIND=""
 time_med_str = """
 graph        threads  type   time          vtune
-friendster    192     dram   889.073929    1081.808    
+friendster    192     dram   889.073929    669.594645   
 friendster    192     mem    724.622542    698.334183    
-friendster    192     kdax   887.835935    674.307471
+friendster    192     kdax   672.260361    674.307471
 friendster    192     pdax   692.835406    878.044     
                       
 moliere2016   192     dram   1054.31008    1160.216    
 moliere2016   192     mem    1161.987154   1104.891963
-moliere2016   192     kdax   1059.69577     nan
+moliere2016   192     kdax   1059.69577    987.575947
 moliere2016   192     pdax   1059.69578    1394.221    
 
 uk2014     192  dram      nan                 nan
-uk2014     192  mem       664.700333          nan
-uk2014     192  kdax      604.974474          nan
+uk2014     192  mem       664.700333          698.740065
+uk2014     192  kdax      604.974474          877.898523
 uk2014     192  pdax      nan                 nan
                    
-clueweb12     192  dram      nan              nan
-clueweb12     192  mem      5830.2333         nan
-clueweb12     192  kdax     4719.64721        nan
-clueweb12     192  pdax      nan              nan
+clueweb12     192  dram      nan            nan
+clueweb12     192  mem      4334.598601     4391.67807
+clueweb12     192  kdax     4968.696484     5667.603504
+clueweb12     192  pdax      nan            nan
 """
 
 """
-friendster     16     kdax  5226.60543     nan
-friendster     32     kdax  2918.01598     nan
-friendster     64     kdax  1849.58258     nan
-friendster     128    kdax  983.552994     nan
-friendster     192    kdax  887.835935     nan
+friendster     16     kdax  5233.698846     nan
+friendster     32     kdax  2925.995246     nan
+friendster     64     kdax  1856.734987     nan
+friendster     128    kdax  983.422625    nan
+friendster     192    kdax  672.260361     nan
 
-moliere2016    16     kdax   2695.37773   nan
-moliere2016    32     kdax   1869.58418   nan
-moliere2016    64     kdax   952.60032    nan
-moliere2016   128     kdax   1068.94742   nan
-moliere2016   192     kdax   1059.69577   nan
+moliere2016    16     kdax   2647.777439   nan
+moliere2016    32     kdax   1860.307772   nan
+moliere2016    64     kdax   936.922047    nan
+moliere2016   128     kdax   1040.909062   nan
+moliere2016   192     kdax   984.90577  nan
 """
 
 # OMP_PLACES=cores, OMP_BIND=true
@@ -83,26 +83,26 @@ moliere2016   192     kdax   1059.69577   nan
 # OMP_PLACES="", OMP_BIND=""
 time_big_str = """
 graph      threads type    time           vtune
-uk2014     192  kdax      604.974474
-uk2014     192  mem       664.700333          nan
+uk2014     192  kdax      604.974474      877.898523
+uk2014     192  mem       664.700333      698.740065
                    
-clueweb12  192  kdax     4719.64721 
-clueweb12  192  mem      5830.2333            nan
+clueweb12  192  kdax     4719.64721       5667.603504
+clueweb12  192  mem      5830.2333        4391.67807
 """
 
 
 """
-uk2014      16  kdax     2401.95688
-uk2014      32  kdax     1427.67375
-uk2014      64  kdax     1008.83288
-uk2014     128  kdax      818.054033
-uk2014     192  kdax      604.974474
+uk2014      16  kdax     2241.499411
+uk2014      32  kdax     2175.004603
+uk2014      64  kdax     934.446303
+uk2014     128  kdax     701.715529
+uk2014     192  kdax     604.833965
                
-clueweb12   16  kdax    11534.8596 
-clueweb12   32  kdax    10163.9093 
-clueweb12   64  kdax     6123.48138 
-clueweb12  128  kdax     7028.44282 
-clueweb12  192  kdax     4719.64721 
+clueweb12   16  kdax    10812.81699
+clueweb12   32  kdax    7882.519231
+clueweb12   64  kdax    6170.163424
+clueweb12  128  kdax    5074.019396
+clueweb12  192  kdax    4968.696484 
 """
 
 
