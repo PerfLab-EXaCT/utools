@@ -8898,6 +8898,11 @@ def plot_scaling(dfrm, graph_nm, axes, plt_sty, mrk_sty, ln_sty):
     ax = seaborn.lineplot(data=dfrm_me, x='threads', y=col_src,
                           hue='type', ax=axes,
                           palette=plt_sty, marker=mrk_sty, linestyle=ln_sty)
+
+    ax.set_title(graph_nm + ': Time (s) vs. Threads')
+    ax.set_ylabel('')
+    ax.set_xlabel('')
+
     return ax
 
 
@@ -9085,7 +9090,7 @@ def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = False):
 
 fig1, axes1 = pyplt.subplots(nrows=1, ncols=1, figsize=(3, 3))
 
-fig2, axes2A = pyplt.subplots(nrows=4, ncols=3, figsize=(13, 11))
+fig2, axes2A = pyplt.subplots(nrows=4, ncols=3, figsize=(12, 11))
 
 ln_sty = '-' # ':' # --
 mrk_sty = 'o' # --
@@ -9244,7 +9249,7 @@ plot_bw_lat(axes2A[nm_i,1], axes2A[nm_i,2], bw_data_strL, lat_data_strL, nm, bw_
 
 
 fig2.subplots_adjust(left=0.05, right=0.95, bottom=0.05, top=0.95,
-                    wspace=0.35, hspace=0.25)
+                     wspace=0.10, hspace=0.25)
 
 fig1.savefig('chart-grappolo-overview.pdf', bbox_inches='tight')
 fig2.savefig('chart-grappolo-sum.pdf', bbox_inches='tight')
