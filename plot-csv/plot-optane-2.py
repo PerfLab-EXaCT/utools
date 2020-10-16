@@ -32,7 +32,7 @@ import VTuneCSV as vtcsv
 
 # OMP_PLACES="", OMP_BIND=""
 time_str = """
-graph        threads  type   time          vtune
+graph        threads  mode   time          vtune
 
 friendster	16	dram	5179.797055	nan
 friendster	32	dram	2916.220665	nan
@@ -8896,7 +8896,7 @@ XXX_t192_latency_mem_str = """
 def plot_scaling(dfrm, graph_nm, axes, plt_sty, mrk_sty, ln_sty):
     dfrm_me = dfrm.xs(graph_nm, level='graph')
     ax = seaborn.lineplot(data=dfrm_me, x='threads', y=col_src,
-                          hue='type', ax=axes,
+                          hue='mode', ax=axes,
                           palette=plt_sty, marker=mrk_sty, linestyle=ln_sty)
 
     ax.set_title(graph_nm + ': Time (s) vs. Threads')
@@ -9116,12 +9116,12 @@ time_192 = time_dfrm.xs(192, level='threads')
 #print(time_192)
 
 ax = axes1
-# ax = seaborn.lineplot(data=time_192, x='type', y=col_src, hue='graph', ax=ax,
+# ax = seaborn.lineplot(data=time_192, x='mode', y=col_src, hue='graph', ax=ax,
 #                       palette='dark', marker='^')
 # ax.legend(title=col_src, loc='lower left',  bbox_to_anchor=(0.0, 0.35)) # prop={'size': text_sz}
 
 #ax1 = ax.twinx()
-ax = seaborn.lineplot(data=time_192, x='type', y=col_dst, hue='graph',
+ax = seaborn.lineplot(data=time_192, x='mode', y=col_dst, hue='graph',
                       palette=plt_sty, ax=ax, marker=mrk_sty, linestyle=ln_sty)
 ax.set_ylim(bottom=0.50)
 
@@ -9251,7 +9251,7 @@ plot_bw_lat(axes2A[nm_i,1], axes2A[nm_i,2], bw_data_strL, lat_data_strL, nm, bw_
 fig2.subplots_adjust(left=0.05, right=0.95, bottom=0.05, top=0.95,
                      wspace=0.10, hspace=0.25)
 
-fig1.savefig('chart-grappolo-overview.pdf', bbox_inches='tight')
+fig1.savefig('chart-grappolo-teaser.pdf', bbox_inches='tight')
 fig2.savefig('chart-grappolo-sum.pdf', bbox_inches='tight')
 
 
