@@ -9041,15 +9041,15 @@ def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = False):
 # Main
 #****************************************************************************
 
-#----------------------------------------------------------------------------
-# friendster
-#----------------------------------------------------------------------------
+fig1, axes1 = pyplt.subplots(nrows=1, ncols=1, figsize=(3, 3))
 
-fig, axes = pyplt.subplots(nrows=4, ncols=3, figsize=(13, 11))
+fig2, axes2A = pyplt.subplots(nrows=4, ncols=3, figsize=(13, 11))
 
-#-------------------------------------------------------
-# Time
-#-------------------------------------------------------
+# 'pastel'
+
+#----------------------------------------------------------------------------
+# Mode comparison
+#----------------------------------------------------------------------------
 
 tm_index = [0,1,2] # graph threads type
 
@@ -9063,15 +9063,13 @@ col_dst = 'relative time'
 
 makeRelTime(time_dfrm, row_srcL, col_src, col_dst)
 
-#-------------------------------------------------------
-
 time_192 = time_dfrm.xs(192, level='threads')
 #print(time_192)
 
 ln_sty = '-' # ':' # --
 mrk_sty = 'o' # --
 
-ax = axes[0,0]
+ax = axes1
 # ax = seaborn.lineplot(data=time_192, x='type', y=col_src, hue='graph', ax=ax,
 #                       palette='dark', marker='^')
 # ax.legend(title=col_src, loc='lower left',  bbox_to_anchor=(0.0, 0.35)) # prop={'size': text_sz}
@@ -9081,10 +9079,6 @@ ax = seaborn.lineplot(data=time_192, x='type', y=col_dst, hue='graph',
                       palette='dark', ax=ax, marker=mrk_sty, linestyle=ln_sty)
 ax.set_ylim(bottom=0.50)
 
-
-# 'pastel'
-
-
 # Should not be necessary!
 lineL = ax.legend().get_lines()
 for x in lineL:
@@ -9093,15 +9087,25 @@ for x in lineL:
 ax.legend(handles=lineL, loc='lower left', bbox_to_anchor=(0.0, 0.0)) # title=col_dst, prop={'size': text_sz} 
 
 
-#-------------------------------------------------------
-# 
-#-------------------------------------------------------
 
-# TODO: Make pairs of (data_str, data_nm)
+#----------------------------------------------------------------------------
+# Per-graph Scaling + Memory histograms
+#----------------------------------------------------------------------------
+
+#-------------------------------------------------------
+# friendster
+#-------------------------------------------------------
 
 nm = 'friendster'
+nm_i = 0
+
+
+ax = axes2A[nm_i,0] # scaling
+
 bw_data_nmL =  ['dram', 'mem', 'kdax', 'kdax', 'pdax', 'pdax' ]
 lat_data_nmL = ['dram', 'mem', 'kdax', 'pdax' ]
+
+# TODO: Make pairs of (data_str, data_nm)
 
 bw_data_strL = [ friendster_t192_dramBw_dram_str,
 
@@ -9120,7 +9124,7 @@ lat_data_strL = [ friendster_t192_latency_dram_str,
                   friendster_t192_latency_kdax_str,
                   friendster_t192_latency_pdax_str ]
 
-plot_bw_lat(axes[0,1], axes[0,2], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL)
+plot_bw_lat(axes2A[nm_i,1], axes2A[nm_i,2], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL)
 
 
 #-------------------------------------------------------
@@ -9128,6 +9132,7 @@ plot_bw_lat(axes[0,1], axes[0,2], bw_data_strL, lat_data_strL, nm, bw_data_nmL, 
 #-------------------------------------------------------
 
 nm = 'moliere2016'
+nm_i = 1
 
 bw_data_strL = [ moliere2016_t192_dramBw_dram_str,
 
@@ -9145,13 +9150,15 @@ lat_data_strL = [ moliere2016_t192_latency_dram_str,
                   moliere2016_t192_latency_kdax_str,
                   moliere2016_t192_latency_pdax_str ]
 
-plot_bw_lat(axes[1,1], axes[1,2], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL)
+plot_bw_lat(axes2A[nm_i,1], axes2A[nm_i,2], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL)
 
 #-------------------------------------------------------
 # 
 #-------------------------------------------------------
 
 nm = 'uk2014'
+nm_i = 2
+
 bw_data_nmL =  ['mem', 'kdax', 'kdax'] # 'mem',
 lat_data_nmL =  ['mem', 'kdax']
 
@@ -9166,13 +9173,14 @@ lat_data_strL = [ uk2014_t192_latency_mem_str,
                   uk2014_t192_latency_kdax_str ]
 
 
-plot_bw_lat(axes[2,1], axes[2,2], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL)
+plot_bw_lat(axes2A[nm_i,1], axes2A[nm_i,2], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL)
 
 #-------------------------------------------------------
 # 
 #-------------------------------------------------------
 
 nm = 'clueweb12'
+nm_i = 3
 
 bw_data_strL = [ clueweb12_t192_dramBw_mem_str,
                  #clueweb12_t192_pmemBw_mem_str,
@@ -9183,16 +9191,17 @@ bw_data_strL = [ clueweb12_t192_dramBw_mem_str,
 lat_data_strL = [ clueweb12_t192_latency_mem_str,
                   clueweb12_t192_latency_kdax_str ]
 
-plot_bw_lat(axes[3,1], axes[3,2], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL)
+plot_bw_lat(axes2A[nm_i,1], axes2A[nm_i,2], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL)
 
 
 #-------------------------------------------------------
 
 
-fig.subplots_adjust(left=0.05, right=0.95, bottom=0.05, top=0.95,
+fig2.subplots_adjust(left=0.05, right=0.95, bottom=0.05, top=0.95,
                     wspace=0.35, hspace=0.25)
 
-fig.savefig('chart-grappolo-sum.pdf', bbox_inches='tight')
+fig1.savefig('chart-grappolo-overview.pdf', bbox_inches='tight')
+fig2.savefig('chart-grappolo-sum.pdf', bbox_inches='tight')
 
 
 
