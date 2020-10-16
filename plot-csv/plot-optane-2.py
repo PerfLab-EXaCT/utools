@@ -34,9 +34,41 @@ import VTuneCSV as vtcsv
 time_str = """
 graph        threads  type   time          vtune
 
-friendster    192     dram   889.073929    669.594645   
+friendster	16	dram	5179.797055	nan
+friendster	32	dram	2916.220665	nan
+friendster	64	dram	1852.977476	nan
+friendster	128	dram	983.782397	nan
+friendster	192	dram	671.325544	669.594645
 
-friendster    192     mem    724.622542    698.334183    
+moliere2016	16	dram	2667.57845	nan
+moliere2016	32	dram	1870.452818	nan
+moliere2016	64	dram	948.033326	nan
+moliere2016	128	dram	1042.713159	nan
+moliere2016	192	dram	990.80665	1000.8756
+
+friendster	16	mem	5321.611106	nan
+friendster	32	mem	3018.635678	nan
+friendster	64	mem	1915.380128	nan
+friendster	128	mem	1013.17759	nan
+friendster	192	mem	689.835591	698.334183
+
+moliere2016	16	mem	1456.736881	nan
+moliere2016	32	mem	1097.695509	nan
+moliere2016	64	mem	1023.90707	nan
+moliere2016	128	mem	1029.935309	nan
+moliere2016	192	mem	1076.147835	1104.891963
+
+uk2014	        16	mem	2195.747492	nan
+uk2014	        32	mem	1439.80749	nan
+uk2014	        64	mem	1040.564312	nan
+uk2014	        128	mem	768.970483	nan
+uk2014	        192	mem	646.377239	698.740065
+
+clueweb12	16	mem	9008.786655	nan
+clueweb12	32	mem	7427.020428	nan
+clueweb12	64	mem	5637.144076	nan
+clueweb12	128	mem	4822.885993	nan
+clueweb12	192	mem	4334.598601	4391.67807
 
 friendster     16     kdax  5233.698846     nan
 friendster     32     kdax  2925.995246     nan
@@ -44,11 +76,17 @@ friendster     64     kdax  1856.734987     nan
 friendster    128     kdax   983.422625     nan
 friendster    192     kdax   672.260361    674.307471
 
-friendster    192     pdax   692.835406    878.044     
-                      
-moliere2016   192     dram   1054.31008    1160.216    
+friendster	16	pdax	5328.551361	nan
+friendster	32	pdax	2973.819253	nan
+friendster	64	pdax	1890.541188	nan
+friendster	128	pdax	1013.603767	nan
+friendster	192	pdax	692.835406	878.044
 
-moliere2016   192     mem    1161.987154   1104.891963
+moliere2016	16	pdax	2746.567095	nan
+moliere2016	32	pdax	1923.814033	nan
+moliere2016	64	pdax	937.912878	nan
+moliere2016	128	pdax	1066.13159	nan
+moliere2016	192	pdax	980.399573	1394.221
 
 moliere2016    16     kdax   2647.777439   nan
 moliere2016    32     kdax   1860.307772   nan
@@ -56,12 +94,7 @@ moliere2016    64     kdax   936.922047    nan
 moliere2016   128     kdax   1040.909062   nan
 moliere2016   192     kdax   984.90577    987.575947
 
-moliere2016   192     pdax   1059.69578    1394.221    
-
-
 uk2014        192     dram      nan                 nan
-
-uk2014        192     mem       664.700333      698.740065
 
 uk2014         16     kdax     2241.499411     nan
 uk2014         32     kdax     2175.004603     nan
@@ -70,10 +103,8 @@ uk2014        128     kdax      701.715529     nan
 uk2014        192     kdax      604.974474      877.898523
 
 uk2014        192     pdax      nan            nan
-                   
-clueweb12     192     dram      nan            nan
 
-clueweb12     192     mem      4334.598601     4391.67807
+clueweb12     192     dram      nan            nan
 
 clueweb12      16     kdax    10812.81699      nan
 clueweb12      32     kdax     7882.519231     nan
@@ -82,6 +113,7 @@ clueweb12     128     kdax     5074.019396     nan
 clueweb12     192     kdax     4968.696484     5667.603504
 
 clueweb12     192     pdax      nan            nan
+
 """
 
 
