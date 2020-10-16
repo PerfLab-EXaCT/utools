@@ -11,6 +11,8 @@ import math
 import matplotlib.pyplot as pyplt
 import seaborn
 
+import VTuneCSV as vtcsv
+
 
 #****************************************************************************
 # Grappolo, Single phase: Run time
@@ -25,45 +27,46 @@ import seaborn
 # vrunte: vtune, entire run for 1 phase (includes I/O)
 
 #-------------------------------------------------------
-# Medium graphs
+# 
 #-------------------------------------------------------
 
 # OMP_PLACES="", OMP_BIND=""
-time_med_str = """
+time_str = """
 graph        threads  type   time          vtune
+
 friendster    192     dram   889.073929    669.594645   
+
 friendster    192     mem    724.622542    698.334183    
-friendster    192     kdax   672.260361    674.307471
-friendster    192     pdax   692.835406    878.044     
-                      
-moliere2016   192     dram   1054.31008    1160.216    
-moliere2016   192     mem    1161.987154   1104.891963
-moliere2016   192     kdax   1059.69577    987.575947
-moliere2016   192     pdax   1059.69578    1394.221    
 
-uk2014     192  dram      nan                 nan
-uk2014     192  mem       664.700333          698.740065
-uk2014     192  kdax      604.974474          877.898523
-uk2014     192  pdax      nan                 nan
-                   
-clueweb12     192  dram      nan            nan
-clueweb12     192  mem      4334.598601     4391.67807
-clueweb12     192  kdax     4968.696484     5667.603504
-clueweb12     192  pdax      nan            nan
-"""
-
-"""
 friendster     16     kdax  5233.698846     nan
 friendster     32     kdax  2925.995246     nan
 friendster     64     kdax  1856.734987     nan
-friendster     128    kdax  983.422625    nan
-friendster     192    kdax  672.260361     nan
+friendster    128     kdax   983.422625     nan
+friendster    192     kdax   672.260361    674.307471
+
+friendster    192     pdax   692.835406    878.044     
+                      
+moliere2016   192     dram   1054.31008    1160.216    
+
+moliere2016   192     mem    1161.987154   1104.891963
 
 moliere2016    16     kdax   2647.777439   nan
 moliere2016    32     kdax   1860.307772   nan
 moliere2016    64     kdax   936.922047    nan
 moliere2016   128     kdax   1040.909062   nan
-moliere2016   192     kdax   984.90577  nan
+moliere2016   192     kdax   984.90577    987.575947
+
+moliere2016   192     pdax   1059.69578    1394.221    
+
+uk2014        192     dram      nan                 nan
+uk2014        192     mem       664.700333          698.740065
+uk2014        192     kdax      604.974474          877.898523
+uk2014        192     pdax      nan                 nan
+                   
+clueweb12     192     dram      nan            nan
+clueweb12     192     mem      4334.598601     4391.67807
+clueweb12     192     kdax     4968.696484     5667.603504
+clueweb12     192     pdax      nan            nan
 """
 
 # OMP_PLACES=cores, OMP_BIND=true
@@ -8945,10 +8948,14 @@ def makeRelTime(dfrm, row_srcL, col_src, col_dst):
     for (graph, thrd, ty) in dfrm.index:
         #print(graph, thrd, ty)
         v = dfrm.at[(graph, thrd, ty),      col_src]
-        
-        v_base = dfrm.at[(graph, thrd, row_srcL[0]), col_src]
-        if (numpy.isnan(v_base)):
-            v_base = dfrm.at[(graph, thrd, row_srcL[1]), col_src]
+
+        try:
+            v_base = dfrm.at[(graph, thrd, row_srcL[0]), col_src]
+            if (numpy.isnan(v_base)):
+                v_base = dfrm.at[(graph, thrd, row_srcL[1]), col_src]
+        except KeyError:
+            vtcsv.printRed(("Warning: Incomplete: '%s %s %s'" % (graph, thrd, ty) ))
+            v_base = 1.0
         
         v_norm = (v / v_base) # * 100
         col_dat.append(v_norm)
@@ -9056,9 +9063,9 @@ fig, axes = pyplt.subplots(nrows=4, ncols=3, figsize=(13, 11))
 
 tm_index = [0,1,2] # graph threads type
 
-time_med_data = io.StringIO(time_med_str)
-time_med_dfrm = pandas.read_csv(time_med_data, sep='\s+', index_col=tm_index)
-#print(time_med_dfrm)
+time_data = io.StringIO(time_str)
+time_dfrm = pandas.read_csv(time_data, sep='\s+', index_col=tm_index)
+#print(time_dfrm)
 
 time_big_data = io.StringIO(time_big_str)
 time_big_dfrm = pandas.read_csv(time_big_data, sep='\s+', index_col=tm_index)
@@ -9068,23 +9075,23 @@ row_srcL = ['dram', 'mem']
 col_src = 'time'
 col_dst = 'relative time'
 
-makeRelTime(time_med_dfrm, row_srcL, col_src, col_dst)
+makeRelTime(time_dfrm, row_srcL, col_src, col_dst)
 
 #-------------------------------------------------------
 
-time_med_192 = time_med_dfrm.xs(192, level='threads')
-#print(time_med_192)
+time_192 = time_dfrm.xs(192, level='threads')
+#print(time_192)
 
 ln_sty = '-' # ':' # --
 mrk_sty = 'o' # --
 
 ax = axes[0,0]
-# ax = seaborn.lineplot(data=time_med_192, x='type', y=col_src, hue='graph', ax=ax,
+# ax = seaborn.lineplot(data=time_192, x='type', y=col_src, hue='graph', ax=ax,
 #                       palette='dark', marker='^')
 # ax.legend(title=col_src, loc='lower left',  bbox_to_anchor=(0.0, 0.35)) # prop={'size': text_sz}
 
 #ax1 = ax.twinx()
-ax = seaborn.lineplot(data=time_med_192, x='type', y=col_dst, hue='graph',
+ax = seaborn.lineplot(data=time_192, x='type', y=col_dst, hue='graph',
                       palette='dark', ax=ax, marker=mrk_sty, linestyle=ln_sty)
 ax.set_ylim(bottom=0.50)
 
