@@ -63,22 +63,22 @@ uk2014        192     dram      nan                 nan
 
 uk2014        192     mem       664.700333      698.740065
 
-uk2014         16     kdax     2241.499411
-uk2014         32     kdax     2175.004603
-uk2014         64     kdax      934.446303
-uk2014        128     kdax      701.715529
+uk2014         16     kdax     2241.499411     nan
+uk2014         32     kdax     2175.004603     nan
+uk2014         64     kdax      934.446303     nan
+uk2014        128     kdax      701.715529     nan
 uk2014        192     kdax      604.974474      877.898523
 
-uk2014        192     pdax      nan                 nan
+uk2014        192     pdax      nan            nan
                    
 clueweb12     192     dram      nan            nan
 
 clueweb12     192     mem      4334.598601     4391.67807
 
-clueweb12      16     kdax    10812.81699
-clueweb12      32     kdax     7882.519231
-clueweb12      64     kdax     6170.163424
-clueweb12     128     kdax     5074.019396
+clueweb12      16     kdax    10812.81699      nan
+clueweb12      32     kdax     7882.519231     nan
+clueweb12      64     kdax     6170.163424     nan
+clueweb12     128     kdax     5074.019396     nan
 clueweb12     192     kdax     4968.696484     5667.603504
 
 clueweb12     192     pdax      nan            nan
