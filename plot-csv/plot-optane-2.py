@@ -40,57 +40,11 @@ friendster	64	dram	1852.977476	nan
 friendster	128	dram	983.782397	nan
 friendster	192	dram	671.325544	669.594645
 
-moliere2016	16	dram	2667.57845	nan
-moliere2016	32	dram	1870.452818	nan
-moliere2016	64	dram	948.033326	nan
-moliere2016	128	dram	1042.713159	nan
-moliere2016	192	dram	990.80665	1000.8756
-
-uk2014        192     dram      nan                 nan
-
-clueweb12     192     dram      nan            nan
-
-moliere2016	16	mem	1456.736881	nan
-moliere2016	32	mem	1097.695509	nan
-moliere2016	64	mem	1023.90707	nan
-moliere2016	128	mem	1029.935309	nan
-moliere2016	192	mem	1076.147835	1104.891963
-
-uk2014	        16	mem	2195.747492	nan
-uk2014	        32	mem	1439.80749	nan
-uk2014	        64	mem	1040.564312	nan
-uk2014	        128	mem	768.970483	nan
-uk2014	        192	mem	646.377239	698.740065
-
-clueweb12	16	mem	9008.786655	nan
-clueweb12	32	mem	7427.020428	nan
-clueweb12	64	mem	5637.144076	nan
-clueweb12	128	mem	4822.885993	nan
-clueweb12	192	mem	4334.598601	4391.67807
-
 friendster     16     kdax  5233.698846     nan
 friendster     32     kdax  2925.995246     nan
 friendster     64     kdax  1856.734987     nan
 friendster    128     kdax   983.422625     nan
 friendster    192     kdax   672.260361    674.307471
-
-moliere2016    16     kdax   2647.777439   nan
-moliere2016    32     kdax   1860.307772   nan
-moliere2016    64     kdax   936.922047    nan
-moliere2016   128     kdax   1040.909062   nan
-moliere2016   192     kdax   984.90577    987.575947
-
-uk2014         16     kdax     2241.499411     nan
-uk2014         32     kdax     2175.004603     nan
-uk2014         64     kdax      934.446303     nan
-uk2014        128     kdax      701.715529     nan
-uk2014        192     kdax      604.974474      877.898523
-
-clueweb12      16     kdax    10812.81699      nan
-clueweb12      32     kdax     7882.519231     nan
-clueweb12      64     kdax     6170.163424     nan
-clueweb12     128     kdax     5074.019396     nan
-clueweb12     192     kdax     4968.696484     5667.603504
 
 friendster	16	pdax	5328.551361	nan
 friendster	32	pdax	2973.819253	nan
@@ -98,13 +52,59 @@ friendster	64	pdax	1890.541188	nan
 friendster	128	pdax	1013.603767	nan
 friendster	192	pdax	692.835406	878.044
 
+moliere2016	16	dram	2667.57845	nan
+moliere2016	32	dram	1870.452818	nan
+moliere2016	64	dram	948.033326	nan
+moliere2016	128	dram	1042.713159	nan
+moliere2016	192	dram	990.80665	1000.8756
+
+moliere2016	16	mem	1456.736881	nan
+moliere2016	32	mem	1097.695509	nan
+moliere2016	64	mem	1023.90707	nan
+moliere2016	128	mem	1029.935309	nan
+moliere2016	192	mem	1076.147835	1104.891963
+
+moliere2016    16     kdax   2647.777439   nan
+moliere2016    32     kdax   1860.307772   nan
+moliere2016    64     kdax   936.922047    nan
+moliere2016   128     kdax   1040.909062   nan
+moliere2016   192     kdax   984.90577    987.575947
+
 moliere2016	16	pdax	2746.567095	nan
 moliere2016	32	pdax	1923.814033	nan
 moliere2016	64	pdax	937.912878	nan
 moliere2016	128	pdax	1066.13159	nan
 moliere2016	192	pdax	980.399573	1394.221
 
+uk2014        192     dram      nan                 nan
+
+uk2014	        16	mem	2195.747492	nan
+uk2014	        32	mem	1439.80749	nan
+uk2014	        64	mem	1040.564312	nan
+uk2014	        128	mem	768.970483	nan
+uk2014	        192	mem	646.377239	698.740065
+
+uk2014         16     kdax     2241.499411     nan
+uk2014         32     kdax     2175.004603     nan
+uk2014         64     kdax      934.446303     nan
+uk2014        128     kdax      701.715529     nan
+uk2014        192     kdax      604.974474      877.898523
+
 uk2014        192     pdax      nan            nan
+
+clueweb12     192     dram      nan            nan
+
+clueweb12	16	mem	9008.786655	nan
+clueweb12	32	mem	7427.020428	nan
+clueweb12	64	mem	5637.144076	nan
+clueweb12	128	mem	4822.885993	nan
+clueweb12	192	mem	4334.598601	4391.67807
+
+clueweb12      16     kdax    10812.81699      nan
+clueweb12      32     kdax     7882.519231     nan
+clueweb12      64     kdax     6170.163424     nan
+clueweb12     128     kdax     5074.019396     nan
+clueweb12     192     kdax     4968.696484     5667.603504
 
 clueweb12     192     pdax      nan            nan
 """
@@ -8884,6 +8884,14 @@ XXX_t192_latency_mem_str = """
 # Helpers
 #****************************************************************************
 
+def plot_scaling(dfrm, graph_nm, axes, plt_sty, mrk_sty, ln_sty):
+    dfrm_me = dfrm.xs(graph_nm, level='graph')
+    ax = seaborn.lineplot(data=dfrm_me, x='threads', y=col_src,
+                          hue='type', ax=axes,
+                          palette=plt_sty, marker=mrk_sty, linestyle=ln_sty)
+    return ax
+
+
 
 def plot_bw_lat(ax_bw, ax_lat, bw_data_strL, lat_data_strL, graph,
                 bw_data_nmL, lat_data_nmL):
@@ -9070,7 +9078,9 @@ fig1, axes1 = pyplt.subplots(nrows=1, ncols=1, figsize=(3, 3))
 
 fig2, axes2A = pyplt.subplots(nrows=4, ncols=3, figsize=(13, 11))
 
-# 'pastel'
+ln_sty = '-' # ':' # --
+mrk_sty = 'o' # --
+plt_sty = 'dark'
 
 #----------------------------------------------------------------------------
 # Mode comparison
@@ -9091,9 +9101,6 @@ makeRelTime(time_dfrm, row_srcL, col_src, col_dst)
 time_192 = time_dfrm.xs(192, level='threads')
 #print(time_192)
 
-ln_sty = '-' # ':' # --
-mrk_sty = 'o' # --
-
 ax = axes1
 # ax = seaborn.lineplot(data=time_192, x='type', y=col_src, hue='graph', ax=ax,
 #                       palette='dark', marker='^')
@@ -9101,7 +9108,7 @@ ax = axes1
 
 #ax1 = ax.twinx()
 ax = seaborn.lineplot(data=time_192, x='type', y=col_dst, hue='graph',
-                      palette='dark', ax=ax, marker=mrk_sty, linestyle=ln_sty)
+                      palette=plt_sty, ax=ax, marker=mrk_sty, linestyle=ln_sty)
 ax.set_ylim(bottom=0.50)
 
 # Should not be necessary!
@@ -9124,8 +9131,13 @@ ax.legend(handles=lineL, loc='lower left', bbox_to_anchor=(0.0, 0.0)) # title=co
 nm = 'friendster'
 nm_i = 0
 
+plot_scaling(time_dfrm, nm, axes2A[nm_i,0], plt_sty, mrk_sty, ln_sty)
 
-ax = axes2A[nm_i,0] # scaling
+# time_dfrm = time_dfrm.xs(nm, level='graph')
+# ax = axes2A[nm_i,0] # scaling
+# ax = seaborn.lineplot(data=time_dfrm, x='threads', y=col_src, hue='type', ax=ax,
+#                       palette=plt_sty, marker=mrk_sty, linestyle=ln_sty)
+
 
 bw_data_nmL =  ['dram', 'mem', 'kdax', 'kdax', 'pdax', 'pdax' ]
 lat_data_nmL = ['dram', 'mem', 'kdax', 'pdax' ]
