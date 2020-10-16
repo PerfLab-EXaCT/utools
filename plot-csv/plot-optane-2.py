@@ -46,11 +46,9 @@ moliere2016	64	dram	948.033326	nan
 moliere2016	128	dram	1042.713159	nan
 moliere2016	192	dram	990.80665	1000.8756
 
-friendster	16	mem	5321.611106	nan
-friendster	32	mem	3018.635678	nan
-friendster	64	mem	1915.380128	nan
-friendster	128	mem	1013.17759	nan
-friendster	192	mem	689.835591	698.334183
+uk2014        192     dram      nan                 nan
+
+clueweb12     192     dram      nan            nan
 
 moliere2016	16	mem	1456.736881	nan
 moliere2016	32	mem	1097.695509	nan
@@ -76,6 +74,24 @@ friendster     64     kdax  1856.734987     nan
 friendster    128     kdax   983.422625     nan
 friendster    192     kdax   672.260361    674.307471
 
+moliere2016    16     kdax   2647.777439   nan
+moliere2016    32     kdax   1860.307772   nan
+moliere2016    64     kdax   936.922047    nan
+moliere2016   128     kdax   1040.909062   nan
+moliere2016   192     kdax   984.90577    987.575947
+
+uk2014         16     kdax     2241.499411     nan
+uk2014         32     kdax     2175.004603     nan
+uk2014         64     kdax      934.446303     nan
+uk2014        128     kdax      701.715529     nan
+uk2014        192     kdax      604.974474      877.898523
+
+clueweb12      16     kdax    10812.81699      nan
+clueweb12      32     kdax     7882.519231     nan
+clueweb12      64     kdax     6170.163424     nan
+clueweb12     128     kdax     5074.019396     nan
+clueweb12     192     kdax     4968.696484     5667.603504
+
 friendster	16	pdax	5328.551361	nan
 friendster	32	pdax	2973.819253	nan
 friendster	64	pdax	1890.541188	nan
@@ -88,32 +104,9 @@ moliere2016	64	pdax	937.912878	nan
 moliere2016	128	pdax	1066.13159	nan
 moliere2016	192	pdax	980.399573	1394.221
 
-moliere2016    16     kdax   2647.777439   nan
-moliere2016    32     kdax   1860.307772   nan
-moliere2016    64     kdax   936.922047    nan
-moliere2016   128     kdax   1040.909062   nan
-moliere2016   192     kdax   984.90577    987.575947
-
-uk2014        192     dram      nan                 nan
-
-uk2014         16     kdax     2241.499411     nan
-uk2014         32     kdax     2175.004603     nan
-uk2014         64     kdax      934.446303     nan
-uk2014        128     kdax      701.715529     nan
-uk2014        192     kdax      604.974474      877.898523
-
 uk2014        192     pdax      nan            nan
 
-clueweb12     192     dram      nan            nan
-
-clueweb12      16     kdax    10812.81699      nan
-clueweb12      32     kdax     7882.519231     nan
-clueweb12      64     kdax     6170.163424     nan
-clueweb12     128     kdax     5074.019396     nan
-clueweb12     192     kdax     4968.696484     5667.603504
-
 clueweb12     192     pdax      nan            nan
-
 """
 
 
