@@ -40,6 +40,12 @@ friendster	64	dram	1852.977476	nan
 friendster	128	dram	983.782397	nan
 friendster	192	dram	671.325544	669.594645
 
+friendster	16	mem	5321.611106	nan
+friendster	32	mem	3018.635678	nan
+friendster	64	mem	1915.380128	nan
+friendster	128	mem	1013.17759	nan
+friendster	192	mem	689.835591	698.334183
+
 friendster     16     kdax  5233.698846     nan
 friendster     32     kdax  2925.995246     nan
 friendster     64     kdax  1856.734987     nan
@@ -51,6 +57,7 @@ friendster	32	pdax	2973.819253	nan
 friendster	64	pdax	1890.541188	nan
 friendster	128	pdax	1013.603767	nan
 friendster	192	pdax	692.835406	878.044
+
 
 moliere2016	16	dram	2667.57845	nan
 moliere2016	32	dram	1870.452818	nan
@@ -76,6 +83,7 @@ moliere2016	64	pdax	937.912878	nan
 moliere2016	128	pdax	1066.13159	nan
 moliere2016	192	pdax	980.399573	1394.221
 
+
 uk2014        192     dram      nan                 nan
 
 uk2014	        16	mem	2195.747492	nan
@@ -91,6 +99,7 @@ uk2014        128     kdax      701.715529     nan
 uk2014        192     kdax      604.974474      877.898523
 
 uk2014        192     pdax      nan            nan
+
 
 clueweb12     192     dram      nan            nan
 
@@ -9133,12 +9142,6 @@ nm_i = 0
 
 plot_scaling(time_dfrm, nm, axes2A[nm_i,0], plt_sty, mrk_sty, ln_sty)
 
-# time_dfrm = time_dfrm.xs(nm, level='graph')
-# ax = axes2A[nm_i,0] # scaling
-# ax = seaborn.lineplot(data=time_dfrm, x='threads', y=col_src, hue='type', ax=ax,
-#                       palette=plt_sty, marker=mrk_sty, linestyle=ln_sty)
-
-
 bw_data_nmL =  ['dram', 'mem', 'kdax', 'kdax', 'pdax', 'pdax' ]
 lat_data_nmL = ['dram', 'mem', 'kdax', 'pdax' ]
 
@@ -9171,6 +9174,8 @@ plot_bw_lat(axes2A[nm_i,1], axes2A[nm_i,2], bw_data_strL, lat_data_strL, nm, bw_
 nm = 'moliere2016'
 nm_i = 1
 
+plot_scaling(time_dfrm, nm, axes2A[nm_i,0], plt_sty, mrk_sty, ln_sty)
+
 bw_data_strL = [ moliere2016_t192_dramBw_dram_str,
 
                  moliere2016_t192_dramBw_mem_str,
@@ -9196,6 +9201,8 @@ plot_bw_lat(axes2A[nm_i,1], axes2A[nm_i,2], bw_data_strL, lat_data_strL, nm, bw_
 nm = 'uk2014'
 nm_i = 2
 
+plot_scaling(time_dfrm, nm, axes2A[nm_i,0], plt_sty, mrk_sty, ln_sty)
+
 bw_data_nmL =  ['mem', 'kdax', 'kdax'] # 'mem',
 lat_data_nmL =  ['mem', 'kdax']
 
@@ -9218,6 +9225,8 @@ plot_bw_lat(axes2A[nm_i,1], axes2A[nm_i,2], bw_data_strL, lat_data_strL, nm, bw_
 
 nm = 'clueweb12'
 nm_i = 3
+
+plot_scaling(time_dfrm, nm, axes2A[nm_i,0], plt_sty, mrk_sty, ln_sty)
 
 bw_data_strL = [ clueweb12_t192_dramBw_mem_str,
                  #clueweb12_t192_pmemBw_mem_str,
