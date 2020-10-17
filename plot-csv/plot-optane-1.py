@@ -172,8 +172,8 @@ def main_grappolo(makeColL_f, metricL1_p, metricL1_f, metricL2_f, metricL3):
     # Big graphs (192 threads)/Big memory modes
     #-------------------------------------------------------
 
-    graphL_big = [ ('clueweb12', 'clueweb'),
-                   ('uk2014', 'uk') ]
+    graphL_big = [ ('uk2014', 'uk'),
+                   ('clueweb12', 'clueweb') ]
 
     graphL_0 = [ x[0] for x in graphL_big ]
 
