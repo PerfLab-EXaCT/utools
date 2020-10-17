@@ -29,8 +29,8 @@ import VTuneCSV as vtcsv
 #****************************************************************************
 
 # FIXME:
-# - 
-# metric grouping
+# - when averaging function rows, should weight by cpu-time
+# - metric grouping
 
 #****************************************************************************
 
@@ -569,6 +569,9 @@ def plotL_mk_widths(vt, metricL, graph_grpL):
 
             metricPair = metricL[i_m]
 
+            g_title_w = 0
+            #g_title_w = 2 if (i_g == 0) else 0
+
             # find DataFrame for 'metricPair'
             try:
                 dfrm = vt.dataH[metricPair[0]]
@@ -578,7 +581,7 @@ def plotL_mk_widths(vt, metricL, graph_grpL):
                 continue
 
             n_col = find_fig_width(dfrm, graph_grp)
-            widthL.append(n_col + fixed_cmap_w)
+            widthL.append(g_title_w + n_col + fixed_cmap_w)
 
     return widthL
 
@@ -601,6 +604,7 @@ def plotL_do(vt, fig, axesL, metricL, dfrm_xformF, ytitle_txt, graph_grpL):
             metricPair = metricL[i_m]
             metric0 = metricPair[0]
 
+            do_title = (i_g == 0)
             ytitle = ytitle_txt if (i_m == 0 and i_g == 0) else None
 
             # find DataFrame for 'metricPair'
@@ -618,7 +622,7 @@ def plotL_do(vt, fig, axesL, metricL, dfrm_xformF, ytitle_txt, graph_grpL):
             dfrm = dfrm_xformF(dfrm, metric0)
 
             axes.margins(x=0.00, y=0.00)
-            axes1 = plot(dfrm, axes, metricPair, ytitle, graph_grp)
+            axes1 = plot(dfrm, axes, metricPair, do_title, ytitle, graph_grp)
 
             # # FIXME:
             # #print(axes1.get_tightbbox(fig.canvas.get_renderer()))
@@ -638,7 +642,7 @@ def plotL_adj(fig, adjustH):
         fig.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
 
 
-def plot(dfrm, axes, metricPair, ytitle, x_groupL = None):
+def plot(dfrm, axes, metricPair, do_title, ytitle, x_groupL = None):
 
     n_col = len(dfrm.columns)
     
@@ -692,15 +696,19 @@ def plot(dfrm, axes, metricPair, ytitle, x_groupL = None):
     # 
     #-------------------------------------------------------
 
-    title_txt = metricPair[1] if (len(metricPair) > 1) else metricPair[0]
-    axes.set_title(title_txt)
-
-    if ((not Do_rows) or ytitle):
+    do_ytitle = (not Do_rows) or ytitle
+    
+    if (do_ytitle):
         axes.set_ylabel(ytitle)
+
+    if (do_title):
+        title_txt = metricPair[1] if (len(metricPair) > 1) else metricPair[0]
+        #x_pos = -0.4 if (do_ytitle) else -0.08
+        axes.set_title(title_txt, ha='center') # va='center', rotation='vertical', x=x_pos, y=0.5
 
     # correct x-ticks and x-labels
     axes.set_xticks(numpy.arange(0.5, n_col))
-    axes.set_xticklabels(dfrm.columns, rotation=20, ha='right')
+    axes.set_xticklabels(dfrm.columns, rotation=20, ha='left')
 
     #for x in axes.get_xticklabels():
     #    x.set_rotation(0)
