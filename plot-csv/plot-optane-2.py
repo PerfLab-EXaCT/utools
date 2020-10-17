@@ -8983,17 +8983,23 @@ def makeRelTime(dfrm, row_srcL, col_src, col_dst):
     col_dat = []
 
     for (graph, thrd, ty) in dfrm.index:
-        #print(graph, thrd, ty)
+        #print("{}: {}/{}/{}".format(makeRelTime.__name__,graph, thrd, ty))
         v = dfrm.at[(graph, thrd, ty),      col_src]
 
         try:
+            #print("try1: {}/{}/{}".format(graph, thrd, row_srcL[0]))
             v_base = dfrm.at[(graph, thrd, row_srcL[0]), col_src]
-            if (numpy.isnan(v_base)):
-                v_base = dfrm.at[(graph, thrd, row_srcL[1]), col_src]
-        except KeyError:
-            vtcsv.printRed(("Warning: Incomplete: '%s %s %s'" % (graph, thrd, ty) ))
-            v_base = 1.0
-        
+        except:
+            v_base = numpy.nan
+            
+        if (numpy.isnan(v_base)):
+            #print("try2: {}/{}/{}".format(graph, thrd, row_srcL[1]))
+            v_base = dfrm.at[(graph, thrd, row_srcL[1]), col_src]
+
+        #except KeyError:
+        #    vtcsv.printRed(("Warning: Incomplete: '%s %s %s'" % (graph, thrd, ty) ))
+        #    v_base = 1.0
+            
         v_norm = (v / v_base) # * 100
         col_dat.append(v_norm)
 
