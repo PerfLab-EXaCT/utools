@@ -9913,24 +9913,18 @@ def plot_scaling(dfrm, graph_nm, axes, plt_sty, mrk_sty, ln_sty, nm_j):
     ax.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
 
     # Only sets x position
-    ax.yaxis.get_offset_text().set_position((0.0,0.0)) # adjust exponent
+    #ax.yaxis.get_offset_text().set_position((0.0,0.0)) # adjust exponent
 
-    exp_txt = ax.yaxis.get_offset_text() # .get_text()
-    print(exp_txt)
-    ax.text(0.10, 0.5, exp_txt, ha='left', zorder=100) # , va='bottom'
-    #ax.yaxis.offsetText.set_visible(False)
-
-    #ax.yaxis.set_label_text(update_label(label, exponent_text))
-
-    # exponent_text = ax.get_offset_text().get_text()
-    # label = ax.get_label().get_text()
-    # ax.offsetText.set_visible(False)
-    # ax.set_label_text(update_label(label, exponent_text))
-
+    # 'offset_text' not set until plot time!
+    #ax.set_yticklabels(ax.get_yticks()) # attempt to force
+    #exp_txt = ax.yaxis.get_offset_text().get_text()
+    #print(exp_txt)
+    #ax.text(0.10, 0.5, exp_txt, ha='left', zorder=100) # , va='bottom'
     
+    #ax.yaxis.offsetText.set_visible(False)
     
     if (nm_j == 0):
-        ax.set_title('Time (s) vs. Threads: ' + graph_nm)
+        ax.set_title('Time (s) vs Threads: ' + graph_nm)
     else:
         ax.set_title(graph_nm)
 
@@ -10301,7 +10295,7 @@ plot_bw_lat(axes2A[1,nm_j], axes2A[2,nm_j], bw_data_strL, lat_data_strL, nm, bw_
 
 
 fig2.subplots_adjust(left=0.03, right=0.97, bottom=0.03, top=0.97,
-                     wspace=0.17, hspace=0.25)
+                     wspace=0.18, hspace=0.20)
 
 fig1.savefig('chart-grappolo-teaser.pdf', bbox_inches='tight')
 fig2.savefig('chart-grappolo-sum.pdf', bbox_inches='tight')
