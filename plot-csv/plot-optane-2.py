@@ -9906,6 +9906,10 @@ XXX_t192_latency_mem_str = """
 
 def plot_scaling(dfrm, graph_nm, axes, plt_sty, mrk_sty, ln_sty, nm_j):
     dfrm_me = dfrm.xs(graph_nm, level='graph')
+
+    dfrm_me = dfrm_me.dropna(axis='rows', subset=[col_src])
+    print(dfrm_me)
+    
     ax = seaborn.lineplot(data=dfrm_me, x='threads', y=col_src,
                           hue='mode', ax=axes,
                           palette=plt_sty, marker=mrk_sty, linestyle=ln_sty)
@@ -10196,12 +10200,12 @@ plt_sty = 'deep'
 nm = 'friendster'
 nm_j = 0
 
-plot_scaling(time_dfrm, nm, axes2A[0,nm_j], plt_sty, mrk_sty, ln_sty, nm_j)
-
 bw_data_nmL =  ['dram', 'mem', 'kdax', 'kdax', 'pdax', 'pdax' ]
 lat_data_nmL = ['dram', 'mem', 'kdax', 'pdax' ]
 
 # TODO: Make pairs of (data_str, data_nm)
+
+plot_scaling(time_dfrm, nm, axes2A[0,nm_j], plt_sty, mrk_sty, ln_sty, nm_j)
 
 bw_data_strL = [ friendster_t192_dramBw_dram_str,
 
@@ -10257,10 +10261,10 @@ plot_bw_lat(axes2A[1,nm_j], axes2A[2,nm_j], bw_data_strL, lat_data_strL, nm, bw_
 nm = 'uk2014'
 nm_j = 2
 
-plot_scaling(time_dfrm, nm, axes2A[0,nm_j], plt_sty, mrk_sty, ln_sty, nm_j)
-
 bw_data_nmL =  ['mem', 'kdax', 'kdax'] # 'mem',
 lat_data_nmL =  ['mem', 'kdax']
+
+plot_scaling(time_dfrm, nm, axes2A[0,nm_j], plt_sty, mrk_sty, ln_sty, nm_j)
 
 bw_data_strL = [ uk2014_t192_dramBw_mem_str,
                  #uk2014_t192_pmemBw_mem_str,
