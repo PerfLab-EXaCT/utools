@@ -16,8 +16,11 @@ import seaborn
 
 import VTuneCSV as vtcsv
 
-
 #****************************************************************************
+
+title_txt_sz = 13
+
+#****************************************n***********************************
 # Grappolo, Single phase: Run time
 #****************************************************************************
 
@@ -9924,11 +9927,10 @@ def plot_scaling(dfrm, graph_nm, axes, plt_sty, mrk_sty, ln_sty, nm_j):
     #ax.yaxis.offsetText.set_visible(False)
     
     if (nm_j == 0):
-        ax.set_title('Time (s) vs Threads: ' + graph_nm)
-    else:
-        ax.set_title(graph_nm)
+        ax.set_ylabel('Time (s) v. Threads', size=title_txt_sz)
 
-    ax.set_ylabel('')
+    ax.set_title(graph_nm, size=title_txt_sz)
+
     ax.set_xlabel('')
 
     return ax
@@ -9965,9 +9967,9 @@ def plot_bw_lat(ax_bw, ax_lat, bw_data_strL, lat_data_strL, graph,
     ax.set_ylim(0, y_hi)
 
     if (nm_j == 0):
-        ax.set_title('Memory BW (GB/s), 192 threads: ' + graph)
-    else:
-        ax.set_title(graph)
+        ax.set_ylabel('Memory BW (GB/s), 192 threads', size=title_txt_sz)
+
+    #ax.set_title(graph, size=title_txt_sz)
 
 
     #-------------------------------------------------------
@@ -10006,9 +10008,9 @@ def plot_bw_lat(ax_bw, ax_lat, bw_data_strL, lat_data_strL, graph,
     ax.set_ylim(y_lo, y_hi)
 
     if (nm_j == 0):
-        ax.set_title('Load Latency (cyc), 192 threads: ' + graph) # ha='left'
-    else:
-        ax.set_title(graph)
+        ax.set_ylabel('Load Latency (cyc), 192 threads', size=title_txt_sz)
+        
+   #ax.set_title(graph, size=title_txt_sz)
 
 
 
@@ -10294,8 +10296,8 @@ plot_bw_lat(axes2A[1,nm_j], axes2A[2,nm_j], bw_data_strL, lat_data_strL, nm, bw_
 #-------------------------------------------------------
 
 
-fig2.subplots_adjust(left=0.03, right=0.97, bottom=0.03, top=0.97,
-                     wspace=0.18, hspace=0.20)
+fig2.subplots_adjust(left=0.04, right=0.98, bottom=0.03, top=0.97,
+                     wspace=0.18, hspace=0.15)
 
 fig1.savefig('chart-grappolo-teaser.pdf', bbox_inches='tight')
 fig2.savefig('chart-grappolo-sum.pdf', bbox_inches='tight')
