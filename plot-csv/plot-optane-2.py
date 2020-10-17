@@ -65,11 +65,11 @@ moliere2016	64	dram	948.033326	nan
 moliere2016	128	dram	1042.713159	nan
 moliere2016	192	dram	990.80665	1000.8756
 
-moliere2016	16	mem	1456.736881	nan
-moliere2016	32	mem	1097.695509	nan
-moliere2016	64	mem	1023.90707	nan
-moliere2016	128	mem	1029.935309	nan
-moliere2016	192	mem	1076.147835	1104.891963
+moliere2016	16	mem	1494.40757	nan
+moliere2016	32	mem	1104.05022	nan
+moliere2016	64	mem	1024.47122	nan
+moliere2016	128	mem	1044.46817	nan
+moliere2016	192	mem	1070.68616	1104.891963
 
 moliere2016    16     kdax   2647.777439   nan
 moliere2016    32     kdax   1860.307772   nan
