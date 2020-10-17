@@ -9928,6 +9928,8 @@ def plot_scaling(dfrm, graph_nm, axes, plt_sty, mrk_sty, ln_sty, nm_j):
     
     if (nm_j == 0):
         ax.set_ylabel('Time (s) v. Threads', size=title_txt_sz)
+    else:
+        ax.set_ylabel('')
 
     ax.set_title(graph_nm, size=title_txt_sz)
 
@@ -9967,7 +9969,7 @@ def plot_bw_lat(ax_bw, ax_lat, bw_data_strL, lat_data_strL, graph,
     ax.set_ylim(0, y_hi)
 
     if (nm_j == 0):
-        ax.set_ylabel('Memory BW (GB/s), 192 threads', size=title_txt_sz)
+        ax.set_ylabel('Memory BW (GB/s)\n192 threads', size=title_txt_sz)
 
     #ax.set_title(graph, size=title_txt_sz)
 
@@ -10008,7 +10010,7 @@ def plot_bw_lat(ax_bw, ax_lat, bw_data_strL, lat_data_strL, graph,
     ax.set_ylim(y_lo, y_hi)
 
     if (nm_j == 0):
-        ax.set_ylabel('Load Latency (cyc), 192 threads', size=title_txt_sz)
+        ax.set_ylabel('Load Latency (cyc)\n192 threads', size=title_txt_sz)
         
    #ax.set_title(graph, size=title_txt_sz)
 
@@ -10135,7 +10137,8 @@ def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = False):
 
 fig1, axes1 = pyplt.subplots(nrows=1, ncols=1, figsize=(3, 3))
 
-fig2, axes2A = pyplt.subplots(nrows=3, ncols=4, figsize=(14, 9.5))
+fig2, axes2A = pyplt.subplots(nrows=3, ncols=4, figsize=(14, 8.5),
+                              gridspec_kw={'height_ratios': [4.0, 3.5, 3.5]})
 
 
 #----------------------------------------------------------------------------
@@ -10296,7 +10299,7 @@ plot_bw_lat(axes2A[1,nm_j], axes2A[2,nm_j], bw_data_strL, lat_data_strL, nm, bw_
 #-------------------------------------------------------
 
 
-fig2.subplots_adjust(left=0.04, right=0.98, bottom=0.03, top=0.97,
+fig2.subplots_adjust(left=0.05, right=0.99, bottom=0.03, top=0.97,
                      wspace=0.18, hspace=0.15)
 
 fig1.savefig('chart-grappolo-teaser.pdf', bbox_inches='tight')
