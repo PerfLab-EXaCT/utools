@@ -6,10 +6,10 @@ nodes = ["0", "1", "2", "3"]
 nodes2 = ["0", "1", "2", "3"]
 
 #memory mode
-data = np.array([[90.3,150.7,155.9,149.9],
-                 [150.2,90.5,150.6,152.2],
-                 [154.6,149.3,90.2,149.5],
-                 [149.1,153.2,150.5,89.4]])
+#data = np.array([[90.3,150.7,155.9,149.9],
+#                 [150.2,90.5,150.6,152.2],
+#                 [154.6,149.3,90.2,149.5],
+#                 [149.1,153.2,150.5,89.4]])
 #data = np.array([[107.3,16.78,16.8,16.73],
 #                 [16.78,107.48,16.74,16.8],
 #                 [16.79,16.73,107.37,16.77],
@@ -19,13 +19,28 @@ data = np.array([[90.3,150.7,155.9,149.9],
 #                 [140.5,82.7,140.2,143.1],
 #                 [144.4,139.9,82.1,140.1],
 #                 [139.3,143.9,140.5,82.3]])
-#data = np.array([[111.94,16.78,16.8,16.78],
-#                 [16.78,112.24,16.77,16.8],
-#                 [16.8,16.77,112.19,16.77],
-#                 [16.75,16.8,16.77,112.28]])
+data = np.array([[111.94,16.78,16.8,16.78],
+                 [16.78,112.24,16.77,16.8],
+                 [16.8,16.77,112.19,16.77],
+                 [16.75,16.8,16.77,112.28]])
 sns.set_theme()
 sns.set(font_scale=2)
-ax = sns.heatmap(data, cmap='coolwarm', annot=True, fmt=".2f", annot_kws={"size":20})
-plt.title("Idle latency (ns)", fontsize=20, fontweight='bold')
-#plt.title("Memory B/W (GB/s)", fontsize=20, fontweight='bold')
+
+fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(5.0, 2.5))
+
+ax = sns.heatmap(data, ax=axes,
+                 xticklabels=nodes2, yticklabels=nodes,
+                 cmap='RdBu_r', annot=True, fmt=".2f", annot_kws={"size":20})
+                 # cmap='coolwarm'
+
+#ax.set_title("Idle Latency (ns)", fontsize=20, fontweight='bold')
+ax.set_title("Memory B/W (GB/s)", fontsize=20, fontweight='bold')
+
+fig.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
+
+#fig.savefig('mlc-lat-mem.pdf', bbox_inches='tight')
+#fig.savefig('mlc-bw-mem.pdf', bbox_inches='tight')
+#fig.savefig('mlc-lat-dram.pdf', bbox_inches='tight')
+fig.savefig('mlc-bw-dram.pdf', bbox_inches='tight')
+
 plt.show()

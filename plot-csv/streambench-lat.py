@@ -23,6 +23,6 @@ ax.set_title("STREAM Average Latency (s)", fontsize=20, fontweight='bold')
 
 fig.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
 
-fig.savefig('my-file-name.pdf', bbox_inches='tight')
+fig.savefig('streambench-lat.pdf', bbox_inches='tight')
 
 plt.show()
