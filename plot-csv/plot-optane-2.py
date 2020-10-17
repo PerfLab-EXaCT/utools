@@ -8,7 +8,10 @@ import io
 import pandas
 import numpy
 import math
+
 import matplotlib.pyplot as pyplt
+import matplotlib
+
 import seaborn
 
 import VTuneCSV as vtcsv
@@ -9898,13 +9901,39 @@ XXX_t192_latency_mem_str = """
 # Helpers
 #****************************************************************************
 
-def plot_scaling(dfrm, graph_nm, axes, plt_sty, mrk_sty, ln_sty):
+def plot_scaling(dfrm, graph_nm, axes, plt_sty, mrk_sty, ln_sty, nm_j):
     dfrm_me = dfrm.xs(graph_nm, level='graph')
     ax = seaborn.lineplot(data=dfrm_me, x='threads', y=col_src,
                           hue='mode', ax=axes,
                           palette=plt_sty, marker=mrk_sty, linestyle=ln_sty)
 
-    ax.set_title(graph_nm + ': Time (s) vs. Threads')
+    ax.set_xscale('log', base=2)
+
+    ax.yaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter(useMathText=True, useOffset=False))
+    ax.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
+
+    # Only sets x position
+    ax.yaxis.get_offset_text().set_position((0.0,0.0)) # adjust exponent
+
+    exp_txt = ax.yaxis.get_offset_text() # .get_text()
+    print(exp_txt)
+    ax.text(0.10, 0.5, exp_txt, ha='left', zorder=100) # , va='bottom'
+    #ax.yaxis.offsetText.set_visible(False)
+
+    #ax.yaxis.set_label_text(update_label(label, exponent_text))
+
+    # exponent_text = ax.get_offset_text().get_text()
+    # label = ax.get_label().get_text()
+    # ax.offsetText.set_visible(False)
+    # ax.set_label_text(update_label(label, exponent_text))
+
+    
+    
+    if (nm_j == 0):
+        ax.set_title('Time (s) vs. Threads: ' + graph_nm)
+    else:
+        ax.set_title(graph_nm)
+
     ax.set_ylabel('')
     ax.set_xlabel('')
 
@@ -9913,7 +9942,7 @@ def plot_scaling(dfrm, graph_nm, axes, plt_sty, mrk_sty, ln_sty):
 
 
 def plot_bw_lat(ax_bw, ax_lat, bw_data_strL, lat_data_strL, graph,
-                bw_data_nmL, lat_data_nmL):
+                bw_data_nmL, lat_data_nmL, plt_sty, nm_j):
     #-------------------------------------------------------
     # BW
     #-------------------------------------------------------
@@ -9930,7 +9959,7 @@ def plot_bw_lat(ax_bw, ax_lat, bw_data_strL, lat_data_strL, graph,
     
     ax = ax_bw
     ax = seaborn.violinplot(data=bw_dfrm_wide, ax=ax, cut = 0,
-                            palette='deep', scale = 'area', inner = 'box')
+                            palette=plt_sty, scale = 'area', inner = 'box')
     xlim = ax.get_xlim()
     ax = seaborn.scatterplot(data = bw_dfrm_mean, ax=ax,
                              marker='d', color='white', zorder=10)
@@ -9940,7 +9969,11 @@ def plot_bw_lat(ax_bw, ax_lat, bw_data_strL, lat_data_strL, graph,
 
     ax.set_xlim(xlim)
     ax.set_ylim(0, y_hi)
-    ax.set_title(graph + ' t192, Memory BW (GB/s)')
+
+    if (nm_j == 0):
+        ax.set_title('Memory BW (GB/s), 192 threads: ' + graph)
+    else:
+        ax.set_title(graph)
 
 
     #-------------------------------------------------------
@@ -9963,7 +9996,7 @@ def plot_bw_lat(ax_bw, ax_lat, bw_data_strL, lat_data_strL, graph,
 
     ax = ax_lat
     ax = seaborn.violinplot(data=lat_dfrm_wide, ax=ax, cut = 0, # alpha=.3
-                            palette='deep', scale = 'area', inner = 'box')
+                            palette=plt_sty, scale = 'area', inner = 'box')
     xlim = ax.get_xlim()
     ax = seaborn.scatterplot(data = lat_dfrm_mean, ax=ax,
                              marker='d', color='white', zorder=10)
@@ -9977,7 +10010,12 @@ def plot_bw_lat(ax_bw, ax_lat, bw_data_strL, lat_data_strL, graph,
     
     ax.set_xlim(xlim)
     ax.set_ylim(y_lo, y_hi)
-    ax.set_title(graph + ' t192, Load Latency (cycles)')
+
+    if (nm_j == 0):
+        ax.set_title('Load Latency (cyc), 192 threads: ' + graph) # ha='left'
+    else:
+        ax.set_title(graph)
+
 
 
 #****************************************************************************
@@ -10101,15 +10139,16 @@ def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = False):
 
 fig1, axes1 = pyplt.subplots(nrows=1, ncols=1, figsize=(3, 3))
 
-fig2, axes2A = pyplt.subplots(nrows=4, ncols=3, figsize=(12, 11))
+fig2, axes2A = pyplt.subplots(nrows=3, ncols=4, figsize=(14, 9.5))
 
-ln_sty = '-' # ':' # --
-mrk_sty = 'o' # --
-plt_sty = 'dark'
 
 #----------------------------------------------------------------------------
 # Mode comparison
 #----------------------------------------------------------------------------
+
+ln_sty = '-' # ':' # --
+mrk_sty = 'o' # --
+plt_sty = 'dark'
 
 tm_index = [0,1,2] # graph threads type
 
@@ -10149,14 +10188,16 @@ ax.legend(handles=lineL, loc='lower left', bbox_to_anchor=(0.0, 0.0)) # title=co
 # Per-graph Scaling + Memory histograms
 #----------------------------------------------------------------------------
 
+plt_sty = 'deep'
+
 #-------------------------------------------------------
 # friendster
 #-------------------------------------------------------
 
 nm = 'friendster'
-nm_i = 0
+nm_j = 0
 
-plot_scaling(time_dfrm, nm, axes2A[nm_i,0], plt_sty, mrk_sty, ln_sty)
+plot_scaling(time_dfrm, nm, axes2A[0,nm_j], plt_sty, mrk_sty, ln_sty, nm_j)
 
 bw_data_nmL =  ['dram', 'mem', 'kdax', 'kdax', 'pdax', 'pdax' ]
 lat_data_nmL = ['dram', 'mem', 'kdax', 'pdax' ]
@@ -10180,7 +10221,7 @@ lat_data_strL = [ friendster_t192_latency_dram_str,
                   friendster_t192_latency_kdax_str,
                   friendster_t192_latency_pdax_str ]
 
-plot_bw_lat(axes2A[nm_i,1], axes2A[nm_i,2], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL)
+plot_bw_lat(axes2A[1,nm_j], axes2A[2,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty, nm_j)
 
 
 #-------------------------------------------------------
@@ -10188,9 +10229,9 @@ plot_bw_lat(axes2A[nm_i,1], axes2A[nm_i,2], bw_data_strL, lat_data_strL, nm, bw_
 #-------------------------------------------------------
 
 nm = 'moliere2016'
-nm_i = 1
+nm_j = 1
 
-plot_scaling(time_dfrm, nm, axes2A[nm_i,0], plt_sty, mrk_sty, ln_sty)
+plot_scaling(time_dfrm, nm, axes2A[0,nm_j], plt_sty, mrk_sty, ln_sty, nm_j)
 
 bw_data_strL = [ moliere2016_t192_dramBw_dram_str,
 
@@ -10208,16 +10249,16 @@ lat_data_strL = [ moliere2016_t192_latency_dram_str,
                   moliere2016_t192_latency_kdax_str,
                   moliere2016_t192_latency_pdax_str ]
 
-plot_bw_lat(axes2A[nm_i,1], axes2A[nm_i,2], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL)
+plot_bw_lat(axes2A[1,nm_j], axes2A[2,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty, nm_j)
 
 #-------------------------------------------------------
 # 
 #-------------------------------------------------------
 
 nm = 'uk2014'
-nm_i = 2
+nm_j = 2
 
-plot_scaling(time_dfrm, nm, axes2A[nm_i,0], plt_sty, mrk_sty, ln_sty)
+plot_scaling(time_dfrm, nm, axes2A[0,nm_j], plt_sty, mrk_sty, ln_sty, nm_j)
 
 bw_data_nmL =  ['mem', 'kdax', 'kdax'] # 'mem',
 lat_data_nmL =  ['mem', 'kdax']
@@ -10233,16 +10274,16 @@ lat_data_strL = [ uk2014_t192_latency_mem_str,
                   uk2014_t192_latency_kdax_str ]
 
 
-plot_bw_lat(axes2A[nm_i,1], axes2A[nm_i,2], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL)
+plot_bw_lat(axes2A[1,nm_j], axes2A[2,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty, nm_j)
 
 #-------------------------------------------------------
 # 
 #-------------------------------------------------------
 
 nm = 'clueweb12'
-nm_i = 3
+nm_j = 3
 
-plot_scaling(time_dfrm, nm, axes2A[nm_i,0], plt_sty, mrk_sty, ln_sty)
+plot_scaling(time_dfrm, nm, axes2A[0,nm_j], plt_sty, mrk_sty, ln_sty, nm_j)
 
 bw_data_strL = [ clueweb12_t192_dramBw_mem_str,
                  #clueweb12_t192_pmemBw_mem_str,
@@ -10253,14 +10294,14 @@ bw_data_strL = [ clueweb12_t192_dramBw_mem_str,
 lat_data_strL = [ clueweb12_t192_latency_mem_str,
                   clueweb12_t192_latency_kdax_str ]
 
-plot_bw_lat(axes2A[nm_i,1], axes2A[nm_i,2], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL)
+plot_bw_lat(axes2A[1,nm_j], axes2A[2,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty, nm_j)
 
 
 #-------------------------------------------------------
 
 
-fig2.subplots_adjust(left=0.05, right=0.95, bottom=0.05, top=0.95,
-                     wspace=0.10, hspace=0.25)
+fig2.subplots_adjust(left=0.03, right=0.97, bottom=0.03, top=0.97,
+                     wspace=0.17, hspace=0.25)
 
 fig1.savefig('chart-grappolo-teaser.pdf', bbox_inches='tight')
 fig2.savefig('chart-grappolo-sum.pdf', bbox_inches='tight')
