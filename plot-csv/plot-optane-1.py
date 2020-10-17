@@ -708,7 +708,7 @@ def plot(dfrm, axes, metricPair, do_title, ytitle, x_groupL = None):
 
     # correct x-ticks and x-labels
     axes.set_xticks(numpy.arange(0.5, n_col))
-    axes.set_xticklabels(dfrm.columns, rotation=20, ha='left')
+    axes.set_xticklabels(dfrm.columns, rotation=20, ha='right')
 
     #for x in axes.get_xticklabels():
     #    x.set_rotation(0)
