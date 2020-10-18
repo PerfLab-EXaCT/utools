@@ -123,7 +123,10 @@ clueweb12     192     kdax     4968.696484     5667.603504
 
 clueweb12     192     pdax      nan            nan
 """
+
+
 time_str_ripples = """
+graph        threads  mode   time          vtune
 
 pokec	2	mem	23462.17	nan
 pokec	4	mem	11286.53	nan
