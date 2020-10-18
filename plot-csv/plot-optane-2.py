@@ -123,7 +123,143 @@ clueweb12     192     kdax     4968.696484     5667.603504
 
 clueweb12     192     pdax      nan            nan
 """
+time_str_ripples = """
 
+pokec	2	mem	23462.17	nan
+pokec	4	mem	11286.53	nan
+pokec	8	mem	5540.75	        nan
+pokec	16	mem	2877.33	        nan
+pokec	32	mem	1619.55	        nan
+pokec	64	mem	939.25	        nan
+pokec	128	mem	718.31	        nan
+pokec	192	mem	771.15	        nan
+
+pokec	2	dram	22531.59	nan
+pokec	4	dram	10796.75	nan
+pokec	8	dram	5316.46	nan
+pokec	16	dram	2773.61	nan
+pokec	32	dram	1509.24	nan
+pokec	64	dram	809.45	nan
+pokec	128	dram	578.64	nan
+pokec	192	dram	686.34	nan
+
+pokec	2	kdax	nan	nan
+pokec	4	kdax	nan	nan
+pokec	8	kdax	nan	nan
+pokec	16	kdax	nan	nan
+pokec	32	kdax	2450.37	nan
+pokec	64	kdax	1639.97	nan
+pokec	128	kdax	nan	nan
+pokec	192	kdax	1974.83	nan
+
+slash	2	mem	258.25	nan
+slash	4	mem	129.35	nan
+slash	8	mem	70.55	nan
+slash	16	mem	50.89	nan
+slash	32	mem	57.62	nan
+slash	64	mem	59.48	nan
+slash	128	mem	53.11	nan
+slash	192	mem	35.44	nan
+
+slash	2	dram	257.15	nan
+slash	4	dram	129.29	nan
+slash	8	dram	70.18	nan
+slash	16	dram	50.18	nan
+slash	32	dram	55.45	nan
+slash	64	dram	58.10	nan
+slash	128	dram	53.16	nan
+slash	192	dram	37.73	nan
+
+slash	2	kdax	nan	nan
+slash	4	kdax	nan	nan
+slash	8	kdax	nan	nan
+slash	16	kdax	nan	nan
+slash	32	kdax	64.10	nan
+slash	64	kdax	66.03	nan
+slash	128	kdax	nan	nan
+slash	192	kdax	46.58	nan
+
+talk	2	mem	616.27	nan
+talk	4	mem	331.22	nan
+talk	8	mem	166.28	nan
+talk	16	mem	103.41	nan
+talk	32	mem	90.40	nan
+talk	64	mem	83.60	nan
+talk	128	mem	70.46	nan
+talk	192	mem	53.20	nan
+
+talk	2	dram	606.44	nan
+talk	4	dram	330.05	nan
+talk	8	dram	163.14	nan
+talk	16	dram	102.31	nan
+talk	32	dram	90.14	nan
+talk	64	dram	80.37	nan
+talk	128	dram	70.36	nan
+talk	192	dram	54.48	nan
+
+talk	2	kdax	nan	nan
+talk	4	kdax	nan	nan
+talk	8	kdax	nan	nan
+talk	16	kdax	nan	nan
+talk	32	kdax	101.20	nan
+talk	64	kdax	101.98	nan
+talk	128	kdax	nan	nan
+talk	192	kdax	123.27	nan
+
+topcats	2	mem	23462.17	nan
+topcats	4	mem	11286.53	nan
+topcats	8	mem	5540.75	nan
+topcats	16	mem	2877.33	nan
+topcats	32	mem	1619.55	nan
+topcats	64	mem	939.25	nan
+topcats	128	mem	718.31	nan
+topcats	192	mem	771.15	nan
+
+topcats	2	dram	22531.59	nan
+topcats	4	dram	10796.75	nan
+topcats	8	dram	5316.46	nan
+topcats	16	dram	2773.61	nan
+topcats	32	dram	1509.24	nan
+topcats	64	dram	809.45	nan
+topcats	128	dram	578.64	nan
+topcats	192	dram	686.34	nan
+
+topcats	2	kdax	nan	nan
+topcats	4	kdax	nan	nan
+topcats	8	kdax	nan	nan
+topcats	16	kdax	nan	nan
+topcats	32	kdax	2450.37	nan
+topcats	64	kdax	1639.97	nan
+topcats	128	kdax	nan	nan
+topcats	192	kdax	1974.83	nan
+
+twitter	2	mem	461.16	nan
+twitter	4	mem	227.37	nan
+twitter	8	mem	127.34	nan
+twitter	16	mem	97.53	nan
+twitter	32	mem	119.96	nan
+twitter	64	mem	118.32	nan
+twitter	128	mem	108.72	nan
+twitter	192	mem	50.23	nan
+
+twitter	2	dram	468.68	nan
+twitter	4	dram	235.69	nan
+twitter	8	dram	128.54	nan
+twitter	16	dram	97.61	nan
+twitter	32	dram	113.30	nan
+twitter	64	dram	112.73	nan
+twitter	128	dram	107.22	nan
+twitter	192	dram	48.93	nan
+
+twitter	2	kdax	nan	nan
+twitter	4	kdax	nan	nan
+twitter	8	kdax	nan	nan
+twitter	16	kdax	nan	nan
+twitter	32	kdax	141.27	nan
+twitter	64	kdax	125.70	nan
+twitter	128	kdax	nan	nan
+twitter	192	kdax	71.81	nan
+"""
 
 #-------------------------------------------------------
 #
