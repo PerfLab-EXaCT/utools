@@ -78,11 +78,11 @@ def main():
         #
         ('Average Latency (cycles)',    'Latency (cycles)'),
         #
-        ('Memory Bound(%)',),
+        #('Memory Bound(%)',),
         #('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
         #('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
         #('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
-        #('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
+        ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
         #('Memory Bound:Store Bound(%)', 'Store Bound (%)'),
         ]
 
