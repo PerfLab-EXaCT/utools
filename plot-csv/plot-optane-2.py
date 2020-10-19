@@ -10344,8 +10344,8 @@ plot_modes(time_mode_dfrm, axes1L[0], 'Community Detection (192)', plt_sty, mrk_
 # ripples
 #-------------------------------------------------------
 
-# time_data = io.StringIO(time_str_ripples)
-# time_dfrm = pandas.read_csv(time_data, sep='\s+', index_col=tm_index)
+time_data = io.StringIO(time_str_ripples)
+time_dfrm = pandas.read_csv(time_data, sep='\s+', index_col=tm_index)
 # #print(time_dfrm)
 
 # makeRelTime(time_dfrm, row_srcL, col_src, col_dst)
