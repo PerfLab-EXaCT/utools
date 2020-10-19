@@ -133,9 +133,9 @@ pokec	4	dram	10796.75	nan
 pokec	8	dram	5316.46	nan
 pokec	16	dram	2773.61	nan
 pokec	32	dram	1509.24	nan
-pokec	64	dram	809.45	nan
+pokec	64	dram	809.45	926.5572327
 pokec	128	dram	578.64	nan
-pokec	192	dram	686.34	nan
+pokec	192	dram	686.34	673.5958796
 
 pokec	2	mem	23462.17	nan
 pokec	4	mem	11286.53	nan
@@ -160,9 +160,9 @@ slash	4	dram	129.29	nan
 slash	8	dram	70.18	nan
 slash	16	dram	50.18	nan
 slash	32	dram	55.45	nan
-slash	64	dram	58.10	nan
+slash	64	dram	58.10	38.73088936
 slash	128	dram	53.16	nan
-slash	192	dram	37.73	nan
+slash	192	dram	37.73	32.029196
 
 slash	2	mem	258.25	nan
 slash	4	mem	129.35	nan
@@ -187,9 +187,9 @@ talk	4	dram	330.05	nan
 talk	8	dram	163.14	nan
 talk	16	dram	102.31	nan
 talk	32	dram	90.14	nan
-talk	64	dram	80.37	nan
+talk	64	dram	80.37	62.49747313
 talk	128	dram	70.36	nan
-talk	192	dram	54.48	nan
+talk	192	dram	54.48	52.85052325
 
 talk	2	mem	616.27	nan
 talk	4	mem	331.22	nan
@@ -241,9 +241,9 @@ twitter	4	dram	235.69	nan
 twitter	8	dram	128.54	nan
 twitter	16	dram	97.61	nan
 twitter	32	dram	113.30	nan
-twitter	64	dram	112.73	nan
+twitter	64	dram	112.73	67.45700489
 twitter	128	dram	107.22	nan
-twitter	192	dram	48.93	nan
+twitter	192	dram	48.93	41.52928663
 
 twitter	2	mem	461.16	nan
 twitter	4	mem	227.37	nan
