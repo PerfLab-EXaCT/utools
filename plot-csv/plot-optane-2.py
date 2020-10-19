@@ -10049,7 +10049,7 @@ def plot_modes(dfrm, axes, nm_i, title, plt_sty, mrk_sty, ln_sty):
                           palette=plt_sty, ax=axes, marker=mrk_sty, linestyle=ln_sty)
 
     y_lo = dfrm[col_dst].min(axis=0)
-    ax.set_ylim(bottom = y_lo * .75)
+    ax.set_ylim(bottom = y_lo * .80)
 
     ax.set_title(title, size=title_txt_sz)
 
