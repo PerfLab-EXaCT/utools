@@ -10043,11 +10043,14 @@ XXX_t192_latency_mem_str = """
 # Helpers
 #****************************************************************************
 
-def plot_modes(dfrm, axes, plt_sty, mrk_sty, ln_sty):
+def plot_modes(dfrm, axes, title, plt_sty, mrk_sty, ln_sty):
 
     ax = seaborn.lineplot(data=dfrm, x='mode', y=col_dst, hue='graph',
-                          palette=plt_sty, ax=ax, marker=mrk_sty, linestyle=ln_sty)
-    ax.set_ylim(bottom=0.50)
+                          palette=plt_sty, ax=axes, marker=mrk_sty, linestyle=ln_sty)
+    ax.set_ylim(bottom=0.60)
+
+    ax.set_title(title, size=title_txt_sz)
+
 
     # OLD:
     # ax = seaborn.lineplot(data=dfrm, x='mode', y=col_src, hue='graph', ax=ax,
@@ -10071,7 +10074,7 @@ def plot_scaling(dfrm, graph_nm, axes, plt_sty, mrk_sty, ln_sty, nm_j):
     dfrm_me = dfrm.xs(graph_nm, level='graph')
 
     dfrm_me = dfrm_me.dropna(axis='rows', subset=[col_src])
-    print(dfrm_me)
+    #print(dfrm_me)
     
     ax = seaborn.lineplot(data=dfrm_me, x='threads', y=col_src,
                           hue='mode', ax=axes,
@@ -10335,7 +10338,22 @@ makeRelTime(time_dfrm, row_srcL, col_src, col_dst)
 time_mode_dfrm = time_dfrm.xs(192, level='threads')
 #print(time_mode_dfrm)
 
-plot_modes(time_mode_dfrm, axes1L[0], plt_sty, mrk_sty, ln_sty)
+plot_modes(time_mode_dfrm, axes1L[0], 'Community Detection (192)', plt_sty, mrk_sty, ln_sty)
+
+#-------------------------------------------------------
+# ripples
+#-------------------------------------------------------
+
+# time_data = io.StringIO(time_str_ripples)
+# time_dfrm = pandas.read_csv(time_data, sep='\s+', index_col=tm_index)
+# #print(time_dfrm)
+
+# makeRelTime(time_dfrm, row_srcL, col_src, col_dst)
+
+# time_mode_dfrm = time_dfrm.xs(64, level='threads')
+# #print(time_mode_dfrm)
+
+# plot_modes(time_mode_dfrm, axes1L[1], 'Influence Maximization (64)', plt_sty, mrk_sty, ln_sty)
 
 
 #----------------------------------------------------------------------------
