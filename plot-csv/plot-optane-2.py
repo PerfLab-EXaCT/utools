@@ -37,7 +37,7 @@ title_txt_sz = 13
 #-------------------------------------------------------
 
 # OMP_PLACES="", OMP_BIND=""
-time_str = """
+time_str_grappolo = """
 graph        threads  mode   time          vtune
 
 friendster	16	dram	5179.797055	nan
@@ -10043,6 +10043,30 @@ XXX_t192_latency_mem_str = """
 # Helpers
 #****************************************************************************
 
+def plot_modes(dfrm, axes, plt_sty, mrk_sty, ln_sty):
+
+    ax = seaborn.lineplot(data=dfrm, x='mode', y=col_dst, hue='graph',
+                          palette=plt_sty, ax=ax, marker=mrk_sty, linestyle=ln_sty)
+    ax.set_ylim(bottom=0.50)
+
+    # OLD:
+    # ax = seaborn.lineplot(data=dfrm, x='mode', y=col_src, hue='graph', ax=ax,
+    #                       palette='dark', marker='^')
+    # ax.legend(title=col_src, loc='lower left',  bbox_to_anchor=(0.0, 0.35)) # prop={'size': text_sz}
+
+    #ax1 = ax.twinx()
+
+    # # Should not be necessary!
+    # lineL = ax.legend().get_lines()
+    # for x in lineL:
+    #     x.set_linestyle(ln_sty)
+    #     #x.set_marker(mrk_sty)
+    # ax.legend(handles=lineL, loc='lower left', bbox_to_anchor=(0.0, 0.0)) # title=col_dst, prop={'size': text_sz}
+
+    return ax
+
+
+
 def plot_scaling(dfrm, graph_nm, axes, plt_sty, mrk_sty, ln_sty, nm_j):
     dfrm_me = dfrm.xs(graph_nm, level='graph')
 
@@ -10278,7 +10302,7 @@ def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = False):
 # Main
 #****************************************************************************
 
-fig1, axes1 = pyplt.subplots(nrows=1, ncols=1, figsize=(3, 3))
+fig1, axes1L = pyplt.subplots(nrows=1, ncols=2, figsize=(6, 3))
 
 fig2, axes2A = pyplt.subplots(nrows=3, ncols=4, figsize=(14, 8.5),
                               gridspec_kw={'height_ratios': [4.0, 3.5, 3.5]})
@@ -10294,36 +10318,24 @@ plt_sty = 'dark'
 
 tm_index = [0,1,2] # graph threads type
 
-time_data = io.StringIO(time_str)
-time_dfrm = pandas.read_csv(time_data, sep='\s+', index_col=tm_index)
-#print(time_dfrm)
-
 row_srcL = ['dram', 'mem']
 col_src = 'time'
 col_dst = 'relative time'
 
+#-------------------------------------------------------
+# grappolo
+#-------------------------------------------------------
+
+time_data = io.StringIO(time_str_grappolo)
+time_dfrm = pandas.read_csv(time_data, sep='\s+', index_col=tm_index)
+#print(time_dfrm)
+
 makeRelTime(time_dfrm, row_srcL, col_src, col_dst)
 
-time_192 = time_dfrm.xs(192, level='threads')
-#print(time_192)
+time_mode_dfrm = time_dfrm.xs(192, level='threads')
+#print(time_mode_dfrm)
 
-ax = axes1
-# ax = seaborn.lineplot(data=time_192, x='mode', y=col_src, hue='graph', ax=ax,
-#                       palette='dark', marker='^')
-# ax.legend(title=col_src, loc='lower left',  bbox_to_anchor=(0.0, 0.35)) # prop={'size': text_sz}
-
-#ax1 = ax.twinx()
-ax = seaborn.lineplot(data=time_192, x='mode', y=col_dst, hue='graph',
-                      palette=plt_sty, ax=ax, marker=mrk_sty, linestyle=ln_sty)
-ax.set_ylim(bottom=0.50)
-
-# Should not be necessary!
-lineL = ax.legend().get_lines()
-for x in lineL:
-    x.set_linestyle(ln_sty)
-    #x.set_marker(mrk_sty)
-ax.legend(handles=lineL, loc='lower left', bbox_to_anchor=(0.0, 0.0)) # title=col_dst, prop={'size': text_sz} 
-
+plot_modes(time_mode_dfrm, axes1L[0], plt_sty, mrk_sty, ln_sty)
 
 
 #----------------------------------------------------------------------------
