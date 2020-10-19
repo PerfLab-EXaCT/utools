@@ -10329,13 +10329,13 @@ col_dst = 'relative time'
 # grappolo
 #-------------------------------------------------------
 
-time_data = io.StringIO(time_str_grappolo)
-time_dfrm = pandas.read_csv(time_data, sep='\s+', index_col=tm_index)
-#print(time_dfrm)
+time_data_grp = io.StringIO(time_str_grappolo)
+time_dfrm_grp = pandas.read_csv(time_data_grp, sep='\s+', index_col=tm_index)
+#print(time_dfrm_grp)
 
-makeRelTime(time_dfrm, row_srcL, col_src, col_dst)
+makeRelTime(time_dfrm_grp, row_srcL, col_src, col_dst)
 
-time_mode_dfrm = time_dfrm.xs(192, level='threads')
+time_mode_dfrm = time_dfrm_grp.xs(192, level='threads')
 #print(time_mode_dfrm)
 
 plot_modes(time_mode_dfrm, axes1L[0], 'Community Detection (192)', plt_sty, mrk_sty, ln_sty)
@@ -10344,16 +10344,16 @@ plot_modes(time_mode_dfrm, axes1L[0], 'Community Detection (192)', plt_sty, mrk_
 # ripples
 #-------------------------------------------------------
 
-time_data = io.StringIO(time_str_ripples)
-# time_dfrm = pandas.read_csv(time_data, sep='\s+', index_col=tm_index)
-# #print(time_dfrm)
+time_data_rip = io.StringIO(time_str_ripples)
+time_dfrm_rip = pandas.read_csv(time_data_rip, sep='\s+', index_col=tm_index)
+#print(time_dfrm_rip)
 
-# makeRelTime(time_dfrm, row_srcL, col_src, col_dst)
+makeRelTime(time_dfrm_rip, row_srcL, col_src, col_dst)
 
-# time_mode_dfrm = time_dfrm.xs(64, level='threads')
-# #print(time_mode_dfrm)
+time_mode_dfrm = time_dfrm_rip.xs(64, level='threads')
+#print(time_mode_dfrm)
 
-# plot_modes(time_mode_dfrm, axes1L[1], 'Influence Maximization (64)', plt_sty, mrk_sty, ln_sty)
+plot_modes(time_mode_dfrm, axes1L[1], 'Influence Maximization (64)', plt_sty, mrk_sty, ln_sty)
 
 
 #----------------------------------------------------------------------------
@@ -10374,7 +10374,7 @@ lat_data_nmL = ['dram', 'mem', 'kdax', 'pdax' ]
 
 # TODO: Make pairs of (data_str, data_nm)
 
-plot_scaling(time_dfrm, nm, axes2A[0,nm_j], plt_sty, mrk_sty, ln_sty, nm_j)
+plot_scaling(time_dfrm_grp, nm, axes2A[0,nm_j], plt_sty, mrk_sty, ln_sty, nm_j)
 
 bw_data_strL = [ friendster_t192_dramBw_dram_str,
 
@@ -10403,7 +10403,7 @@ plot_bw_lat(axes2A[1,nm_j], axes2A[2,nm_j], bw_data_strL, lat_data_strL, nm, bw_
 nm = 'moliere2016'
 nm_j = 1
 
-plot_scaling(time_dfrm, nm, axes2A[0,nm_j], plt_sty, mrk_sty, ln_sty, nm_j)
+plot_scaling(time_dfrm_grp, nm, axes2A[0,nm_j], plt_sty, mrk_sty, ln_sty, nm_j)
 
 bw_data_strL = [ moliere2016_t192_dramBw_dram_str,
 
@@ -10433,7 +10433,7 @@ nm_j = 2
 bw_data_nmL =  ['mem', 'kdax', 'kdax'] # 'mem',
 lat_data_nmL =  ['mem', 'kdax']
 
-plot_scaling(time_dfrm, nm, axes2A[0,nm_j], plt_sty, mrk_sty, ln_sty, nm_j)
+plot_scaling(time_dfrm_grp, nm, axes2A[0,nm_j], plt_sty, mrk_sty, ln_sty, nm_j)
 
 bw_data_strL = [ uk2014_t192_dramBw_mem_str,
                  #uk2014_t192_pmemBw_mem_str,
@@ -10455,7 +10455,7 @@ plot_bw_lat(axes2A[1,nm_j], axes2A[2,nm_j], bw_data_strL, lat_data_strL, nm, bw_
 nm = 'clueweb12'
 nm_j = 3
 
-plot_scaling(time_dfrm, nm, axes2A[0,nm_j], plt_sty, mrk_sty, ln_sty, nm_j)
+plot_scaling(time_dfrm_grp, nm, axes2A[0,nm_j], plt_sty, mrk_sty, ln_sty, nm_j)
 
 bw_data_strL = [ clueweb12_t192_dramBw_mem_str,
                  #clueweb12_t192_pmemBw_mem_str,
@@ -10471,9 +10471,11 @@ plot_bw_lat(axes2A[1,nm_j], axes2A[2,nm_j], bw_data_strL, lat_data_strL, nm, bw_
 
 #-------------------------------------------------------
 
+adjustH = { 'left':0.05, 'right':0.99, 'bottom':0.03, 'top':0.97,
+            'wspace':0.18, 'hspace':0.15 }
 
-fig2.subplots_adjust(left=0.05, right=0.99, bottom=0.03, top=0.97,
-                     wspace=0.18, hspace=0.15)
+fig1.subplots_adjust(**adjustH)
+fig2.subplots_adjust(**adjustH)
 
 fig1.savefig('chart-grappolo-teaser.pdf', bbox_inches='tight')
 fig2.savefig('chart-grappolo-sum.pdf', bbox_inches='tight')
