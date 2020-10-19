@@ -1,5 +1,5 @@
 Package,CPU Time,Memory Bound(%),Memory Bound:L1 Bound(%),Memory Bound:L2 Bound(%),Memory Bound:L3 Bound(%),Memory Bound:DRAM Bound(%),Memory Bound:DRAM Bound:Memory Bandwidth(%),Memory Bound:DRAM Bound:Memory Latency(%),Memory Bound:DRAM Bound:Memory Latency:NUMA: % of Remote Accesses(%),Memory Bound:DRAM Bound:Memory Latency:Local DRAM(%),Memory Bound:DRAM Bound:Memory Latency:Remote DRAM(%),Memory Bound:DRAM Bound:Memory Latency:Remote Cache(%),Loads,Stores,LLC Miss Count,LLC Miss Count:Local DRAM Access Count,LLC Miss Count:Remote DRAM Access Count,LLC Miss Count:Remote Cache Access Count,Average Latency (cycles)
-package_0,419.697638,29.8,11.9,3.8,9.4,0.0,5.1,22.6,0.0,0.0,0.0,0.0,184665539800,66361990800,0,0,0,0,15.266332
-package_1,354.324174,23.8,8.5,3.7,9.5,0.3,8.2,31.2,0.0,0.0,0.0,0.0,285608568000,104443133200,0,0,0,0,11.492386
-package_2,350.358184,24.7,8.6,3.7,10.7,0.0,9.9,32.4,0.0,0.0,0.0,0.0,226666799800,81482444400,0,0,0,0,12.906103
-package_3,344.430990,16.4,6.8,3.6,4.7,0.3,8.2,32.0,0.0,0.0,0.0,0.0,195445863200,70562116800,0,0,0,0,14.019802
+package_0,410.070481,23.7,4.4,1.6,8.8,0.0,7.7,33.7,0.0,0.0,0.0,0.0,268808064000,96042881200,0,0,0,0,9.388889
+package_1,341.384003,29.3,13.6,3.1,15.0,0.3,4.2,21.1,0.0,0.0,0.0,0.0,252567576800,91142734200,0,0,0,0,12.164474
+package_2,338.289625,17.2,2.8,7.5,9.4,0.0,7.8,36.0,0.0,0.0,0.0,0.0,232126963600,83862515800,0,0,0,0,19.625000
+package_3,333.887763,24.2,10.9,1.7,7.8,0.6,4.8,24.9,0.0,0.0,0.0,0.0,178365350800,64961948800,0,0,0,0,13.295181
