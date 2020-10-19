@@ -10311,10 +10311,12 @@ def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = False):
 # Main
 #****************************************************************************
 
-fig1, axes1L = pyplt.subplots(nrows=1, ncols=2, figsize=(6, 3))
+fig1, axes1L = pyplt.subplots(nrows=1, ncols=2, figsize=(6, 2.5))
 
 fig2, axes2A = pyplt.subplots(nrows=3, ncols=4, figsize=(14, 8.5),
                               gridspec_kw={'height_ratios': [4.0, 3.5, 3.5]})
+
+fig3, axes3L = pyplt.subplots(nrows=1, ncols=5, figsize=(14, 2.5))
 
 
 #----------------------------------------------------------------------------
@@ -10365,7 +10367,7 @@ plot_modes(time_mode_dfrm, axes1L[nm_i], nm_i, 'Influence Maximization (64)', pl
 
 
 #----------------------------------------------------------------------------
-# Per-graph Scaling + Memory histograms
+# Grappolo: Per-graph Scaling + Memory histograms
 #----------------------------------------------------------------------------
 
 plt_sty = 'deep'
@@ -10477,18 +10479,43 @@ lat_data_strL = [ clueweb12_t192_latency_mem_str,
 plot_bw_lat(axes2A[1,nm_j], axes2A[2,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty, nm_j)
 
 
-#-------------------------------------------------------
+#----------------------------------------------------------------------------
+# Ripples: Per-graph Scaling
+#----------------------------------------------------------------------------
+
+nm = 'slash'
+nm_i = 0
+plot_scaling(time_dfrm_rip, nm, axes3L[nm_i], plt_sty, mrk_sty, ln_sty, nm_i)
+
+nm = 'twitter'
+nm_i = 1
+plot_scaling(time_dfrm_rip, nm, axes3L[nm_i], plt_sty, mrk_sty, ln_sty, nm_i)
+
+nm = 'talk'
+nm_i = 2
+plot_scaling(time_dfrm_rip, nm, axes3L[nm_i], plt_sty, mrk_sty, ln_sty, nm_i)
+
+nm = 'topcats'
+nm_i = 3
+plot_scaling(time_dfrm_rip, nm, axes3L[nm_i], plt_sty, mrk_sty, ln_sty, nm_i)
+
+nm = 'pokec'
+nm_i = 4
+plot_scaling(time_dfrm_rip, nm, axes3L[nm_i], plt_sty, mrk_sty, ln_sty, nm_i)
+
+
+#----------------------------------------------------------------------------
 
 adjustH = { 'left':0.05, 'right':0.99, 'bottom':0.03, 'top':0.97,
             'wspace':0.18, 'hspace':0.15 }
 
 fig1.subplots_adjust(**adjustH)
 fig2.subplots_adjust(**adjustH)
+fig3.subplots_adjust(**adjustH)
 
 fig1.savefig('chart-teaser.pdf', bbox_inches='tight')
 fig2.savefig('chart-grappolo-sum.pdf', bbox_inches='tight')
-
-
+fig3.savefig('chart-ripples-scaling.pdf', bbox_inches='tight')
 
 #seaborn.plt.show()
 pyplt.show()
