@@ -10043,14 +10043,20 @@ XXX_t192_latency_mem_str = """
 # Helpers
 #****************************************************************************
 
-def plot_modes(dfrm, axes, title, plt_sty, mrk_sty, ln_sty):
+def plot_modes(dfrm, axes, nm_i, title, plt_sty, mrk_sty, ln_sty):
 
     ax = seaborn.lineplot(data=dfrm, x='mode', y=col_dst, hue='graph',
                           palette=plt_sty, ax=axes, marker=mrk_sty, linestyle=ln_sty)
-    ax.set_ylim(bottom=0.60)
+
+    y_lo = dfrm[col_dst].min(axis=0)
+    ax.set_ylim(bottom = y_lo * .75)
 
     ax.set_title(title, size=title_txt_sz)
 
+    ax.set_xlabel('')
+    
+    if (nm_i != 0):
+        ax.set_ylabel('')
 
     # OLD:
     # ax = seaborn.lineplot(data=dfrm, x='mode', y=col_src, hue='graph', ax=ax,
@@ -10338,7 +10344,8 @@ makeRelTime(time_dfrm_grp, row_srcL, col_src, col_dst)
 time_mode_dfrm = time_dfrm_grp.xs(192, level='threads')
 #print(time_mode_dfrm)
 
-plot_modes(time_mode_dfrm, axes1L[0], 'Community Detection (192)', plt_sty, mrk_sty, ln_sty)
+nm_i = 0
+plot_modes(time_mode_dfrm, axes1L[nm_i], nm_i, 'Community Detection (192)', plt_sty, mrk_sty, ln_sty)
 
 #-------------------------------------------------------
 # ripples
@@ -10353,7 +10360,8 @@ makeRelTime(time_dfrm_rip, row_srcL, col_src, col_dst)
 time_mode_dfrm = time_dfrm_rip.xs(64, level='threads')
 #print(time_mode_dfrm)
 
-plot_modes(time_mode_dfrm, axes1L[1], 'Influence Maximization (64)', plt_sty, mrk_sty, ln_sty)
+nm_i = 1
+plot_modes(time_mode_dfrm, axes1L[nm_i], nm_i, 'Influence Maximization (64)', plt_sty, mrk_sty, ln_sty)
 
 
 #----------------------------------------------------------------------------
@@ -10477,7 +10485,7 @@ adjustH = { 'left':0.05, 'right':0.99, 'bottom':0.03, 'top':0.97,
 fig1.subplots_adjust(**adjustH)
 fig2.subplots_adjust(**adjustH)
 
-fig1.savefig('chart-grappolo-teaser.pdf', bbox_inches='tight')
+fig1.savefig('chart-teaser.pdf', bbox_inches='tight')
 fig2.savefig('chart-grappolo-sum.pdf', bbox_inches='tight')
 
 
