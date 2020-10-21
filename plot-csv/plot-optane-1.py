@@ -9,7 +9,7 @@
 
 import os
 import sys
-#import argparse
+#import argparse # https://docs.python.org/3/library/argparse.html
 
 import re
 import collections
@@ -20,6 +20,7 @@ import operator
 import pandas
 import numpy
 import math
+
 import matplotlib.pyplot as pyplt
 import matplotlib.patches as patches
 import seaborn
@@ -576,7 +577,7 @@ def plotL_mk_widths(vt, metricL, graph_grpL):
             try:
                 dfrm = vt.dataH[metricPair[0]]
             except KeyError:
-                vtcsv.printRed(("Warning: Skipping metric: '%s'" % metricPair[0]))
+                vtcsv.MSG.warnx(("Warning: Skipping metric: '%s'" % metricPair[0]))
                 widthL.append(1)
                 continue
 
@@ -611,7 +612,7 @@ def plotL_do(vt, fig, axesL, metricL, dfrm_xformF, ytitle_txt, graph_grpL):
             try:
                 dfrm = vt.dataH[metric0]
             except KeyError:
-                vtcsv.printRed(("Warning: Skipping metric: '%s'" % metric0))
+                vtcsv.MSG.warnx(("Warning: Skipping metric: '%s'" % metric0))
                 continue
 
             # select columns for 'graph_grp'

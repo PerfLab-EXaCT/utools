@@ -10,6 +10,9 @@
 import os
 import sys
 
+#import traceback
+#import inspect
+
 import re
 
 # https://pandas.pydata.org
@@ -141,7 +144,7 @@ class VTuneCSV:
     
     def add_csv(self, csv_fnm, indexL, columnL, makeColL):
         if (not os.path.exists(csv_fnm)):
-            print(("%s: Warning: Skipping non-existent file '%s'" % (VTuneCSV.NM, csv_fnm)))
+            MSG.warn(("Skipping non-existent file '%s'" % (csv_fnm)))
             return
 
         csv_nm = re.sub('\.csv$', '', os.path.basename(csv_fnm))
@@ -151,7 +154,7 @@ class VTuneCSV:
         self.index_name = dfrm.columns[0]
         dfrm.set_index(self.index_name, inplace = True)
 
-        print(("%s: Reading '%s' (%s)" % (VTuneCSV.NM, csv_fnm, self.index_name)))
+        MSG.msg(("Reading '%s' (%s)" % (csv_fnm, self.index_name)))
 
         #-------------------------------------------------------
         # Normalize
@@ -236,7 +239,7 @@ class VTuneCSV:
                         dfrm_new = dfrm[[key0]]
                         dfrm_new.columns = [ csv_nm ]
                     except KeyError:
-                        printPurple(("%s: Warning: Skipping column '%s'" % (VTuneCSV.NM, key0)))
+                        MSG.warn(("Skipping column '%s'" % (key0)))
                         continue
                 
                 if (dfrm0.empty):
@@ -385,32 +388,57 @@ def makeCol_percent(dfrm, col_src):
 # 
 #****************************************************************************
 
-# https://www.geeksforgeeks.org/print-colors-python-terminal/
+class MSG:
+    # https://www.geeksforgeeks.org/print-colors-python-terminal/
+    clr_bold  = '\033[01m'
+    clr_red   = '\033[31m'
+    clr_purpl = '\033[35m'
 
-_color_bold  = '\033[01m'
+    clr_orang = '\033[33m'
+    clr_blue  = '\033[34m'
+    clr_purpl = '\033[35m'
+    clr_cyan  = '\033[36m'
+    # lightblue='\033[94m'
 
-_color_red   = '\033[31m'
-_color_orang = '\033[33m'
-_color_blue  = '\033[34m'
-_color_purpl = '\033[35m'
-_color_cyan  = '\033[36m'
-# lightblue='\033[94m'
- 
-_color_reset = '\033[0m'
+    clr_reset = '\033[0m'
 
+    @staticmethod
+    def msg(str):
+        MSG.do('', VTuneCSV.NM, str)
 
-def printRed(str): print("{}{}{}{}".format(_color_bold, _color_red, str, _color_reset) )
-def printPurple(str): print("{}{}{}{}".format(_color_bold, _color_purpl, str, _color_reset) )
+    @staticmethod
+    def warn(str):
+        MSG.do(MSG.clr_bold + MSG.clr_purpl, VTuneCSV.NM + ' Warning', str)
+    
+    @staticmethod
+    def warnx(str):
+        MSG.do(MSG.clr_bold + MSG.clr_red, 'Warning', str)
+
+    @staticmethod
+    def err(str, code=1):
+        MSG.do(MSG.clr_bold + MSG.clr_red, 'Error', str)
+        exit(code)
+
+    @staticmethod
+    def do(color, info, str):
+        try:
+            # tbL = traceback.extract_stack(limit=3)
+            # inspect.currentframe().f_back.f_back.f_code.co_name
+            name = sys._getframe(2).f_code.co_name
+        except (IndexError, TypeError, AttributeError): # something went wrong
+            name = "<unknown>"
+
+        print("{}{} [{}]: {}{}".format(color, info, name, str, MSG.clr_reset))
+
 
 #****************************************************************************
 #
 #****************************************************************************
 
 if __name__ == "__main__":
-
     assert(len(sys.argv) > 1)
     csv_pathL = sys.argv[1:]
-    
+
     csv = VTuneCSV(csv_pathL, group_by = 'metric')
     csv.info()
     print(csv)
