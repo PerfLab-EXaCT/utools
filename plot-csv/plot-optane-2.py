@@ -126,7 +126,7 @@ clueweb12     192     pdax      nan            nan
 
 
 time_str_ripples = """
-graph        threads  mode   time          vtune
+graph  threads  mode   time          vtune
 
 pokec	2	dram	22531.59	nan
 pokec	4	dram	10796.75	nan
@@ -10048,15 +10048,23 @@ def plot_modes(dfrm, axes, nm_i, title, plt_sty, mrk_sty, ln_sty):
     ax = seaborn.lineplot(data=dfrm, x='mode', y=col_dst, hue='graph',
                           palette=plt_sty, ax=axes, marker=mrk_sty, linestyle=ln_sty)
 
-    y_lo = dfrm[col_dst].min(axis=0)
-    ax.set_ylim(bottom = y_lo * .80)
+    #y_lo = dfrm[col_dst].min(axis=0)
+    #ax.set_ylim(bottom = y_lo * .80)
 
-    ax.set_title(title, size=title_txt_sz)
+    if title:
+        ax.set_title(title, size=title_txt_sz)
 
     ax.set_xlabel('')
+    #ax.set_xticklabels([])
+
+    ax.grid()
+
+    ax.legend().set_title('')
     
     if (nm_i != 0):
         ax.set_ylabel('')
+        ax.get_legend().remove()
+
 
     # OLD:
     # ax = seaborn.lineplot(data=dfrm, x='mode', y=col_src, hue='graph', ax=ax,
@@ -10088,18 +10096,21 @@ def plot_scaling(dfrm, graph_nm, axes, plt_sty, mrk_sty, ln_sty, nm_j):
 
     ax.set_xscale('log', base=2)
 
-    ax.yaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter(useMathText=True, useOffset=False))
-    ax.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
+    ax.set_yscale('log', base=2)
 
-    # Only sets x position
+    ax.grid()
+
+    #ax.yaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter(useMathText=True, useOffset=False))
+    #ax.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
+
+    # Adjust exponent of scientific formatter: Only works for x position!
     #ax.yaxis.get_offset_text().set_position((0.0,0.0)) # adjust exponent
 
-    # 'offset_text' not set until plot time!
+    # Adjust exponent of scientific formatter: 'offset_text' has no value until plot time!
     #ax.set_yticklabels(ax.get_yticks()) # attempt to force
     #exp_txt = ax.yaxis.get_offset_text().get_text()
     #print(exp_txt)
     #ax.text(0.10, 0.5, exp_txt, ha='left', zorder=100) # , va='bottom'
-    
     #ax.yaxis.offsetText.set_visible(False)
     
     if (nm_j == 0):
@@ -10214,7 +10225,7 @@ def makeRelTime(dfrm, row_srcL, col_src, col_dst):
             v_base = dfrm.at[(graph, thrd, row_srcL[1]), col_src]
 
         #except KeyError:
-        #    vtcsv.printRed(("Warning: Incomplete: '%s %s %s'" % (graph, thrd, ty) ))
+        #    vtcsv.err(("Warning: Incomplete: '%s %s %s'" % (graph, thrd, ty) ))
         #    v_base = 1.0
             
         v_norm = (v / v_base) # * 100
@@ -10311,7 +10322,7 @@ def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = False):
 # Main
 #****************************************************************************
 
-fig1, axes1L = pyplt.subplots(nrows=1, ncols=2, figsize=(6, 2.5))
+fig1, axes1L = pyplt.subplots(nrows=2, ncols=2, figsize=(6, 3.5))
 
 fig2, axes2A = pyplt.subplots(nrows=3, ncols=4, figsize=(14, 8.5),
                               gridspec_kw={'height_ratios': [4.0, 3.5, 3.5]})
@@ -10319,13 +10330,16 @@ fig2, axes2A = pyplt.subplots(nrows=3, ncols=4, figsize=(14, 8.5),
 fig3, axes3L = pyplt.subplots(nrows=1, ncols=5, figsize=(14, 2.5))
 
 
+ln_sty = '-' # ':' # --
+mrk_sty = 'o' # --
+
+plt_sty1 = 'bright' # 'Set2' # 'muted' # 'bright'
+plt_sty2 = 'deep' # 'dark'
+
+
 #----------------------------------------------------------------------------
 # Mode comparison
 #----------------------------------------------------------------------------
-
-ln_sty = '-' # ':' # --
-mrk_sty = 'o' # --
-plt_sty = 'dark'
 
 tm_index = [0,1,2] # graph threads type
 
@@ -10337,17 +10351,23 @@ col_dst = 'relative time'
 # grappolo
 #-------------------------------------------------------
 
+mode_thrdL = [64, 192]
+
 time_data_grp = io.StringIO(time_str_grappolo)
 time_dfrm_grp = pandas.read_csv(time_data_grp, sep='\s+', index_col=tm_index)
 #print(time_dfrm_grp)
 
 makeRelTime(time_dfrm_grp, row_srcL, col_src, col_dst)
 
-time_mode_dfrm = time_dfrm_grp.xs(192, level='threads')
-#print(time_mode_dfrm)
-
 nm_i = 0
-plot_modes(time_mode_dfrm, axes1L[nm_i], nm_i, 'Community Detection (192)', plt_sty, mrk_sty, ln_sty)
+for num_t in mode_thrdL:
+    mode_dfrm = time_dfrm_grp.xs(num_t, level='threads')
+    #print(mode_dfrm)
+
+    ttl = 'Community Detection/{}'.format(num_t)
+    plot_modes(mode_dfrm, axes1L[0][nm_i], nm_i, ttl, plt_sty1, mrk_sty, ln_sty)
+    nm_i += 1
+
 
 #-------------------------------------------------------
 # ripples
@@ -10359,18 +10379,20 @@ time_dfrm_rip = pandas.read_csv(time_data_rip, sep='\s+', index_col=tm_index)
 
 makeRelTime(time_dfrm_rip, row_srcL, col_src, col_dst)
 
-time_mode_dfrm = time_dfrm_rip.xs(64, level='threads')
-#print(time_mode_dfrm)
+nm_i = 0
+for num_t in mode_thrdL:
+    mode_dfrm = time_dfrm_rip.xs(num_t, level='threads')
+    #print(mode_dfrm)
 
-nm_i = 1
-plot_modes(time_mode_dfrm, axes1L[nm_i], nm_i, 'Influence Maximization (64)', plt_sty, mrk_sty, ln_sty)
+    ttl = 'Influence Maximization/{}'.format(num_t)
+    plot_modes(mode_dfrm, axes1L[1][nm_i], nm_i, ttl, plt_sty1, mrk_sty, ln_sty)
+    nm_i += 1
 
 
 #----------------------------------------------------------------------------
 # Grappolo: Per-graph Scaling + Memory histograms
 #----------------------------------------------------------------------------
 
-plt_sty = 'deep'
 
 #-------------------------------------------------------
 # friendster
@@ -10384,7 +10406,7 @@ lat_data_nmL = ['dram', 'mem', 'kdax', 'pdax' ]
 
 # TODO: Make pairs of (data_str, data_nm)
 
-plot_scaling(time_dfrm_grp, nm, axes2A[0,nm_j], plt_sty, mrk_sty, ln_sty, nm_j)
+plot_scaling(time_dfrm_grp, nm, axes2A[0,nm_j], plt_sty1, mrk_sty, ln_sty, nm_j)
 
 bw_data_strL = [ friendster_t192_dramBw_dram_str,
 
@@ -10403,7 +10425,7 @@ lat_data_strL = [ friendster_t192_latency_dram_str,
                   friendster_t192_latency_kdax_str,
                   friendster_t192_latency_pdax_str ]
 
-plot_bw_lat(axes2A[1,nm_j], axes2A[2,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty, nm_j)
+plot_bw_lat(axes2A[1,nm_j], axes2A[2,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty2, nm_j)
 
 
 #-------------------------------------------------------
@@ -10413,7 +10435,7 @@ plot_bw_lat(axes2A[1,nm_j], axes2A[2,nm_j], bw_data_strL, lat_data_strL, nm, bw_
 nm = 'moliere2016'
 nm_j = 1
 
-plot_scaling(time_dfrm_grp, nm, axes2A[0,nm_j], plt_sty, mrk_sty, ln_sty, nm_j)
+plot_scaling(time_dfrm_grp, nm, axes2A[0,nm_j], plt_sty1, mrk_sty, ln_sty, nm_j)
 
 bw_data_strL = [ moliere2016_t192_dramBw_dram_str,
 
@@ -10431,7 +10453,7 @@ lat_data_strL = [ moliere2016_t192_latency_dram_str,
                   moliere2016_t192_latency_kdax_str,
                   moliere2016_t192_latency_pdax_str ]
 
-plot_bw_lat(axes2A[1,nm_j], axes2A[2,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty, nm_j)
+plot_bw_lat(axes2A[1,nm_j], axes2A[2,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty2, nm_j)
 
 #-------------------------------------------------------
 # 
@@ -10443,7 +10465,7 @@ nm_j = 2
 bw_data_nmL =  ['mem', 'kdax', 'kdax'] # 'mem',
 lat_data_nmL =  ['mem', 'kdax']
 
-plot_scaling(time_dfrm_grp, nm, axes2A[0,nm_j], plt_sty, mrk_sty, ln_sty, nm_j)
+plot_scaling(time_dfrm_grp, nm, axes2A[0,nm_j], plt_sty1, mrk_sty, ln_sty, nm_j)
 
 bw_data_strL = [ uk2014_t192_dramBw_mem_str,
                  #uk2014_t192_pmemBw_mem_str,
@@ -10456,7 +10478,7 @@ lat_data_strL = [ uk2014_t192_latency_mem_str,
                   uk2014_t192_latency_kdax_str ]
 
 
-plot_bw_lat(axes2A[1,nm_j], axes2A[2,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty, nm_j)
+plot_bw_lat(axes2A[1,nm_j], axes2A[2,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty2, nm_j)
 
 #-------------------------------------------------------
 # 
@@ -10465,7 +10487,7 @@ plot_bw_lat(axes2A[1,nm_j], axes2A[2,nm_j], bw_data_strL, lat_data_strL, nm, bw_
 nm = 'clueweb12'
 nm_j = 3
 
-plot_scaling(time_dfrm_grp, nm, axes2A[0,nm_j], plt_sty, mrk_sty, ln_sty, nm_j)
+plot_scaling(time_dfrm_grp, nm, axes2A[0,nm_j], plt_sty1, mrk_sty, ln_sty, nm_j)
 
 bw_data_strL = [ clueweb12_t192_dramBw_mem_str,
                  #clueweb12_t192_pmemBw_mem_str,
@@ -10476,7 +10498,7 @@ bw_data_strL = [ clueweb12_t192_dramBw_mem_str,
 lat_data_strL = [ clueweb12_t192_latency_mem_str,
                   clueweb12_t192_latency_kdax_str ]
 
-plot_bw_lat(axes2A[1,nm_j], axes2A[2,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty, nm_j)
+plot_bw_lat(axes2A[1,nm_j], axes2A[2,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty2, nm_j)
 
 
 #----------------------------------------------------------------------------
@@ -10485,33 +10507,36 @@ plot_bw_lat(axes2A[1,nm_j], axes2A[2,nm_j], bw_data_strL, lat_data_strL, nm, bw_
 
 nm = 'slash'
 nm_i = 0
-plot_scaling(time_dfrm_rip, nm, axes3L[nm_i], plt_sty, mrk_sty, ln_sty, nm_i)
+plot_scaling(time_dfrm_rip, nm, axes3L[nm_i], plt_sty1, mrk_sty, ln_sty, nm_i)
 
 nm = 'twitter'
 nm_i = 1
-plot_scaling(time_dfrm_rip, nm, axes3L[nm_i], plt_sty, mrk_sty, ln_sty, nm_i)
+plot_scaling(time_dfrm_rip, nm, axes3L[nm_i], plt_sty1, mrk_sty, ln_sty, nm_i)
 
 nm = 'talk'
 nm_i = 2
-plot_scaling(time_dfrm_rip, nm, axes3L[nm_i], plt_sty, mrk_sty, ln_sty, nm_i)
+plot_scaling(time_dfrm_rip, nm, axes3L[nm_i], plt_sty1, mrk_sty, ln_sty, nm_i)
 
 nm = 'topcats'
 nm_i = 3
-plot_scaling(time_dfrm_rip, nm, axes3L[nm_i], plt_sty, mrk_sty, ln_sty, nm_i)
+plot_scaling(time_dfrm_rip, nm, axes3L[nm_i], plt_sty1, mrk_sty, ln_sty, nm_i)
 
 nm = 'pokec'
 nm_i = 4
-plot_scaling(time_dfrm_rip, nm, axes3L[nm_i], plt_sty, mrk_sty, ln_sty, nm_i)
+plot_scaling(time_dfrm_rip, nm, axes3L[nm_i], plt_sty1, mrk_sty, ln_sty, nm_i)
 
 
 #----------------------------------------------------------------------------
 
-adjustH = { 'left':0.05, 'right':0.99, 'bottom':0.03, 'top':0.97,
-            'wspace':0.18, 'hspace':0.15 }
+adjustH1 = { 'left':0.05, 'right':0.99, 'bottom':0.03, 'top':0.97,
+             'wspace':0.18, 'hspace':0.35 }
 
-fig1.subplots_adjust(**adjustH)
-fig2.subplots_adjust(**adjustH)
-fig3.subplots_adjust(**adjustH)
+adjustH2 = { 'left':0.05, 'right':0.99, 'bottom':0.03, 'top':0.97,
+             'wspace':0.18, 'hspace':0.15 }
+
+fig1.subplots_adjust(**adjustH1)
+fig2.subplots_adjust(**adjustH2)
+fig3.subplots_adjust(**adjustH2)
 
 fig1.savefig('chart-teaser.pdf', bbox_inches='tight')
 fig2.savefig('chart-grappolo-sum.pdf', bbox_inches='tight')
