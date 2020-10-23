@@ -239,13 +239,13 @@ def main_grappolo(makeColL_f, metricL1_p, metricL1_f, metricL2_f, metricL3):
     vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv')
     vt_f = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL_f)
 
-    widthH_p = { 'width1':2.7, 'width2':3.0, 'height':1.8 }
     widthH_f = { 'width1':3.2, 'width2':3.5, 'height':2.7 } # h=2.7,1.8
     adjustH = { 'left':0.05, 'right':0.95, 'bottom':0.10, 'top':0.80,
                 'wspace':0.10, 'hspace':0.0 }
 
-    (fig_p1, fig_p2) = \
-        plot_pkg(vt_p, graphL, metricL1_p, metricL3, widthH_p, adjustH, adjustH)
+    fig_p1 = plot_pkg(vt_p, graphL, metricL1_p, adjustH, w=2.7, h=1.8)
+    fig_p2 = plot_pkg(vt_p, graphL, metricL3,   adjustH, w=3.0, h=1.8)
+    
     (fig_f1, fig_f2, fig_f3) = \
         plot_fn (vt_f, graphL, functionH, metricL1_f, metricL2_f, metricL3, widthH_f, adjustH, adjustH)
 
@@ -254,28 +254,6 @@ def main_grappolo(makeColL_f, metricL1_p, metricL1_f, metricL2_f, metricL3):
     fig_f1.savefig('chart-grappolo-fn-metrics.pdf', bbox_inches='tight')
     fig_f2.savefig('chart-grappolo-fn-metrics2.pdf', bbox_inches='tight')
     
-    #-------------------------------------------------------
-    # Big graphs
-    #-------------------------------------------------------
-
-    # vt_Bp = vtcsv.VTuneCSV(pathL_Bp, group_by = 'csv')
-    # vt_Bf = vtcsv.VTuneCSV(pathL_Bf, group_by = 'csv', makeColL = makeColL_f)
-
-    # widthH_p = {'width1':2.5, 'width2':2.6, 'height':1.8}
-    # widthH_f = {'width1':2.5, 'width2':2.7, 'height':2.7} # h=2.7,1.8
-    # adjustH['wspace'] = 0.10
-
-    # (fig_Bp1, fig_Bp2) = plot_pkg(vt_Bp, [graphL_big], metricL1_p, metricL3,
-    #                               widthH_p, adjustH, adjustH)
-    # (fig_Bf1, fig_Bf2) = plot_fn (vt_Bf, [graphL_big], functionH,
-    #                               metricL1_f, metricL3,
-    #                               widthH_f, adjustH, adjustH)
-
-    # fig_Bp1.savefig('chart-grappolo-big-pkg-metrics.pdf', bbox_inches='tight')
-    # #fig_Bp2.savefig('chart-grappolo-big-pkg-metrics2.pdf', bbox_inches='tight')
-
-    # fig_Bf1.savefig('chart-grappolo-big-fn-metrics.pdf', bbox_inches='tight')
-    # #fig_Bf2.savefig('chart-grappolo-big-fn-metrics2.pdf', bbox_inches='tight')
 
 
 
@@ -416,13 +394,14 @@ def main_ripples(makeColL_f, metricL1_p, metricL1_f, metricL2_f, metricL3):
     vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv')
     vt_f = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL_f)
 
-    widthH_p = { 'width1':2.6, 'width2':3.0, 'height':1.8 }
     widthH_f = { 'width1':3.2, 'width2':4.0, 'height':2.7 } # h=2.7,1.8
     adjustH = { 'left':0.05, 'right':0.95, 'bottom':0.10, 'top':0.80,
                 'wspace':0.10, 'hspace':0.0 }
 
-    (fig_p1, fig_p2) = \
-        plot_pkg(vt_p, graphL, metricL1_p, metricL3, widthH_p, adjustH, adjustH)
+    fig_p1 = plot_pkg(vt_p, graphL, metricL1_p, adjustH, w=2.6, h=1.8)
+    fig_p2 = plot_pkg(vt_p, graphL, metricL3,   adjustH, w=3.0, h=1.8)
+
+
     (fig_f1, fig_f2, fig_f3) = \
         plot_fn (vt_f, graphL, functionH, metricL1_f, metricL2_f, metricL3, widthH_f, adjustH, adjustH)
 
@@ -434,23 +413,13 @@ def main_ripples(makeColL_f, metricL1_p, metricL1_f, metricL2_f, metricL3):
 
 #****************************************************************************
 
-def plot_pkg(vt, graph_grpL, metricL1, metricL2, widthH, adjustH1, adjustH2):
+def plot_pkg(vt, graph_grpL, metricL, adjustH, w, h):
 
-    (w1, w2, h) = (widthH['width1'], widthH['width2'], widthH['height'])
+    fig, axesL = plotL_mk(vt, metricL, w, h, graph_grpL)
+    plotL_do(vt, fig, axesL, metricL, dfrm_pkg_xform(graph_grpL), 'Socket', graph_grpL)
+    plotL_adj(fig, adjustH)
 
-    #-------------------------------------------------------
-
-    fig1, axesL1 = plotL_mk(vt, metricL1, w1, h, graph_grpL)
-    plotL_do(vt, fig1, axesL1, metricL1, dfrm_pkg_xform(graph_grpL), 'Socket', graph_grpL)
-    plotL_adj(fig1, adjustH1)
-
-    #-------------------------------------------------------
-
-    fig2, axesL2 = plotL_mk(vt, metricL2, w2, h, graph_grpL)
-    plotL_do(vt, fig2, axesL2, metricL2, dfrm_pkg_xform(graph_grpL), 'Socket', graph_grpL)
-    plotL_adj(fig2, adjustH2)
-
-    return (fig1, fig2)
+    return fig
 
 
 def dfrm_pkg_xform(graph_grpL):
