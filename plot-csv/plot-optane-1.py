@@ -131,7 +131,7 @@ def main():
     #-------------------------------------------------------
 
     main_grappolo(makeColL_Gf, metricL1_p, metricL1_f, metricL2_f, metricL3)
-    main_ripples (makeColL_Rf, metricL1r_p, metricL1_f, metricL2r_f, metricL3)
+    #main_ripples (makeColL_Rf, metricL1r_p, metricL1_f, metricL2r_f, metricL3)
 
     pyplt.show()
 
@@ -246,8 +246,9 @@ def main_grappolo(makeColL_f, metricL1_p, metricL1_f, metricL2_f, metricL3):
     fig_p1 = plot_pkg(vt_p, graphL, metricL1_p, adjustH, w=2.7, h=1.8)
     fig_p2 = plot_pkg(vt_p, graphL, metricL3,   adjustH, w=3.0, h=1.8)
     
-    (fig_f1, fig_f2, fig_f3) = \
-        plot_fn (vt_f, graphL, functionH, metricL1_f, metricL2_f, metricL3, widthH_f, adjustH, adjustH)
+    fig_f1 = plot_fn(vt_f, graphL, functionH, metricL1_f, adjustH, 3.2, 2.7)
+    fig_f2 = plot_fn(vt_f, graphL, functionH, metricL2_f, adjustH, 3.2, 2.7)
+    fig_f3 = plot_fn(vt_f, graphL, functionH, metricL3,   adjustH, 3.2, 2.7)
 
     fig_p1.savefig('chart-grappolo-pkg-metrics.pdf', bbox_inches='tight')
 
@@ -433,31 +434,31 @@ def dfrm_pkg_xform(graph_grpL):
 
 #****************************************************************************
 
-def plot_fn(vt, graph_grpL, functionH, metricL1, metricL2, metricL3, widthH, adjustH1, adjustH2):
-    (w1, w2, h) = (widthH['width1'], widthH['width2'], widthH['height'])
+def plot_fn(vt, graph_grpL, functionH, metricL1, adjustH1, w, h):
+    # , metricL2, metricL3, adjustH2
+    
+    #(w1, w2, h) = (widthH['width1'], widthH['width2'], widthH['height'])
     
     #-------------------------------------------------------
     
-    fig1, axesL1 = plotL_mk(vt, metricL1, w1, h, graph_grpL)
+    fig1, axesL1 = plotL_mk(vt, metricL1, w, h, graph_grpL)
     plotL_do(vt, fig1, axesL1, metricL1, dfrm_fn_xform(functionH, graph_grpL), 'Functions', graph_grpL)
     plotL_adj(fig1, adjustH1)
 
     #-------------------------------------------------------
 
-    # Percentage metrics (FIXME)
-    graph_grpL1 = graph_grpL #[ flattenL(graph_grpL) ]
+    # # Percentage metrics: [ flattenL(graph_grpL) ]
+    # fig2, axesL2 = plotL_mk(vt, metricL2, w1, h, graph_grpL)
+    # plotL_do(vt, fig2, axesL2, metricL2, dfrm_fn_xform(functionH, graph_grpL), 'Functions', graph_grpL)
+    # plotL_adj(fig2, adjustH2)
 
-    fig2, axesL2 = plotL_mk(vt, metricL2, w1, h, graph_grpL1)
-    plotL_do(vt, fig2, axesL2, metricL2, dfrm_fn_xform(functionH, graph_grpL1), 'Functions', graph_grpL1)
-    plotL_adj(fig2, adjustH2)
-
-    #-------------------------------------------------------
+    # #-------------------------------------------------------
     
-    fig3, axesL3 = plotL_mk(vt, metricL3, w1, h, graph_grpL)
-    plotL_do(vt, fig3, axesL3, metricL3, dfrm_fn_xform(functionH, graph_grpL), 'Functions', graph_grpL)
-    plotL_adj(fig3, adjustH2)
+    # fig3, axesL3 = plotL_mk(vt, metricL3, w1, h, graph_grpL)
+    # plotL_do(vt, fig3, axesL3, metricL3, dfrm_fn_xform(functionH, graph_grpL), 'Functions', graph_grpL)
+    # plotL_adj(fig3, adjustH2)
 
-    return (fig1, fig2, fig3)
+    return fig1 # fig2, fig3)
 
     
 def dfrm_fn_xform(functionH, graph_grpL):
