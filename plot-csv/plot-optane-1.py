@@ -74,7 +74,8 @@ def main():
     # Metrics: Locally map old -> new names
     #-------------------------------------------------------
 
-    metricL1_p = [
+
+    metricL1_p = [ # metricL1_p.copy()
         #('CPU Time'),
         #
         ('Average Latency (cycles)',    'Latency (cycles)'),
@@ -85,10 +86,20 @@ def main():
         #('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
         ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
         #('Memory Bound:Store Bound(%)', 'Store Bound (%)'),
-        ]
+    ]
 
-    metricL1r_p = metricL1_p.copy()
-    #metricL1r_p.pop() # no 'Store Bound (%)'
+    global metricLp1
+    metricLp1 = [
+        ('Average Latency (cycles)',    'Latency (cycles)'),
+    ]
+
+    global metricLp2
+    metricLp2 = [
+        ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
+    ]
+
+    metricL1r_p = metricL1_p # FIXME
+
 
     #-------------------------------------------------------
     
@@ -239,12 +250,12 @@ def main_grappolo(makeColL_f, metricL1_p, metricL1_f, metricL2_f, metricL3):
     vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv')
     vt_f = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL_f)
 
-    widthH_f = { 'width1':3.2, 'width2':3.5, 'height':2.7 } # h=2.7,1.8
     adjustH = { 'left':0.05, 'right':0.95, 'bottom':0.10, 'top':0.80,
                 'wspace':0.10, 'hspace':0.0 }
 
-    fig_p1 = plot_pkg(vt_p, graphL, metricL1_p, adjustH, w=2.7, h=1.8)
-    fig_p2 = plot_pkg(vt_p, graphL, metricL3,   adjustH, w=3.0, h=1.8)
+    fig_p1 = plot_pkg(vt_p, graphL, metricLp1, adjustH, w=2.7, h=1.8)
+    fig_px = plot_pkg(vt_p, graphL, metricLp2, adjustH, w=2.7, h=1.8)
+    fig_p2 = plot_pkg(vt_p, graphL, metricL3,  adjustH, w=3.0, h=1.8)
     
     fig_f1 = plot_fn(vt_f, graphL, functionH, metricL1_f, adjustH, 3.2, 2.7)
     fig_f2 = plot_fn(vt_f, graphL, functionH, metricL2_f, adjustH, 3.2, 2.7)
@@ -395,7 +406,6 @@ def main_ripples(makeColL_f, metricL1_p, metricL1_f, metricL2_f, metricL3):
     vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv')
     vt_f = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL_f)
 
-    widthH_f = { 'width1':3.2, 'width2':4.0, 'height':2.7 } # h=2.7,1.8
     adjustH = { 'left':0.05, 'right':0.95, 'bottom':0.10, 'top':0.80,
                 'wspace':0.10, 'hspace':0.0 }
 
@@ -434,31 +444,13 @@ def dfrm_pkg_xform(graph_grpL):
 
 #****************************************************************************
 
-def plot_fn(vt, graph_grpL, functionH, metricL1, adjustH1, w, h):
-    # , metricL2, metricL3, adjustH2
+def plot_fn(vt, graph_grpL, functionH, metricL, adjustH, w, h):
     
-    #(w1, w2, h) = (widthH['width1'], widthH['width2'], widthH['height'])
-    
-    #-------------------------------------------------------
-    
-    fig1, axesL1 = plotL_mk(vt, metricL1, w, h, graph_grpL)
-    plotL_do(vt, fig1, axesL1, metricL1, dfrm_fn_xform(functionH, graph_grpL), 'Functions', graph_grpL)
-    plotL_adj(fig1, adjustH1)
+    fig, axesL = plotL_mk(vt, metricL, w, h, graph_grpL)
+    plotL_do(vt, fig, axesL, metricL, dfrm_fn_xform(functionH, graph_grpL), 'Functions', graph_grpL)
+    plotL_adj(fig, adjustH)
 
-    #-------------------------------------------------------
-
-    # # Percentage metrics: [ flattenL(graph_grpL) ]
-    # fig2, axesL2 = plotL_mk(vt, metricL2, w1, h, graph_grpL)
-    # plotL_do(vt, fig2, axesL2, metricL2, dfrm_fn_xform(functionH, graph_grpL), 'Functions', graph_grpL)
-    # plotL_adj(fig2, adjustH2)
-
-    # #-------------------------------------------------------
-    
-    # fig3, axesL3 = plotL_mk(vt, metricL3, w1, h, graph_grpL)
-    # plotL_do(vt, fig3, axesL3, metricL3, dfrm_fn_xform(functionH, graph_grpL), 'Functions', graph_grpL)
-    # plotL_adj(fig3, adjustH2)
-
-    return fig1 # fig2, fig3)
+    return fig
 
     
 def dfrm_fn_xform(functionH, graph_grpL):
