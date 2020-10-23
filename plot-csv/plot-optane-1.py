@@ -63,74 +63,43 @@ def main():
     # Make new columns in 'vtcsv'
     #-------------------------------------------------------
 
-    # makeColL_Gf = [ ('CPU Time', 'CPU Time (%)', vtcsv.makeCol_percent) ]
-    # makeColL_Rf = makeColL_Gf
+    makeColL_g = [
+        ('CPU Time', 'CPU Time (s)', makeCol_wallclock(192) ),
+        ('Stores',   'Stores (%)',   vtcsv.makeCol_pctOfOther('Loads') ),
+    ]
 
-    makeColL_Gf = [ ('CPU Time', 'CPU Time (s)', makeCol_wallclock(192) ) ]
-    makeColL_Rf = [ ('CPU Time', 'CPU Time (s)', makeCol_wallclock(64) ) ]
-    assert(makeColL_Gf[0][1] == makeColL_Rf[0][1])
+    makeColL_r = [
+        ('CPU Time', 'CPU Time (s)', makeCol_wallclock(64) ),
+        ('Stores',   'Stores (%)',   vtcsv.makeCol_pctOfOther('Loads') ),
+        #makeColL_g[1],
+    ]
 
     #-------------------------------------------------------
     # Metrics: Locally map old -> new names
     #-------------------------------------------------------
 
-    metricL1_p = [ # metricL1_p.copy()
-        #('CPU Time'),
+    global metricL1
+    metricL1 = [ # metricL1.copy()
+        (makeColL_g[0][1] ,),  #('CPU Time'),
         #
         ('Average Latency (cycles)',    'Latency (cycles)'),
         #
-        #('Memory Bound(%)',),
-        #('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
-        #('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
-        #('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
-        ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
-        #('Memory Bound:Store Bound(%)', 'Store Bound (%)'),
-    ]
-
-    global metricP1
-    metricP1 = [ ('Average Latency (cycles)',    'Latency (cycles)'), ]
-
-    global metricP2
-    metricP2 = [ ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'), ]
-
-
-    #-------------------------------------------------------
-    
-    metricL1_f = [
-        #('CPU Time',),
-        (makeColL_Gf[0][1] ,),
-        #
-        ('Average Latency (cycles)',    'Latency (cycles)'),
-        #
-        ]
-
-    global metricL2_f # FIXME
-    metricL2_f = [
-        #('Memory Bound(%)',),
+        ('Memory Bound(%)',),
         ('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
         ('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
         ('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
         ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
         #('Memory Bound:Store Bound(%)', 'Store Bound (%)'),
-        ]
+    ]
 
-    metricL2r_f = metricL2_f.copy()
-    #metricL2r_f.pop() # no 'Store Bound (%)'
-
-    global metricF1
-    metricF1 = [ (makeColL_Gf[0][1] ,), ] #('CPU Time',),
-
-    global metricF2
-    metricF2 = [ ('Average Latency (cycles)',    'Latency (cycles)'), ]
-
-    
-    #-------------------------------------------------------
-
-    global metricLx
-    metricLx = [
+    global metricL2
+    metricL2 = [
         #('Memory Bound:Persistent Memory Bound(%)', 'Pmem Bound (%)'),
-        ('Loads',),
-        ('Stores',),
+        
+        (makeColL_g[1][1] ,),  #('Stores (%)',),
+        #('Loads',),
+        #('Stores',),
+        
         #('LLC Miss Count', 'LLC Miss'),
         ('LLC Miss Count:Remote DRAM Access Count', 'LLC Miss:Remote DRAM'),
         ('LLC Miss Count:Local DRAM Access Count',  'LLC Miss:Local DRAM'),
@@ -143,13 +112,13 @@ def main():
     # 
     #-------------------------------------------------------
 
-    main_grappolo(makeColL_Gf)
-    main_ripples (makeColL_Rf)
+    main_grappolo(makeColL_g)
+    main_ripples (makeColL_r)
 
     pyplt.show()
 
     
-def main_grappolo(makeColL_f):
+def main_grappolo(makeColL):
 
     path_pfx = './1grappolo/grappolo-'
 
@@ -249,20 +218,25 @@ def main_grappolo(makeColL_f):
     # graphs
     #-------------------------------------------------------
 
-    vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv')
-    vt_f = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL_f)
+    vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv', makeColL = makeColL)
+    vt_f = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL)
 
     adjustH = { 'left':0.05, 'right':0.95, 'bottom':0.10, 'top':0.80,
                 'wspace':0.10, 'hspace':0.0 }
 
-    fig_p1 = plot_pkg(vt_p, graphL, metricP1, adjustH, w=2.7, h=1.8)
-    fig_p2 = plot_pkg(vt_p, graphL, metricP2, adjustH, w=2.7, h=1.8)
-    fig_px = plot_pkg(vt_p, graphL, metricLx, adjustH, w=3.0, h=1.8)
+    fig_p1 = plot_pkg(vt_p, graphL, [metricL1[1]], adjustH, w=2.7, h=1.8)
+    fig_p2 = plot_pkg(vt_p, graphL, [metricL1[2]], adjustH, w=2.7, h=1.8)
+    fig_px = plot_pkg(vt_p, graphL, metricL2, adjustH, w=3.0, h=1.8)
     
-    fig_f1 = plot_fn(vt_f, graphL, functionH, metricF1, adjustH, 3.2, 2.7)
-    fig_f2 = plot_fn(vt_f, graphL, functionH, metricF2, adjustH, 3.2, 2.7)
-    fig_f3 = plot_fn(vt_f, graphL, functionH, metricL2_f, adjustH, 3.2, 2.7)
-    fig_fx = plot_fn(vt_f, graphL, functionH, metricLx, adjustH, 3.2, 2.7)
+    fig_f1 = plot_fn(vt_f, graphL, functionH, [metricL1[0]], adjustH, 3.2, 2.7)
+    fig_f2 = plot_fn(vt_f, graphL, functionH, [metricL1[1]], adjustH, 3.2, 2.7)
+    fig_f3 = plot_fn(vt_f, graphL, functionH, [metricL1[3]], adjustH, 3.2, 2.7)
+    fig_f4 = plot_fn(vt_f, graphL, functionH, [metricL1[4]], adjustH, 3.2, 2.7)
+    fig_f5 = plot_fn(vt_f, graphL, functionH, [metricL1[5]], adjustH, 3.2, 2.7)
+    fig_f6 = plot_fn(vt_f, graphL, functionH, [metricL1[6]], adjustH, 3.2, 2.7)
+    fig_f7 = plot_fn(vt_f, graphL, functionH, [metricL2[0]], adjustH, 3.2, 2.7)
+    
+    fig_fx = plot_fn(vt_f, graphL, functionH, metricL2, adjustH, 3.2, 2.7)
 
     fig_p1.savefig('chart-grappolo-pkg1.pdf', bbox_inches='tight')
     fig_p1.savefig('chart-grappolo-pkg2.pdf', bbox_inches='tight')
@@ -274,7 +248,7 @@ def main_grappolo(makeColL_f):
 
 
 
-def main_ripples(makeColL_f):
+def main_ripples(makeColL):
 
     #-------------------------------------------------------
     # Ripples
@@ -408,20 +382,24 @@ def main_ripples(makeColL_f):
     # 
     #-------------------------------------------------------
 
-    vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv')
-    vt_f = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL_f)
+    vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv', makeColL = makeColL)
+    vt_f = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL)
 
     adjustH = { 'left':0.05, 'right':0.95, 'bottom':0.10, 'top':0.80,
                 'wspace':0.10, 'hspace':0.0 }
 
-    fig_p1 = plot_pkg(vt_p, graphL, metricP1, adjustH, w=2.6, h=1.8)
-    fig_p2 = plot_pkg(vt_p, graphL, metricP2, adjustH, w=2.6, h=1.8)
-    fig_px = plot_pkg(vt_p, graphL, metricLx, adjustH, w=3.0, h=1.8)
+    fig_p1 = plot_pkg(vt_p, graphL, [metricL1[1]], adjustH, w=2.6, h=1.8)
+    fig_p2 = plot_pkg(vt_p, graphL, [metricL1[2]], adjustH, w=2.6, h=1.8)
+    fig_px = plot_pkg(vt_p, graphL, metricL2, adjustH, w=3.0, h=1.8)
 
-    fig_f1 = plot_fn(vt_f, graphL, functionH, metricF1, adjustH, 3.2, 2.7)
-    fig_f2 = plot_fn(vt_f, graphL, functionH, metricF2, adjustH, 3.2, 2.7)
-    fig_f3 = plot_fn(vt_f, graphL, functionH, metricL2_f, adjustH, 3.2, 2.7)
-    fig_fx = plot_fn(vt_f, graphL, functionH, metricLx, adjustH, 3.2, 2.7)
+    fig_f1 = plot_fn(vt_f, graphL, functionH, [metricL1[0]], adjustH, 3.2, 2.7)
+    fig_f2 = plot_fn(vt_f, graphL, functionH, [metricL1[1]], adjustH, 3.2, 2.7)
+    fig_f3 = plot_fn(vt_f, graphL, functionH, [metricL1[3]], adjustH, 3.2, 2.7)
+    fig_f4 = plot_fn(vt_f, graphL, functionH, [metricL1[4]], adjustH, 3.2, 2.7)
+    fig_f5 = plot_fn(vt_f, graphL, functionH, [metricL1[5]], adjustH, 3.2, 2.7)
+    fig_f6 = plot_fn(vt_f, graphL, functionH, [metricL1[6]], adjustH, 3.2, 2.7)
+    fig_f7 = plot_fn(vt_f, graphL, functionH, [metricL2[0]], adjustH, 3.2, 2.7)
+    fig_fx = plot_fn(vt_f, graphL, functionH, metricL2, adjustH, 3.2, 2.7)
     
     fig_p1.savefig('chart-ripples-pkg1.pdf', bbox_inches='tight')
     fig_p1.savefig('chart-ripples-pkg2.pdf', bbox_inches='tight')
@@ -548,7 +526,7 @@ def plotL_mk_widths(vt, metricL, graph_grpL):
             try:
                 dfrm = vt.dataH[metricPair[0]]
             except KeyError:
-                vtcsv.MSG.warnx(("Warning: Skipping metric: '%s'" % metricPair[0]))
+                vtcsv.MSG.warnx(("Skipping metric: '%s'" % metricPair[0]))
                 widthL.append(1)
                 continue
 
@@ -583,7 +561,7 @@ def plotL_do(vt, fig, axesL, metricL, dfrm_xformF, ytitle_txt, graph_grpL):
             try:
                 dfrm = vt.dataH[metric0]
             except KeyError:
-                vtcsv.MSG.warnx(("Warning: Skipping metric: '%s'" % metric0))
+                vtcsv.MSG.warnx(("Skipping metric: '%s'" % metric0))
                 continue
 
             # select columns for 'graph_grp'

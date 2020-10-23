@@ -46,9 +46,9 @@ class VTuneCSV:
                For 'csv',    'None' means '<each>', i.e., one column/csv
                              '[]' means '<all>', i.e., all columns/csv
 
-    <makeColL>: Make new columns. List of (source-col, new-col, make-fn),
+    <makeColL>: Make new columns. List of (col-source, col-dest, make-fn),
                 where 'make-fn' is a function with the signature of 
-                'makeCol_percent' (below).
+                'makeCol_pctOfColTotal(df, col-source)' (below).
     """
 
     NM = "" #VTuneCSV.__name__
@@ -379,10 +379,20 @@ def my_sort_key(key):
 # makeCol_x: returns the new column
 #****************************************************************************
 
-def makeCol_percent(dfrm, col_src):
+def makeCol_pctOfColTotal(dfrm, col_src):
     col_sum = dfrm[col_src].sum()
     dfrm_dst = dfrm[col_src] / col_sum * 100.0
     return dfrm_dst
+
+
+def makeCol_pctOfOther(col_src2): # could be a list of source columns
+
+    def mk_fn(dfrm, col_src):
+        dfrm_dst = 100.0 * dfrm[col_src] / (dfrm[col_src] + dfrm[col_src2])
+        return dfrm_dst
+        
+    return mk_fn
+
 
 #****************************************************************************
 # 
