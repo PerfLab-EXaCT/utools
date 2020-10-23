@@ -40,6 +40,8 @@ txt_sz_heatmap_scale = 10
 fixed_cmap_w = 2
 
 Do_view = 0 # resets 'subplots_adjust'
+Do_xtitle_top = True
+Do_xtitle_bot = True
 Do_rows = 1
 
 #****************************************************************************
@@ -89,6 +91,8 @@ def main():
         ('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
         ('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
         ('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
+
+        (makeColL_g[1][1] ,),  #('Stores (%)',),
         #('Memory Bound:Store Bound(%)', 'Store Bound (%)'),
     ]
 
@@ -96,7 +100,6 @@ def main():
     metricL2 = [
         #('Memory Bound:Persistent Memory Bound(%)', 'Pmem Bound (%)'),
         
-        (makeColL_g[1][1] ,),  #('Stores (%)',),
         #('Loads',),
         #('Stores',),
         
@@ -112,7 +115,9 @@ def main():
     # 
     #-------------------------------------------------------
 
-    main_grappolo(makeColL_g)
+    pyplt.rcParams.update({'figure.max_open_warning': 0})
+
+    #main_grappolo(makeColL_g)
     main_ripples (makeColL_r)
 
     pyplt.show()
@@ -221,22 +226,30 @@ def main_grappolo(makeColL):
     vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv', makeColL = makeColL)
     vt_f = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL)
 
-    adjustH = { 'left':0.05, 'right':0.95, 'bottom':0.10, 'top':0.80,
+    adjustH = { 'left':0.15, 'right':0.95, 'bottom':0.10, 'top':0.90,
                 'wspace':0.10, 'hspace':0.0 }
+
+    adjustHx = { 'left':0.05, 'right':0.95, 'bottom':0.10, 'top':0.90,
+                 'wspace':0.20, 'hspace':0.0 }
+
 
     fig_p1 = plot_pkg(vt_p, graphL, [metricL1[1]], adjustH, w=2.7, h=1.8)
     fig_p2 = plot_pkg(vt_p, graphL, [metricL1[2]], adjustH, w=2.7, h=1.8)
-    fig_px = plot_pkg(vt_p, graphL, metricL2, adjustH, w=3.0, h=1.8)
-    
+    fig_px = plot_pkg(vt_p, graphL, metricL2, adjustHx, w=3.0, h=1.8)
+
+    global Do_xtitle_top, Do_xtitle_bot
+    Do_xtitle_top = True ; Do_xtitle_bot = False
     fig_f1 = plot_fn(vt_f, graphL, functionH, [metricL1[0]], adjustH, 3.2, 2.7)
+    Do_xtitle_top = False ; Do_xtitle_bot = False
     fig_f2 = plot_fn(vt_f, graphL, functionH, [metricL1[1]], adjustH, 3.2, 2.7)
     fig_f3 = plot_fn(vt_f, graphL, functionH, [metricL1[3]], adjustH, 3.2, 2.7)
     fig_f4 = plot_fn(vt_f, graphL, functionH, [metricL1[4]], adjustH, 3.2, 2.7)
     fig_f5 = plot_fn(vt_f, graphL, functionH, [metricL1[5]], adjustH, 3.2, 2.7)
     fig_f6 = plot_fn(vt_f, graphL, functionH, [metricL1[6]], adjustH, 3.2, 2.7)
-    fig_f7 = plot_fn(vt_f, graphL, functionH, [metricL2[0]], adjustH, 3.2, 2.7)
-    
-    fig_fx = plot_fn(vt_f, graphL, functionH, metricL2, adjustH, 3.2, 2.7)
+    Do_xtitle_top = False ; Do_xtitle_bot = True
+    fig_f7 = plot_fn(vt_f, graphL, functionH, [metricL1[7]], adjustH, 3.2, 2.7)
+    Do_xtitle_top = True ; Do_xtitle_bot = True
+    fig_fx = plot_fn(vt_f, graphL, functionH, metricL2, adjustHx, 3.2, 2.7)
 
     fig_p1.savefig('chart-grappolo-pkg1.pdf', bbox_inches='tight')
     fig_p2.savefig('chart-grappolo-pkg2.pdf', bbox_inches='tight')
@@ -388,21 +401,39 @@ def main_ripples(makeColL):
     vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv', makeColL = makeColL)
     vt_f = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL)
 
-    adjustH = { 'left':0.05, 'right':0.95, 'bottom':0.10, 'top':0.80,
+    adjustH = { 'left':0.15, 'right':0.95, 'bottom':0.10, 'top':0.90,
                 'wspace':0.10, 'hspace':0.0 }
+
+    adjustHy = { 'left':0.05, 'right':0.95, 'bottom':0.10, 'top':0.90,
+                 'wspace':0.10, 'hspace':0.0 }
+
+    adjustHx = { 'left':0.05, 'right':0.95, 'bottom':0.10, 'top':0.90,
+                 'wspace':0.20, 'hspace':0.0 }
+
+    global Do_xtitle_top, Do_xtitle_bot
+
+    gxL = [ [ ('wiki-topcats', 'topcats') ] ]
+    Do_xtitle_top = False; Do_xtitle_bot = True
+    fig_f0 = plot_fn(vt_f, gxL, functionH, metricL1, adjustHy, 2.0, 2.7)
+
 
     fig_p1 = plot_pkg(vt_p, graphL, [metricL1[1]], adjustH, w=2.6, h=1.8)
     fig_p2 = plot_pkg(vt_p, graphL, [metricL1[2]], adjustH, w=2.6, h=1.8)
-    fig_px = plot_pkg(vt_p, graphL, metricL2, adjustH, w=3.0, h=1.8)
+    fig_px = plot_pkg(vt_p, graphL, metricL2, adjustHx, w=3.0, h=1.8)
+    
 
+    Do_xtitle_top = True ; Do_xtitle_bot = False
     fig_f1 = plot_fn(vt_f, graphL, functionH, [metricL1[0]], adjustH, 3.2, 2.7)
+    Do_xtitle_top = False ; Do_xtitle_bot = False
     fig_f2 = plot_fn(vt_f, graphL, functionH, [metricL1[1]], adjustH, 3.2, 2.7)
     fig_f3 = plot_fn(vt_f, graphL, functionH, [metricL1[3]], adjustH, 3.2, 2.7)
     fig_f4 = plot_fn(vt_f, graphL, functionH, [metricL1[4]], adjustH, 3.2, 2.7)
     fig_f5 = plot_fn(vt_f, graphL, functionH, [metricL1[5]], adjustH, 3.2, 2.7)
     fig_f6 = plot_fn(vt_f, graphL, functionH, [metricL1[6]], adjustH, 3.2, 2.7)
-    fig_f7 = plot_fn(vt_f, graphL, functionH, [metricL2[0]], adjustH, 3.2, 2.7)
-    fig_fx = plot_fn(vt_f, graphL, functionH, metricL2, adjustH, 3.2, 2.7)
+    Do_xtitle_top = False ; Do_xtitle_bot = True
+    fig_f7 = plot_fn(vt_f, graphL, functionH, [metricL1[7]], adjustH, 3.2, 2.7)
+    Do_xtitle_top = True ; Do_xtitle_bot = True
+    fig_fx = plot_fn(vt_f, graphL, functionH, metricL2, adjustHx, 3.2, 2.7)
     
     fig_p1.savefig('chart-ripples-pkg1.pdf', bbox_inches='tight')
     fig_p2.savefig('chart-ripples-pkg2.pdf', bbox_inches='tight')
@@ -518,6 +549,7 @@ def plotL_mk_widths(vt, metricL, graph_grpL):
     widthL = []
 
     grp_per_metric = len(graph_grpL)
+    #print(grp_per_metric)
 
     num_metric = len(metricL)
     for i_m in range(num_metric):
@@ -553,6 +585,7 @@ def plotL_do(vt, fig, axesL, metricL, dfrm_xformF, ytitle_txt, graph_grpL):
         for i_g in range(grp_per_metric):
 
             graph_grp = graph_grpL[i_g]
+            #print(graph_grp)
         
             axes_i = (i_m * grp_per_metric) + i_g
 
@@ -660,15 +693,23 @@ def plot(dfrm, axes, metricPair, do_title, ytitle, x_groupL = None):
 
     if (do_title):
         title_txt = metricPair[1] if (len(metricPair) > 1) else metricPair[0]
+
         #x_pos = -0.4 if (do_ytitle) else -0.08
         axes.set_title(title_txt, ha='center') # va='center', rotation='vertical', x=x_pos, y=0.5
 
+
     # correct x-ticks and x-labels
     axes.set_xticks(numpy.arange(0.5, n_col))
-    axes.set_xticklabels(dfrm.columns, rotation=20, ha='right')
+    
+    if (Do_xtitle_bot):
+        # correct x-ticks and x-labels
+        axes.set_xticklabels(dfrm.columns, rotation=20, ha='right')
+    else:
+        axes.set_xticklabels([])
 
     #for x in axes.get_xticklabels():
     #    x.set_rotation(0)
+
 
     #-------------------------------------------------------
     # Secondary x groups and labels (x_groupL)
@@ -689,7 +730,11 @@ def plot(dfrm, axes, metricPair, do_title, ytitle, x_groupL = None):
         axes2 = axes.twiny() # twin y
         axes2_ticks = [ (x/n_x) for x in list(numpy.arange(x2_beg, x_end, x2_skip)) ]
         axes2.set_xticks(axes2_ticks)
-        axes2.set_xticklabels(nmL, rotation=0, ha='center')
+
+        if (Do_xtitle_top):
+            axes2.set_xticklabels(nmL, rotation=0, ha='center')
+        else:
+            axes2.set_xticklabels([])
 
 
     return axes
@@ -697,42 +742,25 @@ def plot(dfrm, axes, metricPair, do_title, ytitle, x_groupL = None):
 #****************************************************************************
 
 def find_fig_width(dfrm, graphL):
-    colL = dfrm.columns
-
-    beg_i, beg_col = find_beg_col(colL, graphL)
-    end_i, end_col = find_end_col(colL, graphL)
-
-    return (end_i - beg_i) + 1
+    matchL = find_matches(dfrm.columns, graphL)
+    return len(matchL)
 
 
 def select_dfrm_col(dfrm, graphL):
-    colL = dfrm.columns
+    matchL = find_matches(dfrm.columns, graphL)
+    return dfrm[matchL].copy()
 
-    beg_i, beg_col = find_beg_col(colL, graphL)
-    end_i, end_col = find_end_col(colL, graphL) # beg_i + len(graphL)
-    #print(beg_col, end_col)
+
+def find_matches(columnL, graphL):
+    matchL = []
     
-    return dfrm.loc[:, beg_col : end_col]
+    for g in graphL:
+        g_nm = g[0] if (isinstance(g, tuple)) else g
 
+        matchL += [col for col in columnL if g_nm in col]
+        # col_nm.find(g_nm) >= 0)
 
-def find_beg_col(columnL, graphL):
-    for i_col in range(len(columnL)):
-        for g in graphL:
-            g_nm = g[0] if (isinstance(g, tuple)) else g
-            col_nm = columnL[i_col]
-            if (col_nm.find(g_nm) >= 0):
-                return (i_col, col_nm)
-    return (0, columnL[0])
-
-
-def find_end_col(columnL, graphL):
-    for i_col in reversed(range(len(columnL))):
-        for g in graphL:
-            g_nm = g[0] if (isinstance(g, tuple)) else g
-            col_nm = columnL[i_col]
-            if (col_nm.find(g_nm) >= 0):
-                return (i_col, col_nm)
-    return (len(columnL) - 1, columnL[-1])
+    return matchL
 
 
 def rename_col(x, graph_grpL):
