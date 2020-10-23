@@ -85,10 +85,10 @@ def main():
         ('Average Latency (cycles)',    'Latency (cycles)'),
         #
         ('Memory Bound(%)',),
-        ('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
-        ('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
-        ('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
         ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
+        ('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
+        ('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
+        ('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
         #('Memory Bound:Store Bound(%)', 'Store Bound (%)'),
     ]
 
@@ -239,7 +239,7 @@ def main_grappolo(makeColL):
     fig_fx = plot_fn(vt_f, graphL, functionH, metricL2, adjustH, 3.2, 2.7)
 
     fig_p1.savefig('chart-grappolo-pkg1.pdf', bbox_inches='tight')
-    fig_p1.savefig('chart-grappolo-pkg2.pdf', bbox_inches='tight')
+    fig_p2.savefig('chart-grappolo-pkg2.pdf', bbox_inches='tight')
 
     fig_f1.savefig('chart-grappolo-fn1.pdf', bbox_inches='tight')
     fig_f2.savefig('chart-grappolo-fn2.pdf', bbox_inches='tight')
@@ -405,7 +405,7 @@ def main_ripples(makeColL):
     fig_fx = plot_fn(vt_f, graphL, functionH, metricL2, adjustH, 3.2, 2.7)
     
     fig_p1.savefig('chart-ripples-pkg1.pdf', bbox_inches='tight')
-    fig_p1.savefig('chart-ripples-pkg2.pdf', bbox_inches='tight')
+    fig_p2.savefig('chart-ripples-pkg2.pdf', bbox_inches='tight')
 
     fig_f1.savefig('chart-ripples-fn1.pdf', bbox_inches='tight')
     fig_f2.savefig('chart-ripples-fn2.pdf', bbox_inches='tight')
