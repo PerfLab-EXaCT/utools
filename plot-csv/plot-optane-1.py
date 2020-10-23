@@ -244,7 +244,10 @@ def main_grappolo(makeColL):
     fig_f1.savefig('chart-grappolo-fn1.pdf', bbox_inches='tight')
     fig_f2.savefig('chart-grappolo-fn2.pdf', bbox_inches='tight')
     fig_f3.savefig('chart-grappolo-fn3.pdf', bbox_inches='tight')
-    
+    fig_f4.savefig('chart-grappolo-fn4.pdf', bbox_inches='tight')
+    fig_f5.savefig('chart-grappolo-fn5.pdf', bbox_inches='tight')
+    fig_f6.savefig('chart-grappolo-fn6.pdf', bbox_inches='tight')
+    fig_f7.savefig('chart-grappolo-fn7.pdf', bbox_inches='tight')
 
 
 
@@ -407,6 +410,10 @@ def main_ripples(makeColL):
     fig_f1.savefig('chart-ripples-fn1.pdf', bbox_inches='tight')
     fig_f2.savefig('chart-ripples-fn2.pdf', bbox_inches='tight')
     fig_f3.savefig('chart-ripples-fn3.pdf', bbox_inches='tight')
+    fig_f4.savefig('chart-ripples-fn4.pdf', bbox_inches='tight')
+    fig_f5.savefig('chart-ripples-fn5.pdf', bbox_inches='tight')
+    fig_f6.savefig('chart-ripples-fn6.pdf', bbox_inches='tight')
+    fig_f7.savefig('chart-ripples-fn7.pdf', bbox_inches='tight')
     
 
 #****************************************************************************
