@@ -10061,7 +10061,7 @@ def plot_modes(dfrm, axes, nm_i, title, plt_sty, mrk_sty, ln_sty):
     ax.set_xlabel('')
     #ax.set_xticklabels([])
 
-    ax.grid()
+    ax.grid(linestyle='dashed')
 
     ax.legend().set_title('')
     
@@ -10098,11 +10098,11 @@ def plot_scaling(dfrm, graph_nm, axes, plt_sty, mrk_sty, ln_sty, nm_j):
                           hue='mode', ax=axes,
                           palette=plt_sty, marker=mrk_sty, linestyle=ln_sty)
 
+    ax.grid(linestyle='dashed')
+
     ax.set_xscale('log', base=2)
 
     ax.set_yscale('log', base=2)
-
-    ax.grid()
 
     #ax.yaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter(useMathText=True, useOffset=False))
     #ax.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
@@ -10153,6 +10153,9 @@ def plot_bw_lat(ax_bw, ax_lat, bw_data_strL, lat_data_strL, graph,
     ax = seaborn.scatterplot(data = bw_dfrm_mean, ax=ax,
                              marker='d', color='white', zorder=10)
 
+    ax.grid(linestyle='dashed')
+    ax.set_axisbelow(True)
+
     max_mean = bw_dfrm_mean.max()
     y_hi = 2 * max_mean
 
@@ -10184,12 +10187,15 @@ def plot_bw_lat(ax_bw, ax_lat, bw_data_strL, lat_data_strL, graph,
     #-------------------------------------------------------
 
     ax = ax_lat
+
     ax = seaborn.violinplot(data=lat_dfrm_wide, ax=ax, cut = 0, # alpha=.3
                             palette=plt_sty, scale = 'area', inner = 'box')
     xlim = ax.get_xlim()
     ax = seaborn.scatterplot(data = lat_dfrm_mean, ax=ax,
                              marker='d', color='white', zorder=10)
 
+    ax.grid(linestyle='dashed')
+    ax.set_axisbelow(True)
 
     lat_min = lat_dfrm_hist.index.min() # to_numpy()
     y_lo = lat_min / 2
@@ -10326,7 +10332,7 @@ def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = False):
 # Main
 #****************************************************************************
 
-fig1, axes1L = pyplt.subplots(nrows=2, ncols=2, figsize=(6, 3.5))
+fig1, axes1L = pyplt.subplots(nrows=2, ncols=3, figsize=(8, 3.5))
 
 fig2, axes2A = pyplt.subplots(nrows=3, ncols=4, figsize=(14, 8.5),
                               gridspec_kw={'height_ratios': [4.0, 3.5, 3.5]})
@@ -10351,11 +10357,12 @@ row_srcL = ['dram', 'mem']
 col_src = 'time'
 col_dst = 'relative time'
 
+
 #-------------------------------------------------------
 # grappolo
 #-------------------------------------------------------
 
-mode_thrdL = [64, 192]
+mode_thrdL = [32, 64, 192]
 
 time_data_grp = io.StringIO(time_str_grappolo)
 time_dfrm_grp = pandas.read_csv(time_data_grp, sep='\s+', index_col=tm_index)
