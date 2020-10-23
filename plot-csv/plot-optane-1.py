@@ -131,7 +131,7 @@ def main():
     #-------------------------------------------------------
 
     main_grappolo(makeColL_Gf, metricL1_p, metricL1_f, metricL2_f, metricL3)
-    #main_ripples (makeColL_Rf, metricL1r_p, metricL1_f, metricL2r_f, metricL3)
+    main_ripples (makeColL_Rf, metricL1r_p, metricL1_f, metricL2r_f, metricL3)
 
     pyplt.show()
 
@@ -402,10 +402,10 @@ def main_ripples(makeColL_f, metricL1_p, metricL1_f, metricL2_f, metricL3):
     fig_p1 = plot_pkg(vt_p, graphL, metricL1_p, adjustH, w=2.6, h=1.8)
     fig_p2 = plot_pkg(vt_p, graphL, metricL3,   adjustH, w=3.0, h=1.8)
 
-
-    (fig_f1, fig_f2, fig_f3) = \
-        plot_fn (vt_f, graphL, functionH, metricL1_f, metricL2_f, metricL3, widthH_f, adjustH, adjustH)
-
+    fig_f1 = plot_fn(vt_f, graphL, functionH, metricL1_f, adjustH, 3.2, 2.7)
+    fig_f2 = plot_fn(vt_f, graphL, functionH, metricL2_f, adjustH, 3.2, 2.7)
+    fig_f3 = plot_fn(vt_f, graphL, functionH, metricL3,   adjustH, 3.2, 2.7)
+    
     fig_p1.savefig('chart-ripples-pkg-metrics.pdf', bbox_inches='tight')
 
     fig_f1.savefig('chart-ripples-fn-metrics.pdf', bbox_inches='tight')
