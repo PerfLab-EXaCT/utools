@@ -35,13 +35,13 @@ import VTuneCSV as vtcsv
 
 #****************************************************************************
 
-txt_sz_heatmap = 10
-txt_sz_heatmap_scale = 10
-fixed_cmap_w = 2
+Txt_sz_title = 12
+Txt_sz_ytitle = 13
+Txt_sz_heatmap = 10
+Txt_sz_heatmap_scale = 10
+Fixed_cmap_w = 2
 
 Do_view = 0 # resets 'subplots_adjust'
-Do_xtitle_top = True
-Do_xtitle_bot = True
 Do_rows = 1
 
 #****************************************************************************
@@ -80,13 +80,29 @@ def main():
     # Metrics: Locally map old -> new names
     #-------------------------------------------------------
 
-    global metricL1
-    metricL1 = [ # metricL1.copy()
-        (makeColL_g[0][1] ,),  #('CPU Time'),
+    global metricLp
+    metricLp = [ # metricL1.copy()
+        #(makeColL_g[0][1] ,),  #('CPU Time'),
         #
         ('Average Latency (cycles)',    'Latency (cycles)'),
         #
         ('Memory Bound(%)',),
+        #('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
+        #('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
+        #('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
+        #('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
+
+        #(makeColL_g[1][1] ,),  #('Stores (%)',),
+        #('Memory Bound:Store Bound(%)', 'Store Bound (%)'),
+    ]
+    
+    global metricLf
+    metricLf = [ # metricL1.copy()
+        (makeColL_g[0][1] ,),  #('CPU Time'),
+        #
+        ('Average Latency (cycles)',    'Latency (cycles)'),
+        #
+        #('Memory Bound(%)',),
         ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
         ('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
         ('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
@@ -96,8 +112,8 @@ def main():
         #('Memory Bound:Store Bound(%)', 'Store Bound (%)'),
     ]
 
-    global metricL2
-    metricL2 = [
+    global metricLx
+    metricLx = [
         #('Memory Bound:Persistent Memory Bound(%)', 'Pmem Bound (%)'),
         
         #('Loads',),
@@ -117,7 +133,7 @@ def main():
 
     pyplt.rcParams.update({'figure.max_open_warning': 0})
 
-    #main_grappolo(makeColL_g)
+    main_grappolo(makeColL_g)
     main_ripples (makeColL_r)
 
     pyplt.show()
@@ -181,6 +197,11 @@ def main_grappolo(makeColL):
     #-------------------------------------------------------
 
     graphL = [ graphL_med, graphL_big ]
+
+    graphL1 = [ [ 'friendster' ] ]
+    graphL2 = [ [ 'moliere2016' ] ]
+    graphL3 = [ [ ('clueweb12', 'clueweb') ] ]
+    graphL4 = [ [ ('uk2014', 'uk') ] ]
     
     pathL_p = pathL_Mp + pathL_Bp
 
@@ -190,7 +211,7 @@ def main_grappolo(makeColL):
     # 
     #-------------------------------------------------------
 
-    functionH = collections.OrderedDict( [
+    funcH = collections.OrderedDict( [
         ('buildLocalMapCounter', 'blmc'),
 
         ('std::_Rb_tree_insert_and_rebalance', 'map'),
@@ -216,51 +237,45 @@ def main_grappolo(makeColL):
         ('[vmlinux]', 'kernel'),
     ] )
 
-    #functionL = list(functionH.items())
+    #functionL = list(funcH.items())
 
     
     #-------------------------------------------------------
-    # graphs
+    # 
     #-------------------------------------------------------
 
     vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv', makeColL = makeColL)
     vt_f = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL)
 
-    adjustH = { 'left':0.15, 'right':0.95, 'bottom':0.10, 'top':0.90,
+    adjHp = { 'left':0.15, 'right':0.95, 'bottom':0.10, 'top':0.85,
                 'wspace':0.10, 'hspace':0.0 }
+    adjHf = { 'left':0.08, 'right':0.98, 'bottom':0.15, 'top':0.90,
+                 'wspace':0.13, 'hspace':0.0 }
+    adjHx = { 'left':0.05, 'right':0.99, 'bottom':0.10, 'top':0.82,
+                 'wspace':0.15, 'hspace':0.0 }
 
-    adjustHx = { 'left':0.05, 'right':0.95, 'bottom':0.10, 'top':0.90,
-                 'wspace':0.20, 'hspace':0.0 }
+    plotHp = {'w':2.6, 'h':1.8, 'title':1, 'xtitle_top':1, 'xtitle_bot':1}
+    plotHf = {'w':1.9, 'h':2.5, 'title':1, 'xtitle_top':0, 'xtitle_bot':1}
 
+    fig_p1 = plot_pkg(vt_p, graphL, [metricLp[0]], {**plotHp}, adjHp)
+    fig_p2 = plot_pkg(vt_p, graphL, [metricLp[1]], {**plotHp}, adjHp)
+    fig_px = plot_pkg(vt_p, graphL, metricLx, {'w':3.0, 'h':1.8}, adjHx)
 
-    fig_p1 = plot_pkg(vt_p, graphL, [metricL1[1]], adjustH, w=2.7, h=1.8)
-    fig_p2 = plot_pkg(vt_p, graphL, [metricL1[2]], adjustH, w=2.7, h=1.8)
-    fig_px = plot_pkg(vt_p, graphL, metricL2, adjustHx, w=3.0, h=1.8)
+    #fig_f1 = plot_fn(vt_f, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'xtitle_bot':False}, adjH)
 
-    global Do_xtitle_top, Do_xtitle_bot
-    Do_xtitle_top = True ; Do_xtitle_bot = False
-    fig_f1 = plot_fn(vt_f, graphL, functionH, [metricL1[0]], adjustH, 3.2, 2.7)
-    Do_xtitle_top = False ; Do_xtitle_bot = False
-    fig_f2 = plot_fn(vt_f, graphL, functionH, [metricL1[1]], adjustH, 3.2, 2.7)
-    fig_f3 = plot_fn(vt_f, graphL, functionH, [metricL1[3]], adjustH, 3.2, 2.7)
-    fig_f4 = plot_fn(vt_f, graphL, functionH, [metricL1[4]], adjustH, 3.2, 2.7)
-    fig_f5 = plot_fn(vt_f, graphL, functionH, [metricL1[5]], adjustH, 3.2, 2.7)
-    fig_f6 = plot_fn(vt_f, graphL, functionH, [metricL1[6]], adjustH, 3.2, 2.7)
-    Do_xtitle_top = False ; Do_xtitle_bot = True
-    fig_f7 = plot_fn(vt_f, graphL, functionH, [metricL1[7]], adjustH, 3.2, 2.7)
-    Do_xtitle_top = True ; Do_xtitle_bot = True
-    fig_fx = plot_fn(vt_f, graphL, functionH, metricL2, adjustHx, 3.2, 2.7)
+    fig_f1 = plot_fn(vt_f, graphL1, funcH, metricLf, {**plotHf}, adjHf)
+    fig_f2 = plot_fn(vt_f, graphL2, funcH, metricLf, {**plotHf}, adjHf)
+    fig_f3 = plot_fn(vt_f, graphL3, funcH, metricLf, {**plotHf}, adjHf)
+    fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf, {**plotHf}, adjHf)
+    fig_fx = plot_fn(vt_f, graphL, funcH, metricLx, {'w':3.2, 'h':2.7}, adjHx)
 
     fig_p1.savefig('chart-grappolo-pkg1.pdf', bbox_inches='tight')
     fig_p2.savefig('chart-grappolo-pkg2.pdf', bbox_inches='tight')
 
     fig_f1.savefig('chart-grappolo-fn1.pdf', bbox_inches='tight')
-    fig_f2.savefig('chart-grappolo-fn2.pdf', bbox_inches='tight')
-    fig_f3.savefig('chart-grappolo-fn3.pdf', bbox_inches='tight')
-    fig_f4.savefig('chart-grappolo-fn4.pdf', bbox_inches='tight')
-    fig_f5.savefig('chart-grappolo-fn5.pdf', bbox_inches='tight')
-    fig_f6.savefig('chart-grappolo-fn6.pdf', bbox_inches='tight')
-    fig_f7.savefig('chart-grappolo-fn7.pdf', bbox_inches='tight')
+    # fig_f2.savefig('chart-grappolo-fn2.pdf', bbox_inches='tight')
+    # fig_f3.savefig('chart-grappolo-fn3.pdf', bbox_inches='tight')
+    # fig_f4.savefig('chart-grappolo-fn4.pdf', bbox_inches='tight')
 
 
 
@@ -280,6 +295,12 @@ def main_ripples(makeColL):
                 ('wiki-talk', 'talk') ],
                [('soc-pokec-relationships', 'pokec'),
                 ('wiki-topcats', 'topcats') ] ]
+    
+    graphL1 = [ [ ('soc-Slashdot0902', 'slash') ] ]
+    graphL2 = [ [ ('soc-twitter-combined', 'twitter') ] ]
+    graphL3 = [ [ ('wiki-talk', 'talk') ] ]
+    graphL4 = [ [ ('soc-pokec-relationships', 'pokec') ] ]
+    graphL5 = [ [ ('wiki-topcats', 'topcats') ] ]
 
     graphL_0 = [ x[0] for x in flattenL(graphL) ]
 
@@ -312,7 +333,7 @@ def main_ripples(makeColL):
     # 
     #-------------------------------------------------------
 
-    functionH = collections.OrderedDict( [
+    funcH = collections.OrderedDict( [
         ('ripples::AddRRRSet<ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>, trng::lcg64, ripples::independent_cascade_tag>', 'AddRRR'),
 
         ('ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::neighbors', 'neigh'),
@@ -392,7 +413,7 @@ def main_ripples(makeColL):
     ] )
 
 
-    #functionL = list(functionH.items())
+    #functionL = list(funcH.items())
 
     #-------------------------------------------------------
     # 
@@ -401,39 +422,29 @@ def main_ripples(makeColL):
     vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv', makeColL = makeColL)
     vt_f = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL)
 
-    adjustH = { 'left':0.15, 'right':0.95, 'bottom':0.10, 'top':0.90,
-                'wspace':0.10, 'hspace':0.0 }
-
-    adjustHy = { 'left':0.05, 'right':0.95, 'bottom':0.10, 'top':0.90,
+    adjHp = { 'left':0.15, 'right':0.95, 'bottom':0.10, 'top':0.85,
                  'wspace':0.10, 'hspace':0.0 }
+    adjHf = { 'left':0.08, 'right':0.98, 'bottom':0.15, 'top':0.90,
+                 'wspace':0.13, 'hspace':0.0 }
+    adjHx = { 'left':0.05, 'right':0.99, 'bottom':0.10, 'top':0.82,
+                 'wspace':0.15, 'hspace':0.0 }
 
-    adjustHx = { 'left':0.05, 'right':0.95, 'bottom':0.10, 'top':0.90,
-                 'wspace':0.20, 'hspace':0.0 }
+    plotHp = {'w':2.6, 'h':1.8, 'title':1, 'xtitle_top':1, 'xtitle_bot':1}
+    plotHf = {'w':1.9, 'h':2.5, 'title':1, 'xtitle_top':0, 'xtitle_bot':1}
 
-    global Do_xtitle_top, Do_xtitle_bot
+    fig_p1 = plot_pkg(vt_p, graphL, [metricLp[0]], {**plotHp}, adjHp)
+    fig_p2 = plot_pkg(vt_p, graphL, [metricLp[1]], {**plotHp}, adjHp)
+    fig_px = plot_pkg(vt_p, graphL, metricLx, {'w':3.0, 'h':1.8}, adjHx)
 
-    gxL = [ [ ('wiki-topcats', 'topcats') ] ]
-    Do_xtitle_top = False; Do_xtitle_bot = True
-    fig_f0 = plot_fn(vt_f, gxL, functionH, metricL1, adjustHy, 2.0, 2.7)
+    fig_f1 = plot_fn(vt_f, graphL1, funcH, metricLf, {**plotHf}, adjHf)
+    fig_f2 = plot_fn(vt_f, graphL2, funcH, metricLf, {**plotHf}, adjHf)
+    fig_f3 = plot_fn(vt_f, graphL3, funcH, metricLf, {**plotHf}, adjHf)
+    fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf, {**plotHf}, adjHf)
+    fig_f5 = plot_fn(vt_f, graphL5, funcH, metricLf, {**plotHf}, adjHf)
 
+    # fig_f1 = plot_fn(vt_f, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'xtitle_bot':False}, adjH)
 
-    fig_p1 = plot_pkg(vt_p, graphL, [metricL1[1]], adjustH, w=2.6, h=1.8)
-    fig_p2 = plot_pkg(vt_p, graphL, [metricL1[2]], adjustH, w=2.6, h=1.8)
-    fig_px = plot_pkg(vt_p, graphL, metricL2, adjustHx, w=3.0, h=1.8)
-    
-
-    Do_xtitle_top = True ; Do_xtitle_bot = False
-    fig_f1 = plot_fn(vt_f, graphL, functionH, [metricL1[0]], adjustH, 3.2, 2.7)
-    Do_xtitle_top = False ; Do_xtitle_bot = False
-    fig_f2 = plot_fn(vt_f, graphL, functionH, [metricL1[1]], adjustH, 3.2, 2.7)
-    fig_f3 = plot_fn(vt_f, graphL, functionH, [metricL1[3]], adjustH, 3.2, 2.7)
-    fig_f4 = plot_fn(vt_f, graphL, functionH, [metricL1[4]], adjustH, 3.2, 2.7)
-    fig_f5 = plot_fn(vt_f, graphL, functionH, [metricL1[5]], adjustH, 3.2, 2.7)
-    fig_f6 = plot_fn(vt_f, graphL, functionH, [metricL1[6]], adjustH, 3.2, 2.7)
-    Do_xtitle_top = False ; Do_xtitle_bot = True
-    fig_f7 = plot_fn(vt_f, graphL, functionH, [metricL1[7]], adjustH, 3.2, 2.7)
-    Do_xtitle_top = True ; Do_xtitle_bot = True
-    fig_fx = plot_fn(vt_f, graphL, functionH, metricL2, adjustHx, 3.2, 2.7)
+    fig_fx = plot_fn(vt_f, graphL, funcH, metricLx, {'w':3.2, 'h':2.7}, adjHx)
     
     fig_p1.savefig('chart-ripples-pkg1.pdf', bbox_inches='tight')
     fig_p2.savefig('chart-ripples-pkg2.pdf', bbox_inches='tight')
@@ -443,16 +454,19 @@ def main_ripples(makeColL):
     fig_f3.savefig('chart-ripples-fn3.pdf', bbox_inches='tight')
     fig_f4.savefig('chart-ripples-fn4.pdf', bbox_inches='tight')
     fig_f5.savefig('chart-ripples-fn5.pdf', bbox_inches='tight')
-    fig_f6.savefig('chart-ripples-fn6.pdf', bbox_inches='tight')
-    fig_f7.savefig('chart-ripples-fn7.pdf', bbox_inches='tight')
+
     
 
 #****************************************************************************
 
-def plot_pkg(vt, graph_grpL, metricL, adjustH, w, h):
+def plot_pkg(vt, graph_grpL, metricL, plotH, adjustH):
+    plot_cfg(plotH, graph_grpL, metricL, 'Socket')
+
+    w = plotH['w']
+    h = plotH['h']
 
     fig, axesL = plotL_mk(vt, metricL, w, h, graph_grpL)
-    plotL_do(vt, fig, axesL, metricL, dfrm_pkg_xform(graph_grpL), 'Socket', graph_grpL)
+    plotL_do(vt, fig, axesL, metricL, dfrm_pkg_xform(graph_grpL), graph_grpL, plotH)
     plotL_adj(fig, adjustH)
 
     return fig
@@ -469,10 +483,14 @@ def dfrm_pkg_xform(graph_grpL):
 
 #****************************************************************************
 
-def plot_fn(vt, graph_grpL, functionH, metricL, adjustH, w, h):
+def plot_fn(vt, graph_grpL, functionH, metricL, plotH, adjustH):
+    plot_cfg(plotH, graph_grpL, metricL, 'Functions')
     
+    w = plotH['w']
+    h = plotH['h']
+
     fig, axesL = plotL_mk(vt, metricL, w, h, graph_grpL)
-    plotL_do(vt, fig, axesL, metricL, dfrm_fn_xform(functionH, graph_grpL), 'Functions', graph_grpL)
+    plotL_do(vt, fig, axesL, metricL, dfrm_fn_xform(functionH, graph_grpL), graph_grpL, plotH)
     plotL_adj(fig, adjustH)
 
     return fig
@@ -519,6 +537,31 @@ def dfrm_fn_xform(functionH, graph_grpL):
 
     
 #****************************************************************************
+
+def plot_cfg(plotH, graph_grpL, metricL, ytitle):
+
+    if (not ('title' in plotH)):
+        plotH['title'] = True
+
+    if (not ('ytitle' in plotH)):
+        # If one graph group of length 1...
+        if ((len(graph_grpL) == 1) and (len(graph_grpL[0]) == 1)):
+            g_pair = graph_grpL[0][0]
+            plotH['ytitle'] = g_pair[1] if (isinstance(g_pair, tuple)) else g_pair
+        # If one metric
+        elif (len(metricL) == 1):
+            m_pair = metricL[0]
+            plotH['ytitle'] = m_pair[1] if (len(m_pair) > 1) else m_pair[0]
+        else:
+            plotH['ytitle'] = ytitle
+
+    if (not ('xtitle_top' in plotH)):
+        plotH['xtitle_top'] = True
+
+    if (not ('xtitle_top' in plotH)):
+        plotH['xtitle_bot'] = True
+
+    
 
 def plotL_mk(vt, metricL, w, h, graph_grpL):
     num_metric = len(metricL)
@@ -570,12 +613,12 @@ def plotL_mk_widths(vt, metricL, graph_grpL):
                 continue
 
             n_col = find_fig_width(dfrm, graph_grp)
-            widthL.append(g_title_w + n_col + fixed_cmap_w)
+            widthL.append(g_title_w + n_col + Fixed_cmap_w)
 
     return widthL
 
 
-def plotL_do(vt, fig, axesL, metricL, dfrm_xformF, ytitle_txt, graph_grpL):
+def plotL_do(vt, fig, axesL, metricL, dfrm_xformF, graph_grpL, plotH):
 
     grp_per_metric = len(graph_grpL)
     
@@ -594,8 +637,8 @@ def plotL_do(vt, fig, axesL, metricL, dfrm_xformF, ytitle_txt, graph_grpL):
             metricPair = metricL[i_m]
             metric0 = metricPair[0]
 
-            do_title = (i_g == 0)
-            ytitle = ytitle_txt if (i_m == 0 and i_g == 0) else None
+            do_title = (plotH['title'] and i_g == 0)
+            ytitle = plotH['ytitle'] if (i_m == 0 and i_g == 0) else None
 
             # find DataFrame for 'metricPair'
             try:
@@ -612,7 +655,7 @@ def plotL_do(vt, fig, axesL, metricL, dfrm_xformF, ytitle_txt, graph_grpL):
             dfrm = dfrm_xformF(dfrm, metric0)
 
             axes.margins(x=0.00, y=0.00)
-            axes1 = plot(dfrm, axes, metricPair, do_title, ytitle, graph_grp)
+            axes1 = plot(dfrm, axes, metricPair, do_title, ytitle, graph_grp, plotH)
 
             # # FIXME:
             # #print(axes1.get_tightbbox(fig.canvas.get_renderer()))
@@ -632,8 +675,8 @@ def plotL_adj(fig, adjustH):
         fig.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
 
 
-def plot(dfrm, axes, metricPair, do_title, ytitle, x_groupL = None):
-
+def plot(dfrm, axes, metricPair, do_title, ytitle, x_groupL, plotH):
+    
     n_col = len(dfrm.columns)
     
     #-------------------------------------------------------
@@ -642,7 +685,7 @@ def plot(dfrm, axes, metricPair, do_title, ytitle, x_groupL = None):
 
     dfrm_scale_exp = None
     txt_fmt = '.2g'
-    txt_sz = txt_sz_heatmap
+    txt_sz = Txt_sz_heatmap
     txt_rot = 0
 
     dfrm_max = numpy.max(dfrm.to_numpy())
@@ -652,7 +695,7 @@ def plot(dfrm, axes, metricPair, do_title, ytitle, x_groupL = None):
         dfrm_scale = math.pow(10, dfrm_scale_exp)
         dfrm = dfrm.applymap(lambda x: x / dfrm_scale)
         txt_fmt = '.3g'
-        #txt_sz = txt_sz_heatmap + 1
+        #txt_sz = Txt_sz_heatmap + 1
         txt_rot = 40
 
     #-------------------------------------------------------
@@ -680,7 +723,7 @@ def plot(dfrm, axes, metricPair, do_title, ytitle, x_groupL = None):
 
     if (dfrm_scale_exp):
         axes.text(1.06, 0.997, (r'$\times10^{%s}$' % dfrm_scale_exp),
-                   transform=axes.transAxes, ha='left', va='bottom') # size=txt_sz_heatmap_scale
+                   transform=axes.transAxes, ha='left', va='bottom') # size=Txt_sz_heatmap_scale
     
     #-------------------------------------------------------
     # 
@@ -689,19 +732,19 @@ def plot(dfrm, axes, metricPair, do_title, ytitle, x_groupL = None):
     do_ytitle = (not Do_rows) or ytitle
     
     if (do_ytitle):
-        axes.set_ylabel(ytitle)
+        axes.set_ylabel(ytitle, fontsize=Txt_sz_ytitle)
 
     if (do_title):
         title_txt = metricPair[1] if (len(metricPair) > 1) else metricPair[0]
 
         #x_pos = -0.4 if (do_ytitle) else -0.08
-        axes.set_title(title_txt, ha='center') # va='center', rotation='vertical', x=x_pos, y=0.5
+        axes.set_title(title_txt, ha='center', fontsize=Txt_sz_title) # va='center', rotation='vertical', x=x_pos, y=0.5
 
 
     # correct x-ticks and x-labels
     axes.set_xticks(numpy.arange(0.5, n_col))
-    
-    if (Do_xtitle_bot):
+
+    if ('xtitle_bot' in plotH and plotH['xtitle_bot']):
         # correct x-ticks and x-labels
         axes.set_xticklabels(dfrm.columns, rotation=20, ha='right')
     else:
@@ -731,7 +774,7 @@ def plot(dfrm, axes, metricPair, do_title, ytitle, x_groupL = None):
         axes2_ticks = [ (x/n_x) for x in list(numpy.arange(x2_beg, x_end, x2_skip)) ]
         axes2.set_xticks(axes2_ticks)
 
-        if (Do_xtitle_top):
+        if ('xtitle_top' in plotH and plotH['xtitle_top']):
             axes2.set_xticklabels(nmL, rotation=0, ha='center')
         else:
             axes2.set_xticklabels([])
@@ -748,6 +791,9 @@ def find_fig_width(dfrm, graphL):
 
 def select_dfrm_col(dfrm, graphL):
     matchL = find_matches(dfrm.columns, graphL)
+    if (not matchL):
+        vtcsv.MSG.warnx(("No metrics for '%s'" % graphL))
+
     return dfrm[matchL].copy()
 
 
