@@ -255,7 +255,7 @@ def main_grappolo(makeColL):
                  'wspace':0.15, 'hspace':0.0 }
 
     plotHp = {'w':2.6, 'h':1.8, 'title':1, 'xtitle_top':1, 'xtitle_bot':1}
-    plotHf = {'w':1.9, 'h':2.5, 'title':1, 'xtitle_top':0, 'xtitle_bot':1}
+    plotHf = {'w':1.9, 'h':2.5, 'title':0, 'xtitle_top':0, 'xtitle_bot':0}
 
     fig_p1 = plot_pkg(vt_p, graphL, [metricLp[0]], {**plotHp}, adjHp)
     fig_p2 = plot_pkg(vt_p, graphL, [metricLp[1]], {**plotHp}, adjHp)
@@ -263,10 +263,10 @@ def main_grappolo(makeColL):
 
     #fig_f1 = plot_fn(vt_f, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'xtitle_bot':False}, adjH)
 
-    fig_f1 = plot_fn(vt_f, graphL1, funcH, metricLf, {**plotHf}, adjHf)
+    fig_f1 = plot_fn(vt_f, graphL1, funcH, metricLf, {**plotHf, 'title':1}, adjHf)
     fig_f2 = plot_fn(vt_f, graphL2, funcH, metricLf, {**plotHf}, adjHf)
     fig_f3 = plot_fn(vt_f, graphL3, funcH, metricLf, {**plotHf}, adjHf)
-    fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf, {**plotHf}, adjHf)
+    fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf, {**plotHf, 'xtitle_bot':1}, adjHf)
     fig_fx = plot_fn(vt_f, graphL, funcH, metricLx, {'w':3.2, 'h':2.7}, adjHx)
 
     fig_p1.savefig('chart-grappolo-pkg1.pdf', bbox_inches='tight')
@@ -430,17 +430,17 @@ def main_ripples(makeColL):
                  'wspace':0.15, 'hspace':0.0 }
 
     plotHp = {'w':2.6, 'h':1.8, 'title':1, 'xtitle_top':1, 'xtitle_bot':1}
-    plotHf = {'w':1.9, 'h':2.5, 'title':1, 'xtitle_top':0, 'xtitle_bot':1}
+    plotHf = {'w':1.9, 'h':2.5, 'title':0, 'xtitle_top':0, 'xtitle_bot':0}
 
     fig_p1 = plot_pkg(vt_p, graphL, [metricLp[0]], {**plotHp}, adjHp)
     fig_p2 = plot_pkg(vt_p, graphL, [metricLp[1]], {**plotHp}, adjHp)
     fig_px = plot_pkg(vt_p, graphL, metricLx, {'w':3.0, 'h':1.8}, adjHx)
 
-    fig_f1 = plot_fn(vt_f, graphL1, funcH, metricLf, {**plotHf}, adjHf)
+    fig_f1 = plot_fn(vt_f, graphL1, funcH, metricLf, {**plotHf, 'title':1}, adjHf)
     fig_f2 = plot_fn(vt_f, graphL2, funcH, metricLf, {**plotHf}, adjHf)
     fig_f3 = plot_fn(vt_f, graphL3, funcH, metricLf, {**plotHf}, adjHf)
     fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf, {**plotHf}, adjHf)
-    fig_f5 = plot_fn(vt_f, graphL5, funcH, metricLf, {**plotHf}, adjHf)
+    fig_f5 = plot_fn(vt_f, graphL5, funcH, metricLf, {**plotHf, 'xtitle_bot':1}, adjHf)
 
     # fig_f1 = plot_fn(vt_f, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'xtitle_bot':False}, adjH)
 
