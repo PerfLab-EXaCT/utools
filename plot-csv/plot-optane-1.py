@@ -35,7 +35,7 @@ import VTuneCSV as vtcsv
 
 #****************************************************************************
 
-Txt_sz_title = 12
+Txt_sz_title = 11.5
 Txt_sz_ytitle = 13
 Txt_sz_heatmap = 10
 Txt_sz_heatmap_scale = 10
@@ -247,11 +247,11 @@ def main_grappolo(makeColL):
     vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv', makeColL = makeColL)
     vt_f = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL)
 
-    adjHp = { 'left':0.15, 'right':0.95, 'bottom':0.10, 'top':0.85,
+    adjHp = { 'left':0.15, 'right':0.95, 'bottom':0.15, 'top':0.85,
                 'wspace':0.10, 'hspace':0.0 }
     adjHf = { 'left':0.08, 'right':0.98, 'bottom':0.15, 'top':0.90,
                  'wspace':0.13, 'hspace':0.0 }
-    adjHx = { 'left':0.05, 'right':0.99, 'bottom':0.10, 'top':0.82,
+    adjHx = { 'left':0.05, 'right':0.99, 'bottom':0.10, 'top':0.75,
                  'wspace':0.15, 'hspace':0.0 }
 
     plotHp = {'w':2.6, 'h':1.8, 'title':1, 'xtitle_top':1, 'xtitle_bot':1}
@@ -422,11 +422,11 @@ def main_ripples(makeColL):
     vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv', makeColL = makeColL)
     vt_f = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL)
 
-    adjHp = { 'left':0.15, 'right':0.95, 'bottom':0.10, 'top':0.85,
+    adjHp = { 'left':0.15, 'right':0.95, 'bottom':0.15, 'top':0.85,
                  'wspace':0.10, 'hspace':0.0 }
     adjHf = { 'left':0.08, 'right':0.98, 'bottom':0.15, 'top':0.90,
                  'wspace':0.13, 'hspace':0.0 }
-    adjHx = { 'left':0.05, 'right':0.99, 'bottom':0.10, 'top':0.82,
+    adjHx = { 'left':0.05, 'right':0.99, 'bottom':0.10, 'top':0.75,
                  'wspace':0.15, 'hspace':0.0 }
 
     plotHp = {'w':2.6, 'h':1.8, 'title':1, 'xtitle_top':1, 'xtitle_bot':1}
