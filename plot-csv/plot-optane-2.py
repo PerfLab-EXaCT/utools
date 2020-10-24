@@ -239,33 +239,32 @@ pokec	64	kdax	1639.97	nan
 pokec	128	kdax	nan	nan
 pokec	192	kdax	1974.83	nan
 
+topcats	2	dram	27373.45	nan
+topcats	4	dram	13190.00	nan
+topcats	8	dram	6458.86	nan
+topcats	16	dram	3839.89	nan
+topcats	32	dram	3505.02	nan
+topcats	64	dram	9295.31	nan
+topcats	128	dram	9398.76	nan
+topcats	192	dram	10236.10	nan
 
-topcats	2	dram	22531.59	nan
-topcats	4	dram	10796.75	nan
-topcats	8	dram	5316.46	nan
-topcats	16	dram	2773.61	nan
-topcats	32	dram	1509.24	nan
-topcats	64	dram	809.45	nan
-topcats	128	dram	578.64	nan
-topcats	192	dram	686.34	nan
-
-topcats	2	mem	23462.17	nan
-topcats	4	mem	11286.53	nan
-topcats	8	mem	5540.75	nan
-topcats	16	mem	2877.33	nan
-topcats	32	mem	1619.55	nan
-topcats	64	mem	939.25	nan
-topcats	128	mem	718.31	nan
-topcats	192	mem	771.15	nan
+topcats	2	mem	19722.79	nan
+topcats	4	mem	9400.69	nan
+topcats	8	mem	4698.85	nan
+topcats	16	mem	2543.83	nan
+topcats	32	mem	1518.52	nan
+topcats	64	mem	1041.00	nan
+topcats	128	mem	880.35	nan
+topcats	192	mem	867.02	nan
 
 topcats	2	kdax	nan	nan
 topcats	4	kdax	nan	nan
 topcats	8	kdax	nan	nan
 topcats	16	kdax	nan	nan
-topcats	32	kdax	2450.37	nan
-topcats	64	kdax	1639.97	nan
+topcats	32	kdax	2298.37	nan
+topcats	64	kdax	1891.35	nan
 topcats	128	kdax	nan	nan
-topcats	192	kdax	1974.83	nan
+topcats	192	kdax	2368.92	nan
 """
 
 #-------------------------------------------------------
