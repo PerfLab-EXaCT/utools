@@ -86,8 +86,8 @@ def main():
         #
         ('Average Latency (cycles)',    'Latency (cycles)'),
         #
-        ('Memory Bound(%)',),
-        #('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
+        #('Memory Bound(%)',),
+        ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
         #('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
         #('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
         #('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
@@ -96,8 +96,8 @@ def main():
         #('Memory Bound:Store Bound(%)', 'Store Bound (%)'),
     ]
     
-    global metricLf
-    metricLf = [ # metricL1.copy()
+    global metricLf_g
+    metricLf_g = [ # metricL1.copy()
         (makeColL_g[0][1] ,),  #('CPU Time'),
         #
         ('Average Latency (cycles)',    'Latency (cycles)'),
@@ -108,8 +108,20 @@ def main():
         ('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
         ('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
 
-        (makeColL_g[1][1] ,),  #('Stores (%)',),
+        #(makeColL_g[1][1] ,),  #('Stores (%)',),
         #('Memory Bound:Store Bound(%)', 'Store Bound (%)'),
+    ]
+
+
+    global metricLf_r
+    metricLf_r = [ # metricL1.copy()
+        (makeColL_g[0][1] ,),  #('CPU Time'),
+        #
+        ('Average Latency (cycles)',    'Latency (cycles)'),
+        #
+        ('Memory Bound(%)',),
+        #
+        (makeColL_g[1][1] ,),  #('Stores (%)',),
     ]
 
     global metricLx
@@ -263,10 +275,10 @@ def main_grappolo(makeColL):
     adjHf = { 'left':0.08, 'right':0.98, 'bottom':0.15, 'top':0.90,
               'wspace':0.13, 'hspace':0.0 }
 
-    fig_f1 = plot_fn(vt_f, graphL1, funcH, metricLf, {**plotHf, 'title':1}, adjHf)
-    fig_f2 = plot_fn(vt_f, graphL2, funcH, metricLf, {**plotHf, 'xtitle_bot':1}, adjHf)
-    fig_f3 = plot_fn(vt_f, graphL3, funcH, metricLf, {**plotHf, 'h':1.9, 'txt_rot':0}, adjHf)
-    fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf, {**plotHf, 'h':1.9, 'xtitle_bot':1, 'txt_rot':0}, adjHf)
+    fig_f1 = plot_fn(vt_f, graphL1, funcH, metricLf_g, {**plotHf, 'title':1}, adjHf)
+    fig_f2 = plot_fn(vt_f, graphL2, funcH, metricLf_g, {**plotHf, 'xtitle_bot':1}, adjHf)
+    fig_f3 = plot_fn(vt_f, graphL3, funcH, metricLf_g, {**plotHf, 'h':1.9, 'txt_rot':0}, adjHf)
+    fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf_g, {**plotHf, 'h':1.9, 'xtitle_bot':1, 'txt_rot':0}, adjHf)
     fig_fx = plot_fn(vt_f, graphL, funcH, metricLx, {'w':3.2, 'h':2.7}, adjHx)
 
     #fig_f1 = plot_fn(vt_f, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'xtitle_bot':False}, adjH)
@@ -349,6 +361,8 @@ def main_ripples(makeColL):
         #
         ('std::__move_merge_adaptive<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'mv_mrg'),
         ('std::__move_merge_adaptive<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'mv_mrg'),
+        #
+        ('std::__copy_move_backward<(bool)1, (bool)1, std::random_access_iterator_tag>::__copy_move_b<unsigned int>', 'mv_mrg'),
 
         # operator++ [FIX: SHARED]
         ('__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>::operator++', 'op'),
@@ -368,8 +382,7 @@ def main_ripples(makeColL):
         #
         ('std::__unguarded_linear_insert<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Val_less_iter>', 'op'),
         ('std::__unguarded_linear_insert<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Val_less_iter>', 'op'),
-        #
-        ('std::__copy_move_backward<(bool)1, (bool)1, std::random_access_iterator_tag>::__copy_move_b<unsigned int>', 'op'),
+
         
         # [FIX: SHARED]
         ('trng::lcg64::step', 'trng'),
@@ -429,22 +442,22 @@ def main_ripples(makeColL):
 
     fig_p1 = plot_pkg(vt_p, graphL, [metricLp[0]], {**plotHp}, adjHp)
     fig_p2 = plot_pkg(vt_p, graphL, [metricLp[1]], {**plotHp}, adjHp)
-    fig_px = plot_pkg(vt_p, graphL, metricLx, {'w':3.0, 'h':1.8}, adjHx)
+    fig_px = plot_pkg(vt_p, graphL, metricLx, {'w':2.6, 'h':1.6}, adjHx)
 
 
     plotHf = {'w':1.8, 'h':2.4, 'title':0, 'xtitle_top':0, 'xtitle_bot':0}
     adjHf = { 'left':0.08, 'right':0.98, 'bottom':0.15, 'top':0.90,
               'wspace':0.13, 'hspace':0.0 }
 
-    fig_f1 = plot_fn(vt_f, graphL1, funcH, metricLf, {**plotHf, 'title':1}, adjHf)
-    fig_f2 = plot_fn(vt_f, graphL2, funcH, metricLf, {**plotHf}, adjHf)
-    fig_f3 = plot_fn(vt_f, graphL3, funcH, metricLf, {**plotHf}, adjHf)
-    fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf, {**plotHf}, adjHf)
-    fig_f5 = plot_fn(vt_f, graphL5, funcH, metricLf, {**plotHf, 'xtitle_bot':1, 'h':2.2, 'txt_rot':0}, adjHf)
+    fig_f1 = plot_fn(vt_f, graphL1, funcH, metricLf_r, {**plotHf, 'title':1}, adjHf)
+    fig_f2 = plot_fn(vt_f, graphL2, funcH, metricLf_r, {**plotHf}, adjHf)
+    fig_f3 = plot_fn(vt_f, graphL3, funcH, metricLf_r, {**plotHf}, adjHf)
+    fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf_r, {**plotHf, 'xtitle_bot':1}, adjHf)
+    fig_f5 = plot_fn(vt_f, graphL5, funcH, metricLf_r, {**plotHf, 'xtitle_bot':1, 'h':2.2, 'txt_rot':0}, adjHf)
 
     # fig_f1 = plot_fn(vt_f, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'xtitle_bot':False}, adjH)
 
-    fig_fx = plot_fn(vt_f, graphL, funcH, metricLx, {'w':3.2, 'h':2.7}, adjHx)
+    fig_fx = plot_fn(vt_f, graphL, funcH, metricLx, {'w':2.6, 'h':2.4}, adjHx)
     
     fig_p1.savefig('chart-ripples-pkg1.pdf', bbox_inches='tight')
     fig_p2.savefig('chart-ripples-pkg2.pdf', bbox_inches='tight')

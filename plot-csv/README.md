@@ -1,13 +1,6 @@
 -*-Mode: markdown;-*-
 -----------------------------------------------------------------------------
 
-```
-mv chart-grappolo-* /Users/tallent/1research/papers/optane-graphs/optane-graphs.overleaf-git/img/grappolo/
-mv chart-ripples-* /Users/tallent/1research/papers/optane-graphs/optane-graphs.overleaf-git/img/imm/
-mv chart-teaser.pdf /Users/tallent/1research/papers/optane-graphs/optane-graphs.overleaf-git/img/
-```
-
-
 Using
 =============================================================================
 
