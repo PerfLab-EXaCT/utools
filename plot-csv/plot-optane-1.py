@@ -121,7 +121,7 @@ def main():
         #
         ('Memory Bound(%)',),
         #
-        (makeColL_g[1][1] ,),  #('Stores (%)',),
+        #(makeColL_g[1][1] ,),  #('Stores (%)',),
     ]
 
     global metricLx
