@@ -246,7 +246,7 @@ def main_grappolo(makeColL):
         #('duplicateGivenGraph$omp$parallel_for@171', 'copy'),
         #('duplicateGivenGraph$omp$parallel_for@152', 'copy'),
 
-        ('[vmlinux]', 'kernel'),
+        #('[vmlinux]', 'kernel'),
     ] )
 
     #functionL = list(funcH.items())
@@ -271,14 +271,14 @@ def main_grappolo(makeColL):
     fig_px = plot_pkg(vt_p, graphL, metricLx, {'w':3.0, 'h':1.8}, adjHx)
 
 
-    plotHf = {'w':1.9, 'h':2.1, 'title':0, 'xtitle_top':0, 'xtitle_bot':0}
+    plotHf = {'w':1.9, 'h':1.9, 'title':0, 'xtitle_top':0, 'xtitle_bot':0}
     adjHf = { 'left':0.08, 'right':0.98, 'bottom':0.15, 'top':0.90,
               'wspace':0.13, 'hspace':0.0 }
 
     fig_f1 = plot_fn(vt_f, graphL1, funcH, metricLf_g, {**plotHf, 'title':1}, adjHf)
     fig_f2 = plot_fn(vt_f, graphL2, funcH, metricLf_g, {**plotHf, 'xtitle_bot':1}, adjHf)
-    fig_f3 = plot_fn(vt_f, graphL3, funcH, metricLf_g, {**plotHf, 'h':1.9, 'txt_rot':0}, adjHf)
-    fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf_g, {**plotHf, 'h':1.9, 'xtitle_bot':1, 'txt_rot':0}, adjHf)
+    fig_f3 = plot_fn(vt_f, graphL3, funcH, metricLf_g, {**plotHf, 'h':1.7, 'txt_rot':0}, adjHf)
+    fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf_g, {**plotHf, 'h':1.7, 'xtitle_bot':1, 'txt_rot':0}, adjHf)
     fig_fx = plot_fn(vt_f, graphL, funcH, metricLx, {'w':3.2, 'h':2.7}, adjHx)
 
     #fig_f1 = plot_fn(vt_f, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'xtitle_bot':False}, adjH)
