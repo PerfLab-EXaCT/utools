@@ -566,17 +566,20 @@ def dfrm_fn_xform(vt, functionH, graph_grpL):
         if (metric.find('(%)') > 0):
             rowL = []
             for fn in functionHx_keys:
-            
-                #rowL_times = df_tm.loc[ [fn] ]
-                #print(rowL_times)
+                df_wgt = df_tm.loc[ [fn] ]
+                #print("times", df_wgt)
                 
-                #weights = rowL_times / df_tm.sum(axis=0)
-                #print(weights)
+                df_wgt = df_wgt / df_wgt.sum(axis=0)
+                #print("weights", df_wgt)
 
+                df_fn = dfrm.loc[ [fn] ]
+                df_fn = df_fn.mean(axis=0).to_frame().transpose()
+                
                 # FIXME: should be mean, weighted by cpu time
-                row = dfrm.loc[ [fn] ].mean(axis=0).to_frame().transpose()
+                #df_fn = dfrm.loc[ [fn] ].mean(axis=0).to_frame().transpose()
                 #print(row)
-                rowL.append(row)
+                
+                rowL.append(df_fn)
                 
         else:
             rowL = [ dfrm.loc[ [fn] ].sum(axis=0).to_frame().transpose()
