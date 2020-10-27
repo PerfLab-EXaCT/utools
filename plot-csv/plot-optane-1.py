@@ -147,7 +147,7 @@ def main():
 
     pyplt.rcParams.update({'figure.max_open_warning': 0})
 
-    main_grappolo(makeColL_g)
+    #main_grappolo(makeColL_g)
     main_ripples (makeColL_r)
 
     pyplt.show()
@@ -274,7 +274,7 @@ def main_grappolo(makeColL):
 
 
     plotHf = {'w':1.9, 'h':1.9, 'title':0, 'xtitle_top':0, 'xtitle_bot':0}
-    adjHf = { 'left':0.08, 'right':0.98, 'bottom':0.15, 'top':0.90,
+    adjHf = { 'left':0.15, 'right':0.98, 'bottom':0.15, 'top':0.90,
               'wspace':0.13, 'hspace':0.0 }
 
     fig_f1 = plot_fn(vt_f, graphL1, funcH, metricLf_g, {**plotHf, 'title':1}, adjHf)
@@ -469,7 +469,7 @@ def main_ripples(makeColL):
 
 
     plotHf = {'w':2.0, 'h':2.4, 'title':0, 'xtitle_top':0, 'xtitle_bot':0}
-    adjHf = { 'left':0.08, 'right':0.98, 'bottom':0.15, 'top':0.90,
+    adjHf = { 'left':0.15, 'right':0.98, 'bottom':0.15, 'top':0.90,
               'wspace':0.13, 'hspace':0.0 }
 
     fig_f1 = plot_fn(vt_f, graphL1, funcH, metricLf_r, {**plotHf, 'title':1}, adjHf)
@@ -533,7 +533,9 @@ def plot_fn(vt, graph_grpL, functionH, metricL, plotH, adjustH):
 
     
 def dfrm_fn_xform(vt, functionH, graph_grpL):
+
     try:
+        # Note: before 'Metric_scale' has been renamed!
         dfrm_time = vt.dataH[Metric_scale]
     except KeyError:
         vtcsv.MSG.err(("Cannot find metric: '%s'" % Metric_scale))
@@ -559,9 +561,21 @@ def dfrm_fn_xform(vt, functionH, graph_grpL):
 
         # 4. Select and merge rows with same target name
         if (metric.find('(%)') > 0):
-            # FIXME: should be mean, weighted by cpu time
-            rowL = [ dfrm.loc[ [fn] ].mean(axis=0).to_frame().transpose()
-                     for fn in functionHx_keys ]
+            rowL = []
+            for fn in functionHx_keys:
+            
+                # rowL_times = dfrm_time.loc[ [fn] ]
+                # print(rowL_times)
+                # weights = rowL_times / dfrm_time.sum(axis=0)
+                # print(weights)
+
+                # FIXME: should be mean, weighted by cpu time
+                row = dfrm.loc[ [fn] ].mean(axis=0).to_frame().transpose()
+                #print(row)
+                rowL.append(row)
+
+                # rowL = [ row for fn in functionHx_keys ]
+                
         else:
             rowL = [ dfrm.loc[ [fn] ].sum(axis=0).to_frame().transpose()
                      for fn in functionHx_keys ]
