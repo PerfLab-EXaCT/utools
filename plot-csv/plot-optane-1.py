@@ -41,6 +41,8 @@ Txt_sz_heatmap = 10
 Txt_sz_heatmap_scale = 10
 Fixed_cmap_w = 2
 
+Metric_scale = 'CPU Time'
+
 Do_view = 0 # resets 'subplots_adjust'
 Do_rows = 1
 
@@ -322,7 +324,8 @@ def main_ripples(makeColL):
 
     graph_sfx = ['.imm-dram.T64.R0',
                  '.imm-mem.T64.R0',
-                 '.imm-kdax.T64.R0']
+                 '.imm-kdax.T64.R0',
+                 '.imm-kdax1.T64.R0']
 
 
     pathL_p = [
@@ -356,6 +359,7 @@ def main_ripples(makeColL):
         # move_merge (int*) [FIX: SHARED]
         ('std::__move_merge<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'mv_mrg'),
         ('std::__move_merge<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'mv_mrg'),
+
         #
         # move_merge (it) 
         ('std::__move_merge<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, unsigned int*, __gnu_cxx::__ops::_Iter_less_iter>', 'mv_mrg'),
@@ -372,13 +376,13 @@ def main_ripples(makeColL):
 
         # --------------------------------------
         # Optane? [SHARED]
-        
         # operator++ 
         ('__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>::operator++', 'op'),
         ('__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>::operator++', 'op'),
         #
         ('__gnu_cxx::__ops::_Iter_less_iter::operator()<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>', 'op'),
         ('__gnu_cxx::__ops::_Iter_less_iter::operator()<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>', 'op'),
+
         #
         ('__gnu_cxx::__ops::_Val_less_iter::operator()<unsigned int, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>', 'op'),
         ('__gnu_cxx::__ops::_Val_less_iter::operator()<unsigned int, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>', 'op'),
@@ -403,16 +407,18 @@ def main_ripples(makeColL):
         
         # --------------------------------------                
         # Optane [SHARED]
-        ('ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::Neighborhood::Neighborhood', 'xtra'), # 'neigh-hood' (dram)
+        ('ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::Neighborhood::Neighborhood', 'xtra'), # 'neigh-hood'
         # push_back
-        ('std::vector<unsigned int, std::allocator<unsigned int>>::push_back', 'xtra'), # 'push_back' (optane)
+        ('std::vector<unsigned int, std::allocator<unsigned int>>::push_back', 'xtra'), # 'push_back'
         ('std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>::push_back', 'xtra'), # 'push_back'
         # count
         ('ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, std::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, std::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, std::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.12', 'xtra'), # 'count'
         ('ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.12', 'xtra'), # 'count'
+        ('ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.13', 'xtra'), # 'count'
         #
         ('std::allocator<unsigned int>::construct<unsigned int, unsigned int>', 'xtra'),
         ('libmemkind::static_kind::allocator<unsigned int>::construct<unsigned int, unsigned int>', 'xtra'),
+        ('libmemkind::static_kind::allocator<unsigned int>::construct<unsigned int, unsigned int&>', 'xtra'),
         #
         ('std::allocator<unsigned int>::construct<unsigned int, unsigned int const&>', 'xtra'),
         ('libmemkind::static_kind::allocator<unsigned int>::construct<unsigned int, unsigned int const&>', 'xtra'),
@@ -453,7 +459,7 @@ def main_ripples(makeColL):
     adjHx = { 'left':0.05, 'right':0.99, 'bottom':0.10, 'top':0.75,
               'wspace':0.15, 'hspace':0.0 }
 
-    plotHp = {'w':2.5, 'h':1.6, 'title':1, 'xtitle_top':1, 'xtitle_bot':1}
+    plotHp = {'w':2.7, 'h':1.6, 'title':1, 'xtitle_top':1, 'xtitle_bot':1}
     adjHp = { 'left':0.15, 'right':0.95, 'bottom':0.15, 'top':0.85,
               'wspace':0.10, 'hspace':0.0 }
 
@@ -462,7 +468,7 @@ def main_ripples(makeColL):
     fig_px = plot_pkg(vt_p, graphL, metricLx, {'w':2.6, 'h':1.6}, adjHx)
 
 
-    plotHf = {'w':1.8, 'h':2.4, 'title':0, 'xtitle_top':0, 'xtitle_bot':0}
+    plotHf = {'w':2.0, 'h':2.4, 'title':0, 'xtitle_top':0, 'xtitle_bot':0}
     adjHf = { 'left':0.08, 'right':0.98, 'bottom':0.15, 'top':0.90,
               'wspace':0.13, 'hspace':0.0 }
 
@@ -520,13 +526,19 @@ def plot_fn(vt, graph_grpL, functionH, metricL, plotH, adjustH):
     h = plotH['h']
 
     fig, axesL = plotL_mk(vt, metricL, w, h, graph_grpL)
-    plotL_do(vt, fig, axesL, metricL, dfrm_fn_xform(functionH, graph_grpL), graph_grpL, plotH)
+    plotL_do(vt, fig, axesL, metricL, dfrm_fn_xform(vt, functionH, graph_grpL), graph_grpL, plotH)
     plotL_adj(fig, adjustH)
 
     return fig
 
     
-def dfrm_fn_xform(functionH, graph_grpL):
+def dfrm_fn_xform(vt, functionH, graph_grpL):
+    try:
+        dfrm_time = vt.dataH[Metric_scale]
+    except KeyError:
+        vtcsv.MSG.err(("Cannot find metric: '%s'" % Metric_scale))
+
+    
     def dfrm_fn_xform1(dfrm, metric):
         #functionH_key = functionH.keys()
         #dfrm = dfrm.loc[functionH_key]
