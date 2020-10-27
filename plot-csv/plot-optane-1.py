@@ -473,7 +473,7 @@ def main_ripples(makeColL):
               'wspace':0.13, 'hspace':0.0 }
 
     fig_f1 = plot_fn(vt_f, graphL1, funcH, metricLf_r, {**plotHf, 'title':1}, adjHf)
-    fig_f2 = plot_fn(vt_f, graphL2, funcH, metricLf_r, {**plotHf}, adjHf)
+    fig_f2 = plot_fn(vt_f, graphL2, funcH, metricLf_r, {**plotHf, 'title':1}, adjHf)
     fig_f3 = plot_fn(vt_f, graphL3, funcH, metricLf_r, {**plotHf}, adjHf)
     fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf_r, {**plotHf, 'xtitle_bot':1}, adjHf)
     fig_f5 = plot_fn(vt_f, graphL5, funcH, metricLf_r, {**plotHf, 'xtitle_bot':1, 'h':2.2, 'txt_rot':0}, adjHf)
@@ -567,17 +567,20 @@ def dfrm_fn_xform(vt, functionH, graph_grpL):
             rowL = []
             for fn in functionHx_keys:
                 df_wgt = df_tm.loc[ [fn] ]
-                #print("times", df_wgt)
+                #print("times\n", df_wgt)
                 
                 df_wgt = df_wgt / df_wgt.sum(axis=0)
-                #print("weights", df_wgt)
+                #print("weights\n", df_wgt)
 
                 df_fn = dfrm.loc[ [fn] ]
+                #print("df_fnL/{}\n".format(metric), df_fn)
+
+                # Old: Unweighted mean
                 df_fn = df_fn.mean(axis=0).to_frame().transpose()
-                
-                # FIXME: should be mean, weighted by cpu time
-                #df_fn = dfrm.loc[ [fn] ].mean(axis=0).to_frame().transpose()
-                #print(row)
+
+                # New: Weighted by cpu time
+                #df_fn = df_fn.multiply(df_wgt, axis=1).sum(axis=0).to_frame().transpose()
+                #print("df_fn/{}\n".format(metric), df_fn)
                 
                 rowL.append(df_fn)
                 
