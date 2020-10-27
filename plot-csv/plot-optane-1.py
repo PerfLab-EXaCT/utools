@@ -509,11 +509,13 @@ def plot_pkg(vt, graph_grpL, metricL, plotH, adjustH):
 
 
 def dfrm_pkg_xform(graph_grpL):
-    def dfrm_pkg_xform1(dfrm, metric):
+
+    def dfrm_pkg_xform1(dfrm, graph_grp, metric):
         dfrm.sort_index(axis=0, ascending=True, inplace=True)
         dfrm.rename(index = (lambda x: x.replace('package_', '')), inplace=True)
         dfrm.rename(columns = (lambda x: rename_col(x, graph_grpL)), inplace=True)
         return dfrm
+
     return dfrm_pkg_xform1
     
 
@@ -540,39 +542,35 @@ def dfrm_fn_xform(vt, functionH, graph_grpL):
     functionHx_keys = functionHx.keys()
 
     # 0. Capture times for weights
+    dfrm_time = None
     try:
         # Note: before 'Metric_scale' has been renamed!
         dfrm_time = vt.dataH[Metric_scale]
     except KeyError:
         vtcsv.MSG.err(("Cannot find metric: '%s'" % Metric_scale))
 
-
-    # # 1. Select columns for 'graph_grp'
-    # dfrm_time = select_dfrm_col(dfrm_time, graph_grp) # copies dfrm slice
     
-    # # 2. Rename columns
-    # dfrm_time.rename(columns = (lambda x: rename_col(x, graph_grpL)), inplace=True)
+    def dfrm_fn_xform1(dfrm, graph_grp, metric):
+        # 0. Select columns for 'graph_grp'
+        df_tm = select_dfrm_col(dfrm_time, graph_grp) # copies dfrm slice
     
-    # # 3. Rename rows
-    # dfrm_time.rename(index = functionH, inplace=True)
-    
-    
-    def dfrm_fn_xform1(dfrm, metric):
         # 1. Rename columns
         dfrm.rename(columns = (lambda x: rename_col(x, graph_grpL)), inplace=True)
+        df_tm.rename(columns = (lambda x: rename_col(x, graph_grpL)), inplace=True)
 
         # 2. Rename rows
         dfrm.rename(index = functionH, inplace=True)
+        df_tm.rename(index = functionH, inplace=True)
 
         # 3. Select and merge rows with same target name
         if (metric.find('(%)') > 0):
             rowL = []
             for fn in functionHx_keys:
             
-                #rowL_times = dfrm_time.loc[ [fn] ]
+                #rowL_times = df_tm.loc[ [fn] ]
                 #print(rowL_times)
                 
-                #weights = rowL_times / dfrm_time.sum(axis=0)
+                #weights = rowL_times / df_tm.sum(axis=0)
                 #print(weights)
 
                 # FIXME: should be mean, weighted by cpu time
@@ -712,7 +710,7 @@ def plotL_do(vt, fig, axesL, metricL, dfrm_xformF, graph_grpL, plotH):
             dfrm = select_dfrm_col(dfrm, graph_grp)
             #print(dfrm)
 
-            dfrm = dfrm_xformF(dfrm, metric0)
+            dfrm = dfrm_xformF(dfrm, graph_grp, metric0)
 
             axes.margins(x=0.00, y=0.00)
             axes1 = plot(dfrm, axes, metricPair, do_title, ytitle, graph_grp, plotH)
