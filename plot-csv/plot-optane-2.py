@@ -8962,13 +8962,13 @@ def plot_modes(dfrm, axes, nm_i, title, plt_sty, mrk_sty, ln_sty):
 
 
 
-def plot_scaling(dfrm, graph_nm, axes, plt_sty, mrk_sty, ln_sty, nm_j):
+def plot_scaling(dfrm, graph_nm, axes, y_metric, plt_sty, mrk_sty, ln_sty, nm_j):
     dfrm_me = dfrm.xs(graph_nm, level='graph')
 
-    dfrm_me = dfrm_me.dropna(axis='rows', subset=[col_src])
+    dfrm_me = dfrm_me.dropna(axis='rows', subset=[y_metric])
     #print(dfrm_me)
 
-    ax = seaborn.lineplot(data=dfrm_me, x='threads', y=col_src,
+    ax = seaborn.lineplot(data=dfrm_me, x='threads', y=y_metric,
                           hue='mode', ax=axes,
                           palette=plt_sty, marker=mrk_sty, linestyle=ln_sty)
 
@@ -9096,7 +9096,7 @@ def makeRelTime(dfrm, row_srcL, col_src, col_dst):
 
     for (graph, thrd, ty) in dfrm.index:
         #print("{}: {}/{}/{}".format(makeRelTime.__name__,graph, thrd, ty))
-        v = dfrm.at[(graph, thrd, ty),      col_src]
+        v = dfrm.at[(graph, thrd, ty), col_src]
 
         try:
             #print("try1: {}/{}/{}".format(graph, thrd, row_srcL[0]))
@@ -9295,7 +9295,7 @@ lat_data_nmL = ['dram', 'mem', 'kdax', 'pdax' ]
 
 # TODO: Make pairs of (data_str, data_nm)
 
-plot_scaling(time_dfrm_grp, nm, axes2A[0,nm_j], plt_sty1, mrk_sty1, ln_sty1, nm_j)
+plot_scaling(time_dfrm_grp, nm, axes2A[0,nm_j], col_src, plt_sty1, mrk_sty1, ln_sty1, nm_j)
 
 bw_data_strL = [ friendster_t192_dramBw_dram_str,
 
@@ -9324,7 +9324,7 @@ plot_bw_lat(axes2xL[nm_j], axes2A[1,nm_j], bw_data_strL, lat_data_strL, nm, bw_d
 nm = 'moliere2016'
 nm_j = 1
 
-plot_scaling(time_dfrm_grp, nm, axes2A[0,nm_j], plt_sty1, mrk_sty1, ln_sty1, nm_j)
+plot_scaling(time_dfrm_grp, nm, axes2A[0,nm_j], col_src, plt_sty1, mrk_sty1, ln_sty1, nm_j)
 
 bw_data_strL = [ moliere2016_t192_dramBw_dram_str,
 
@@ -9355,7 +9355,7 @@ bw_data_nmL =  ['mem', 'kdax', 'kdax'] # 'mem',
 lat_data_nmL =  ['mem', 'kdax']
 
 
-plot_scaling(time_dfrm_grp, nm, axes2A[0,nm_j], plt_sty1, mrk_sty1, ln_sty1, nm_j)
+plot_scaling(time_dfrm_grp, nm, axes2A[0,nm_j], col_src, plt_sty1, mrk_sty1, ln_sty1, nm_j)
 
 bw_data_strL = [ clueweb12_t192_dramBw_mem_str,
                  #clueweb12_t192_pmemBw_mem_str,
@@ -9376,7 +9376,7 @@ nm = 'uk2014'
 nm_j = 3
 
 
-plot_scaling(time_dfrm_grp, nm, axes2A[0,nm_j], plt_sty1, mrk_sty1, ln_sty1, nm_j)
+plot_scaling(time_dfrm_grp, nm, axes2A[0,nm_j], col_src, plt_sty1, mrk_sty1, ln_sty1, nm_j)
 
 bw_data_strL = [ uk2014_t192_dramBw_mem_str,
                  #uk2014_t192_pmemBw_mem_str,
@@ -9400,13 +9400,13 @@ nmL = [ 'slash', 'twitter', 'talk', 'pokec', 'topcats' ]
 
 nm_i = 0
 for nm in nmL:
-    plot_scaling(time_dfrm_rip, nm, axes3L[nm_i], plt_sty1, mrk_sty1, ln_sty1, nm_i)
+    plot_scaling(time_dfrm_rip, nm, axes3L[nm_i], col_src, plt_sty1, mrk_sty1, ln_sty1, nm_i)
     nm_i += 1
 
 
 #----------------------------------------------------------------------------
 
-adjustH1 = { 'left':0.05, 'right':0.99, 'bottom':0.03, 'top':0.97,
+adjustH1 = { 'left':0.05, 'right':0.99, 'bottom':0.08, 'top':0.92,
              'wspace':0.18, 'hspace':0.35 }
 
 adjustH2 = { 'left':0.05, 'right':0.99, 'bottom':0.03, 'top':0.97,
