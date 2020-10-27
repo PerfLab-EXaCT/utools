@@ -147,7 +147,7 @@ def main():
 
     pyplt.rcParams.update({'figure.max_open_warning': 0})
 
-    #main_grappolo(makeColL_g)
+    main_grappolo(makeColL_g)
     main_ripples (makeColL_r)
 
     pyplt.show()
@@ -533,48 +533,52 @@ def plot_fn(vt, graph_grpL, functionH, metricL, plotH, adjustH):
 
     
 def dfrm_fn_xform(vt, functionH, graph_grpL):
+    
+    # N.B.: functionH can map multiple keys to same target function
+    # 0. Unique target names from functionH, in original order
+    functionHx = { x : None for x in functionH.values() }
+    functionHx_keys = functionHx.keys()
 
+    # 0. Capture times for weights
     try:
         # Note: before 'Metric_scale' has been renamed!
         dfrm_time = vt.dataH[Metric_scale]
     except KeyError:
         vtcsv.MSG.err(("Cannot find metric: '%s'" % Metric_scale))
 
+
+    # # 1. Select columns for 'graph_grp'
+    # dfrm_time = select_dfrm_col(dfrm_time, graph_grp) # copies dfrm slice
+    
+    # # 2. Rename columns
+    # dfrm_time.rename(columns = (lambda x: rename_col(x, graph_grpL)), inplace=True)
+    
+    # # 3. Rename rows
+    # dfrm_time.rename(index = functionH, inplace=True)
+    
     
     def dfrm_fn_xform1(dfrm, metric):
-        #functionH_key = functionH.keys()
-        #dfrm = dfrm.loc[functionH_key]
-        #dfrm.rename(index = functionH, inplace=True)
-        #dfrm.rename(columns = (lambda x: rename_col(x, graph_grpL)), inplace=True)
-
-        # N.B.: functionH can map multiple keys to same target function
-
-        # 1. Unique target names from functionH, in original order
-        functionHx = { x : None for x in functionH.values() }
-        functionHx_keys = functionHx.keys()
-
-        # 2. Rename columns
+        # 1. Rename columns
         dfrm.rename(columns = (lambda x: rename_col(x, graph_grpL)), inplace=True)
 
-        # 3. Rename rows
+        # 2. Rename rows
         dfrm.rename(index = functionH, inplace=True)
 
-        # 4. Select and merge rows with same target name
+        # 3. Select and merge rows with same target name
         if (metric.find('(%)') > 0):
             rowL = []
             for fn in functionHx_keys:
             
-                # rowL_times = dfrm_time.loc[ [fn] ]
-                # print(rowL_times)
-                # weights = rowL_times / dfrm_time.sum(axis=0)
-                # print(weights)
+                #rowL_times = dfrm_time.loc[ [fn] ]
+                #print(rowL_times)
+                
+                #weights = rowL_times / dfrm_time.sum(axis=0)
+                #print(weights)
 
                 # FIXME: should be mean, weighted by cpu time
                 row = dfrm.loc[ [fn] ].mean(axis=0).to_frame().transpose()
                 #print(row)
                 rowL.append(row)
-
-                # rowL = [ row for fn in functionHx_keys ]
                 
         else:
             rowL = [ dfrm.loc[ [fn] ].sum(axis=0).to_frame().transpose()
@@ -588,6 +592,7 @@ def dfrm_fn_xform(vt, functionH, graph_grpL):
         #print(dfrm1)
         
         return dfrm1
+
 
     return dfrm_fn_xform1
 
@@ -706,7 +711,6 @@ def plotL_do(vt, fig, axesL, metricL, dfrm_xformF, graph_grpL, plotH):
             # select columns for 'graph_grp'
             dfrm = select_dfrm_col(dfrm, graph_grp)
             #print(dfrm)
-            #sys.exit()
 
             dfrm = dfrm_xformF(dfrm, metric0)
 
