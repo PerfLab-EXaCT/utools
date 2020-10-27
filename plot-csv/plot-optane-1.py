@@ -344,12 +344,15 @@ def main_ripples(makeColL):
     #-------------------------------------------------------
 
     funcH = collections.OrderedDict( [
+        # --------------------------------------
         # Optane
         ('ripples::AddRRRSet<ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>, trng::lcg64, ripples::independent_cascade_tag>', 'AddRRR'),
 
+        # --------------------------------------
         # Optane
         ('ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::neighbors', 'neigh'), # optane
 
+        # --------------------------------------
         # move_merge (int*) [FIX: SHARED]
         ('std::__move_merge<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'mv_mrg'),
         ('std::__move_merge<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'mv_mrg'),
@@ -366,7 +369,11 @@ def main_ripples(makeColL):
         #
         ('std::__copy_move_backward<(bool)1, (bool)1, std::random_access_iterator_tag>::__copy_move_b<unsigned int>', 'mv_mrg'),
 
-        # operator++ [FIX: SHARED]: Optane
+
+        # --------------------------------------
+        # Optane? [SHARED]
+        
+        # operator++ 
         ('__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>::operator++', 'op'),
         ('__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>::operator++', 'op'),
         #
@@ -386,13 +393,16 @@ def main_ripples(makeColL):
         ('std::__unguarded_linear_insert<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Val_less_iter>', 'op'),
 
         
-        # [FIX: SHARED]: DRAM
+        # --------------------------------------
+        # DRAM [SHARED]
+        # 
         ('trng::lcg64::step', 'trng'),
         ('trng::utility::u01xx_traits<float, (unsigned long)1, trng::lcg64>::addin', 'trng'),
         ('trng::utility::u01xx_traits<float, (unsigned long)1, trng::lcg64>::co', 'trng'),
 
-        # Optane
-        # [FIX: SHARED]
+        
+        # --------------------------------------                
+        # Optane [SHARED]
         ('ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::Neighborhood::Neighborhood', 'xtra'), # 'neigh-hood' (dram)
         # push_back
         ('std::vector<unsigned int, std::allocator<unsigned int>>::push_back', 'xtra'), # 'push_back' (optane)
@@ -415,14 +425,18 @@ def main_ripples(makeColL):
         ('__GI___libc_malloc', 'xtra'),
         ('_int_free', 'xtra'),
 
+        
+        # --------------------------------------
         # DRAM
         # 'unlink_chunk'
 
-        # omp [FIX: SHARED]
+        # --------------------------------------
+        # omp [SHARED]
         ('func@0x1d6d0', 'omp'), # 'omp/lock'
         ('func@0x1d860', 'omp'), # 'omp/reduce'
         ('func@0xa7d0', 'omp'), # 
 
+        # --------------------------------------
         ('[vmlinux]', 'kernel'),
     ] )
 
