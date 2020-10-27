@@ -9162,8 +9162,10 @@ def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = False):
 
 fig1, axes1L = pyplt.subplots(nrows=2, ncols=3, figsize=(8, 3.5))
 
-fig2, axes2A = pyplt.subplots(nrows=3, ncols=4, figsize=(14, 8.5),
-                              gridspec_kw={'height_ratios': [4.0, 3.5, 3.5]})
+fig2, axes2A = pyplt.subplots(nrows=2, ncols=4, figsize=(14, 5.5),
+                              gridspec_kw={'height_ratios': [4.0, 3.5]})
+
+fig2x, axes2xL = pyplt.subplots(nrows=1, ncols=4, figsize=(14, 2.5))
 
 fig3, axes3L = pyplt.subplots(nrows=1, ncols=5, figsize=(14, 2.5))
 
@@ -9266,7 +9268,7 @@ lat_data_strL = [ friendster_t192_latency_dram_str,
                   friendster_t192_latency_kdax_str,
                   friendster_t192_latency_pdax_str ]
 
-plot_bw_lat(axes2A[1,nm_j], axes2A[2,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty2, nm_j)
+plot_bw_lat(axes2xL[nm_j], axes2A[1,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty2, nm_j)
 
 
 #-------------------------------------------------------
@@ -9294,7 +9296,7 @@ lat_data_strL = [ moliere2016_t192_latency_dram_str,
                   moliere2016_t192_latency_kdax_str,
                   moliere2016_t192_latency_pdax_str ]
 
-plot_bw_lat(axes2A[1,nm_j], axes2A[2,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty2, nm_j)
+plot_bw_lat(axes2xL[nm_j], axes2A[1,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty2, nm_j)
 
 #-------------------------------------------------------
 # 
@@ -9318,7 +9320,7 @@ bw_data_strL = [ clueweb12_t192_dramBw_mem_str,
 lat_data_strL = [ clueweb12_t192_latency_mem_str,
                   clueweb12_t192_latency_kdax_str ]
 
-plot_bw_lat(axes2A[1,nm_j], axes2A[2,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty2, nm_j)
+plot_bw_lat(axes2xL[nm_j], axes2A[1,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty2, nm_j)
 
 #-------------------------------------------------------
 # 
@@ -9341,7 +9343,7 @@ lat_data_strL = [ uk2014_t192_latency_mem_str,
                   uk2014_t192_latency_kdax_str ]
 
 
-plot_bw_lat(axes2A[1,nm_j], axes2A[2,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty2, nm_j)
+plot_bw_lat(axes2xL[nm_j], axes2A[1,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty2, nm_j)
 
 
 #----------------------------------------------------------------------------
