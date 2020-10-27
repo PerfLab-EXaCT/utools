@@ -154,7 +154,7 @@ class VTuneCSV:
         self.index_name = dfrm.columns[0]
         dfrm.set_index(self.index_name, inplace = True)
 
-        MSG.msg(("Reading '%s' (%s)" % (csv_fnm, self.index_name)))
+        MSG.msg("Reading '{}' ({})".format(csv_fnm, self.index_name))
 
         #-------------------------------------------------------
         # Normalize
@@ -170,13 +170,14 @@ class VTuneCSV:
         # Need a unique 'function name' index for merging
 
         # Remove duplicates
+        if (dfrm.index.duplicated().any()):
+            MSG.warn("Dropping duplicates '{}' ".format(csv_fnm))
         dfrm = dfrm[ ~dfrm.index.duplicated(keep='first') ]
 
         # FIXME: For now, drop duplicates. Cannot sum, as it is invalid for some metrics (e.g., percents)
         #dfrm = dfrm.groupby(dfrm.index, sort = False).sum()
-        #MSG.warn("Dropping duplicates... ")
 
-
+        
         #-------------------------------------------------------
         # Make new columns
         #-------------------------------------------------------
