@@ -167,8 +167,15 @@ class VTuneCSV:
         #    dfrm = dfrm.drop('[Unknown stack frame(s)]')
         #dfrm = dfrm.rename(lambda x: x.strip(" []").replace("Loop at line ", ""))
 
+        # Need a unique 'function name' index for merging
+
         # Remove duplicates
-        dfrm = dfrm.groupby(dfrm.index, sort = False).sum()
+        dfrm = dfrm[ ~dfrm.index.duplicated(keep='first') ]
+
+        # FIXME: For now, drop duplicates. Cannot sum, as it is invalid for some metrics (e.g., percents)
+        #dfrm = dfrm.groupby(dfrm.index, sort = False).sum()
+        #MSG.warn("Dropping duplicates... ")
+
 
         #-------------------------------------------------------
         # Make new columns

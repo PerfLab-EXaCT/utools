@@ -555,7 +555,7 @@ def dfrm_fn_xform(vt, functionH, graph_grpL):
         df_tm = select_dfrm_col(dfrm_time, graph_grp) # copies dfrm slice
     
         # 1. Rename columns
-        dfrm.rename(columns = (lambda x: rename_col(x, graph_grpL)), inplace=True)
+        dfrm = dfrm.rename(columns = (lambda x: rename_col(x, graph_grpL)))
         df_tm.rename(columns = (lambda x: rename_col(x, graph_grpL)), inplace=True)
 
         # 2. Rename rows
@@ -566,23 +566,26 @@ def dfrm_fn_xform(vt, functionH, graph_grpL):
         if (metric.find('(%)') > 0):
             rowL = []
             for fn in functionHx_keys:
-                df_wgt = df_tm.loc[ [fn] ]
-                #print("times\n", df_wgt)
+                df_tm_fn = df_tm.loc[ [fn] ]
+                df_tm_sm = df_tm_fn.sum(axis=0).to_frame().transpose()
+                #print("df_tm_fn\n", df_tm_fn)
+                #print("df_tm_sm\n", df_tm_sm)
                 
-                df_wgt = df_wgt / df_wgt.sum(axis=0)
-                #print("weights\n", df_wgt)
-
+                # time, weighted by metric percentage
                 df_fn = dfrm.loc[ [fn] ]
-                #print("df_fnL/{}\n".format(metric), df_fn)
-
-                # Old: Unweighted mean
-                df_fn = df_fn.mean(axis=0).to_frame().transpose()
-
-                # New: Weighted by cpu time
-                #df_fn = df_fn.multiply(df_wgt, axis=1).sum(axis=0).to_frame().transpose()
+                df_wtm_fn = df_tm_fn * (df_fn / 100.0)
+                df_wtm_sm = df_wtm_fn.sum(axis=0).to_frame().transpose()
                 #print("df_fn/{}\n".format(metric), df_fn)
+                #print("df_wtm_fn\n", df_wtm_fn)
+                #print("df_wtm_sm\n", df_wtm_sm)
                 
-                rowL.append(df_fn)
+                # New: percentage of weighted time
+                df = 100.0 * df_wtm_sm / df_tm_sm
+                #print("df/{}\n".format(metric), df)
+                
+                # if ( (df_fn > 100).any().any() ):
+                    
+                rowL.append(df)
                 
         else:
             rowL = [ dfrm.loc[ [fn] ].sum(axis=0).to_frame().transpose()
