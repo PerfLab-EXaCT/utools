@@ -23,6 +23,11 @@ import numpy
 
 plot_stats_cutoff = 50
 
+
+# FIXME:
+# - index should be 'Function (Full)'
+# - avoid dropping duplicates
+
 #****************************************************************************
 #
 #****************************************************************************
@@ -61,6 +66,14 @@ class VTuneCSV:
 
     COL_SEP = '/'
 
+    metric_id = 'Function'
+    metric_id_x = [ 'Function (Full)',
+                    'Module',
+                    'Source File',
+                    'Start Address' ]
+    metric_mn = '[mean]'
+    metric_sm = '[sum]'
+
     def __init__ (self,
                   csv_pathL,
                   group_by = 'metric',
@@ -95,11 +108,10 @@ class VTuneCSV:
 
         if (self.group_by == 'csv'):
             for key, dfrm in self.dataH.items():
+                # col_srt = sorted(dfrm.columns, key = lambda x : my_sort_key(x))
+                # self.dataH[key] = dfrm[col_srt]
+                pass                
                 #dfrm.sort_index(axis=1, inplace = True)
-                if (0):
-                    # FIXME: To specific
-                    col_srt = sorted(dfrm.columns, key = lambda x : my_sort_key(x))
-                    self.dataH[key] = dfrm[col_srt]
 
             self.dataL = list(self.dataH.items())
 
@@ -149,23 +161,22 @@ class VTuneCSV:
 
         csv_nm = re.sub('\.csv$', '', os.path.basename(csv_fnm))
 
+        MSG.msg("Reading '{}' ({})".format(csv_fnm, self.index_name))
+        
         dfrm = pandas.read_csv(csv_fnm, error_bad_lines = False)
 
-        self.index_name = dfrm.columns[0]
+        #-------------------------------------------------------
+        # Set Index
+        #-------------------------------------------------------
+
+        if (dfrm.columns.isin( [VTuneCSV.metric_id] ).any()):
+            self.index_name = VTuneCSV.metric_id
+        else:
+            self.index_name = dfrm.columns[0]
+            
         dfrm.set_index(self.index_name, inplace = True)
-
-        MSG.msg("Reading '{}' ({})".format(csv_fnm, self.index_name))
-
+            
         #-------------------------------------------------------
-        # Normalize
-        #-------------------------------------------------------
-        
-        #dfrm = self.remove_empty_cols(dfrm)
-        dfrm = dfrm.dropna(axis = 1, how = "all")
-
-        #if ('[Unknown stack frame(s)]') in dfrm:
-        #    dfrm = dfrm.drop('[Unknown stack frame(s)]')
-        #dfrm = dfrm.rename(lambda x: x.strip(" []").replace("Loop at line ", ""))
 
         # Need a unique 'function name' index for merging
 
@@ -173,7 +184,7 @@ class VTuneCSV:
         dup = dfrm.index.duplicated()
         if (dup.any()):
             MSG.warn("Dropping duplicates '{}'".format(csv_fnm))
-            print(dfrm[dup])
+            #print(dfrm[dup])
             
         dfrm = dfrm[ ~dfrm.index.duplicated(keep='first') ]
         #dfrm = dfrm[ dfrm.index.drop_duplicates(keep='first') ]
@@ -182,6 +193,24 @@ class VTuneCSV:
         # FIXME: For now, drop duplicates. Cannot sum, as it is invalid for some metrics (e.g., percents)
         #dfrm = dfrm.groupby(dfrm.index, sort = False).sum()
 
+
+        #-------------------------------------------------------
+        # Normalize
+        #-------------------------------------------------------
+
+        # Drop non-numerical columns (incorporate into id?)
+        if (dfrm.columns.isin(VTuneCSV.metric_id_x).any()):
+            dfrm.drop(VTuneCSV.metric_id_x, axis=1, inplace=True)
+        
+        #if ('[Unknown stack frame(s)]') in dfrm:
+        #    dfrm = dfrm.drop('[Unknown stack frame(s)]')
+        #dfrm = dfrm.rename(lambda x: x.strip(" []").replace("Loop at line ", ""))
+
+        #-------------------------------------------------------
+                
+        #dfrm = self.remove_empty_cols(dfrm)
+        dfrm = dfrm.dropna(axis = 1, how = 'all')
+        
         
         #-------------------------------------------------------
         # Make new columns
@@ -192,7 +221,7 @@ class VTuneCSV:
         for makeTuple in makeColL:
             col_src = makeTuple[0]
             col_dst = makeTuple[1]
-            mkcol_fn =  makeTuple[2]
+            mkcol_fn = makeTuple[2]
 
             col_src_i = dfrm.columns.get_loc(col_src)
             # except: sys.exit("Cannot find column '%s'" % col)
@@ -217,9 +246,11 @@ class VTuneCSV:
             else:
                 colL = columnL
 
-            if (not self.dataH):
-                for x in colL:
+            # Ensure we have each column in 'colL'
+            for x in colL:
+                if (not x in self.dataH):
                     self.dataH[x] = pandas.DataFrame()
+
 
         #-------------------------------------------------------
         # Select rows
@@ -248,12 +279,12 @@ class VTuneCSV:
                     dfrm_new = dfrm
                     dfrm_new.columns = [(csv_nm + self.COL_SEP + x) for x in dfrm.columns]
                 else:
-                    try:
-                        dfrm_new = dfrm[[key0]]
-                        dfrm_new.columns = [ csv_nm ]
-                    except KeyError:
-                        MSG.warn(("Skipping column '%s'" % (key0)))
-                        continue
+                    if (dfrm.columns.isin([key0]).any()):
+                        dfrm_new = dfrm[ [key0] ]
+                    else:
+                        dfrm_new = pandas.DataFrame(numpy.NAN, index=dfrm.index, columns=[key0])
+
+                    dfrm_new.columns = [ csv_nm ]
                 
                 if (dfrm0.empty):
                     self.dataH[key0] = dfrm_new
@@ -334,10 +365,19 @@ class VTuneCSV:
 
 def plot_heat(dfrm, axes, title, do_yticks):
     import seaborn
-    
-    axes = seaborn.heatmap(dfrm, ax=axes, annot=True,
+
+    df_mask = pandas.DataFrame(False, index=dfrm.index, columns=dfrm.columns)
+    df_mask.loc[VTuneCSV.metric_mn] = True
+    df_mask.loc[VTuneCSV.metric_sm] = True
+
+    axes = seaborn.heatmap(dfrm, ax=axes, mask=df_mask, annot=True,
                            cbar=False, cmap="RdBu_r", # coolwarm
                            yticklabels = do_yticks)
+
+    # show masked values (update font color to avoid white against white!)
+    seaborn.heatmap(dfrm, ax=axes, mask=(~df_mask), annot=True,
+                   cbar=False, alpha=0, annot_kws={'color':'black'},
+                   yticklabels = do_yticks)
 
     if (not do_yticks):
         #axes.set_yticks([])
@@ -363,8 +403,8 @@ def make_stats(dfrm):
     else:
         dfrm1 = dfrm
 
-    dfrm1.loc['[mean]'] = dfrm.mean(axis=0) # mean per column
-    dfrm1.loc['[sum]']  = dfrm.sum(axis=0)  # sum per column
+    dfrm1.loc[VTuneCSV.metric_mn] = dfrm.mean(axis=0) # mean per column
+    dfrm1.loc[VTuneCSV.metric_sm] = dfrm.sum(axis=0)  # sum per column
     
     return dfrm1
 

@@ -69,15 +69,17 @@ def main():
 
     makeColL_g = [
         ('CPU Time', 'CPU Time (s)', makeCol_wallclock(192) ),
+        ('Memory Bound:L2 Bound(%)',  'L2/1 Bound (%)', makeCol_L2xBound('Memory Bound:L1 Bound(%)') ),
         ('Stores',   'Stores (%)',   vtcsv.makeCol_pctOfOther('Loads') ),
     ]
 
     makeColL_r = [
         ('CPU Time', 'CPU Time (s)', makeCol_wallclock(64) ),
-        ('Memory Bound:L2 Bound(%)',  'L2x Bound (%)',
-         makeCol_L2xBound('Memory Bound:L1 Bound(%)') ),
-        ('Stores',   'Stores (%)',   vtcsv.makeCol_pctOfOther('Loads') ),
-        #makeColL_g[1],
+        makeColL_g[1],
+        makeColL_g[2],
+        #('Memory Bound:L2 Bound(%)',  'L2/1 Bound (%)', makeCol_L2xBound('Memory Bound:L1 Bound(%)') ),
+        #('Stores',   'Stores (%)',   vtcsv.makeCol_pctOfOther('Loads') ),
+
     ]
 
     #-------------------------------------------------------
@@ -90,8 +92,8 @@ def main():
         #
         ('Average Latency (cycles)',    'Latency (cycles)'),
         #
-        #('Memory Bound(%)',),
-        ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
+        ('Memory Bound(%)',),
+        #('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
         #('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
         #('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
         #('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
@@ -106,13 +108,15 @@ def main():
         #
         ('Average Latency (cycles)',    'Latency (cycles)'),
         #
+        ('Memory Bound:Persistent Memory Bound(%)', 'Pmem Bound (%)'),
         #('Memory Bound(%)',),
         ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
         ('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
-        ('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
-        ('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
+        (makeColL_g[1][1] ,),  #('L2/1 Bound (%)'),
+        #('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
+        #('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
 
-        #(makeColL_g[1][1] ,),  #('Stores (%)',),
+        #(makeColL_g[2][1] ,),  #('Stores (%)',),
         #('Memory Bound:Store Bound(%)', 'Store Bound (%)'),
     ]
 
@@ -123,10 +127,11 @@ def main():
         #
         ('Average Latency (cycles)',    'Latency (cycles)'),
         #
-        ('Memory Bound(%)',),
+        ('Memory Bound:Persistent Memory Bound(%)', 'Pmem Bound (%)'),
+        #('Memory Bound(%)',),
         ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
         ('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
-        (makeColL_r[1][1] ,),  #('L2x Bound (%)'),
+        (makeColL_r[1][1] ,),  #('L2/1 Bound (%)'),
         #
         #('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
         #('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
@@ -136,7 +141,6 @@ def main():
 
     global metricLx
     metricLx = [
-        #('Memory Bound:Persistent Memory Bound(%)', 'Pmem Bound (%)'),
         
         #('Loads',),
         #('Stores',),
@@ -451,7 +455,7 @@ def main_ripples(makeColL):
         ('func@0xa7d0', 'omp'), # 
 
         # --------------------------------------
-        ('[vmlinux]', 'kernel'),
+        #('[vmlinux]', 'kernel'),
     ] )
 
 
@@ -476,7 +480,7 @@ def main_ripples(makeColL):
     fig_px = plot_pkg(vt_p, graphL, metricLx, {'w':2.6, 'h':1.6}, adjHx)
 
 
-    plotHf = {'w':2.0, 'h':2.4, 'title':0, 'xtitle_top':0, 'xtitle_bot':0}
+    plotHf = {'w':2.0, 'h':2.2, 'title':0, 'xtitle_top':0, 'xtitle_bot':0}
     adjHf = { 'left':0.15, 'right':0.98, 'bottom':0.15, 'top':0.90,
               'wspace':0.13, 'hspace':0.0 }
 
@@ -484,7 +488,7 @@ def main_ripples(makeColL):
     fig_f2 = plot_fn(vt_f, graphL2, funcH, metricLf_r, {**plotHf, 'title':1}, adjHf)
     fig_f3 = plot_fn(vt_f, graphL3, funcH, metricLf_r, {**plotHf}, adjHf)
     fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf_r, {**plotHf, 'xtitle_bot':1}, adjHf)
-    fig_f5 = plot_fn(vt_f, graphL5, funcH, metricLf_r, {**plotHf, 'xtitle_bot':1, 'h':2.2, 'txt_rot':0}, adjHf)
+    fig_f5 = plot_fn(vt_f, graphL5, funcH, metricLf_r, {**plotHf, 'xtitle_bot':1, 'h':2.0, 'txt_rot':0}, adjHf)
 
     # fig_f1 = plot_fn(vt_f, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'xtitle_bot':False}, adjH)
 
@@ -519,9 +523,13 @@ def plot_pkg(vt, graph_grpL, metricL, plotH, adjustH):
 def dfrm_pkg_xform(graph_grpL):
 
     def dfrm_pkg_xform1(dfrm, graph_grp, metric):
+        # 1. Reorder/rename rows
+        dfrm.rename(columns = (lambda x: rename_col(x, graph_grpL)), inplace=True)
+
+        # 2. Reorder/rename rows
         dfrm.sort_index(axis=0, ascending=True, inplace=True)
         dfrm.rename(index = (lambda x: x.replace('package_', '')), inplace=True)
-        dfrm.rename(columns = (lambda x: rename_col(x, graph_grpL)), inplace=True)
+        
         return dfrm
 
     return dfrm_pkg_xform1
@@ -751,7 +759,7 @@ def plotL_adj(fig, adjustH):
 
 
 def plot(dfrm, axes, metricPair, do_title, ytitle, x_groupL, plotH):
-    
+
     n_col = len(dfrm.columns)
     
     #-------------------------------------------------------
@@ -799,7 +807,7 @@ def plot(dfrm, axes, metricPair, do_title, ytitle, x_groupL, plotH):
     if (dfrm_scale_exp):
         axes.text(1.06, 0.997, (r'$\times10^{%s}$' % dfrm_scale_exp),
                    transform=axes.transAxes, ha='left', va='bottom') # size=Txt_sz_heatmap_scale
-    
+        
     #-------------------------------------------------------
     # 
     #-------------------------------------------------------
