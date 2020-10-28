@@ -35,13 +35,15 @@ import VTuneCSV as vtcsv
 
 #****************************************************************************
 
+# Move this row merging ability to VTuneCSV
+MergeRows_avg_metricPat = r'%|bound|latency'
+MergeRows_avg_scaleMetric = 'CPU Time'
+
 Txt_sz_title = 11.5
 Txt_sz_ytitle = 13
 Txt_sz_heatmap = 10
 Txt_sz_heatmap_scale = 10
 Fixed_cmap_w = 2
-
-Metric_scale = 'CPU Time'
 
 Do_view = 0 # resets 'subplots_adjust'
 Do_rows = 1
@@ -108,9 +110,9 @@ def main():
         #
         ('Average Latency (cycles)',    'Latency (cycles)'),
         #
+        ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
         ('Memory Bound:Persistent Memory Bound(%)', 'Pmem Bound (%)'),
         #('Memory Bound(%)',),
-        ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
         ('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
         (makeColL_g[1][1] ,),  #('L2/1 Bound (%)'),
         #('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
@@ -127,9 +129,9 @@ def main():
         #
         ('Average Latency (cycles)',    'Latency (cycles)'),
         #
+        ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
         ('Memory Bound:Persistent Memory Bound(%)', 'Pmem Bound (%)'),
         #('Memory Bound(%)',),
-        ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
         ('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
         (makeColL_r[1][1] ,),  #('L2/1 Bound (%)'),
         #
@@ -238,22 +240,23 @@ def main_grappolo(makeColL):
     #-------------------------------------------------------
 
     funcH = collections.OrderedDict( [
-        ('buildLocalMapCounter', 'blmc'),
+        ('buildLocalMapCounter', 'cmty'),
+        ('std::_Rb_tree_insert_and_rebalance', 'cmty'),
+        ('max', 'cmty'),
 
-        ('std::_Rb_tree_insert_and_rebalance', 'map'),
+        ('sumVertexDegree$omp$parallel_for@74', 'vtx°'),
 
-        ('max', 'max'),
+        ('parallelLouvianMethod$omp$parallel_for@210', 'louv'),
+        ('parallelLouvianMethod$omp$parallel_for@237', 'louv'),
+        ('plm_analyzeClusters$omp$parallel_for@64', 'louv'),
 
-        ('_int_free', 'mem'), # 'free'
         ('__GI___libc_malloc', 'mem'), # 'malloc2'
+        ('_int_free', 'mem'), # 'free'
         ('_int_malloc', 'mem'), # 'malloc'
         ('malloc_consolidate', 'mem'),
+        ('__gnu_cxx::new_allocator<double>::construct<double, double const&>', 'mem'),
 
-        #('__gnu_cxx::new_allocator<double>::construct<double, double const&>', 'new'),
-
-        ('parallelLouvianMethod$omp$parallel_for@237', 'plm'),
-        ('plm_analyzeClusters$omp$parallel_for@64', 'plm'), # 'plm2'
-        
+        ('_INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_wait_template<kmp_flag_64, (int)1, (bool)0, (bool)1>', 'omp'),
         ('_INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_wait_template<kmp_flag_64, (int)1, (bool)0, (bool)1>', 'omp'),
 
         # OLD
@@ -276,7 +279,7 @@ def main_grappolo(makeColL):
     adjHx = { 'left':0.05, 'right':0.99, 'bottom':0.10, 'top':0.75,
               'wspace':0.15, 'hspace':0.0 }
 
-    plotHp = {'w':2.6, 'h':1.6, 'title':1, 'xtitle_top':1, 'xtitle_bot':1}
+    plotHp = {'w':2.6, 'h':1.7, 'title':1, 'xtitle_top':1, 'xtitle_bot':1}
     adjHp = { 'left':0.15, 'right':0.95, 'bottom':0.15, 'top':0.85,
               'wspace':0.10, 'hspace':0.0 }
 
@@ -285,14 +288,14 @@ def main_grappolo(makeColL):
     fig_px = plot_pkg(vt_p, graphL, metricLx, {'w':3.0, 'h':1.8}, adjHx)
 
 
-    plotHf = {'w':1.9, 'h':1.9, 'title':0, 'xtitle_top':0, 'xtitle_bot':0}
+    plotHf = {'w':2.1, 'h':1.6, 'title':0, 'xtitle_top':0, 'xtitle_bot':0}
     adjHf = { 'left':0.15, 'right':0.98, 'bottom':0.15, 'top':0.90,
               'wspace':0.13, 'hspace':0.0 }
 
     fig_f1 = plot_fn(vt_f, graphL1, funcH, metricLf_g, {**plotHf, 'title':1}, adjHf)
     fig_f2 = plot_fn(vt_f, graphL2, funcH, metricLf_g, {**plotHf, 'xtitle_bot':1}, adjHf)
-    fig_f3 = plot_fn(vt_f, graphL3, funcH, metricLf_g, {**plotHf, 'h':1.7, 'txt_rot':0}, adjHf)
-    fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf_g, {**plotHf, 'h':1.7, 'xtitle_bot':1, 'txt_rot':0}, adjHf)
+    fig_f3 = plot_fn(vt_f, graphL3, funcH, metricLf_g, {**plotHf, 'h':1.5, 'txt_rot':0}, adjHf)
+    fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf_g, {**plotHf, 'h':1.5, 'xtitle_bot':1, 'txt_rot':0}, adjHf)
     fig_fx = plot_fn(vt_f, graphL, funcH, metricLx, {'w':3.2, 'h':2.7}, adjHx)
 
     #fig_f1 = plot_fn(vt_f, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'xtitle_bot':False}, adjH)
@@ -361,87 +364,83 @@ def main_ripples(makeColL):
     funcH = collections.OrderedDict( [
         # --------------------------------------
         # Optane
-        ('ripples::AddRRRSet<ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>, trng::lcg64, ripples::independent_cascade_tag>', 'AddRRR'),
+        ('ripples::AddRRRSet<ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>, trng::lcg64, ripples::independent_cascade_tag>', 'rrr-add'),
+        ('ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::neighbors', 'rrr-add'), # optane
 
         # --------------------------------------                
         # Optane [SHARED]
-        ('ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::Neighborhood::Neighborhood', 'xtra'), # 'neigh-hood'
+        ('ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::Neighborhood::Neighborhood', 'rrr-x'), # 'neigh-hood'
         # push_back
-        ('std::vector<unsigned int, std::allocator<unsigned int>>::push_back', 'xtra'), # 'push_back'
-        ('std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>::push_back', 'xtra'), # 'push_back'
+        ('std::vector<unsigned int, std::allocator<unsigned int>>::push_back', 'rrr-x'), # 'push_back'
+        ('std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>::push_back', 'rrr-x'), # 'push_back'
         # count
-        ('ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, std::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, std::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, std::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.12', 'xtra'), # 'count'
-        ('ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.12', 'xtra'), # 'count'
-        ('ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.13', 'xtra'), # 'count'
+        ('ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, std::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, std::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, std::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.12', 'rrr-x'), # 'count'
+        ('ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.12', 'rrr-x'), # 'count'
+        ('ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.13', 'rrr-x'), # 'count'
         #
-        ('std::allocator<unsigned int>::construct<unsigned int, unsigned int>', 'xtra'),
-        ('libmemkind::static_kind::allocator<unsigned int>::construct<unsigned int, unsigned int>', 'xtra'),
-        ('libmemkind::static_kind::allocator<unsigned int>::construct<unsigned int, unsigned int&>', 'xtra'),
+        ('std::allocator<unsigned int>::construct<unsigned int, unsigned int>', 'rrr-x'),
+        ('libmemkind::static_kind::allocator<unsigned int>::construct<unsigned int, unsigned int>', 'rrr-x'),
+        ('libmemkind::static_kind::allocator<unsigned int>::construct<unsigned int, unsigned int&>', 'rrr-x'),
         #
-        ('std::allocator<unsigned int>::construct<unsigned int, unsigned int const&>', 'xtra'),
-        ('libmemkind::static_kind::allocator<unsigned int>::construct<unsigned int, unsigned int const&>', 'xtra'),
+        ('std::allocator<unsigned int>::construct<unsigned int, unsigned int const&>', 'rrr-x'),
+        ('libmemkind::static_kind::allocator<unsigned int>::construct<unsigned int, unsigned int const&>', 'rrr-x'),
         #
-        ('std::__insertion_sort<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'xtra'),
-        ('std::__insertion_sort<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'xtra'),
+        ('std::__insertion_sort<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'rrr-x'),
+        ('std::__insertion_sort<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'rrr-x'),
         #
-        ('__memmove_avx_unaligned_erms', 'xtra'),
-        ('std::vector<bool, std::allocator<bool>>::operator[]', 'xtra'),
-        ('__GI___libc_malloc', 'xtra'),
-        ('_int_free', 'xtra'),
+        ('__memmove_avx_unaligned_erms', 'rrr-x'),
+        ('std::vector<bool, std::allocator<bool>>::operator[]', 'rrr-x'),
+        ('__GI___libc_malloc', 'rrr-x'),
+        ('_int_free', 'rrr-x'),
 
-        # --------------------------------------
-        # Optane
-        ('ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::neighbors', 'neigh'), # optane
-        
-        # --------------------------------------
-        # move_merge (int*) [FIX: SHARED]
-        ('std::__move_merge<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'mv_mrg'),
-        ('std::__move_merge<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'mv_mrg'),
-
-        #
-        # move_merge (it) 
-        ('std::__move_merge<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, unsigned int*, __gnu_cxx::__ops::_Iter_less_iter>', 'mv_mrg'),
-        ('std::__move_merge<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, unsigned int*, __gnu_cxx::__ops::_Iter_less_iter>', 'mv_mrg'),
-        #
-        ('std::__move_merge_adaptive_backward<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'mv_mrg'),
-        ('std::__move_merge_adaptive_backward<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'mv_mrg'),
-        #
-        ('std::__move_merge_adaptive<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'mv_mrg'),
-        ('std::__move_merge_adaptive<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'mv_mrg'),
-        #
-        ('std::__copy_move_backward<(bool)1, (bool)1, std::random_access_iterator_tag>::__copy_move_b<unsigned int>', 'mv_mrg'),
-
-        
         # --------------------------------------
         # Optane? [SHARED]
         # operator++ 
-        ('__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>::operator++', 'op'),
-        ('__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>::operator++', 'op'),
+        ('__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>::operator++', 'rrr-op'),
+        ('__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>::operator++', 'rrr-op'),
         #
-        ('__gnu_cxx::__ops::_Iter_less_iter::operator()<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>', 'op'),
-        ('__gnu_cxx::__ops::_Iter_less_iter::operator()<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>', 'op'),
+        ('__gnu_cxx::__ops::_Iter_less_iter::operator()<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>', 'rrr-op'),
+        ('__gnu_cxx::__ops::_Iter_less_iter::operator()<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>', 'rrr-op'),
 
         #
-        ('__gnu_cxx::__ops::_Val_less_iter::operator()<unsigned int, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>', 'op'),
-        ('__gnu_cxx::__ops::_Val_less_iter::operator()<unsigned int, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>', 'op'),
+        ('__gnu_cxx::__ops::_Val_less_iter::operator()<unsigned int, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>', 'rrr-op'),
+        ('__gnu_cxx::__ops::_Val_less_iter::operator()<unsigned int, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>', 'rrr-op'),
         # operator< 
-        ('__gnu_cxx::__ops::_Iter_less_iter::operator()<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>', 'op'),
-        ('__gnu_cxx::__ops::_Iter_less_iter::operator()<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>', 'op'),
+        ('__gnu_cxx::__ops::_Iter_less_iter::operator()<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>', 'rrr-op'),
+        ('__gnu_cxx::__ops::_Iter_less_iter::operator()<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>', 'rrr-op'),
         #
-        ('__gnu_cxx::__ops::_Iter_less_iter::operator()<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, unsigned int*>', 'op'),
-        ('__gnu_cxx::__ops::_Iter_less_iter::operator()<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, unsigned int*>', 'op'),
+        ('__gnu_cxx::__ops::_Iter_less_iter::operator()<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, unsigned int*>', 'rrr-op'),
+        ('__gnu_cxx::__ops::_Iter_less_iter::operator()<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, unsigned int*>', 'rrr-op'),
         #
-        ('std::__unguarded_linear_insert<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Val_less_iter>', 'op'),
-        ('std::__unguarded_linear_insert<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Val_less_iter>', 'op'),
+        ('std::__unguarded_linear_insert<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Val_less_iter>', 'rrr-op'),
+        ('std::__unguarded_linear_insert<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Val_less_iter>', 'rrr-op'),
 
         
         # --------------------------------------
+        # move_merge (int*) [FIX: SHARED]
+        ('std::__move_merge<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'rrr-mv'),
+        ('std::__move_merge<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'rrr-mv'),
+
+        #
+        # move_merge (it) 
+        ('std::__move_merge<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, unsigned int*, __gnu_cxx::__ops::_Iter_less_iter>', 'rrr-mv'),
+        ('std::__move_merge<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, unsigned int*, __gnu_cxx::__ops::_Iter_less_iter>', 'rrr-mv'),
+        #
+        ('std::__move_merge_adaptive_backward<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'rrr-mv'),
+        ('std::__move_merge_adaptive_backward<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'rrr-mv'),
+        #
+        ('std::__move_merge_adaptive<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'rrr-mv'),
+        ('std::__move_merge_adaptive<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'rrr-mv'),
+        #
+        ('std::__copy_move_backward<(bool)1, (bool)1, std::random_access_iterator_tag>::__copy_move_b<unsigned int>', 'rrr-mv'),
+
+                
+        # --------------------------------------
         # DRAM [SHARED]
         # 
-        ('trng::lcg64::step', 'trng'),
-        ('trng::utility::u01xx_traits<float, (unsigned long)1, trng::lcg64>::addin', 'trng'),
-        ('trng::utility::u01xx_traits<float, (unsigned long)1, trng::lcg64>::co', 'trng'),
-
+        ('trng::lcg64::step', 'rand'),
+        ('trng::utility::u01xx_traits<float, (unsigned long)1, trng::lcg64>::addin', 'rand'),
+        ('trng::utility::u01xx_traits<float, (unsigned long)1, trng::lcg64>::co', 'rand'),
         
         
         # --------------------------------------
@@ -480,7 +479,7 @@ def main_ripples(makeColL):
     fig_px = plot_pkg(vt_p, graphL, metricLx, {'w':2.6, 'h':1.6}, adjHx)
 
 
-    plotHf = {'w':2.0, 'h':2.2, 'title':0, 'xtitle_top':0, 'xtitle_bot':0}
+    plotHf = {'w':2.1, 'h':2.0, 'title':0, 'xtitle_top':0, 'xtitle_bot':0}
     adjHf = { 'left':0.15, 'right':0.98, 'bottom':0.15, 'top':0.90,
               'wspace':0.13, 'hspace':0.0 }
 
@@ -488,7 +487,7 @@ def main_ripples(makeColL):
     fig_f2 = plot_fn(vt_f, graphL2, funcH, metricLf_r, {**plotHf, 'title':1}, adjHf)
     fig_f3 = plot_fn(vt_f, graphL3, funcH, metricLf_r, {**plotHf}, adjHf)
     fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf_r, {**plotHf, 'xtitle_bot':1}, adjHf)
-    fig_f5 = plot_fn(vt_f, graphL5, funcH, metricLf_r, {**plotHf, 'xtitle_bot':1, 'h':2.0, 'txt_rot':0}, adjHf)
+    fig_f5 = plot_fn(vt_f, graphL5, funcH, metricLf_r, {**plotHf, 'xtitle_bot':1, 'h':1.8, 'txt_rot':0}, adjHf)
 
     # fig_f1 = plot_fn(vt_f, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'xtitle_bot':False}, adjH)
 
@@ -560,10 +559,10 @@ def dfrm_fn_xform(vt, functionH, graph_grpL):
     # 0. Capture times for weights
     dfrm_time = None
     try:
-        # Note: before 'Metric_scale' has been renamed!
-        dfrm_time = vt.dataH[Metric_scale]
+        # Note: before 'MergeRows_avg_scaleMetric' has been renamed!
+        dfrm_time = vt.dataH[MergeRows_avg_scaleMetric]
     except KeyError:
-        vtcsv.MSG.err(("Cannot find metric: '%s'" % Metric_scale))
+        vtcsv.MSG.err(("Cannot find metric: '%s'" % MergeRows_avg_scaleMetric))
 
     
     def dfrm_fn_xform1(dfrm, graph_grp, metric):
@@ -579,7 +578,9 @@ def dfrm_fn_xform(vt, functionH, graph_grpL):
         df_tm.rename(index = functionH, inplace=True)
 
         # 3. Select and merge rows with same target name
-        if (metric.find('(%)') > 0):
+
+        if (re.search(MergeRows_avg_metricPat, metric, re.IGNORECASE)):
+            # Merge by weighted average
             rowL = []
             for fn in functionHx_keys:
                 df_tm_fn = df_tm.loc[ [fn] ]
@@ -602,10 +603,11 @@ def dfrm_fn_xform(vt, functionH, graph_grpL):
                 # if ( (df_fn > 100).any().any() ):
                     
                 rowL.append(df)
-                
         else:
+            # Merge by sum
             rowL = [ dfrm.loc[ [fn] ].sum(axis=0).to_frame().transpose()
                      for fn in functionHx_keys ]
+                
         #print(rowL)
 
         # Create row for everything else???: pandas.Index.difference
