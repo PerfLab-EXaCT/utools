@@ -74,6 +74,8 @@ def main():
 
     makeColL_r = [
         ('CPU Time', 'CPU Time (s)', makeCol_wallclock(64) ),
+        ('Memory Bound:L2 Bound(%)',  'L2x Bound (%)',
+         makeCol_L2xBound('Memory Bound:L1 Bound(%)') ),
         ('Stores',   'Stores (%)',   vtcsv.makeCol_pctOfOther('Loads') ),
         #makeColL_g[1],
     ]
@@ -117,13 +119,19 @@ def main():
 
     global metricLf_r
     metricLf_r = [ # metricL1.copy()
-        (makeColL_g[0][1] ,),  #('CPU Time'),
+        (makeColL_r[0][1] ,),  #('CPU Time'),
         #
         ('Average Latency (cycles)',    'Latency (cycles)'),
         #
         ('Memory Bound(%)',),
+        ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
+        ('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
+        (makeColL_r[1][1] ,),  #('L2x Bound (%)'),
         #
-        #(makeColL_g[1][1] ,),  #('Stores (%)',),
+        #('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
+        #('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
+        #
+        #(makeColL_r[2][1] ,),  #('Stores (%)',),
     ]
 
     global metricLx
@@ -351,10 +359,36 @@ def main_ripples(makeColL):
         # Optane
         ('ripples::AddRRRSet<ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>, trng::lcg64, ripples::independent_cascade_tag>', 'AddRRR'),
 
+        # --------------------------------------                
+        # Optane [SHARED]
+        ('ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::Neighborhood::Neighborhood', 'xtra'), # 'neigh-hood'
+        # push_back
+        ('std::vector<unsigned int, std::allocator<unsigned int>>::push_back', 'xtra'), # 'push_back'
+        ('std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>::push_back', 'xtra'), # 'push_back'
+        # count
+        ('ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, std::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, std::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, std::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.12', 'xtra'), # 'count'
+        ('ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.12', 'xtra'), # 'count'
+        ('ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.13', 'xtra'), # 'count'
+        #
+        ('std::allocator<unsigned int>::construct<unsigned int, unsigned int>', 'xtra'),
+        ('libmemkind::static_kind::allocator<unsigned int>::construct<unsigned int, unsigned int>', 'xtra'),
+        ('libmemkind::static_kind::allocator<unsigned int>::construct<unsigned int, unsigned int&>', 'xtra'),
+        #
+        ('std::allocator<unsigned int>::construct<unsigned int, unsigned int const&>', 'xtra'),
+        ('libmemkind::static_kind::allocator<unsigned int>::construct<unsigned int, unsigned int const&>', 'xtra'),
+        #
+        ('std::__insertion_sort<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'xtra'),
+        ('std::__insertion_sort<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'xtra'),
+        #
+        ('__memmove_avx_unaligned_erms', 'xtra'),
+        ('std::vector<bool, std::allocator<bool>>::operator[]', 'xtra'),
+        ('__GI___libc_malloc', 'xtra'),
+        ('_int_free', 'xtra'),
+
         # --------------------------------------
         # Optane
         ('ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::neighbors', 'neigh'), # optane
-
+        
         # --------------------------------------
         # move_merge (int*) [FIX: SHARED]
         ('std::__move_merge<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'mv_mrg'),
@@ -373,7 +407,7 @@ def main_ripples(makeColL):
         #
         ('std::__copy_move_backward<(bool)1, (bool)1, std::random_access_iterator_tag>::__copy_move_b<unsigned int>', 'mv_mrg'),
 
-
+        
         # --------------------------------------
         # Optane? [SHARED]
         # operator++ 
@@ -405,32 +439,6 @@ def main_ripples(makeColL):
         ('trng::utility::u01xx_traits<float, (unsigned long)1, trng::lcg64>::co', 'trng'),
 
         
-        # --------------------------------------                
-        # Optane [SHARED]
-        ('ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::Neighborhood::Neighborhood', 'xtra'), # 'neigh-hood'
-        # push_back
-        ('std::vector<unsigned int, std::allocator<unsigned int>>::push_back', 'xtra'), # 'push_back'
-        ('std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>::push_back', 'xtra'), # 'push_back'
-        # count
-        ('ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, std::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, std::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, std::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.12', 'xtra'), # 'count'
-        ('ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.12', 'xtra'), # 'count'
-        ('ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.13', 'xtra'), # 'count'
-        #
-        ('std::allocator<unsigned int>::construct<unsigned int, unsigned int>', 'xtra'),
-        ('libmemkind::static_kind::allocator<unsigned int>::construct<unsigned int, unsigned int>', 'xtra'),
-        ('libmemkind::static_kind::allocator<unsigned int>::construct<unsigned int, unsigned int&>', 'xtra'),
-        #
-        ('std::allocator<unsigned int>::construct<unsigned int, unsigned int const&>', 'xtra'),
-        ('libmemkind::static_kind::allocator<unsigned int>::construct<unsigned int, unsigned int const&>', 'xtra'),
-        #
-        ('std::__insertion_sort<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'xtra'),
-        ('std::__insertion_sort<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'xtra'),
-        #
-        ('__memmove_avx_unaligned_erms', 'xtra'),
-        ('std::vector<bool, std::allocator<bool>>::operator[]', 'xtra'),
-        ('__GI___libc_malloc', 'xtra'),
-        ('_int_free', 'xtra'),
-
         
         # --------------------------------------
         # DRAM
@@ -905,6 +913,15 @@ def makeCol_wallclock(n_threads):
 
     def mk_fn(dfrm, col_src):
         dfrm_dst = dfrm[col_src] / n_threads
+        return dfrm_dst
+        
+    return mk_fn
+
+
+def makeCol_L2xBound(col_src2): # could be a list of source columns
+
+    def mk_fn(dfrm, col_src):
+        dfrm_dst = dfrm[col_src] + dfrm[col_src2]
         return dfrm_dst
         
     return mk_fn

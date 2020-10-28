@@ -170,9 +170,14 @@ class VTuneCSV:
         # Need a unique 'function name' index for merging
 
         # Remove duplicates
-        if (dfrm.index.duplicated().any()):
-            MSG.warn("Dropping duplicates '{}' ".format(csv_fnm))
+        dup = dfrm.index.duplicated()
+        if (dup.any()):
+            MSG.warn("Dropping duplicates '{}'".format(csv_fnm))
+            print(dfrm[dup])
+            
         dfrm = dfrm[ ~dfrm.index.duplicated(keep='first') ]
+        #dfrm = dfrm[ dfrm.index.drop_duplicates(keep='first') ]
+        
 
         # FIXME: For now, drop duplicates. Cannot sum, as it is invalid for some metrics (e.g., percents)
         #dfrm = dfrm.groupby(dfrm.index, sort = False).sum()
