@@ -42,7 +42,7 @@ ax = sns.heatmap(mem_data_bw, ax=axes,
                  cmap='RdBu_r', annot=True, fmt=".2f", annot_kws={"size":20})
 ax.set_title("MEM B/W (GB/s)", fontsize=20, fontweight='bold')
 fig.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
-fig.savefig('mlc-bw-dram.pdf', bbox_inches='tight')
+fig.savefig('mlc-bw-mem.pdf', bbox_inches='tight')
 
 #dram latency
 fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(5.0, 2.5))
