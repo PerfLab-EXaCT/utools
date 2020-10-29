@@ -92,11 +92,11 @@ moliere2016	192	pdax	980.399573	1394.221
 
 clueweb12     192     dram      nan            nan
 
-clueweb12	16	mem	9008.786655	nan
-clueweb12	32	mem	7427.020428	nan
-clueweb12	64	mem	5637.144076	nan
-clueweb12	128	mem	4822.885993	nan
-clueweb12	192	mem	4334.598601	4391.67807
+clueweb12	16	mem	9468.856975	nan
+clueweb12	32	mem	6786.975992	nan
+clueweb12	64	mem	6527.736969	nan
+clueweb12	128	mem	4750.106394	nan
+clueweb12	192	mem	4373.245214	4391.67807
 
 clueweb12      16     kdax    10812.81699      nan
 clueweb12      32     kdax     7882.519231     nan
@@ -109,11 +109,11 @@ clueweb12     192     pdax      nan            nan
 
 uk2014        192     dram      nan                 nan
 
-uk2014	        16	mem	2195.747492	nan
-uk2014	        32	mem	1439.80749	nan
-uk2014	        64	mem	1040.564312	nan
-uk2014	        128	mem	768.970483	nan
-uk2014	        192	mem	646.377239	698.740065
+uk2014	        16	mem	2213.348559	nan
+uk2014	        32	mem	1453.66062	nan
+uk2014	        64	mem	1027.169626	nan
+uk2014	        128	mem	734.025436	nan
+uk2014	        192	mem	642.420118	698.740065
 
 uk2014         16     kdax     2241.499411     nan
 uk2014         32     kdax     1477.130957     nan
