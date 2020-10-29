@@ -198,6 +198,12 @@ def main_grappolo(makeColL):
 
     pathL_Mf = flattenL(pathL_Mf)
 
+
+    #-------------------------------------------------------
+
+    pathL_mxp = [ (path_pfx + 'moliere2016-t16-' + mode + '-pkg.csv') for mode in ['dram', 'mem'] ]
+    pathL_mxf = [ (path_pfx + 'moliere2016-t16-' + mode + '-fn.csv') for mode in ['dram', 'mem'] ]
+    
     
     #-------------------------------------------------------
     # Big graphs (192 threads)/Big memory modes
@@ -233,6 +239,8 @@ def main_grappolo(makeColL):
     pathL_p = pathL_Mp + pathL_Bp
 
     pathL_f = pathL_Mf + pathL_Bf
+
+
     
     #-------------------------------------------------------
     # 
@@ -245,9 +253,9 @@ def main_grappolo(makeColL):
 
         ('sumVertexDegree$omp$parallel_for@74', 'vtx°'),
 
-        ('parallelLouvianMethod$omp$parallel_for@210', 'main'),
-        ('parallelLouvianMethod$omp$parallel_for@237', 'main'),
-        ('plm_analyzeClusters$omp$parallel_for@64', 'main'),
+        ('parallelLouvianMethod$omp$parallel_for@210', 'louv'),
+        ('parallelLouvianMethod$omp$parallel_for@237', 'louv'),
+        ('plm_analyzeClusters$omp$parallel_for@64', 'louv'),
 
         ('__GI___libc_malloc', 'mem'), # 'malloc2'
         ('_int_free', 'mem'), # 'free'
@@ -275,6 +283,10 @@ def main_grappolo(makeColL):
     vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv', makeColL = makeColL)
     vt_f = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL)
 
+    vt_mp = vtcsv.VTuneCSV(pathL_mxp, group_by = 'csv', makeColL = makeColL)
+    vt_mf = vtcsv.VTuneCSV(pathL_mxf, group_by = 'csv', makeColL = makeColL)
+    
+
     adjHx = { 'left':0.05, 'right':0.99, 'bottom':0.10, 'top':0.75,
               'wspace':0.15, 'hspace':0.0 }
 
@@ -285,7 +297,6 @@ def main_grappolo(makeColL):
     fig_p1 = plot_pkg(vt_p, graphL, [metricLp[0]], {**plotHp}, adjHp)
     fig_p2 = plot_pkg(vt_p, graphL, [metricLp[1]], {**plotHp}, adjHp)
     fig_px = plot_pkg(vt_p, graphL, metricLx, {'w':3.0, 'h':1.8}, adjHx)
-
 
     plotHf = {'w':2.1, 'h':1.6, 'title':0, 'xtitle_top':0, 'xtitle_bot':0}
     adjHf = { 'left':0.15, 'right':0.98, 'bottom':0.15, 'top':0.90,
@@ -301,6 +312,12 @@ def main_grappolo(makeColL):
     #fig_f1 = plot_fn(vt_f, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'xtitle_bot':False}, adjH)
 
 
+    mL = metricLf_g.copy()
+    mL.pop(3) # 'Pmem Bound (%)'
+
+    fig_mp = plot_pkg(vt_mp, graphL2, mL, {**plotHf, 'title':1, 'xtitle_bot':1}, adjHx)
+    fig_mf = plot_fn(vt_mf, graphL2, funcH, mL, {**plotHf, 'title':1, 'xtitle_bot':1}, adjHf)
+
     fig_p1.savefig('chart-grappolo-pkg1.pdf', bbox_inches='tight')
     fig_p2.savefig('chart-grappolo-pkg2.pdf', bbox_inches='tight')
 
@@ -308,6 +325,9 @@ def main_grappolo(makeColL):
     fig_f2.savefig('chart-grappolo-fn2.pdf', bbox_inches='tight')
     fig_f3.savefig('chart-grappolo-fn3.pdf', bbox_inches='tight')
     fig_f4.savefig('chart-grappolo-fn4.pdf', bbox_inches='tight')
+
+    fig_mp.savefig('chart-grappolo-m16-pkg.pdf', bbox_inches='tight')
+    fig_mf.savefig('chart-grappolo-m16-fn.pdf', bbox_inches='tight')
 
 
 
