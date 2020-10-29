@@ -143,16 +143,15 @@ def main():
 
     global metricLx
     metricLx = [
-        
-        #('Loads',),
-        #('Stores',),
-        
-        #('LLC Miss Count', 'LLC Miss'),
-        ('LLC Miss Count:Remote DRAM Access Count', 'LLC Miss:Remote DRAM'),
-        ('LLC Miss Count:Local DRAM Access Count',  'LLC Miss:Local DRAM'),
+        ('Loads',),
+        ('Stores',),
+
+        ('LLC Miss Count', 'LLC Miss'),
+        #('LLC Miss Count:Remote DRAM Access Count', 'LLC Miss:Remote DRAM'),
+        #('LLC Miss Count:Local DRAM Access Count',  'LLC Miss:Local DRAM'),
         #('LLC Miss Count:Local Persistent Memory Access Count', 'LLC Miss:Local Pdax'),
         #('LLC Miss Count:Remote Persistent Memory Access Count', 'LLC Miss:Remote Pdax'),
-        ('LLC Miss Count:Remote Cache Access Count', 'LLC Miss:Remote Cache'),
+        #('LLC Miss Count:Remote Cache Access Count', 'LLC Miss:Remote Cache'),
         ]
 
     #-------------------------------------------------------
@@ -296,7 +295,8 @@ def main_grappolo(makeColL):
     fig_f2 = plot_fn(vt_f, graphL2, funcH, metricLf_g, {**plotHf, 'xtitle_bot':1}, adjHf)
     fig_f3 = plot_fn(vt_f, graphL3, funcH, metricLf_g, {**plotHf, 'h':1.5, 'txt_rot':0}, adjHf)
     fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf_g, {**plotHf, 'h':1.5, 'xtitle_bot':1, 'txt_rot':0}, adjHf)
-    fig_fx = plot_fn(vt_f, graphL, funcH, metricLx, {'w':3.2, 'h':2.7}, adjHx)
+
+    fig_fx = plot_fn(vt_f, graphL, funcH, metricLx, {'w':3.2, 'h':2.7, 'xtitle_bot':1}, adjHx)
 
     #fig_f1 = plot_fn(vt_f, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'xtitle_bot':False}, adjH)
 
@@ -473,7 +473,7 @@ def main_ripples(makeColL):
     vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv', makeColL = makeColL)
     vt_f = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL)
 
-    adjHx = { 'left':0.05, 'right':0.99, 'bottom':0.10, 'top':0.75,
+    adjHx = { 'left':0.05, 'right':0.99, 'bottom':0.15, 'top':0.75,
               'wspace':0.15, 'hspace':0.0 }
 
     plotHp = {'w':2.7, 'h':1.6, 'title':1, 'xtitle_top':1, 'xtitle_bot':1}
@@ -497,7 +497,7 @@ def main_ripples(makeColL):
 
     # fig_f1 = plot_fn(vt_f, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'xtitle_bot':False}, adjH)
 
-    fig_fx = plot_fn(vt_f, graphL, funcH, metricLx, {'w':2.6, 'h':2.4}, adjHx)
+    fig_fx = plot_fn(vt_f, graphL, funcH, metricLx, {'w':2.7, 'h':2.3, 'xtitle_bot':1}, adjHx)
     
     fig_p1.savefig('chart-ripples-pkg1.pdf', bbox_inches='tight')
     fig_p2.savefig('chart-ripples-pkg2.pdf', bbox_inches='tight')
