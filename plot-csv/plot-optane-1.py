@@ -380,6 +380,7 @@ def main_ripples(makeColL):
         # Optane? [SHARED]
         # 'count'
         ('ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, std::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, std::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, std::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.12', 'count'), # 'count'
+        ('ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, std::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, std::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, std::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.13', 'count'), # 'count'
         ('ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.12', 'count'), # 'count'
         ('ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.13', 'count'), # 'count'
 
@@ -400,6 +401,7 @@ def main_ripples(makeColL):
         ('std::__move_merge_adaptive<unsigned int*, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'rrr-mv'),
         #
         ('std::__copy_move_backward<(bool)1, (bool)1, std::random_access_iterator_tag>::__copy_move_b<unsigned int>', 'rrr-mv'),
+        ('__memmove_avx_unaligned_erms', 'mem'),
 
         
         # --------------------------------------
@@ -434,7 +436,7 @@ def main_ripples(makeColL):
         ('std::allocator<unsigned int>::construct<unsigned int, unsigned int const&>', 'mem'),
         ('libmemkind::static_kind::allocator<unsigned int>::construct<unsigned int, unsigned int const&>', 'mem'),
         #
-        ('__memmove_avx_unaligned_erms', 'mem'),
+        ('clear_page_erms', 'mem'),
         ('__GI___libc_malloc', 'mem'),
         ('_int_free', 'mem'),
 
@@ -483,7 +485,7 @@ def main_ripples(makeColL):
     fig_px = plot_pkg(vt_p, graphL, metricLx, {'w':2.6, 'h':1.6}, adjHx)
 
 
-    plotHf = {'w':2.1, 'h':2.0, 'title':0, 'xtitle_top':0, 'xtitle_bot':0}
+    plotHf = {'w':2.2, 'h':2.1, 'title':0, 'xtitle_top':0, 'xtitle_bot':0}
     adjHf = { 'left':0.15, 'right':0.98, 'bottom':0.15, 'top':0.90,
               'wspace':0.13, 'hspace':0.0 }
 
@@ -491,7 +493,7 @@ def main_ripples(makeColL):
     fig_f2 = plot_fn(vt_f, graphL2, funcH, metricLf_r, {**plotHf, 'title':1}, adjHf)
     fig_f3 = plot_fn(vt_f, graphL3, funcH, metricLf_r, {**plotHf}, adjHf)
     fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf_r, {**plotHf, 'xtitle_bot':1}, adjHf)
-    fig_f5 = plot_fn(vt_f, graphL5, funcH, metricLf_r, {**plotHf, 'xtitle_bot':1, 'h':1.8, 'txt_rot':0}, adjHf)
+    fig_f5 = plot_fn(vt_f, graphL5, funcH, metricLf_r, {**plotHf, 'xtitle_bot':1, 'h':1.9, 'txt_rot':0}, adjHf)
 
     # fig_f1 = plot_fn(vt_f, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'xtitle_bot':False}, adjH)
 
