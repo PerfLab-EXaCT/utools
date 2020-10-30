@@ -20,7 +20,7 @@ fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(5.0, 2.5))
 ax = sns.heatmap(data_lt, ax=axes,
                  xticklabels=nodes2, yticklabels=nodes,
                  cmap='RdBu_r', annot=True, fmt=".2f", annot_kws={"size":20})
-ax.set_title("STREAM Average Latency (s)", fontsize=20, fontweight='bold')
+ax.set_title("Latency (s)", fontsize=20, fontweight='bold')
 fig.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
 fig.savefig('streambench-lat.pdf', bbox_inches='tight')
 
@@ -28,7 +28,7 @@ fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(5.45, 2.5))
 ax = sns.heatmap(data_bw, ax=axes,
                  xticklabels=nodes2, yticklabels=nodes,
                  cmap='RdBu_r', annot=True, fmt=".2f", annot_kws={"size":20})
-ax.set_title("STREAM B/W (GB/s)", fontsize=20, fontweight='bold')
+ax.set_title("B/W (GB/s)", fontsize=20, fontweight='bold')
 fig.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
 fig.savefig('streambench-bw.pdf', bbox_inches='tight')
 
