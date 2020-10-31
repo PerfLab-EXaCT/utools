@@ -9206,7 +9206,7 @@ def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = False):
 # Main
 #****************************************************************************
 
-fig1, axes1L = pyplt.subplots(nrows=2, ncols=3, figsize=(8, 3.5))
+fig1, axes1L = pyplt.subplots(nrows=2, ncols=3, figsize=(8, 4.0))
 
 fig2, axes2A = pyplt.subplots(nrows=2, ncols=4, figsize=(14, 5.5),
                               gridspec_kw={'height_ratios': [4.0, 3.5]})

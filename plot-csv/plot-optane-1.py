@@ -37,7 +37,10 @@ import VTuneCSV as vtcsv
 
 # Move this row merging ability to VTuneCSV
 MergeRows_avg_metricPat = r'%|bound|latency'
+MergeRows_avg_metricPat_st = r'stores (%)'
+
 MergeRows_avg_scaleMetric = 'CPU Time'
+MergeRows_avg_scaleMetric_st = 'Stores'
 
 Txt_sz_title = 11.5
 Txt_sz_ytitle = 13
@@ -129,11 +132,17 @@ def main():
         #
         ('Average Latency (cycles)',    'Latency (cycles)'),
         #
+        #('Memory Bound(%)',),
         ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
         ('Memory Bound:Persistent Memory Bound(%)', 'Pmem Bound (%)'),
-        #('Memory Bound(%)',),
+        #('LLC Miss Count:Local DRAM Access Count',  'LLC Miss:Lcl DRAM'),
+        #('LLC Miss Count:Remote DRAM Access Count', 'LLC Miss:Rmt DRAM'),
+        #('LLC Miss Count:Local Persistent Memory Access Count', 'LLC Miss:Lcl PMEM'),
+        #('LLC Miss Count:Remote Persistent Memory Access Count', 'LLC Miss:Rmt PMEM'),
+
         ('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
         (makeColL_r[1][1] ,),  #('L2/1 Bound (%)'),
+
         #
         #('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
         #('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
@@ -298,7 +307,7 @@ def main_grappolo(makeColL):
     fig_p2 = plot_pkg(vt_p, graphL, [metricLp[1]], {**plotHp}, adjHp)
     fig_px = plot_pkg(vt_p, graphL, metricLx, {'w':3.0, 'h':1.8}, adjHx)
 
-    plotHf = {'w':2.1, 'h':1.6, 'title':0, 'xtitle_top':0, 'xtitle_bot':0}
+    plotHf = {'w':2.2, 'h':1.7, 'title':0, 'xtitle_top':0, 'xtitle_bot':0}
     adjHf = { 'left':0.15, 'right':0.98, 'bottom':0.15, 'top':0.90,
               'wspace':0.13, 'hspace':0.0 }
 
@@ -511,7 +520,7 @@ def main_ripples(makeColL):
 
     fig_f1 = plot_fn(vt_f, graphL1, funcH, metricLf_r, {**plotHf, 'title':1}, adjHf)
     fig_f2 = plot_fn(vt_f, graphL2, funcH, metricLf_r, {**plotHf, 'title':1}, adjHf)
-    fig_f3 = plot_fn(vt_f, graphL3, funcH, metricLf_r, {**plotHf}, adjHf)
+    fig_f3 = plot_fn(vt_f, graphL3, funcH, metricLf_r, {**plotHf, 'title':1}, adjHf)
     fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf_r, {**plotHf, 'xtitle_bot':1}, adjHf)
     fig_f5 = plot_fn(vt_f, graphL5, funcH, metricLf_r, {**plotHf, 'xtitle_bot':1, 'h':1.9, 'txt_rot':0}, adjHf)
 
@@ -584,16 +593,23 @@ def dfrm_fn_xform(vt, functionH, graph_grpL):
 
     # 0. Capture times for weights
     dfrm_time = None
+    dfrm_st = None
     try:
         # Note: before 'MergeRows_avg_scaleMetric' has been renamed!
         dfrm_time = vt.dataH[MergeRows_avg_scaleMetric]
+        dfrm_st =  vt.dataH[MergeRows_avg_scaleMetric_st]
     except KeyError:
         vtcsv.MSG.err(("Cannot find metric: '%s'" % MergeRows_avg_scaleMetric))
 
     
     def dfrm_fn_xform1(dfrm, graph_grp, metric):
         # 0. Select columns for 'graph_grp'
+        
         df_tm = select_dfrm_col(dfrm_time, graph_grp) # copies dfrm slice
+
+        # FIXME:
+        if (re.search(MergeRows_avg_metricPat_st, metric, re.IGNORECASE)):
+            df_tm = select_dfrm_col(dfrm_st, graph_grp) # copies dfrm slice
     
         # 1. Rename columns
         dfrm = dfrm.rename(columns = (lambda x: rename_col(x, graph_grpL)))
