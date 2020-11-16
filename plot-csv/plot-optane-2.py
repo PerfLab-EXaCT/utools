@@ -302,6 +302,51 @@ topcats	32	kdax1	2358.83	2369.970634
 topcats	64	kdax1	4986.54	5099.429601
 topcats	128	kdax1	nan	nan
 topcats	192	kdax1	6396.29	6483.311098
+
+pokec	2	kdax2	nan	nan
+pokec	4	kdax2	nan	nan
+pokec	8	kdax2	nan	nan
+pokec	16	kdax2	nan	nan
+pokec	32	kdax2	2659.48	2764.888682
+pokec	64	kdax2	2338.70	2313.266827
+pokec	128	kdax2	nan	nan
+pokec	192	kdax2	3013.94	3153.660593
+				
+slash	2	kdax2	nan	nan
+slash	4	kdax2	nan	nan
+slash	8	kdax2	nan	nan
+slash	16	kdax2	nan	nan
+slash	32	kdax2	39.50	43.77249092
+slash	64	kdax2	35.39	40.34433134
+slash	128	kdax2	nan	nan
+slash	192	kdax2	26.61	38.77803595
+				0
+talk	2	kdax2	nan	nan
+talk	4	kdax2	nan	nan
+talk	8	kdax2	nan	nan
+talk	16	kdax2	nan	nan
+talk	32	kdax2	76.53	79.71498115
+talk	64	kdax2	70.61	74.92748809
+talk	128	kdax2	nan	nan
+talk	192	kdax2	84.81	98.67837559
+				
+topcats	2	kdax2	nan	nan
+topcats	4	kdax2	nan	nan
+topcats	8	kdax2	nan	nan
+topcats	16	kdax2	nan	nan
+topcats	32	kdax2	2842.89	2894.704997
+topcats	64	kdax2	2778.72	2718.955827
+topcats	128	kdax2	nan	nan
+topcats	192	kdax2	3400.19	3375.656995
+				
+twitter	2	kdax2	nan	nan
+twitter	4	kdax2	nan	nan
+twitter	8	kdax2	nan	nan
+twitter	16	kdax2	nan	nan
+twitter	32	kdax2	66.07	71.32162039
+twitter	64	kdax2	59.45	63.05750133
+twitter	128	kdax2	nan	nan
+twitter	192	kdax2	37.97	50.44523449
 """
 
 # Degenerate.
