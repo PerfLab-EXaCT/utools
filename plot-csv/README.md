@@ -1,6 +1,31 @@
 -*-Mode: markdown;-*-
 -----------------------------------------------------------------------------
 
+- GUPS results
+  random access bandwidth, local/remote
+
+
+- Grappolo: DRAM allocs were done by single thread. Use guarded, round-robin execution to ensure correct first-touch.
+
+
+- Fig 4: reorder columns and labels?
+
+
+- Ripples: tested two variants but had one more idea
+  do we hit a bandwidth limitation?
+  
+  kdax2
+  
+
+- One more month. Any more experiments?
+
+  libpmem, streaming
+  
+
+memkind NUMA: is it inflexible? ignores numactl?
+
+
+
 Using
 =============================================================================
 
@@ -72,7 +97,7 @@ for path in "${myL[@]}" ; do
   out2="${path_new}-pkg.csv"
   printf "${path} --> ${out1}\n"
   vtune_cmd='vtune -report hotspots -format csv -csv-delimiter comma -result-dir'
-  ${vtune_cmd} "${path}" -report-output "${out1}"
+  ${vtune_cmd} "${path}" -report-output "${out1}" #-group-by=function
   ${vtune_cmd} "${path}" -report-output "${out2}" -group-by=package
 done
 ```
