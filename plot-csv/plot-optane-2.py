@@ -9062,8 +9062,8 @@ def plot_bw_lat(ax_bw, ax_lat, bw_data_strL, lat_data_strL, graph,
 
     bw_dfrm_mean = bw_dfrm_wide.mean(axis=0) # mean per column
 
-    print("bw_dfrm_hist\n", bw_dfrm_hist)
-    # print("bw_dfrm_wide\n", bw_dfrm_wide)
+    #print("bw_dfrm_hist\n", bw_dfrm_hist)
+    #print("bw_dfrm_wide\n", bw_dfrm_wide)
 
     plt_sty = plot_align_palette(bw_dfrm_hist.columns, plt_sty)
 
