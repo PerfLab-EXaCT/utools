@@ -164,6 +164,15 @@ slash	64	kdax1	34.47	38.49604419
 slash	128	kdax1	nan	nan
 slash	192	kdax1	25.45	41.54662348
 
+slash	2	kdax2	nan	nan
+slash	4	kdax2	nan	nan
+slash	8	kdax2	nan	nan
+slash	16	kdax2	nan	nan
+slash	32	kdax2	39.50	43.77249092
+slash	64	kdax2	35.39	40.34433134
+slash	128	kdax2	nan	nan
+slash	192	kdax2	26.61	38.77803595
+
 
 twitter	2	dram	468.68	nan
 twitter	4	dram	235.69	nan
@@ -200,6 +209,15 @@ twitter	32	kdax1	64.46	69.03614913
 twitter	64	kdax1	58.11	65.7562004
 twitter	128	kdax1	nan	nan
 twitter	192	kdax1	37.14	55.71388362
+
+twitter	2	kdax2	nan	nan
+twitter	4	kdax2	nan	nan
+twitter	8	kdax2	nan	nan
+twitter	16	kdax2	nan	nan
+twitter	32	kdax2	66.07	71.32162039
+twitter	64	kdax2	59.45	63.05750133
+twitter	128	kdax2	nan	nan
+twitter	192	kdax2	37.97	50.44523449
 
 
 talk	2	dram	606.44	nan
@@ -238,6 +256,15 @@ talk	64	kdax1	69.65	75.43769374
 talk	128	kdax1	nan	nan
 talk	192	kdax1	88.87	104.2051243
 
+talk	2	kdax2	nan	nan
+talk	4	kdax2	nan	nan
+talk	8	kdax2	nan	nan
+talk	16	kdax2	nan	nan
+talk	32	kdax2	76.53	79.71498115
+talk	64	kdax2	70.61	74.92748809
+talk	128	kdax2	nan	nan
+talk	192	kdax2	84.81	98.67837559
+
 
 pokec	2	dram	22531.59	nan
 pokec	4	dram	10796.75	nan
@@ -275,6 +302,15 @@ pokec	64	kdax1	2711.26	2696.422974
 pokec	128	kdax1	nan	nan
 pokec	192	kdax1	6173.22	6303.312064
 
+pokec	2	kdax2	nan	nan
+pokec	4	kdax2	nan	nan
+pokec	8	kdax2	nan	nan
+pokec	16	kdax2	nan	nan
+pokec	32	kdax2	2659.48	2764.888682
+pokec	64	kdax2	2338.70	2313.266827
+pokec	128	kdax2	nan	nan
+pokec	192	kdax2	3013.94	3153.660593
+
 
 topcats	2	mem	19722.79	nan
 topcats	4	mem	9400.69	nan
@@ -303,33 +339,6 @@ topcats	64	kdax1	4986.54	5099.429601
 topcats	128	kdax1	nan	nan
 topcats	192	kdax1	6396.29	6483.311098
 
-pokec	2	kdax2	nan	nan
-pokec	4	kdax2	nan	nan
-pokec	8	kdax2	nan	nan
-pokec	16	kdax2	nan	nan
-pokec	32	kdax2	2659.48	2764.888682
-pokec	64	kdax2	2338.70	2313.266827
-pokec	128	kdax2	nan	nan
-pokec	192	kdax2	3013.94	3153.660593
-				
-slash	2	kdax2	nan	nan
-slash	4	kdax2	nan	nan
-slash	8	kdax2	nan	nan
-slash	16	kdax2	nan	nan
-slash	32	kdax2	39.50	43.77249092
-slash	64	kdax2	35.39	40.34433134
-slash	128	kdax2	nan	nan
-slash	192	kdax2	26.61	38.77803595
-				0
-talk	2	kdax2	nan	nan
-talk	4	kdax2	nan	nan
-talk	8	kdax2	nan	nan
-talk	16	kdax2	nan	nan
-talk	32	kdax2	76.53	79.71498115
-talk	64	kdax2	70.61	74.92748809
-talk	128	kdax2	nan	nan
-talk	192	kdax2	84.81	98.67837559
-				
 topcats	2	kdax2	nan	nan
 topcats	4	kdax2	nan	nan
 topcats	8	kdax2	nan	nan
@@ -338,15 +347,6 @@ topcats	32	kdax2	2842.89	2894.704997
 topcats	64	kdax2	2778.72	2718.955827
 topcats	128	kdax2	nan	nan
 topcats	192	kdax2	3400.19	3375.656995
-				
-twitter	2	kdax2	nan	nan
-twitter	4	kdax2	nan	nan
-twitter	8	kdax2	nan	nan
-twitter	16	kdax2	nan	nan
-twitter	32	kdax2	66.07	71.32162039
-twitter	64	kdax2	59.45	63.05750133
-twitter	128	kdax2	nan	nan
-twitter	192	kdax2	37.97	50.44523449
 """
 
 # Degenerate.
@@ -9013,6 +9013,8 @@ def plot_scaling(dfrm, graph_nm, axes, y_metric, plt_sty, mrk_sty, ln_sty, nm_j)
     dfrm_me = dfrm_me.dropna(axis='rows', subset=[y_metric])
     #print(dfrm_me)
 
+    plt_sty = plot_align_palette(dfrm_me.index.get_level_values('mode').values, plt_sty)
+    
     ax = seaborn.lineplot(data=dfrm_me, x='threads', y=y_metric,
                           hue='mode', ax=axes,
                           palette=plt_sty, marker=mrk_sty, linestyle=ln_sty)
@@ -9060,8 +9062,10 @@ def plot_bw_lat(ax_bw, ax_lat, bw_data_strL, lat_data_strL, graph,
 
     bw_dfrm_mean = bw_dfrm_wide.mean(axis=0) # mean per column
 
-    # print("bw_dfrm_hist\n", bw_dfrm_hist)
+    print("bw_dfrm_hist\n", bw_dfrm_hist)
     # print("bw_dfrm_wide\n", bw_dfrm_wide)
+
+    plt_sty = plot_align_palette(bw_dfrm_hist.columns, plt_sty)
 
     #-------------------------------------------------------
     
@@ -9131,10 +9135,22 @@ def plot_bw_lat(ax_bw, ax_lat, bw_data_strL, lat_data_strL, graph,
    #ax.set_title(graph, size=title_txt_sz)
 
 
+def plot_align_palette(modeL, plt_sty):
+    # if no dram values, adjust plt_sty
+
+    if ('dram' in modeL):
+        return plt_sty
+    else:
+        modeS = set(modeL)
+        plt = seaborn.color_palette(plt_sty, n_colors= (len(modeS) + 1))
+        plt.pop(0)
+        return plt
+
 
 #****************************************************************************
 #
 #****************************************************************************
+
 
 def makeRelTime(dfrm, row_srcL, col_src, col_dst):
     col_dat = []
