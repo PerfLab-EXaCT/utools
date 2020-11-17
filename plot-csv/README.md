@@ -92,6 +92,7 @@ myL=(
 # vtune -report summary
 
 for path in "${myL[@]}" ; do
+  path=${path%/*} # strip trailing /
   path_new="${path//-vtune-/-}" ;
   out1="${path_new}-fn.csv"
   out2="${path_new}-pkg.csv"
