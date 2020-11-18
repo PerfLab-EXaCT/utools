@@ -397,13 +397,13 @@ def main_ripples(makeColL):
         #
         ('ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::neighbors', 'rrr'), # optane
         #
-#        ('ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::Neighborhood::Neighborhood', 'rrr'), # 'neigh-hood'
+        ('ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::Neighborhood::Neighborhood', 'rrr'), # 'neigh-hood'
         #
-#        ('std::vector<unsigned int, std::allocator<unsigned int>>::push_back', 'rrr'), # 'push_back'
+        ('std::vector<unsigned int, std::allocator<unsigned int>>::push_back', 'rrr'), # 'push_back'
         ('std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>::push_back', 'rrr'), # 'push_back'
         #
-#        ('std::__insertion_sort<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'rrr'),
-#        ('std::__insertion_sort<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'rrr'),
+        ('std::__insertion_sort<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'rrr'),
+        ('std::__insertion_sort<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>', 'rrr'),
         
         # --------------------------------------
         # Optane? [SHARED]
