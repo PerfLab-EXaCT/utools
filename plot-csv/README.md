@@ -90,6 +90,7 @@ myL=(
 )
 
 # vtune -report summary
+# vtune -report hw-events
 
 for path in "${myL[@]}" ; do
   path=${path%/*} # strip trailing /
