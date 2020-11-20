@@ -1,19 +1,28 @@
 -*-Mode: markdown;-*-
 -----------------------------------------------------------------------------
 
+L1-bound: max(CYCLE_ACTIVITY.STALLS_MEM_ANY - CYCLE_ACTIVITY.STALLS_L1D_MISS, 0)
+L2-bound: (CYCLE_ACTIVITY.STALLS_L1D_MISS - CYCLE_ACTIVITY.STALLS_L2_MISS)
+L3-bound: (CYCLE_ACTIVITY.STALLS_L2_MISS - CYCLE_ACTIVITY.STALLS_L3_MISS)
+mem-bound: CYCLE_ACTIVITY.STALLS_L3_MISS
+store-bound: EXE_ACTIVITY.BOUND_ON_STORES
+
+Hardware Event Count:CYCLE_ACTIVITY.STALLS_L1D_MISS
+Hardware Event Count:CYCLE_ACTIVITY.STALLS_L2_MISS
+Hardware Event Count:CYCLE_ACTIVITY.STALLS_L3_MISS
+Hardware Event Count:CYCLE_ACTIVITY.STALLS_MEM_ANY
+EXE_ACTIVITY.BOUND_ON_STORES
+
+
 - GUPS results
   random access bandwidth, local/remote
 
-
 - Grappolo: DRAM allocs were done by single thread. Use guarded, round-robin execution to ensure correct first-touch.
-
 
 - Fig 4: reorder columns and labels?
 
-
 - Ripples: tested two variants but had one more idea
   do we hit a bandwidth limitation?
-  
   kdax2
   
 
