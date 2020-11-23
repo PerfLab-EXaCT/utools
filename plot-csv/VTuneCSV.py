@@ -23,10 +23,12 @@ import numpy
 
 plot_stats_cutoff = 50
 
-
 # FIXME:
 # - index should be 'Function (Full)'
 # - avoid dropping duplicates
+
+MergeRows_nosum_metricPat = r'%|Average' # Latency, Bound, # respect case
+MergeRows_sum_metricPat = r'Hardware Event Count'
 
 #****************************************************************************
 #
@@ -175,24 +177,33 @@ class VTuneCSV:
             self.index_name = dfrm.columns[0]
             
         dfrm.set_index(self.index_name, inplace = True)
-            
+
         #-------------------------------------------------------
-
-        # Need a unique 'function name' index for merging
-
-        # Remove duplicates
-        dup = dfrm.index.duplicated()
-        if (dup.any()):
-            MSG.warn("Dropping duplicates '{}'".format(csv_fnm))
-            #print(dfrm[dup])
-            
-        dfrm = dfrm[ ~dfrm.index.duplicated(keep='first') ]
-        #dfrm = dfrm[ dfrm.index.drop_duplicates(keep='first') ]
+        # Sometimes index is not unique, so we want to merge rows.
+        #
+        # If the metrics are ratios that we cannot sum, drop
+        # duplicates and warn.
+        #
+        # FIXME: try using 'Function (Full)' as index
+        #-------------------------------------------------------
+        #do_sum_fn = lambda x: re.search(MergeRows_sum_metricPat, x)
+        #do_sum = all(map(do_sum_fn, dfrm.columns))
         
+        no_sum_fn = lambda x: re.search(MergeRows_nosum_metricPat, x)
+        no_sum = any(map(no_sum_fn, dfrm.columns))
 
-        # FIXME: For now, drop duplicates. Cannot sum, as it is invalid for some metrics (e.g., percents)
-        #dfrm = dfrm.groupby(dfrm.index, sort = False).sum()
+        if (not no_sum):
+            # merge rows with sum
+            dfrm = dfrm.groupby(dfrm.index, sort = False).sum()
+        else:
+            # Remove duplicates
+            dup = dfrm.index.duplicated()
+            if (dup.any()):
+                MSG.warn("Dropping duplicates '{}'".format(csv_fnm))
+                #print(dfrm[dup])
 
+            dfrm = dfrm[ ~dfrm.index.duplicated(keep='first') ]
+            #dfrm = dfrm[ dfrm.index.drop_duplicates(keep='first') ]
 
         #-------------------------------------------------------
         # Normalize

@@ -14,6 +14,7 @@ Hardware Event Count:CYCLE_ACTIVITY.STALLS_MEM_ANY
 EXE_ACTIVITY.BOUND_ON_STORES
 
 
+
 - GUPS results
   random access bandwidth, local/remote
 
