@@ -102,7 +102,7 @@ for path in "${myL[@]}" ; do
   out1="${path_new}-${report}-fn.csv"
   out2="${path_new}-${report}-pkg.csv"
   printf "${path} --> ${out1}\n"
-  vtune_cmd='vtune -report ${report} -format csv -csv-delimiter comma -result-dir'
+  vtune_cmd="vtune -report ${report} -format csv -csv-delimiter comma -result-dir"
   ${vtune_cmd} "${path}" -report-output "${out1}" #-group-by=function
   ${vtune_cmd} "${path}" -report-output "${out2}" -group-by=package
 done
@@ -113,7 +113,7 @@ for src in /files0/tallent/xxx-optane/grappolo/*.csv ; do
   csv=$(basename ${src})
   if ! diff ${src} ${csv} >& /dev/null ; then
     echo ${csv}
-    cp ${src} ${csv}
+    #cp ${src} ${csv}
   fi
 done
 ```
