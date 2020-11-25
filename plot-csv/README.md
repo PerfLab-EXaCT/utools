@@ -1,17 +1,13 @@
 -*-Mode: markdown;-*-
 -----------------------------------------------------------------------------
 
+Hardware Event Count:CYCLE_ACTIVITY.STALLS_L1D_MISS
+
 L1-bound: max(CYCLE_ACTIVITY.STALLS_MEM_ANY - CYCLE_ACTIVITY.STALLS_L1D_MISS, 0)
 L2-bound: (CYCLE_ACTIVITY.STALLS_L1D_MISS - CYCLE_ACTIVITY.STALLS_L2_MISS)
 L3-bound: (CYCLE_ACTIVITY.STALLS_L2_MISS - CYCLE_ACTIVITY.STALLS_L3_MISS)
 mem-bound: CYCLE_ACTIVITY.STALLS_L3_MISS
 store-bound: EXE_ACTIVITY.BOUND_ON_STORES
-
-Hardware Event Count:CYCLE_ACTIVITY.STALLS_L1D_MISS
-Hardware Event Count:CYCLE_ACTIVITY.STALLS_L2_MISS
-Hardware Event Count:CYCLE_ACTIVITY.STALLS_L3_MISS
-Hardware Event Count:CYCLE_ACTIVITY.STALLS_MEM_ANY
-EXE_ACTIVITY.BOUND_ON_STORES
 
 
 
@@ -78,37 +74,35 @@ Example
 
 ```
 myL=(
-  grappolo-vtune-orkut-t192-dram
-  grappolo-vtune-orkut-t192-pdax
-  grappolo-vtune-orkut-t192-kdax
-  #
   grappolo-vtune-friendster-t192-dram
-  grappolo-vtune-friendster-t192-pdax
-  grappolo-vtune-friendster-t192-kdax
   grappolo-vtune-friendster-t192-mem
+  grappolo-vtune-friendster-t192-kdax
+  grappolo-vtune-friendster-t192-pdax
   #
   grappolo-vtune-moliere2016-t192-dram
-  grappolo-vtune-moliere2016-t192-pdax
-  grappolo-vtune-moliere2016-t192-kdax
   grappolo-vtune-moliere2016-t192-mem
+  grappolo-vtune-moliere2016-t192-kdax
+  grappolo-vtune-moliere2016-t192-pdax
   #
-  grappolo-vtune-uk2014-t192-kdax
   grappolo-vtune-uk2014-t192-mem
+  grappolo-vtune-uk2014-t192-kdax
   #
-  grappolo-vtune-clueweb12-t192-kdax
   grappolo-vtune-clueweb12-t192-mem
+  grappolo-vtune-clueweb12-t192-kdax
 )
 
 # vtune -report summary
+# vtune -report hotspots
 # vtune -report hw-events
 
 for path in "${myL[@]}" ; do
+  report='hotspots'
   path=${path%/*} # strip trailing /
   path_new="${path//-vtune-/-}" ;
-  out1="${path_new}-fn.csv"
-  out2="${path_new}-pkg.csv"
+  out1="${path_new}-${report}-fn.csv"
+  out2="${path_new}-${report}-pkg.csv"
   printf "${path} --> ${out1}\n"
-  vtune_cmd='vtune -report hotspots -format csv -csv-delimiter comma -result-dir'
+  vtune_cmd='vtune -report ${report} -format csv -csv-delimiter comma -result-dir'
   ${vtune_cmd} "${path}" -report-output "${out1}" #-group-by=function
   ${vtune_cmd} "${path}" -report-output "${out2}" -group-by=package
 done
