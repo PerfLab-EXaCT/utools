@@ -54,7 +54,7 @@ class VTuneCSV:
                              '[]' means '<all>', i.e., all columns/csv
 
     <makeColL>: Make new columns. List of (col-source, col-dest, make-fn),
-                where 'make-fn' is a function with the signature of 
+                where 'make-fn' is a function with the signature of
                 'makeCol_pctOfColTotal(df, col-source)' (below).
     """
 
