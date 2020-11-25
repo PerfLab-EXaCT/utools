@@ -195,14 +195,14 @@ def main_grappolo(makeColL):
                  '-t192-pdax']
 
     pathL_Mp = [
-        [ (path_pfx + grph + sfx + '-pkg.csv') for sfx in graph_sfx ]
+        [ (path_pfx + grph + sfx + '-hotspots-pkg.csv') for sfx in graph_sfx ]
         for grph in graphL_med ]
 
     pathL_Mp = flattenL(pathL_Mp)
 
 
     pathL_Mf = [
-        [ (path_pfx + grph + sfx + '-fn.csv') for sfx in graph_sfx ]
+        [ (path_pfx + grph + sfx + '-hotspots-fn.csv') for sfx in graph_sfx ]
         for grph in graphL_med ]
 
     pathL_Mf = flattenL(pathL_Mf)
@@ -210,8 +210,8 @@ def main_grappolo(makeColL):
 
     #-------------------------------------------------------
 
-    pathL_mxp = [ (path_pfx + 'moliere2016-t16-' + mode + '-pkg.csv') for mode in ['dram', 'mem'] ]
-    pathL_mxf = [ (path_pfx + 'moliere2016-t16-' + mode + '-fn.csv') for mode in ['dram', 'mem'] ]
+    pathL_mxp = [ (path_pfx + 'moliere2016-t16-' + mode + '-hotspots-pkg.csv') for mode in ['dram', 'mem'] ]
+    pathL_mxf = [ (path_pfx + 'moliere2016-t16-' + mode + '-hotspots-fn.csv') for mode in ['dram', 'mem'] ]
     
     
     #-------------------------------------------------------
@@ -225,14 +225,14 @@ def main_grappolo(makeColL):
 
 
     pathL_Bp = [
-        [path_pfx + grph + '-t192-mem-pkg.csv',
-         path_pfx + grph + '-t192-kdax-pkg.csv'] for grph in graphL_0 ]
+        [path_pfx + grph + '-t192-mem-hotspots-pkg.csv',
+         path_pfx + grph + '-t192-kdax-hotspots-pkg.csv'] for grph in graphL_0 ]
 
     pathL_Bp = flattenL(pathL_Bp)
     
     pathL_Bf = [
-        [path_pfx + grph + '-t192-mem-fn.csv',
-         path_pfx + grph + '-t192-kdax-fn.csv'] for grph in graphL_0 ]
+        [path_pfx + grph + '-t192-mem-hotspots-fn.csv',
+         path_pfx + grph + '-t192-kdax-hotspots-fn.csv'] for grph in graphL_0 ]
 
     pathL_Bf = flattenL(pathL_Bf)
 
@@ -373,14 +373,14 @@ def main_ripples(makeColL):
 
 
     pathL_p = [
-        [ (path_pfx + grph + sfx + '-pkg.csv') for sfx in graph_sfx ]
+        [ (path_pfx + grph + sfx + '-hotspots-pkg.csv') for sfx in graph_sfx ]
         for grph in graphL_0 ]
 
     pathL_p = flattenL(pathL_p)
     pathL_p = [x for x in pathL_p if not ('topcats' in x and 'dram' in x)]
 
     pathL_f = [
-        [ (path_pfx + grph + sfx + '-fn.csv') for sfx in graph_sfx ]
+        [ (path_pfx + grph + sfx + '-hotspots-fn.csv') for sfx in graph_sfx ]
         for grph in graphL_0 ]
 
     pathL_f = flattenL(pathL_f)
@@ -954,8 +954,8 @@ def rename_col(x, graph_grpL):
     x0 = re.sub('\.T\d+\.R0', '', x0) #x0 = x0.replace('.T64.R0', '')
 
     # both
-    x0 = x0.replace('-pkg', '')
-    x0 = x0.replace('-fn', '')
+    x0 = x0.replace('-hotspots-pkg', '')
+    x0 = x0.replace('-hotspots-fn', '')
     
     return x0
 
