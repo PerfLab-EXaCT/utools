@@ -10,6 +10,7 @@ mem-bound: CYCLE_ACTIVITY.STALLS_L3_MISS
 store-bound: EXE_ACTIVITY.BOUND_ON_STORES
 
 
+
 - GUPS results
   random access bandwidth, local/remote
 

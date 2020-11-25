@@ -36,11 +36,11 @@ import VTuneCSV as vtcsv
 #****************************************************************************
 
 # Move this row merging ability to VTuneCSV
-MergeRows_avg_metricPat = r'%|bound|latency'
-MergeRows_avg_metricPat_st = r'stores (%)'
+MergeRows_nosum_metricPat = vtcsv.MergeRows_nosum_metricPat
+MergeRows_nosum_metricPat_st = r'stores (%)'
 
-MergeRows_avg_scaleMetric = 'CPU Time'
-MergeRows_avg_scaleMetric_st = 'Stores'
+MergeRows_nosum_scaleMetric = 'CPU Time'
+MergeRows_nosum_scaleMetric_st = 'Stores'
 
 Txt_sz_title = 11.5
 Txt_sz_ytitle = 13
@@ -595,20 +595,21 @@ def dfrm_fn_xform(vt, functionH, graph_grpL):
     dfrm_time = None
     dfrm_st = None
     try:
-        # Note: before 'MergeRows_avg_scaleMetric' has been renamed!
-        dfrm_time = vt.dataH[MergeRows_avg_scaleMetric]
-        dfrm_st =  vt.dataH[MergeRows_avg_scaleMetric_st]
+        # Note: before 'MergeRows_nosum_scaleMetric' has been renamed!
+        dfrm_time = vt.dataH[MergeRows_nosum_scaleMetric]
+        dfrm_st =  vt.dataH[MergeRows_nosum_scaleMetric_st]
     except KeyError:
-        vtcsv.MSG.err(("Cannot find metric: '%s'" % MergeRows_avg_scaleMetric))
+        vtcsv.MSG.err(("Cannot find metric: '%s'" % MergeRows_nosum_scaleMetric))
 
     
     def dfrm_fn_xform1(dfrm, graph_grp, metric):
-        # 0. Select columns for 'graph_grp'
+        # 'metric' is *original* metric name
         
+        # 0. Select columns for 'graph_grp'
         df_tm = select_dfrm_col(dfrm_time, graph_grp) # copies dfrm slice
 
         # FIXME:
-        if (re.search(MergeRows_avg_metricPat_st, metric, re.IGNORECASE)):
+        if (re.search(MergeRows_nosum_metricPat_st, metric, re.IGNORECASE)):
             df_tm = select_dfrm_col(dfrm_st, graph_grp) # copies dfrm slice
     
         # 1. Rename columns
@@ -620,8 +621,7 @@ def dfrm_fn_xform(vt, functionH, graph_grpL):
         df_tm.rename(index = functionH, inplace=True)
 
         # 3. Select and merge rows with same target name
-
-        if (re.search(MergeRows_avg_metricPat, metric, re.IGNORECASE)):
+        if (re.search(MergeRows_nosum_metricPat, metric)): # re.IGNORECASE
             # Merge by weighted average
             rowL = []
             for fn in functionHx_keys:
