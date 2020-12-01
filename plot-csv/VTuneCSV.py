@@ -158,7 +158,7 @@ class VTuneCSV:
     
     def add_csv(self, csv_fnm, indexL, columnL, makeColL):
         if (not os.path.exists(csv_fnm)):
-            MSG.warn(("Skipping non-existent file '%s'" % (csv_fnm)))
+            MSG.warn("Skipping non-existent file '{}'".format(csv_fnm))
             return
 
         csv_nm = re.sub('\.csv$', '', os.path.basename(csv_fnm))
@@ -234,8 +234,11 @@ class VTuneCSV:
             col_dst = makeTuple[1]
             mkcol_fn = makeTuple[2]
 
-            col_src_i = dfrm.columns.get_loc(col_src)
-            # except: sys.exit("Cannot find column '%s'" % col)
+            try:
+                col_src_i = dfrm.columns.get_loc(col_src)
+            except:
+                MSG.err("For new column '{}', cannot find source '{}'".format(col_dst, col_src))
+                sys.exit(1)
 
             col_dst_i = col_src_i + 1
 

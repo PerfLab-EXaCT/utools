@@ -200,13 +200,13 @@ def main_grappolo(makeColL):
 
     pathL_Mp = flattenL(pathL_Mp)
 
-
     pathL_Mf = [
         [ (path_pfx + grph + sfx + '-hotspots-fn.csv') for sfx in graph_sfx ]
         for grph in graphL_med ]
 
     pathL_Mf = flattenL(pathL_Mf)
 
+    # (path_pfx + grph + sfx + '-hw-events-fn.csv')
 
     #-------------------------------------------------------
 
@@ -981,7 +981,13 @@ def makeCol_L2xBound(col_src2): # could be a list of source columns
 
 def flattenL(L):
     #return [x for L_inner in L for x in L_inner ] # flatten
-    return functools.reduce(operator.concat, L)
+
+    islist = map(lambda x: isinstance(x, list), L)
+    if (all(islist)):
+        L1 = functools.reduce(operator.concat, L) # flatten
+        return flattenL(L1)
+    else:
+        return L
 
 #****************************************************************************
 
