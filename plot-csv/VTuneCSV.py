@@ -216,9 +216,9 @@ class VTuneCSV:
         #if ('[Unknown stack frame(s)]') in dfrm:
         #    dfrm = dfrm.drop('[Unknown stack frame(s)]')
         #dfrm = dfrm.rename(lambda x: x.strip(" []").replace("Loop at line ", ""))
-
+        
         #-------------------------------------------------------
-                
+        
         #dfrm = self.remove_empty_cols(dfrm)
         dfrm = dfrm.dropna(axis = 1, how = 'all')
         
