@@ -163,7 +163,7 @@ class VTuneCSV:
 
         csv_nm = re.sub('\.csv$', '', os.path.basename(csv_fnm))
 
-        MSG.msg("Reading '{}' ({})".format(csv_fnm, self.index_name))
+        MSG.msg("Reading '{}'".format(csv_fnm))
         
         dfrm = pandas.read_csv(csv_fnm, error_bad_lines = False)
 
