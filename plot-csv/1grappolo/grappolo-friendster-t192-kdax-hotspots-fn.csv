@@ -1,416 +1,411 @@
-Function,CPU Time,Memory Bound(%),Memory Bound:L1 Bound(%),Memory Bound:L2 Bound(%),Memory Bound:L3 Bound(%),Memory Bound:DRAM Bound(%),Memory Bound:DRAM Bound:Memory Bandwidth(%),Memory Bound:DRAM Bound:Memory Latency(%),Memory Bound:DRAM Bound:Memory Latency:NUMA: % of Remote Accesses(%),Memory Bound:DRAM Bound:Memory Latency:Local DRAM(%),Memory Bound:DRAM Bound:Memory Latency:Remote DRAM(%),Memory Bound:DRAM Bound:Memory Latency:Remote Cache(%),Memory Bound:Persistent Memory Bound(%),Memory Bound:Persistent Memory Bound:Local Persistent Memory(%),Memory Bound:Persistent Memory Bound:Remote Persistent Memory(%),Loads,Stores,LLC Miss Count,LLC Miss Count:Local DRAM Access Count,LLC Miss Count:Remote DRAM Access Count,LLC Miss Count:Local Persistent Memory Access Count,LLC Miss Count:Remote Persistent Memory Access Count,LLC Miss Count:Remote Cache Access Count,Average Latency (cycles),Module,Function (Full),Source File,Start Address
-buildLocalMapCounter,27090.317938,69.9,3.2,4.0,7.0,57.3,20.8,63.2,57.6,33.9,71.3,2.4,0.0,0.0,0.0,16784963533800,1207284217440,165659595360,65356574640,88668206340,0,0,5208364560,15.691056,driverForGraphClustering,"buildLocalMapCounter(long, long, std::map<long, long, std::less<long>, std::allocator<std::pair<long const, long>>>&, std::vector<double, std::allocator<double>>&, edge*, long*, long)",utilityClusteringFunctions.cpp,0x43dc00
-"_INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_wait_template<kmp_flag_64, (int)1, (bool)0, (bool)1>",5752.928024,12.7,8.5,0.0,0.0,0.0,0.0,1.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4788521651340,442273267800,0,0,0,0,0,0,6.910322,libiomp5.so,"bool _INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_wait_template<kmp_flag_64, (int)1, (bool)0, (bool)1>(kmp_info*, kmp_flag_64*, void*)",kmp_wait_release.h,0x62210
-max,3644.708266,71.5,1.6,0.0,0.5,75.3,45.7,51.2,81.2,30.2,100.0,0.6,0.0,0.0,0.0,1385789572440,40657219680,73295130300,13440940800,57880051320,0,0,294020580,34.249626,driverForGraphClustering,"max(std::map<long, long, std::less<long>, std::allocator<std::pair<long const, long>>>&, std::vector<double, std::allocator<double>>&, double, comm*, double, long, double)",utilityClusteringFunctions.cpp,0x43e710
-_int_free,1570.613521,1.3,10.0,0.3,0.1,0.1,0.7,4.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3306213183420,1369913096160,0,0,0,0,0,0,9.013841,libc-2.29.so,_int_free,malloc.c,0x950c0
-__GI___libc_malloc,1302.555662,5.7,10.2,0.6,0.6,2.3,3.2,29.2,0.0,0.3,0.0,0.7,0.0,0.0,0.0,2172179163420,649087472040,0,42002940,0,0,0,126008820,9.134986,libc-2.29.so,__GI___libc_malloc,malloc.c,0x98a40
-_int_malloc,1244.425468,17.0,19.8,1.9,0.5,0.8,1.7,23.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1107321218640,1027098812040,0,0,0,0,0,0,18.711340,libc-2.29.so,_int_malloc,malloc.c,0x966c0
-std::_Rb_tree_insert_and_rebalance,1235.717706,7.3,11.4,3.3,2.3,2.4,3.4,34.7,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2881076429700,1282634477880,0,0,0,0,0,0,7.778662,libstdc++.so.6.0.26,"std::_Rb_tree_insert_and_rebalance(bool, std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::_Rb_tree_node_base&)",[Unknown],0xbced0
-"_INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_wait_template<kmp_flag_64, (int)0, (bool)0, (bool)1>",579.026942,10.1,5.4,0.0,0.2,0.0,0.0,4.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,510315309000,50821524600,0,0,0,0,0,0,6.732741,libiomp5.so,"bool _INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_wait_template<kmp_flag_64, (int)0, (bool)0, (bool)1>(kmp_info*, kmp_flag_64*, void*)",kmp_wait_release.h,0x62cf8
-plm_analyzeClusters$omp$parallel_for@64,564.278660,21.3,13.7,0.4,1.1,14.9,4.2,30.9,7.7,9.3,1.2,0.7,0.0,0.0,0.0,573065191440,316353490320,882061740,504035280,42002940,0,0,42002940,10.767996,driverForGraphClustering,plm_analyzeClusters$omp$parallel_for@64,parallelLouvainMethod-nrt.cpp,0x431de4
-__GI_,506.854501,0.0,18.2,0.1,0.1,0.5,1.4,9.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1073930216940,112143364200,0,0,0,0,0,0,7.647425,libc-2.29.so,"float __GI_(long, int, bool, char)",malloc.c,0x991d0
-parallelLouvianMethod$omp$parallel_for@237,268.214756,82.5,8.5,57.2,1.0,13.0,70.2,23.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,37297118880,17808534240,42002940,0,0,0,0,0,90.675439,driverForGraphClustering,parallelLouvianMethod$omp$parallel_for@237,parallelLouvainMethod-nrt.cpp,0x431330
-malloc_consolidate,236.364744,10.0,12.4,5.3,0.0,0.9,0.6,7.2,0.0,3.0,0.0,0.0,0.0,0.0,0.0,321687650340,102987089520,0,42002940,0,0,0,0,14.821519,libc-2.29.so,malloc_consolidate,malloc.c,0x94880
-plm_init$omp$parallel_for@285,218.400082,91.4,0.0,0.0,0.0,0.0,0.2,3.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,26124783720,0,0,0,0,0,0,0.0,driverForGraphClustering,plm_init$omp$parallel_for@285,parallelLouvainMethod-nrt.cpp,0x4326f0
-sumVertexDegree$omp$parallel_for@74,202.082835,96.6,0.0,0.0,22.2,0.0,89.1,9.4,0.0,0.0,0.0,0.0,77.9,100.0,0.0,3780113400,168005040,168011760,0,0,168011760,0,0,955.400000,driverForGraphClustering,sumVertexDegree$omp$parallel_for@74,utilityClusteringFunctions.cpp,0x43d64c
-tcache_get,174.076790,0.7,8.5,0.9,0.0,0.9,6.4,33.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,217230516720,597425922240,0,0,0,0,0,0,7.379427,libc-2.29.so,tcache_get,malloc.c,0x98bd9
-std::_Rb_tree_increment,169.291443,31.0,2.8,0.0,5.1,30.5,23.2,42.9,0.0,0.0,0.0,1.8,0.0,0.0,0.0,286658599500,0,0,0,0,0,0,42002940,7.494143,libstdc++.so.6.0.26,std::_Rb_tree_increment(std::_Rb_tree_node_base*),[Unknown],0xbcd90
-"std::_Rb_tree_iterator<std::pair<long const, long>>::operator!=",159.720750,18.2,2.8,5.8,0.0,17.3,17.8,42.3,0.0,0.0,0.0,4.7,0.0,0.0,0.0,290816724240,0,0,0,0,0,0,84005880,7.104101,driverForGraphClustering,"std::_Rb_tree_iterator<std::pair<long const, long>>::operator!=(std::_Rb_tree_iterator<std::pair<long const, long>> const&) const",stl_tree.h,0x43dd96
-operator new,144.894020,0.0,10.8,0.0,2.0,1.8,6.8,31.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,76736302020,50989529640,0,0,0,0,0,0,10.840347,libstdc++.so.6.0.26,operator new(unsigned long),[Unknown],0xa5a10
-__intel_ssse3_rep_memmove,132.656084,7.9,5.2,5.8,0.0,2.2,4.4,33.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,179303378940,137932137840,0,0,0,0,0,0,12.776882,driverForGraphClustering,__intel_ssse3_rep_memmove,[Unknown],0x47bd30
-func@0xbcd30,132.263843,7.0,6.7,1.0,2.4,8.3,10.2,47.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,255661669620,0,0,0,0,0,0,0,7.422360,libstdc++.so.6.0.26,func@0xbcd30,[Unknown],0xbcd30
-parallelLouvianMethod$omp$parallel_for@210,103.630211,77.1,14.1,20.9,5.2,43.8,79.3,7.3,0.0,100.0,0.0,0.0,0.0,0.0,0.0,12096362880,0,336023520,168011760,0,0,0,0,143.166667,driverForGraphClustering,parallelLouvianMethod$omp$parallel_for@210,parallelLouvainMethod-nrt.cpp,0x431643
-"__gnu_cxx::new_allocator<double>::construct<double, double const&>",97.432795,51.1,1.9,13.0,0.0,48.2,5.4,60.6,100.0,0.0,34.6,0.0,0.0,0.0,0.0,45361360800,61741852200,210014700,0,126008820,0,0,0,7.460905,driverForGraphClustering,"void __gnu_cxx::new_allocator<double>::construct<double, double const&>(double*, double const&&&)",new_allocator.h,0x43e347
-"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::allocate",95.000898,11.4,6.0,0.0,1.6,2.9,7.0,32.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,6426192780,1190987728560,0,0,0,0,0,0,7.273927,driverForGraphClustering,"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::allocate(unsigned long, void const*)",new_allocator.h,0x43deb3
-tcache_put,89.117275,27.5,18.1,8.6,0.9,0.3,0.9,22.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2646079380,2100063000,0,0,0,0,0,0,32.975610,libc-2.29.so,tcache_put,malloc.c,0x967bc
-"std::vector<double, std::allocator<double>>::push_back",77.271581,0.7,1.2,7.6,7.2,4.4,9.2,37.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,95006850120,3276098280,0,0,0,0,0,0,7.340949,driverForGraphClustering,"std::vector<double, std::allocator<double>>::push_back(double const&)",stl_vector.h,0x43e267
-kmp_flag_native<unsigned long long>::get,68.956060,0.7,2.0,0.0,0.0,0.0,0.0,1.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,7.038793,libiomp5.so,kmp_flag_native<unsigned long long>::get(void),kmp_wait_release.h,0x6253a
-operator delete,62.287954,5.1,6.7,3.6,0.0,0.9,0.4,10.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libstdc++.so.6.0.26,operator delete(void*),[Unknown],0xa3d60
-tcache_put,59.071574,1.2,11.6,0.4,0.4,0.0,3.4,17.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,53929617840,309465283680,0,0,0,0,0,0,7.760417,libc-2.29.so,tcache_put,malloc.c,0x95390
-"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::end",57.894849,11.0,16.1,0.5,0.0,0.5,2.8,24.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,52165564920,3780113400,0,0,0,0,0,0,7.190045,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::end(void)",stl_tree.h,0x43dc2e
-"std::_Rb_tree_iterator<std::pair<long const, long>>::operator++",55.776745,33.8,0.0,0.0,5.5,45.9,32.1,35.4,0.0,0.0,0.0,5.0,0.0,0.0,0.0,0,173465203800,0,0,0,0,0,42002940,0.0,driverForGraphClustering,"std::_Rb_tree_iterator<std::pair<long const, long>>::operator++(int)",stl_tree.h,0x43e7e1
-"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_M_erase",53.344848,0.0,16.2,3.0,0.0,4.0,0.0,2.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,46243387260,6048181440,0,0,0,0,0,0,7.639535,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_M_erase(std::_Rb_tree_node<std::pair<long const, long>>*)",stl_tree.h,0x41ea70
-func@0x967a0,50.520709,0.0,11.8,1.1,0.0,0.5,0.5,5.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,110631318840,0,0,0,0,0,0,0,7.364764,libstdc++.so.6.0.26,func@0x967a0,[Unknown],0x967a0
-func@0x4043b0,47.068983,0.0,2.4,0.0,1.8,1.2,3.6,34.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,211308339060,0,0,0,0,0,0,0,7.151584,driverForGraphClustering,func@0x4043b0,[Unknown],0x4043b0
-__gnu_cxx::new_allocator<double>::allocate,45.421569,6.1,17.4,1.3,0.0,4.7,8.7,31.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3024090720,78878366280,0,0,0,0,0,0,7.200000,driverForGraphClustering,"__gnu_cxx::new_allocator<double>::allocate(unsigned long, void const*)",new_allocator.h,0x43e467
-"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_M_get_insert_hint_unique_pos",44.950879,0.0,9.6,0.0,3.2,0.0,1.9,14.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,90722721600,43093292760,0,0,0,0,0,0,7.714286,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_M_get_insert_hint_unique_pos(std::_Rb_tree_const_iterator<std::pair<long const, long>>, long const&)",stl_tree.h,0x41ee60
-unlink_chunk,43.774154,7.1,11.9,5.9,0.0,0.7,0.7,5.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,53677610280,146500394880,0,0,0,0,0,0,9.373259,libc-2.29.so,unlink_chunk,malloc.c,0x94987
-func@0x404370,40.950015,7.4,9.0,0.0,0.6,0.0,0.6,6.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,111513345300,0,0,0,0,0,0,0,7.798611,driverForGraphClustering,func@0x404370,[Unknown],0x404370
-func@0x404080,33.105185,9.0,13.7,3.2,0.8,2.4,3.2,25.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,122223666600,0,0,0,0,0,0,0,11.075235,driverForGraphClustering,func@0x404080,[Unknown],0x404080
-"std::__copy_move<(bool)1, (bool)1, std::random_access_iterator_tag>::__copy_m<double>",31.771564,4.8,2.7,1.8,1.8,0.0,4.5,29.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,10836325080,2184065520,0,0,0,0,0,0,7.135593,driverForGraphClustering,"double* std::__copy_move<(bool)1, (bool)1, std::random_access_iterator_tag>::__copy_m<double>(double const*, double const*, double*)",stl_algobase.h,0x43e2e3
-unlink_chunk,28.398287,9.6,8.6,6.7,1.9,1.0,0.0,24.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,29106873180,6216186480,0,0,0,0,0,0,8.000000,libc-2.29.so,unlink_chunk,malloc.c,0x93760
-"std::vector<double, std::allocator<double>>::operator[]",26.829320,7.1,25.0,2.0,0.0,9.0,5.0,37.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,213324399540,0,0,0,0,0,0,0,7.113109,driverForGraphClustering,"std::vector<double, std::allocator<double>>::operator[](unsigned long)",stl_vector.h,0x43dda4
-"std::vector<double, std::allocator<double>>::_M_realloc_insert<double const&>",25.966389,4.0,16.8,1.1,0.0,0.0,2.2,24.6,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,42337270080,0,0,0,0,0,0,0.0,driverForGraphClustering,"void std::vector<double, std::allocator<double>>::_M_realloc_insert<double const&>(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double>>>, double const&&&)",stl_vector.h,0x43e277
-__kmpc_atomic_float8_add,25.417251,59.4,33.7,0.0,0.0,61.4,5.0,79.3,0.0,16.1,0.0,0.0,0.0,0.0,0.0,1764052920,420012600,84005880,42002940,0,0,0,0,1553.000000,libiomp5.so,__kmpc_atomic_float8_add,kmp_atomic.cpp,0x458c0
-entry_SYSCALL_64,24.397423,1.4,1.1,1.1,0.0,0.0,0.0,2.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,630018900,2520075600,0,0,0,0,0,0,16.000000,vmlinux,entry_SYSCALL_64,[Unknown],0xffffffff8aa00010
-__gnu_cxx::new_allocator<double>::deallocate,22.357767,0.0,11.1,3.7,0.0,4.9,2.5,24.6,0.0,0.0,0.0,0.0,0.0,0.0,0.0,9576287280,19404582120,42002940,0,0,0,0,0,7.623762,driverForGraphClustering,"__gnu_cxx::new_allocator<double>::deallocate(double*, unsigned long)",new_allocator.h,0x43e313
-"std::vector<double, std::allocator<double>>::_M_check_len",22.043974,0.0,19.8,0.0,1.2,3.7,8.6,27.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,"std::vector<double, std::allocator<double>>::_M_check_len(unsigned long, char const*) const",stl_vector.h,0x43e277
-__schedule,20.867249,0.0,14.4,2.6,0.0,1.3,0.0,2.6,0.0,0.0,0.0,0.0,0.0,0.0,0.0,30618918540,18900567000,0,0,0,0,0,0,8.148936,vmlinux,__schedule,[Unknown],0xffffffff8a84a700
-pick_next_task_fair,20.867249,0.0,14.7,2.5,0.0,0.0,0.0,4.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,39565186920,28812864360,0,0,0,0,0,0,8.974026,vmlinux,pick_next_task_fair,[Unknown],0xffffffff89edac90
-_intel_fast_memmove,20.004318,0.0,17.3,0.0,2.5,0.0,19.8,19.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,63253897560,5040151200,0,0,0,0,0,0,8.285714,driverForGraphClustering,_intel_fast_memmove,[Unknown],0x46b200
-func@0x4042b0,17.807765,33.1,10.4,0.0,0.0,26.8,0.0,52.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,215592467580,0,0,0,0,0,0,0,8.869888,driverForGraphClustering,func@0x4042b0,[Unknown],0x4042b0
-update_curr,17.807765,0.0,28.6,6.3,0.0,20.6,4.8,14.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,18522555660,20328609840,42002940,0,0,0,0,0,10.110236,vmlinux,update_curr,[Unknown],0xffffffff89ed2fd0
-sched_yield,17.258627,10.6,10.1,0.0,0.0,1.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,16128483840,0,0,0,0,0,0,0,7.000000,libc-2.29.so,sched_yield,syscall-template.S,0x101860
-__gnu_cxx::new_allocator<double>::allocate,17.180179,4.6,21.4,3.3,0.0,1.6,3.3,14.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,8442253260,58213746360,0,0,0,0,0,0,11.349206,driverForGraphClustering,"__gnu_cxx::new_allocator<double>::allocate(unsigned long, void const*)",new_allocator.h,0x432549
-_raw_spin_lock,16.552592,12.4,16.7,0.0,1.5,3.0,0.0,3.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,14364430920,14028420840,0,0,0,0,0,0,15.944444,vmlinux,_raw_spin_lock,[Unknown],0xffffffff8a850560
-"std::__copy_move<(bool)1, (bool)1, std::random_access_iterator_tag>::__copy_m<double>",16.003454,0.0,17.2,0.0,0.0,0.0,0.0,17.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,"double* std::__copy_move<(bool)1, (bool)1, std::random_access_iterator_tag>::__copy_m<double>(double const*, double const*, double*)",stl_algobase.h,0x4321cd
-"std::_Vector_base<double, std::allocator<double>>::_M_allocate",15.768109,0.0,11.6,0.0,0.0,1.7,1.7,8.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4914147420,0,0,0,0,0,0,0,13.451613,driverForGraphClustering,"std::_Vector_base<double, std::allocator<double>>::_M_allocate(unsigned long)",stl_vector.h,0x43219b
-native_sched_clock,14.826730,9.2,25.8,0.0,4.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,8316249480,0,0,0,0,0,0,0,8.677419,vmlinux,native_sched_clock,[Unknown],0xffffffff89e38f10
-renumberClustersContiguously,13.650005,57.3,65.5,4.9,1.6,0.0,0.0,3.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,18648559440,504015120,0,0,0,0,0,0,12.096774,driverForGraphClustering,"renumberClustersContiguously(long*, long)",buildNextPhase.cpp,0x450dd0
-clear_page_erms,12.865522,94.0,0.0,0.0,0.0,0.0,0.0,2.7,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,252007560,0,0,0,0,0,0,0.0,vmlinux,clear_page_erms,[Unknown],0xffffffff8a83c070
-task_tick_fair,11.610349,62.7,51.5,13.6,27.1,27.1,5.4,65.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1134034020,84002520,42002940,0,0,0,0,0,98.000000,vmlinux,task_tick_fair,[Unknown],0xffffffff89ed77c0
-"__gnu_cxx::new_allocator<double>::construct<double, double const&>",10.904314,30.2,15.5,19.9,0.0,39.8,24.3,66.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,18522555660,21756652680,0,0,0,0,0,0,7.163265,driverForGraphClustering,"void __gnu_cxx::new_allocator<double>::construct<double, double const&>(double*, double const&&&)",new_allocator.h,0x43e2d5
-get_max_fast,10.825866,0.2,15.2,0.0,0.0,0.0,0.0,17.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libc-2.29.so,get_max_fast,malloc.c,0x9670a
-"std::vector<double, std::allocator<double>>::_M_check_len",10.355176,0.0,5.1,0.0,2.5,0.0,0.0,22.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,44983349460,15456463680,0,0,0,0,0,0,13.689655,driverForGraphClustering,"std::vector<double, std::allocator<double>>::_M_check_len(unsigned long, char const*) const",stl_vector.h,0x43214a
-cgroup_rstat_updated,10.276728,0.0,10.9,0.0,2.7,0.0,2.7,5.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,11718351540,7728231840,0,0,0,0,0,0,8.480000,vmlinux,cgroup_rstat_updated,[Unknown],0xffffffff89f515c0
-__calc_delta,10.119831,0.0,13.0,2.6,0.0,0.0,0.0,5.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,9450283500,84002520,0,0,0,0,0,0,7.090909,vmlinux,__calc_delta,[Unknown],0xffffffff89ecdda0
-"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate",9.649142,4.4,8.0,2.7,0.0,2.7,0.0,13.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,19572587160,0,0,0,0,0,0,0.0,driverForGraphClustering,"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate(std::_Rb_tree_node<std::pair<long const, long>>*, unsigned long)",new_allocator.h,0x432483
-"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate",9.570693,9.4,6.6,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,3696110880,0,0,0,0,0,0,0.0,driverForGraphClustering,"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate(std::_Rb_tree_node<std::pair<long const, long>>*, unsigned long)",new_allocator.h,0x432447
-free_perturb,9.492245,0.0,10.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,9072272160,0,0,0,0,0,0,0,7.395349,libc-2.29.so,free_perturb,malloc.c,0x95192
-func@0x95d60,9.492245,5.6,14.1,0.0,2.8,0.0,0.0,28.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,433200995640,0,0,0,0,0,0,0,7.156322,libstdc++.so.6.0.26,func@0x95d60,[Unknown],0x95d60
-"std::_Rb_tree_iterator<std::pair<long const, long>>::operator!=",8.943107,7.8,9.7,0.0,9.7,9.7,3.2,58.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,"std::_Rb_tree_iterator<std::pair<long const, long>>::operator!=(std::_Rb_tree_iterator<std::pair<long const, long>> const&) const",stl_tree.h,0x43e7e9
-cpuacct_charge,8.629314,0.0,22.0,0.0,0.0,7.3,0.0,11.0,0.0,36.7,0.0,0.0,0.0,0.0,0.0,15246457380,5040151200,0,42002940,0,0,0,0,7.695652,vmlinux,cpuacct_charge,[Unknown],0xffffffff89eee270
-_INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_hyper_barrier_gather,8.158624,0.0,0.0,0.0,0.0,0.0,0.0,11.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,7.000000,libiomp5.so,"_INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_hyper_barrier_gather(barrier_type, kmp_info*, int, int, void (*)(void*, void*), void*)",kmp_barrier.cpp,0x62b80
-tcache_get,8.158624,0.0,9.2,0.0,0.0,0.0,0.0,13.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,19278578340,11508345240,0,0,0,0,0,0,7.355556,libc-2.29.so,tcache_get,malloc.c,0x974b8
-update_min_vruntime,8.001727,0.0,14.2,0.0,17.8,3.6,10.7,3.6,0.0,0.0,0.0,0.0,0.0,0.0,0.0,6552196560,5880176400,42002940,0,0,0,0,0,7.411765,vmlinux,update_min_vruntime,[Unknown],0xffffffff89ecde80
-do_syscall_64,7.923279,7.5,7.1,0.0,7.1,0.0,0.0,3.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,11214336420,19152574560,0,0,0,0,0,0,9.468750,vmlinux,do_syscall_64,[Unknown],0xffffffff89e04210
-"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_M_erase",7.844831,0.0,0.0,10.7,0.0,10.7,0.0,3.6,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_M_erase(std::_Rb_tree_node<std::pair<long const, long>>*)",stl_tree.h,0x41ea70
-"std::map<long, long, std::less<long>, std::allocator<std::pair<long const, long>>>::operator[]",7.844831,0.0,31.8,0.0,0.0,0.0,0.0,21.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,12768383040,0,0,0,0,0,0,0.0,driverForGraphClustering,"std::map<long, long, std::less<long>, std::allocator<std::pair<long const, long>>>::operator[](long const&)",stl_map.h,0x431fa3
-"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::allocate",7.687934,5.2,13.4,3.4,0.0,0.0,0.0,13.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,1260037800,0,0,0,0,0,0,0.0,driverForGraphClustering,"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::allocate(unsigned long, void const*)",new_allocator.h,0x4320af
-copy_user_enhanced_fast_string,7.687934,58.3,0.0,0.0,9.4,51.8,47.1,14.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,168005040,0,0,0,0,0,0,88.000000,vmlinux,copy_user_enhanced_fast_string,[Unknown],0xffffffff8a83c560
-"std::vector<double, std::allocator<double>>::_M_realloc_insert<double>",7.609486,6.2,10.5,0.0,0.0,0.0,0.0,14.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,28728861840,0,0,0,0,0,0,0,8.980000,driverForGraphClustering,"void std::vector<double, std::allocator<double>>::_M_realloc_insert<double>(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double>>>, double&&)",stl_vector.h,0x43214a
-__kmpc_atomic_float8_sub,7.452589,83.3,63.1,12.6,0.0,50.4,0.0,71.5,0.0,42.0,0.0,0.0,0.0,0.0,0.0,2646079380,420012600,84005880,42002940,0,0,0,0,209.000000,libiomp5.so,__kmpc_atomic_float8_sub,kmp_atomic.cpp,0x45910
-"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_M_erase",7.374141,0.0,8.8,0.0,17.6,8.8,0.0,8.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_M_erase(std::_Rb_tree_node<std::pair<long const, long>>*)",stl_tree.h,0x41ea70
-ktime_get,7.295692,62.5,14.5,7.2,43.4,0.0,0.0,50.6,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,168005040,0,0,0,0,0,0,7.000000,vmlinux,ktime_get,[Unknown],0xffffffff89f25d90
-"std::_Vector_base<double, std::allocator<double>>::_Vector_impl::_Vector_impl",7.138796,0.0,22.9,0.0,0.0,7.6,0.0,15.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,6216186480,0,0,0,0,0,0,0.0,driverForGraphClustering,"std::_Vector_base<double, std::allocator<double>>::_Vector_impl::_Vector_impl(void)",stl_vector.h,0x422250
-syscall_return_via_sysret,7.060347,20.5,37.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,20790623700,1176035280,0,0,0,0,0,0,7.880000,vmlinux,syscall_return_via_sysret,[Unknown],0xffffffff8aa000f1
-"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate",6.903451,0.0,14.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,4956148680,0,0,0,0,0,0,0.0,driverForGraphClustering,"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate(std::_Rb_tree_node<std::pair<long const, long>>*, unsigned long)",new_allocator.h,0x43246f
-pick_next_entity,6.511209,0.0,3.1,0.0,0.0,0.0,0.0,3.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,24570737100,3696110880,0,0,0,0,0,0,7.134615,vmlinux,pick_next_entity,[Unknown],0xffffffff89ecee90
-"std::_Rb_tree_iterator<std::pair<long const, long>>::operator==",6.511209,0.0,3.9,0.0,3.9,0.0,0.0,3.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,11088332640,0,0,0,0,0,0,0,7.166667,driverForGraphClustering,"std::_Rb_tree_iterator<std::pair<long const, long>>::operator==(std::_Rb_tree_iterator<std::pair<long const, long>> const&) const",stl_tree.h,0x41f0fb
-"__gnu_cxx::new_allocator<double>::construct<double, double>",6.197416,9.7,27.1,0.0,0.0,0.0,0.0,21.7,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,19656589680,0,0,0,0,0,0,0.0,driverForGraphClustering,"void __gnu_cxx::new_allocator<double>::construct<double, double>(double*, double&&)",new_allocator.h,0x4321c4
-apic_timer_interrupt,6.118968,40.8,0.0,33.0,9.4,14.1,14.1,23.6,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,apic_timer_interrupt,[Unknown],0xffffffff8aa01a60
-"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate",5.883623,0.0,8.0,4.0,0.0,0.0,0.0,8.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,4200126000,0,0,0,0,0,0,0.0,driverForGraphClustering,"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate(std::_Rb_tree_node<std::pair<long const, long>>*, unsigned long)",new_allocator.h,0x43245b
-"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate",5.726726,10.5,18.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,10668320040,0,0,0,0,0,0,0.0,driverForGraphClustering,"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate(std::_Rb_tree_node<std::pair<long const, long>>*, unsigned long)",new_allocator.h,0x41eb03
-entry_SYSCALL_64_after_hwframe,5.726726,10.8,21.8,0.0,0.0,0.0,0.0,4.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2898086940,7896236880,0,0,0,0,0,0,7.625000,vmlinux,entry_SYSCALL_64_after_hwframe,[Unknown],0xffffffff8aa00048
-std::_Rb_tree_decrement,5.648278,6.5,7.4,3.7,0.0,0.0,3.7,37.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libstdc++.so.6.0.26,std::_Rb_tree_decrement(std::_Rb_tree_node_base*),[Unknown],0xbcdf0
-call_function_interrupt,5.334485,36.6,0.0,35.0,0.0,17.5,0.0,23.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,call_function_interrupt,[Unknown],0xffffffff8aa01b20
-"std::map<long, long, std::less<long>, std::allocator<std::pair<long const, long>>>::operator[]",5.334485,4.0,23.1,0.0,13.9,0.0,0.0,41.6,0.0,0.0,0.0,0.0,0.0,0.0,0.0,7182215460,158344750200,0,0,0,0,0,0,7.186441,driverForGraphClustering,"std::map<long, long, std::less<long>, std::allocator<std::pair<long const, long>>>::operator[](long const&)",stl_map.h,0x43ddbe
-__ia32_sys_sched_yield,5.020692,0.0,21.9,0.0,7.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,882026460,2856085680,0,0,0,0,0,0,7.666667,vmlinux,__ia32_sys_sched_yield,[Unknown],0xffffffff89ec8310
-update_cfs_group,5.020692,94.4,37.0,7.4,37.0,7.4,0.0,88.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,252007560,84002520,0,0,0,0,0,0,486.000000,vmlinux,update_cfs_group,[Unknown],0xffffffff89ed3380
-native_flush_tlb_one_user,4.706898,,10.6,0.0,0.0,0.0,5.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,630018900,0,0,0,0,0,0,0,7.000000,vmlinux,native_flush_tlb_one_user,[Unknown],0xffffffff89e73e10
-yield_task_fair,4.471553,0.0,0.0,5.8,0.0,0.0,0.0,11.7,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2772083160,1008030240,0,0,0,0,0,0,7.428571,vmlinux,yield_task_fair,[Unknown],0xffffffff89ed3560
-"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate",4.000864,7.6,0.0,10.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,8232246960,0,0,0,0,0,0,0.0,driverForGraphClustering,"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate(std::_Rb_tree_node<std::pair<long const, long>>*, unsigned long)",new_allocator.h,0x41eaef
-do_sched_yield,3.922415,12.1,12.0,6.0,0.0,0.0,0.0,6.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2142064260,1512045360,0,0,0,0,0,0,8.090909,vmlinux,do_sched_yield,[Unknown],0xffffffff89ec82a0
-trigger_load_balance,3.922415,92.4,7.6,0.0,91.8,22.9,7.6,53.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,7.000000,vmlinux,trigger_load_balance,[Unknown],0xffffffff89edb5d0
-update_rq_clock,3.922415,17.7,36.4,0.0,30.3,6.1,12.1,30.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,630018900,12180365400,0,0,0,0,0,0,7.692308,vmlinux,update_rq_clock,[Unknown],0xffffffff89ec65c0
-"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate",3.765519,,36.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,5796173880,0,0,0,0,0,0,0.0,driverForGraphClustering,"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate(std::_Rb_tree_node<std::pair<long const, long>>*, unsigned long)",new_allocator.h,0x41eadb
-kmp_basic_flag_native<unsigned long long>::notdone_check,3.765519,2.7,8.8,0.0,8.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4914147420,0,0,0,0,0,0,0,6.983629,libiomp5.so,kmp_basic_flag_native<unsigned long long>::notdone_check(void),kmp_wait_release.h,0x6253a
-ktime_get_update_offsets_now,3.687070,63.3,78.8,0.0,48.5,12.1,12.1,72.7,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,168005040,0,0,0,0,0,0,0.0,vmlinux,ktime_get_update_offsets_now,[Unknown],0xffffffff89f26be0
-__default_send_IPI_dest_field,3.373277,68.1,37.3,9.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,74.000000,vmlinux,__default_send_IPI_dest_field,[Unknown],0xffffffff89e63f70
-account_user_time,3.294829,67.3,16.4,16.4,24.6,32.7,65.5,24.6,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,84002520,0,0,0,0,0,0,0.0,vmlinux,account_user_time,[Unknown],0xffffffff89eccfa0
-llist_add_batch,3.294829,92.3,48.3,0.0,0.0,56.3,0.0,48.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,llist_add_batch,[Unknown],0xffffffff8a2ec440
-__kmp_x86_pause,2.981036,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libiomp5.so,__kmp_x86_pause,kmp.h,0x62448
-run_local_timers,2.981036,94.8,51.8,0.0,93.3,10.4,10.4,83.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,378011340,84002520,0,0,0,0,0,0,0.0,vmlinux,run_local_timers,[Unknown],0xffffffff89f22820
-tcache_put,2.981036,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,882026460,3192095760,0,0,0,0,0,0,12.000000,libc-2.29.so,tcache_put,malloc.c,0x96c61
-alloc_perturb,2.745691,9.8,9.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,85430562840,0,0,0,0,0,0,0,7.190476,libc-2.29.so,alloc_perturb,malloc.c,0x970f1
-clear_buddies,2.745691,0.0,12.3,0.0,0.0,0.0,0.0,12.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,10332309960,1260037800,0,0,0,0,0,0,7.161290,vmlinux,clear_buddies,[Unknown],0xffffffff89ece330
-"std::_Vector_base<double, std::allocator<double>>::_M_deallocate",2.745691,21.1,7.4,0.0,0.0,7.4,7.4,7.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,"std::_Vector_base<double, std::allocator<double>>::_M_deallocate(double*, unsigned long)",stl_vector.h,0x43e30e
-"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_M_begin",2.667242,-0.0,0.0,0.0,0.0,9.0,0.0,35.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,6300189000,0,0,0,0,0,0,0,7.031250,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_M_begin(void)",stl_tree.h,0x41f07d
-__cgroup_account_cputime,2.510346,-0.0,0.0,13.7,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1764052920,252007560,0,0,0,0,0,0,8.944444,vmlinux,__cgroup_account_cputime,[Unknown],0xffffffff89f51b20
-"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate",2.510346,,23.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,2184065520,0,0,0,0,0,0,0.0,driverForGraphClustering,"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate(std::_Rb_tree_node<std::pair<long const, long>>*, unsigned long)",new_allocator.h,0x41eac7
-"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_S_right",2.510346,13.6,19.9,9.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,8064241920,0,0,0,0,0,0,0,7.625000,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_S_right(std::_Rb_tree_node_base*)",stl_tree.h,0x41eab2
-page_fault,2.431897,0.0,0.0,0.0,0.0,12.6,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,page_fault,[Unknown],0xffffffff8aa01070
-_intel_fast_memmove,2.353449,0.0,12.6,0.0,0.0,12.6,0.0,25.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,_intel_fast_memmove,[Unknown],0x46b1f0
-tcache_put,2.353449,,10.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,7056211680,8064241920,0,0,0,0,0,0,7.280000,libc-2.29.so,tcache_put,malloc.c,0x96e44
-"__gnu_cxx::__aligned_membuf<std::pair<long const, long>>::_M_addr",2.275001,0.0,58.3,0.0,0.0,0.0,0.0,29.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,"__gnu_cxx::__aligned_membuf<std::pair<long const, long>>::_M_addr(void)",aligned_buffer.h,0x4320c1
-llist_reverse_order,2.196553,83.9,0.0,0.0,0.0,100.0,0.0,64.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,llist_reverse_order,[Unknown],0xffffffff8a2ec4a0
-__update_load_avg_cfs_rq,2.118104,,15.1,15.1,0.0,45.2,0.0,75.3,0.0,100.0,0.0,0.0,0.0,0.0,0.0,378011340,336010080,0,84005880,0,0,0,0,0.0,vmlinux,__update_load_avg_cfs_rq,[Unknown],0xffffffff89ee7ca0
-"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_S_right",2.118104,-0.0,0.0,20.7,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,8064241920,0,0,0,0,0,0,0,9.000000,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_S_right(std::_Rb_tree_node_base*)",stl_tree.h,0x41eaa9
-flush_smp_call_function_queue,2.039656,82.1,83.8,0.0,23.9,0.0,0.0,23.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,84002520,0,0,0,0,0,0,0.0,vmlinux,flush_smp_call_function_queue,[Unknown],0xffffffff89f39e00
-"std::vector<double, std::allocator<double>>::operator[]",2.039656,-0.0,0.0,0.0,0.0,13.7,0.0,13.7,0.0,0.0,0.0,0.0,0.0,0.0,0.0,18144544320,0,0,0,0,0,0,0,7.214286,driverForGraphClustering,"std::vector<double, std::allocator<double>>::operator[](unsigned long)",stl_vector.h,0x43e721
-schedule,1.961208,0.0,0.0,0.0,0.0,0.0,0.0,13.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2646079380,1008030240,0,0,0,0,0,0,9.533333,vmlinux,schedule,[Unknown],0xffffffff8a84af40
-check_cfs_rq_runtime,1.882759,15.2,35.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3024090720,168005040,0,0,0,0,0,0,9.076923,vmlinux,check_cfs_rq_runtime,[Unknown],0xffffffff89ed3c40
-native_queued_spin_lock_slowpath,1.882759,36.1,54.9,0.0,82.3,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,native_queued_spin_lock_slowpath,[Unknown],0xffffffff89ef1320
-try_charge,1.882759,88.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,504015120,84002520,0,0,0,0,0,0,0.0,vmlinux,try_charge,[Unknown],0xffffffff8a09fb50
-account_entity_dequeue,1.725863,,0.0,19.4,0.0,19.4,0.0,100.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,252007560,0,0,42002940,0,0,0,0,10.500000,vmlinux,account_entity_dequeue,[Unknown],0xffffffff89ed24f0
-generic_file_buffered_read,1.725863,,73.7,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,252007560,0,0,0,0,0,0,0,7.000000,vmlinux,generic_file_buffered_read,[Unknown],0xffffffff8a005250
-rcu_sched_clock_irq,1.647414,30.8,38.9,0.0,19.4,58.3,0.0,97.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,252007560,84002520,42002940,0,0,0,0,0,8.000000,vmlinux,rcu_sched_clock_irq,[Unknown],0xffffffff89f14a20
-"__gnu_cxx::__aligned_membuf<std::pair<long const, long>>::_M_addr",1.568966,0.0,12.3,0.0,0.0,0.0,0.0,49.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,"__gnu_cxx::__aligned_membuf<std::pair<long const, long>>::_M_addr(void)",aligned_buffer.h,0x43decc
-__kmpc_atomic_fixed8_add,1.568966,50.0,44.4,0.0,22.2,0.0,0.0,22.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2394071820,1008030240,0,0,0,0,0,0,7.000000,libiomp5.so,__kmpc_atomic_fixed8_add,kmp_atomic.cpp,0x458a0
-clear_huge_page,1.568966,100.0,51.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,clear_huge_page,[Unknown],0xffffffff8a04bbe0
-hrtimer_active,1.568966,81.5,19.4,38.9,38.9,19.4,19.4,19.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,504015120,0,0,0,0,0,0,0,0.0,vmlinux,hrtimer_active,[Unknown],0xffffffff89f22c80
-hrtimer_interrupt,1.568966,0.0,0.0,46.7,0.0,46.7,15.6,62.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,378011340,504015120,0,0,0,0,0,0,7.000000,vmlinux,hrtimer_interrupt,[Unknown],0xffffffff89f23c70
-"std::vector<double, std::allocator<double>>::vector",1.568966,0.0,31.1,0.0,0.0,0.0,0.0,31.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,17514525420,0,0,0,0,0,0,0,8.632653,driverForGraphClustering,"std::vector<double, std::allocator<double>>::vector(void)",stl_vector.h,0x422250
-flush_tlb_func_remote,1.490518,100.0,70.0,23.3,0.0,70.0,0.0,93.3,0.0,100.0,0.0,0.0,0.0,0.0,0.0,126003780,84002520,0,42002940,0,0,0,0,0.0,vmlinux,flush_tlb_func_remote,[Unknown],0xffffffff89e84330
-mem_cgroup_try_charge,1.490518,67.7,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,168005040,0,0,0,0,0,0,7.000000,vmlinux,mem_cgroup_try_charge,[Unknown],0xffffffff8a0a1f70
-"__gnu_cxx::operator-<double*, std::vector<double, std::allocator<double>>>",1.412069,3.1,25.9,0.0,0.0,0.0,0.0,25.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,"__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double>>>::difference_type __gnu_cxx::operator-<double*, std::vector<double, std::allocator<double>>>(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double>>> const&, __gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double>>> const&)",stl_iterator.h,0x43e2c5
-__raw_spin_unlock_irq,1.412069,,13.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,7.125000,vmlinux,__raw_spin_unlock_irq,[Unknown],0xffffffff89ec49c0
-interrupt_entry,1.412069,0.0,16.1,0.0,32.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,378011340,840025200,0,0,0,0,0,0,12.000000,vmlinux,interrupt_entry,[Unknown],0xffffffff8aa00880
-__cgroup_account_cputime_field,1.333621,,100.0,0.0,0.0,100.0,42.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,__cgroup_account_cputime_field,[Unknown],0xffffffff89f51b50
-_raw_spin_lock_irqsave,1.333621,0.0,100.0,0.0,66.7,0.0,0.0,33.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,_raw_spin_lock_irqsave,[Unknown],0xffffffff8a850390
-smp_apic_timer_interrupt,1.333621,16.1,0.0,15.6,31.1,0.0,0.0,46.7,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,252007560,0,0,0,0,0,0,0.0,vmlinux,smp_apic_timer_interrupt,[Unknown],0xffffffff8aa024e0
-__intel_avx_rep_memcpy,1.255173,0.0,0.0,42.4,42.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,__intel_avx_rep_memcpy,[Unknown],0x46eb80
-rcu_irq_enter,1.255173,50.1,93.3,0.0,46.7,23.3,0.0,46.7,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,84002520,0,0,0,0,0,0,63.000000,vmlinux,rcu_irq_enter,[Unknown],0xffffffff89f14900
-_raw_spin_trylock,1.176725,41.7,100.0,77.8,0.0,0.0,0.0,77.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,_raw_spin_trylock,[Unknown],0xffffffff8a8501b0
-rcu_note_context_switch,1.176725,0.0,21.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4158124740,1176035280,0,0,0,0,0,0,9.041667,vmlinux,rcu_note_context_switch,[Unknown],0xffffffff89f12930
-sched_clock_cpu,1.176725,52.0,13.7,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3024090720,0,0,0,0,0,0,0,8.076923,vmlinux,sched_clock_cpu,[Unknown],0xffffffff89eccd50
-"std::vector<double, std::allocator<double>>::emplace_back<double>",1.176725,25.0,31.1,0.0,0.0,0.0,0.0,62.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,252007560,0,0,0,0,0,0,0,7.222222,driverForGraphClustering,"void std::vector<double, std::allocator<double>>::emplace_back<double>(double&&)",stl_vector.h,0x43213c
-get_page_from_freelist,1.098276,18.3,23.3,0.0,0.0,0.0,0.0,46.7,0.0,0.0,0.0,0.0,0.0,0.0,0.0,756022680,840025200,0,0,0,0,0,0,9.200000,vmlinux,get_page_from_freelist,[Unknown],0xffffffff8a00f520
-"std::_Vector_base<double, std::allocator<double>>::_M_deallocate",1.098276,0.0,0.0,0.0,0.0,0.0,0.0,19.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,32130963900,0,0,0,0,0,0,0,7.891892,driverForGraphClustering,"std::_Vector_base<double, std::allocator<double>>::_M_deallocate(double*, unsigned long)",stl_vector.h,0x4321ea
-__handle_mm_fault,1.019828,31.9,58.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,252007560,504015120,0,0,0,0,0,0,7.000000,vmlinux,__handle_mm_fault,[Unknown],0xffffffff8a048830
-calc_global_load_tick,1.019828,,0.0,0.0,25.9,51.8,51.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,calc_global_load_tick,[Unknown],0xffffffff89eccb40
-flush_tlb_func_common.constprop.9,1.019828,-0.0,0.0,0.0,46.7,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,168005040,0,0,0,0,0,0,330.000000,vmlinux,flush_tlb_func_common.constprop.9,[Unknown],0xffffffff89e84100
-get_mem_cgroup_from_mm,1.019828,64.1,0.0,35.9,0.0,35.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,84002520,0,0,0,0,0,0,0.0,vmlinux,get_mem_cgroup_from_mm,[Unknown],0xffffffff8a09b5c0
-idle_cpu,1.019828,75.0,33.3,0.0,0.0,100.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,252007560,84002520,0,0,0,0,0,0,49.500000,vmlinux,idle_cpu,[Unknown],0xffffffff89ecac40
-reweight_entity,1.019828,-0.0,0.0,0.0,0.0,0.0,0.0,51.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,420012600,0,0,0,0,0,0,7.000000,vmlinux,reweight_entity,[Unknown],0xffffffff89ed31d0
-initCommAss$omp$parallel_for@99,0.941380,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,driverForGraphClustering,initCommAss$omp$parallel_for@99,utilityClusteringFunctions.cpp,0x43f320
-ksoftirqd_running,0.941380,0.0,35.9,0.0,53.8,71.8,0.0,100.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0,0,84005880,42002940,0,0,0,0,0.0,vmlinux,ksoftirqd_running,[Unknown],0xffffffff89e9c6e0
-native_write_msr,0.941380,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,252007560,0,0,0,0,0,0,0,0.0,vmlinux,native_write_msr,[Unknown],0xffffffff89e73f60
-read_tsc,0.941380,-0.0,0.0,0.0,38.9,0.0,0.0,38.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,read_tsc,[Unknown],0xffffffff89e38db0
-run_timer_softirq,0.941380,0.0,0.0,0.0,100.0,42.4,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,378011340,0,0,0,0,0,0,0,7.000000,vmlinux,run_timer_softirq,[Unknown],0xffffffff89f21380
-__update_load_avg_se,0.862931,26.8,0.0,27.4,0.0,0.0,0.0,27.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,504015120,588017640,0,0,0,0,0,0,11.000000,vmlinux,__update_load_avg_se,[Unknown],0xffffffff89ee7a00
-default_send_IPI_mask_sequence_phys,0.862931,0.0,42.4,0.0,100.0,100.0,0.0,100.0,100.0,0.0,100.0,0.0,0.0,0.0,0.0,0,84002520,0,0,42002940,0,0,0,0.0,vmlinux,default_send_IPI_mask_sequence_phys,[Unknown],0xffffffff89e64030
-irq_enter,0.862931,,0.0,0.0,0.0,46.7,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,irq_enter,[Unknown],0xffffffff89e9d140
-__kmp_yield,0.784483,0.0,0.0,0.0,0.0,0.0,0.0,27.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libiomp5.so,__kmp_yield,z_Linux_util.cpp,0xeb370
-__pagevec_lru_add_fn,0.784483,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,504015120,168005040,0,0,0,0,0,0,15.000000,vmlinux,__pagevec_lru_add_fn,[Unknown],0xffffffff8a01a370
-kick_ilb,0.784483,100.0,0.0,100.0,46.7,0.0,0.0,46.7,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,kick_ilb,[Unknown],0xffffffff89ece2a0
-page_counter_try_charge,0.784483,78.8,84.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,page_counter_try_charge,[Unknown],0xffffffff8a099db0
-smp_call_function_many,0.784483,,93.3,0.0,100.0,62.2,93.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,378011340,168005040,0,0,0,0,0,0,0.0,vmlinux,smp_call_function_many,[Unknown],0xffffffff89f3a340
-"std::_Vector_base<double, std::allocator<double>>::_M_allocate",0.784483,-0.0,0.0,0.0,0.0,0.0,46.7,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,"std::_Vector_base<double, std::allocator<double>>::_M_allocate(unsigned long)",stl_vector.h,0x43e2b4
-__acct_update_integrals,0.706035,68.9,0.0,0.0,100.0,62.2,93.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,378011340,0,0,0,0,0,0,0,714.000000,vmlinux,__acct_update_integrals,[Unknown],0xffffffff89f7ef80
-__hrtimer_run_queues,0.706035,28.2,35.9,0.0,0.0,100.0,0.0,35.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,252007560,168005040,0,0,0,0,0,0,15.000000,vmlinux,__hrtimer_run_queues,[Unknown],0xffffffff89f23490
-__x86_indirect_thunk_rax,0.706035,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__x86_indirect_thunk_rax,[Unknown],0xffffffff8ac00ca0
-"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_M_end",0.706035,0.0,38.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_M_end(void)",stl_tree.h,0x41ee75
-"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_S_right",0.706035,0.0,0.0,29.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,20790623700,0,0,0,0,0,0,0,9.055556,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_S_right(std::_Rb_tree_node_base*)",stl_tree.h,0x41eaa0
-tick_program_event,0.706035,17.7,0.0,0.0,100.0,0.0,27.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,tick_program_event,[Unknown],0xffffffff89f34060
-tlb_is_not_lazy,0.706035,100.0,0.0,33.3,0.0,33.3,0.0,33.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,tlb_is_not_lazy,[Unknown],0xffffffff89e83870
-xas_load,0.706035,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,252007560,588017640,0,0,0,0,0,0,0.0,vmlinux,xas_load,[Unknown],0xffffffff8a839ba0
-alloc_perturb,0.627586,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,11340340200,0,0,0,0,0,0,0,7.000000,libc-2.29.so,alloc_perturb,malloc.c,0x975ca
-alloc_perturb,0.627586,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,7.000000,libc-2.29.so,alloc_perturb,malloc.c,0x96dd6
-pci_conf1_read,0.627586,37.0,100.0,0.0,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,pci_conf1_read,[Unknown],0xffffffff8a69ae40
-perf_event_task_tick,0.627586,100.0,0.0,0.0,0.0,71.8,35.9,64.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,perf_event_task_tick,[Unknown],0xffffffff89ff19d0
-__alloc_pages_nodemask,0.549138,,0.0,100.0,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,630018900,504015120,0,0,0,0,0,0,0.0,vmlinux,__alloc_pages_nodemask,[Unknown],0xffffffff8a011a00
-_raw_spin_lock_irq,0.549138,,38.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,336010080,0,0,0,0,0,0,0.0,vmlinux,_raw_spin_lock_irq,[Unknown],0xffffffff8a850590
-find_next_bit,0.549138,22.2,100.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,252007560,0,0,0,0,0,0,0,0.0,vmlinux,find_next_bit,[Unknown],0xffffffff8a2ec360
-func@0x4043e0,0.549138,30.0,46.7,0.0,0.0,0.0,0.0,93.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,41077232280,0,0,0,0,0,0,0,7.690476,driverForGraphClustering,func@0x4043e0,[Unknown],0x4043e0
-irq_work_run_list,0.549138,11.1,0.0,0.0,77.8,0.0,0.0,77.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,378011340,0,0,0,0,0,0,0,7.000000,vmlinux,irq_work_run_list,[Unknown],0xffffffff89fc1a60
-sched_clock,0.549138,80.6,77.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,630018900,0,0,0,0,0,0,0,7.285714,vmlinux,sched_clock,[Unknown],0xffffffff89e39a60
-scheduler_tick,0.549138,0.0,0.0,100.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,252007560,504015120,0,0,0,0,0,0,6.000000,vmlinux,scheduler_tick,[Unknown],0xffffffff89eca6f0
-"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_S_left",0.549138,0.0,82.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,8946268380,0,0,0,0,0,0,0,7.392157,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_S_left(std::_Rb_tree_node_base*)",stl_tree.h,0x41eb06
-__do_softirq,0.470690,0.0,84.8,0.0,0.0,84.8,0.0,42.4,0.0,100.0,0.0,0.0,0.0,0.0,0.0,252007560,168005040,0,42002940,0,0,0,0,0.0,vmlinux,__do_softirq,[Unknown],0xffffffff8ac00000
-__gnu_cxx::new_allocator<double>::deallocate,0.470690,0.0,0.0,0.0,0.0,0.0,0.0,29.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,1764052920,0,0,0,0,0,0,0.0,driverForGraphClustering,"__gnu_cxx::new_allocator<double>::deallocate(double*, unsigned long)",new_allocator.h,0x4324e7
-cpu_load_update,0.470690,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,336010080,0,0,0,0,0,0,0.0,vmlinux,cpu_load_update,[Unknown],0xffffffff89ecefc0
-cpu_load_update_active,0.470690,0.0,0.0,42.4,0.0,0.0,0.0,42.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,252007560,168005040,0,0,0,0,0,0,0.0,vmlinux,cpu_load_update_active,[Unknown],0xffffffff89ed8bd0
-handle_mm_fault,0.470690,61.1,77.8,0.0,0.0,0.0,0.0,77.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,378011340,0,0,0,0,0,0,0,0.0,vmlinux,handle_mm_fault,[Unknown],0xffffffff8a049ab0
-intel_pstate_update_util_hwp,0.470690,59.3,100.0,0.0,0.0,100.0,0.0,51.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,intel_pstate_update_util_hwp,[Unknown],0xffffffff8a66a160
-lapic_next_deadline,0.470690,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,lapic_next_deadline,[Unknown],0xffffffff89e62aa0
-nohz_balance_exit_idle,0.470690,22.2,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,nohz_balance_exit_idle,[Unknown],0xffffffff89edb400
-rb_next,0.470690,78.8,100.0,42.4,0.0,42.4,0.0,42.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,42002940,0,0,0,0,0,0.0,vmlinux,rb_next,[Unknown],0xffffffff8a8312d0
-"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_M_get_insert_unique_pos",0.470690,-0.0,0.0,0.0,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_M_get_insert_unique_pos(long const&)",stl_tree.h,0x41f07d
-"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_S_left",0.470690,3.3,93.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2898086940,0,0,0,0,0,0,0,6.812500,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_S_left(std::_Rb_tree_node_base*)",stl_tree.h,0x41eade
-swapgs_restore_regs_and_return_to_usermode,0.470690,,0.0,0.0,0.0,0.0,0.0,66.7,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1134034020,84002520,0,0,0,0,0,0,15.000000,vmlinux,swapgs_restore_regs_and_return_to_usermode,[Unknown],0xffffffff8aa00974
-unmap_page_range,0.470690,0.0,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,unmap_page_range,[Unknown],0xffffffff8a045c80
-[Import thunk sched_yield],0.392242,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,8190245700,0,0,0,0,0,0,0,9.250000,libiomp5.so,[Import thunk sched_yield],[Unknown],0x27a48
-[sep5],0.392242,0.0,0.0,0.0,58.3,0.0,0.0,58.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2268068040,2940088200,0,0,0,0,0,0,7.000000,sep5,[sep5],[Unknown],0x0
-__intel_avx_rep_memset,0.392242,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,__intel_avx_rep_memset,[Unknown],0x470350
-mem_cgroup_throttle_swaprate,0.392242,,51.8,0.0,51.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,84002520,0,0,0,0,0,0,7.000000,vmlinux,mem_cgroup_throttle_swaprate,[Unknown],0xffffffff8a069730
-prep_new_page,0.392242,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,168005040,0,0,0,0,0,0,0.0,vmlinux,prep_new_page,[Unknown],0xffffffff8a00c730
-rcu_all_qs,0.392242,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,84002520,0,0,0,0,0,0,0.0,vmlinux,rcu_all_qs,[Unknown],0xffffffff89f121e0
-run_posix_cpu_timers,0.392242,57.6,0.0,42.4,0.0,42.4,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,252007560,0,0,0,0,0,0,0,0.0,vmlinux,run_posix_cpu_timers,[Unknown],0xffffffff89f2f810
-alloc_perturb,0.313793,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1638049140,0,0,0,0,0,0,0,31.434783,libc-2.29.so,alloc_perturb,malloc.c,0x96860
-cpuacct_account_field,0.313793,100.0,100.0,0.0,100.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,cpuacct_account_field,[Unknown],0xffffffff89eee2f0
-default_send_IPI_mask_allbutself_phys,0.313793,0.0,0.0,0.0,0.0,93.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,default_send_IPI_mask_allbutself_phys,[Unknown],0xffffffff89e640b0
-ext4_mpage_readpages,0.313793,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,630018900,0,0,0,0,0,0,0,6.000000,vmlinux,ext4_mpage_readpages,[Unknown],0xffffffff8a197b80
-rcu_core,0.313793,,0.0,93.3,0.0,0.0,0.0,93.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,7.000000,vmlinux,rcu_core,[Unknown],0xffffffff89f140e0
-"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_S_left",0.313793,78.8,42.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,5418162540,0,0,0,0,0,0,0,7.100000,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_S_left(std::_Rb_tree_node_base*)",stl_tree.h,0x41eaf2
-sync_regs,0.313793,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,sync_regs,[Unknown],0xffffffff89e2f3b0
-tick_sched_do_timer,0.313793,0.0,0.0,0.0,100.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,252007560,0,0,0,0,0,0,0,0.0,vmlinux,tick_sched_do_timer,[Unknown],0xffffffff89f34820
-up_read,0.313793,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,up_read,[Unknown],0xffffffff89ef0a70
-update_sd_lb_stats,0.313793,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,update_sd_lb_stats,[Unknown],0xffffffff89ed8eb0
-_INTERNAL_23_______src_kmp_sched_cpp_20354e55::__kmp_for_static_init<long long>,0.235345,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libiomp5.so,"void _INTERNAL_23_______src_kmp_sched_cpp_20354e55::__kmp_for_static_init<long long>(ident*, int, int, int*, long long*, long long*, traits_t<long long>::signed_t*, traits_t<long long>::signed_t, traits_t<long long>::signed_t, void*)",kmp_sched.cpp,0xb5efe
-__add_to_page_cache_locked,0.235345,-0.0,0.0,93.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,504015120,252007560,0,0,0,0,0,0,8.000000,vmlinux,__add_to_page_cache_locked,[Unknown],0xffffffff8a004370
-__do_page_fault,0.235345,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,252007560,0,0,0,0,0,0,0.0,vmlinux,__do_page_fault,[Unknown],0xffffffff89e7c190
-__hrtimer_next_event_base,0.235345,0.0,0.0,0.0,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,252007560,336010080,0,0,0,0,0,0,0.0,vmlinux,__hrtimer_next_event_base,[Unknown],0xffffffff89f22d90
-account_process_tick,0.235345,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,252007560,84002520,0,0,0,0,0,0,0.0,vmlinux,account_process_tick,[Unknown],0xffffffff89ecd360
-calConstantForSecondTerm$omp$parallel_for@91,0.235345,100.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,calConstantForSecondTerm$omp$parallel_for@91,utilityClusteringFunctions.cpp,0x43d9b1
-clear_subpage,0.235345,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,378011340,0,0,0,0,0,0,0,0.0,vmlinux,clear_subpage,[Unknown],0xffffffff8a043800
-displayGraphCharacteristics,0.235345,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,displayGraphCharacteristics(graph*),utilityFunctions.cpp,0x44d8e0
-error_entry,0.235345,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,error_entry,[Unknown],0xffffffff8aa01210
-free_unref_page_prepare.part.74,0.235345,0.0,0.0,0.0,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,free_unref_page_prepare.part.74,[Unknown],0xffffffff8a00c930
-irq_exit,0.235345,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,252007560,420012600,0,0,0,0,0,0,9.000000,vmlinux,irq_exit,[Unknown],0xffffffff89e9d190
-kfree,0.235345,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,kfree,[Unknown],0xffffffff8a084210
-mem_cgroup_commit_charge,0.235345,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,168005040,0,0,0,0,0,0,0.0,vmlinux,mem_cgroup_commit_charge,[Unknown],0xffffffff8a0a2b30
-note_gp_changes,0.235345,83.3,0.0,33.3,33.3,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,note_gp_changes,[Unknown],0xffffffff89f134b0
-page_counter_cancel,0.235345,0.0,0.0,100.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,page_counter_cancel,[Unknown],0xffffffff8a099d20
-pfn_pte,0.235345,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,pfn_pte,[Unknown],0xffffffff8a043530
-psi_task_change,0.235345,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,psi_task_change,[Unknown],0xffffffff89eefeb0
-rebalance_domains,0.235345,0.0,0.0,0.0,0.0,100.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,rebalance_domains,[Unknown],0xffffffff89eda6c0
-release_pages,0.235345,4.2,58.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,7.000000,vmlinux,release_pages,[Unknown],0xffffffff8a01a650
-tick_sched_timer,0.235345,53.3,93.3,0.0,93.3,0.0,0.0,93.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,84002520,0,0,0,0,0,0,0.0,vmlinux,tick_sched_timer,[Unknown],0xffffffff89f34880
-uncharge_batch,0.235345,50.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,uncharge_batch,[Unknown],0xffffffff8a09e400
-[OpenMP dispatcher],0.156897,-0.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libiomp5.so,__kmp_invoke_task_func,kmp_runtime.cpp,0xaa600
-__accumulate_pelt_segments,0.156897,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,504015120,0,0,0,0,0,0,0,0.0,vmlinux,__accumulate_pelt_segments,[Unknown],0xffffffff89ee77d0
-__kmalloc_node,0.156897,0.0,0.0,100.0,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__kmalloc_node,[Unknown],0xffffffff8a082d50
-__kmp_join_barrier,0.156897,0.0,0.0,100.0,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libiomp5.so,__kmp_join_barrier(int),kmp_barrier.cpp,0x6ae40
-__lru_cache_add,0.156897,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__lru_cache_add,[Unknown],0xffffffff8a01aba0
-__memcg_kmem_charge,0.156897,-0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__memcg_kmem_charge,[Unknown],0xffffffff8a0a1730
-__mod_zone_page_state,0.156897,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,__mod_zone_page_state,[Unknown],0xffffffff8a02dc70
-__x64_sys_madvise,0.156897,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__x64_sys_madvise,[Unknown],0xffffffff8a060b10
-_raw_spin_unlock_irqrestore,0.156897,66.7,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,504015120,84002520,0,0,0,0,0,0,0.0,vmlinux,_raw_spin_unlock_irqrestore,[Unknown],0xffffffff8a8501e0
-copy_page_to_iter,0.156897,100.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,84002520,0,0,0,0,0,0,7.000000,vmlinux,copy_page_to_iter,[Unknown],0xffffffff8a2ea050
-down_read_trylock,0.156897,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,down_read_trylock,[Unknown],0xffffffff89ef09f0
-find_get_entry,0.156897,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,21.000000,vmlinux,find_get_entry,[Unknown],0xffffffff8a004140
-free_pcppages_bulk,0.156897,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,free_pcppages_bulk,[Unknown],0xffffffff8a00d780
-func@0x404140,0.156897,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,504015120,0,0,0,0,0,0,0,0.0,driverForGraphClustering,func@0x404140,[Unknown],0x404140
-irq_work_tick,0.156897,-0.0,0.0,0.0,0.0,100.0,0.0,100.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,42002940,0,0,0,0,0.0,vmlinux,irq_work_tick,[Unknown],0xffffffff89fc1d00
-kmalloc_slab,0.156897,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,kmalloc_slab,[Unknown],0xffffffff8a037d00
-mark_page_accessed,0.156897,,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,82.000000,vmlinux,mark_page_accessed,[Unknown],0xffffffff8a01adb0
-mem_cgroup_from_task,0.156897,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,mem_cgroup_from_task,[Unknown],0xffffffff8a09a020
-page_remove_rmap,0.156897,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,page_remove_rmap,[Unknown],0xffffffff8a059db0
-pci_mmcfg_read,0.156897,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,pci_mmcfg_read,[Unknown],0xffffffff8a69ab90
-pmd_devmap_trans_unstable,0.156897,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,pmd_devmap_trans_unstable,[Unknown],0xffffffff8a043850
-pmd_pfn,0.156897,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,pmd_pfn,[Unknown],0xffffffff8a0434e0
-propagate_protected_usage,0.156897,0.0,0.0,77.8,77.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,propagate_protected_usage,[Unknown],0xffffffff8a099c90
-rcu_irq_exit,0.156897,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,378011340,0,0,0,0,0,0,0,7.000000,vmlinux,rcu_irq_exit,[Unknown],0xffffffff89f147b0
-"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_S_left",0.156897,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,252007560,0,0,0,0,0,0,0,6.812500,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_S_left(std::_Rb_tree_node_base*)",stl_tree.h,0x41eaca
-timerqueue_add,0.156897,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,7.000000,vmlinux,timerqueue_add,[Unknown],0xffffffff8a834f90
-timerqueue_del,0.156897,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,336010080,0,0,0,0,0,0,0.0,vmlinux,timerqueue_del,[Unknown],0xffffffff8a835040
-update_blocked_averages,0.156897,0.0,100.0,0.0,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,update_blocked_averages,[Unknown],0xffffffff89ed25a0
-vmacache_find,0.156897,0.0,0.0,0.0,0.0,77.8,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,7.000000,vmlinux,vmacache_find,[Unknown],0xffffffff8a03d720
-PageHuge,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,18.000000,vmlinux,PageHuge,[Unknown],0xffffffff8a06c7d0
-_INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_release_template<kmp_flag_64>,0.078448,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libiomp5.so,void _INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_release_template<kmp_flag_64>(kmp_flag_64*),kmp_wait_release.h,0x632f1
-__bio_try_merge_page,0.078448,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,7.000000,vmlinux,__bio_try_merge_page,[Unknown],0xffffffff8a2a3060
-__bitmap_and,0.078448,,,,0.0,,0.0,0.0,0.0,0.0,0.0,0.0,,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__bitmap_and,[Unknown],0xffffffff8a2e4590
-__dec_node_state,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__dec_node_state,[Unknown],0xffffffff8a02fb00
-__free_pages_ok,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__free_pages_ok,[Unknown],0xffffffff8a00d480
-"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::allocate",0.078448,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,588017640,0,0,0,0,0,0,0.0,driverForGraphClustering,"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::allocate(unsigned long, void const*)",new_allocator.h,0x451013
-__inc_node_state,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,252007560,0,0,0,0,0,0,0,7.000000,vmlinux,__inc_node_state,[Unknown],0xffffffff8a02f9d0
-__kmp_fork_call,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libiomp5.so,__kmp_fork_call,kmp_runtime.cpp,0xaa990
-__kmp_init_implicit_task,0.078448,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libiomp5.so,__kmp_init_implicit_task,kmp_tasking.cpp,0xdfd80
-__kmp_run_before_invoked_task,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libiomp5.so,__kmp_run_before_invoked_task,kmp_runtime.cpp,0xaa780
-__kmp_task_team_sync,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libiomp5.so,__kmp_task_team_sync,kmp_tasking.cpp,0xdbaf0
-__kmp_tid_from_gtid,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libiomp5.so,__kmp_tid_from_gtid,kmp.h,0xb6ad7
-__kmpc_for_static_fini,0.078448,,0.0,,,,0.0,0.0,0.0,0.0,0.0,0.0,,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libiomp5.so,__kmpc_for_static_fini,kmp_csupport.cpp,0x6ece0
-__mod_node_page_state,0.078448,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,168005040,0,0,0,0,0,0,7.000000,vmlinux,__mod_node_page_state,[Unknown],0xffffffff8a02dcd0
-__next_timer_interrupt,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__next_timer_interrupt,[Unknown],0xffffffff89f20850
-__pthread_mutex_unlock_usercnt,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libpthread-2.29.so,__pthread_mutex_unlock_usercnt,pthread_mutex_unlock.c,0xd200
-__queue_work,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__queue_work,[Unknown],0xffffffff89eb5090
-__raw_spin_unlock,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__raw_spin_unlock,[Unknown],0xffffffff8a0434d0
-__vfprintf_internal,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libc-2.29.so,__vfprintf_internal,vfprintf-internal.c,0x76cf0
-_cond_resched,0.078448,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,_cond_resched,[Unknown],0xffffffff8a84b1c0
-add_to_page_cache_lru,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,168005040,0,0,0,0,0,0,7.000000,vmlinux,add_to_page_cache_lru,[Unknown],0xffffffff8a0046d0
-ahci_qc_issue,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libahci,ahci_qc_issue,[Unknown],0x1b50
-alloc_perturb,0.078448,0.0,100.0,0.0,93.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3276098280,0,0,0,0,0,0,0,7.000000,libc-2.29.so,alloc_perturb,malloc.c,0x97776
-blk_mq_do_dispatch_sched,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,blk_mq_do_dispatch_sched,[Unknown],0xffffffff8a2bb780
-check_preempt_wakeup,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,check_preempt_wakeup,[Unknown],0xffffffff89ed3c90
-clockevents_program_event,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,clockevents_program_event,[Unknown],0xffffffff89f31fc0
-copyout,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,copyout,[Unknown],0xffffffff8a2e76b0
-cpumask_next,0.078448,-0.0,0.0,0.0,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,7.000000,vmlinux,cpumask_next,[Unknown],0xffffffff8a829e10
-enqueue_entity,0.078448,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,enqueue_entity,[Unknown],0xffffffff89ed4010
-free_pages_and_swap_cache,0.078448,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,free_pages_and_swap_cache,[Unknown],0xffffffff8a062ed0
-free_pcp_prepare,0.078448,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,free_pcp_prepare,[Unknown],0xffffffff8a00cd10
-free_unref_page_list,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,6.000000,vmlinux,free_unref_page_list,[Unknown],0xffffffff8a00f060
-func@0x8530,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libittnotify_collector.so,func@0x8530,[Unknown],0x8530
-func@0x8a00,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libittnotify_collector.so,func@0x8a00,[Unknown],0x8a00
-get_futex_key,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,get_futex_key,[Unknown],0xffffffff89f35e10
-get_vma_policy.part.39,0.078448,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,get_vma_policy.part.39,[Unknown],0xffffffff8a074220
-heap_trim,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libc-2.29.so,heap_trim,arena.c,0x95748
-kmp_basic_flag_native<unsigned long long>::done_check,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libiomp5.so,kmp_basic_flag_native<unsigned long long>::done_check(void),kmp_wait_release.h,0x62258
-kmp_basic_flag_native<unsigned long long>::notdone_check,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,6.987261,libiomp5.so,kmp_basic_flag_native<unsigned long long>::notdone_check(void),kmp_wait_release.h,0x630b3
-load_balance,0.078448,53.3,0.0,93.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,load_balance,[Unknown],0xffffffff89ed9bc0
-lru_add_drain_cpu,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,lru_add_drain_cpu,[Unknown],0xffffffff8a01b010
-lru_cache_add,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,lru_cache_add,[Unknown],0xffffffff8a01af50
-lru_cache_add_active_or_unevictable,0.078448,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,252007560,168005040,0,0,0,0,0,0,0.0,vmlinux,lru_cache_add_active_or_unevictable,[Unknown],0xffffffff8a01af60
-mem_cgroup_charge_statistics,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,93.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,42002940,0,0,0,0,0,0.0,vmlinux,mem_cgroup_charge_statistics,[Unknown],0xffffffff8a09bf80
-mem_cgroup_try_charge_delay,0.078448,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,mem_cgroup_try_charge_delay,[Unknown],0xffffffff8a0a2100
-mem_cgroup_update_lru_size,0.078448,-0.0,0.0,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,504015120,0,0,0,0,0,0,0,0.0,vmlinux,mem_cgroup_update_lru_size,[Unknown],0xffffffff8a0a0c90
-memmove,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,ld-2.29.so,memmove,memmove-vec-unaligned-erms.S,0x20e50
-native_apic_mem_write,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,252007560,0,0,0,0,0,0,0,0.0,vmlinux,native_apic_mem_write,[Unknown],0xffffffff89e69950
-native_iret,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,native_iret,[Unknown],0xffffffff8aa00a20
-notifier_call_chain,0.078448,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,notifier_call_chain,[Unknown],0xffffffff89ebdd80
-page_add_new_anon_rmap,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,7.000000,vmlinux,page_add_new_anon_rmap,[Unknown],0xffffffff8a059ae0
-page_evictable,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,page_evictable,[Unknown],0xffffffff8a021710
-pagevec_lru_move_fn,0.078448,100.0,0.0,100.0,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,168005040,0,0,0,0,0,0,0.0,vmlinux,pagevec_lru_move_fn,[Unknown],0xffffffff8a01aa40
-pmd_page_vaddr,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,pmd_page_vaddr,[Unknown],0xffffffff8a043580
-policy_node,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,policy_node,[Unknown],0xffffffff8a074070
-policy_nodemask,0.078448,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,policy_nodemask,[Unknown],0xffffffff8a074260
-prepare_exit_to_usermode,0.078448,0.0,100.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,84002520,0,0,0,0,0,0,0.0,vmlinux,prepare_exit_to_usermode,[Unknown],0xffffffff89e040f0
-probe_sched_switch,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,probe_sched_switch,[Unknown],0xffffffff89f9aaf0
-pvclock_gtod_notify,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,kvm,pvclock_gtod_notify,[Unknown],0x15250
-rb_erase_cached,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,rb_erase_cached,[Unknown],0xffffffff8a831320
-rcu_segcblist_ready_cbs,0.078448,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,rcu_segcblist_ready_cbs,[Unknown],0xffffffff89f16160
-refill_stock,0.078448,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,refill_stock,[Unknown],0xffffffff8a09cd80
-restore_regs_and_return_to_kernel,0.078448,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,restore_regs_and_return_to_kernel,[Unknown],0xffffffff8aa009fb
-ret_from_intr,0.078448,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,ret_from_intr,[Unknown],0xffffffff8aa0094f
-retint_user,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,retint_user,[Unknown],0xffffffff8aa0096c
-scsi_queue_rq,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,scsi_queue_rq,[Unknown],0xffffffff8a529210
-select_task_rq_fair,0.078448,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,select_task_rq_fair,[Unknown],0xffffffff89ecf640
-std::atomic_bool::store,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libiomp5.so,"std::atomic_bool::store(bool, std::memory_order)",atomicint.h,0x624fa
-strncpy,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,strncpy,[Unknown],0xffffffff8a8344c0
-sync_mm_rss,0.078448,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,sync_mm_rss,[Unknown],0xffffffff8a0448c0
-sysmalloc,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libc-2.29.so,sysmalloc,malloc.c,0x95d90
-tlb_finish_mmu,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,tlb_finish_mmu,[Unknown],0xffffffff8a053e70
-tlb_gather_mmu,0.078448,,0.0,0.0,,,0.0,0.0,0.0,0.0,0.0,0.0,,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,tlb_gather_mmu,[Unknown],0xffffffff8a053db0
-tracing_record_taskinfo_skip,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,tracing_record_taskinfo_skip,[Unknown],0xffffffff89f8ec00
-try_to_wake_up,0.078448,0.0,0.0,0.0,,,0.0,0.0,0.0,0.0,0.0,0.0,,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,try_to_wake_up,[Unknown],0xffffffff89ec8e70
-uncharge_page,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,uncharge_page,[Unknown],0xffffffff8a09e6c0
-unmap_single_vma,0.078448,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,unmap_single_vma,[Unknown],0xffffffff8a0468e0
-update_nohz_stats,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,update_nohz_stats,[Unknown],0xffffffff89ed2f70
-update_process_times,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,168005040,0,0,0,0,0,0,0.0,vmlinux,update_process_times,[Unknown],0xffffffff89f22870
-update_rt_rq_load_avg,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,update_rt_rq_load_avg,[Unknown],0xffffffff89ee7f00
-vsnprintf,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,vsnprintf,[Unknown],0xffffffff8a8383d0
-xas_create,0.078448,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,7.000000,vmlinux,xas_create,[Unknown],0xffffffff8a83ab10
-xas_start,0.078448,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,84002520,0,0,0,0,0,0,0.0,vmlinux,xas_start,[Unknown],0xffffffff8a839b10
-xas_store,0.078448,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,420012600,0,0,0,0,0,0,0.0,vmlinux,xas_store,[Unknown],0xffffffff8a83b030
-zap_page_range,0.078448,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,zap_page_range,[Unknown],0xffffffff8a046c10
-[Unknown stack frame(s)],0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,56.3,,,0.0,0.0,0.0,0.0,19656589680,4032120960,1386097020,2184152880,2814196980,0,0,0,0.0,[Unknown],[Unknown stack frame(s)],[Unknown],0x0
-__bitmap_weight,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,__bitmap_weight,[Unknown],0xffffffff8a2e4ac0
-__do_page_cache_readahead,0.0,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,84002520,0,0,0,0,0,0,0.0,vmlinux,__do_page_cache_readahead,[Unknown],0xffffffff8a018410
-__find_get_block,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,__find_get_block,[Unknown],0xffffffff8a0f5750
-__get_vma_policy,0.0,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,__get_vma_policy,[Unknown],0xffffffff8a077150
-__hrtimer_get_next_event,0.0,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,7.000000,vmlinux,__hrtimer_get_next_event,[Unknown],0xffffffff89f22e70
-__inc_node_page_state,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,7.000000,vmlinux,__inc_node_page_state,[Unknown],0xffffffff8a02fa30
-__inc_numa_state,0.0,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,__inc_numa_state,[Unknown],0xffffffff8a02fe50
-__kmp_finish_implicit_task,0.0,0.0,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libiomp5.so,__kmp_finish_implicit_task,kmp_tasking.cpp,0xd6210
-__kmp_invoke_microtask,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,libiomp5.so,__kmp_invoke_microtask,[Unknown],0xe7e40
-__note_gp_changes,0.0,0.0,0.0,100.0,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__note_gp_changes,[Unknown],0xffffffff89f13380
-__page_set_anon_rmap,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,__page_set_anon_rmap,[Unknown],0xffffffff8a059020
-__x86_indirect_thunk_rdx,0.0,0.0,0.0,0.0,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__x86_indirect_thunk_rdx,[Unknown],0xffffffff8ac00d00
-_nohz_idle_balance,0.0,100.0,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,_nohz_idle_balance,[Unknown],0xffffffff89eda990
-account_entity_enqueue,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,account_entity_enqueue,[Unknown],0xffffffff89ed2430
-acct_account_cputime,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,acct_account_cputime,[Unknown],0xffffffff89f7f3e0
-activate_task,0.0,100.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,activate_task,[Unknown],0xffffffff89ec7de0
-alloc_pages_current,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,378011340,168005040,0,0,0,0,0,0,0.0,vmlinux,alloc_pages_current,[Unknown],0xffffffff8a0742e0
-alloc_pages_vma,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,84002520,0,0,0,0,0,0,0.0,vmlinux,alloc_pages_vma,[Unknown],0xffffffff8a0775d0
-do_nmi,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,do_nmi,[Unknown],0xffffffff89e33fd0
-enqueue_task_fair,0.0,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,enqueue_task_fair,[Unknown],0xffffffff89ed55c0
-find_next_and_bit,0.0,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,find_next_and_bit,[Unknown],0xffffffff8a2ec1e0
-free_perturb,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,7.000000,libc-2.29.so,free_perturb,malloc.c,0x95291
-func@0x3d30,0.0,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,libnuma.so.1.0.0,func@0x3d30,[Unknown],0x3d30
-func@0x404030,0.0,100.0,100.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,7.000000,driverForGraphClustering,func@0x404030,[Unknown],0x404030
-generic_smp_call_function_single_interrupt,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,8.000000,vmlinux,generic_smp_call_function_single_interrupt,[Unknown],0xffffffff89f3a940
-hrtimer_forward,0.0,,,,0.0,,0.0,0.0,0.0,0.0,0.0,0.0,,0.0,0.0,378011340,84002520,0,0,0,0,0,0,0.0,vmlinux,hrtimer_forward,[Unknown],0xffffffff89f22b90
-irq_work_run,0.0,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,irq_work_run,[Unknown],0xffffffff89fc1ae0
-mem_cgroup_page_lruvec,0.0,-0.0,0.0,0.0,100.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,mem_cgroup_page_lruvec,[Unknown],0xffffffff8a0a0c40
-mem_cgroup_uncharge_list,0.0,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,mem_cgroup_uncharge_list,[Unknown],0xffffffff8a0a2210
-memcg_check_events,0.0,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,memcg_check_events,[Unknown],0xffffffff8a09de40
-native_irq_return_iret,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,7.000000,vmlinux,native_irq_return_iret,[Unknown],0xffffffff8aa00a27
-native_send_call_func_ipi,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,native_send_call_func_ipi,[Unknown],0xffffffff89e5fa70
-on_each_cpu_cond_mask,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,on_each_cpu_cond_mask,[Unknown],0xffffffff89f3a6c0
-page_counter_uncharge,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,page_counter_uncharge,[Unknown],0xffffffff8a099e80
-page_mapping,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,7.000000,vmlinux,page_mapping,[Unknown],0xffffffff8a02cde0
-pagecache_get_page,0.0,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,168005040,0,0,0,0,0,0,0.0,vmlinux,pagecache_get_page,[Unknown],0xffffffff8a0047a0
-pci_mmconfig_lookup,0.0,0.0,0.0,0.0,,,0.0,0.0,0.0,0.0,0.0,0.0,,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,pci_mmconfig_lookup,[Unknown],0xffffffff8a69b600
-pci_read,0.0,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,pci_read,[Unknown],0xffffffff8a69ece0
-printk_nmi_exit,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,printk_nmi_exit,[Unknown],0xffffffff89f016d0
-profile_tick,0.0,0.0,,,0.0,,0.0,0.0,0.0,0.0,0.0,0.0,,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,profile_tick,[Unknown],0xffffffff89f1d4e0
-raise_softirq,0.0,-0.0,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,168005040,0,0,0,0,0,0,9.000000,vmlinux,raise_softirq,[Unknown],0xffffffff89e9d2f0
-rb_insert_color,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,rb_insert_color,[Unknown],0xffffffff8a8306d0
-record_times,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,record_times,[Unknown],0xffffffff89eefdf0
-shmem_mapping,0.0,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,14.000000,vmlinux,shmem_mapping,[Unknown],0xffffffff8a02cb20
-smp_call_function_interrupt,0.0,33.3,66.7,0.0,100.0,0.0,0.0,66.7,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,168005040,0,0,0,0,0,0,0.0,vmlinux,smp_call_function_interrupt,[Unknown],0xffffffff8aa02340
-switch_mm_irqs_off,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,switch_mm_irqs_off,[Unknown],0xffffffff89e83b40
-test_clear_page_writeback,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,test_clear_page_writeback,[Unknown],0xffffffff8a017c50
-tick_sched_handle,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,tick_sched_handle,[Unknown],0xffffffff89f34600
-xas_alloc,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,7.000000,vmlinux,xas_alloc,[Unknown],0xffffffff8a839920
-xas_nomem,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,xas_nomem,[Unknown],0xffffffff8a83a670
+Function,CPU Time,Memory Bound(%),Memory Bound:L1 Bound(%),Memory Bound:L2 Bound(%),Memory Bound:L3 Bound(%),Memory Bound:DRAM Bound(%),Memory Bound:Store Bound(%),Memory Bound:Persistent Memory Bound(%),Loads,Stores,LLC Miss Count,LLC Miss Count:Local DRAM Access Count,LLC Miss Count:Remote DRAM Access Count,LLC Miss Count:Local Persistent Memory Access Count,LLC Miss Count:Remote Persistent Memory Access Count,LLC Miss Count:Remote Cache Access Count,Average Latency (cycles),Module,Function (Full),Source File,Start Address
+buildLocalMapCounter,27242.606008,69.6,3.0,4.0,6.8,57.8,0.0,0.1,16890806709000,1195187854560,163349433660,65650595220,86694068160,42002940,42002940,4494314580,15.333754,driverForGraphClustering,"buildLocalMapCounter(long, long, std::map<long, long, std::less<long>, std::allocator<std::pair<long const, long>>>&, std::vector<double, std::allocator<double>>&, edge*, long*, long)",utilityClusteringFunctions.cpp,0x43dc00
+"_INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_wait_template<kmp_flag_64, (int)1, (bool)0, (bool)1>",5736.829643,12.5,8.4,0.0,0.0,0.0,0.0,0.0,4758532751700,438829164480,0,0,0,0,0,0,6.843961,libiomp5.so,"bool _INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_wait_template<kmp_flag_64, (int)1, (bool)0, (bool)1>(kmp_info*, kmp_flag_64*, void*)",kmp_wait_release.h,0x62210
+max,3595.540132,72.2,0.3,0.0,2.5,73.5,0.0,0.0,1355296657680,37549126440,76193333160,12936905520,59434160100,0,0,546038220,35.064458,driverForGraphClustering,"max(std::map<long, long, std::less<long>, std::allocator<std::pair<long const, long>>>&, std::vector<double, std::allocator<double>>&, double, comm*, double, long, double)",utilityClusteringFunctions.cpp,0x43e710
+_int_free,1562.429044,0.8,10.0,0.6,0.0,0.1,1.0,0.0,3283784510580,1367141013000,0,0,0,0,0,0,9.107489,libc-2.29.so,_int_free,malloc.c,0x950c0
+__GI___libc_malloc,1293.669597,5.9,11.7,0.9,1.0,1.8,0.0,0.0,2150002498140,658999769400,0,0,0,0,0,168011760,9.834488,libc-2.29.so,__GI___libc_malloc,malloc.c,0x98a40
+_int_malloc,1254.995223,18.1,19.5,1.8,0.6,0.7,0.0,0.0,1076702300100,1034575036320,0,0,0,0,0,0,18.586523,libc-2.29.so,_int_malloc,malloc.c,0x966c0
+std::_Rb_tree_insert_and_rebalance,1246.601393,6.2,13.9,1.8,2.6,2.2,0.0,0.0,2869862093280,1303299097800,0,0,0,0,0,0,7.727856,libstdc++.so.6.0.26,"std::_Rb_tree_insert_and_rebalance(bool, std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::_Rb_tree_node_base&)",[Unknown],0xbced0
+"_INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_wait_template<kmp_flag_64, (int)0, (bool)0, (bool)1>",579.409596,10.0,5.4,0.1,0.0,0.0,0.0,0.0,487382621040,47293418760,0,0,0,0,0,0,6.766756,libiomp5.so,"bool _INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_wait_template<kmp_flag_64, (int)0, (bool)0, (bool)1>(kmp_info*, kmp_flag_64*, void*)",kmp_wait_release.h,0x62cf8
+plm_analyzeClusters$omp$parallel_for@64,566.544287,25.7,11.4,2.2,0.4,15.0,10.7,0.0,587681629920,307449223200,798055860,504035280,42002940,0,0,0,9.822029,driverForGraphClustering,plm_analyzeClusters$omp$parallel_for@64,parallelLouvainMethod-nrt.cpp,0x431de4
+__GI_,512.729640,2.6,16.3,1.0,0.2,0.3,0.9,0.0,1091192734800,119199575880,0,0,0,0,0,0,7.665781,libc-2.29.so,"float __GI_(long, int, bool, char)",malloc.c,0x991d0
+parallelLouvianMethod$omp$parallel_for@237,264.366415,82.4,2.7,51.7,2.1,12.5,10.4,0.0,37675130220,21252637560,0,84005880,0,0,0,0,78.264151,driverForGraphClustering,parallelLouvianMethod$omp$parallel_for@237,parallelLouvainMethod-nrt.cpp,0x431330
+malloc_consolidate,237.459091,5.5,17.2,3.1,1.0,0.3,0.0,0.0,326223786420,107439223080,0,0,0,0,0,0,14.334149,libc-2.29.so,malloc_consolidate,malloc.c,0x94880
+plm_init$omp$parallel_for@285,217.141316,91.0,0.0,0.0,0.0,0.0,86.0,0.0,0,24864745920,0,0,0,0,0,0,0.0,driverForGraphClustering,plm_init$omp$parallel_for@285,parallelLouvainMethod-nrt.cpp,0x4326f0
+sumVertexDegree$omp$parallel_for@74,197.843352,96.2,0.0,0.0,21.9,0.0,0.0,81.2,3528105840,252007560,42002940,0,0,42002940,0,0,29.750000,driverForGraphClustering,sumVertexDegree$omp$parallel_for@74,utilityClusteringFunctions.cpp,0x43d64c
+std::_Rb_tree_increment,174.858379,31.8,4.5,6.3,0.0,32.2,0.0,0.0,285272557920,0,0,0,0,0,0,42002940,7.566081,libstdc++.so.6.0.26,std::_Rb_tree_increment(std::_Rb_tree_node_base*),[Unknown],0xbcd90
+tcache_get,173.367886,0.7,8.7,0.3,0.0,0.8,0.0,0.0,213450403320,581381440920,0,0,0,0,0,0,7.234009,libc-2.29.so,tcache_get,malloc.c,0x98bd9
+"std::_Rb_tree_iterator<std::pair<long const, long>>::operator!=",149.990678,19.0,6.2,0.0,5.0,13.7,0.0,0.0,294848845200,0,0,0,0,0,0,252017640,7.092581,driverForGraphClustering,"std::_Rb_tree_iterator<std::pair<long const, long>>::operator!=(std::_Rb_tree_iterator<std::pair<long const, long>> const&) const",stl_tree.h,0x43dd96
+__intel_ssse3_rep_memmove,145.048516,6.9,3.5,3.3,0.8,2.8,1.0,0.0,193541806080,132807984120,0,0,0,0,0,0,9.983516,driverForGraphClustering,__intel_ssse3_rep_memmove,[Unknown],0x47bd30
+operator new,144.342493,9.6,11.6,0.0,1.5,2.1,0.0,0.0,80390411640,48385451520,0,0,0,0,0,0,8.483544,libstdc++.so.6.0.26,operator new(unsigned long),[Unknown],0xa5a10
+func@0xbcd30,122.220437,8.1,14.4,1.3,0.0,11.9,0.0,0.0,253393601580,0,0,0,0,0,0,0,7.253918,libstdc++.so.6.0.26,func@0xbcd30,[Unknown],0xbcd30
+parallelLouvianMethod$omp$parallel_for@210,104.491414,71.6,0.0,33.4,1.6,47.7,0.0,0.0,15120453600,0,378026460,294020580,0,0,0,0,181.000000,driverForGraphClustering,parallelLouvianMethod$omp$parallel_for@210,parallelLouvainMethod-nrt.cpp,0x431643
+"__gnu_cxx::new_allocator<double>::construct<double, double const&>",98.843229,46.8,15.0,9.9,0.0,57.3,0.0,0.0,45235357020,63505905120,126008820,0,0,0,0,0,13.266376,driverForGraphClustering,"void __gnu_cxx::new_allocator<double>::construct<double, double const&>(double*, double const&&&)",new_allocator.h,0x43e347
+"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::allocate",94.607091,13.3,5.8,1.8,1.3,1.8,0.0,0.0,7560226800,1200648018360,0,0,0,0,0,0,7.329932,driverForGraphClustering,"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::allocate(unsigned long, void const*)",new_allocator.h,0x43deb3
+tcache_put,90.763187,29.9,25.6,7.8,0.0,0.9,0.0,0.0,3024090720,2688080640,0,0,0,0,0,0,30.710843,libc-2.29.so,tcache_put,malloc.c,0x967bc
+kmp_flag_native<unsigned long long>::get,72.092800,0.3,0.8,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,7.038405,libiomp5.so,kmp_flag_native<unsigned long long>::get(void),kmp_wait_release.h,0x6253a
+"std::vector<double, std::allocator<double>>::push_back",71.543671,0.7,4.2,2.8,3.5,7.7,0.0,0.0,91982759400,3192095760,0,0,0,0,0,0,7.132901,driverForGraphClustering,"std::vector<double, std::allocator<double>>::push_back(double const&)",stl_vector.h,0x43e267
+operator delete,62.914500,0.0,13.0,1.8,0.9,0.0,0.4,0.0,0,0,0,0,0,0,0,0,0.0,libstdc++.so.6.0.26,operator delete(void*),[Unknown],0xa3d60
+tcache_put,61.737795,0.0,11.5,0.0,0.4,0.0,8.0,0.0,56071682100,313749412200,0,0,0,0,0,0,7.572327,libc-2.29.so,tcache_put,malloc.c,0x95390
+"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_M_erase",55.854269,1.3,16.0,0.5,0.0,0.0,0.0,0.0,51787553580,7980239400,84005880,0,0,0,0,0,7.480519,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_M_erase(std::_Rb_tree_node<std::pair<long const, long>>*)",stl_tree.h,0x41ea70
+"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::end",55.854269,13.9,13.0,0.0,0.0,1.5,0.0,0.0,57961738800,4452133560,0,0,0,0,0,0,7.071429,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::end(void)",stl_tree.h,0x43dc2e
+"std::_Rb_tree_iterator<std::pair<long const, long>>::operator++",53.030177,30.6,12.8,0.0,3.9,42.9,0.0,0.0,0,178925367600,0,0,0,0,0,0,0.0,driverForGraphClustering,"std::_Rb_tree_iterator<std::pair<long const, long>>::operator++(int)",stl_tree.h,0x43e7e1
+func@0x967a0,48.950933,0.0,13.4,0.0,1.1,0.0,0.0,0.0,113151394440,0,0,0,0,0,0,0,7.316425,libstdc++.so.6.0.26,func@0x967a0,[Unknown],0x967a0
+func@0x4043b0,46.205287,0.0,3.7,1.2,0.6,0.6,0.0,0.0,211938357960,0,0,0,0,0,0,0,7.213115,driverForGraphClustering,func@0x4043b0,[Unknown],0x4043b0
+__gnu_cxx::new_allocator<double>::allocate,42.204490,2.0,11.1,0.7,0.7,2.0,0.0,0.0,4032120960,73082192400,0,0,0,0,0,0,7.151786,driverForGraphClustering,"__gnu_cxx::new_allocator<double>::allocate(unsigned long, void const*)",new_allocator.h,0x43e467
+"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_M_get_insert_hint_unique_pos",41.576914,6.4,12.4,0.0,0.0,1.8,0.0,0.0,85304559060,43093292760,0,0,0,0,0,0,7.689769,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_M_get_insert_hint_unique_pos(std::_Rb_tree_const_iterator<std::pair<long const, long>>, long const&)",stl_tree.h,0x41ee60
+func@0x404370,40.792444,7.1,7.7,0.7,0.0,0.0,6.3,0.0,103575107160,0,0,0,0,0,0,0,7.625954,driverForGraphClustering,func@0x404370,[Unknown],0x404370
+unlink_chunk,40.243315,8.2,16.1,4.0,0.7,0.0,0.0,0.0,55693670760,148096442760,0,0,0,0,0,0,9.393443,libc-2.29.so,unlink_chunk,malloc.c,0x94987
+func@0x404080,33.104637,5.7,14.5,0.0,3.4,0.9,0.0,0.0,126255787560,0,0,0,0,0,0,0,13.637584,driverForGraphClustering,func@0x404080,[Unknown],0x404080
+"std::vector<double, std::allocator<double>>::operator[]",29.574522,14.5,20.9,4.0,4.0,3.0,0.0,0.0,211812354180,0,0,0,0,0,0,0,7.135747,driverForGraphClustering,"std::vector<double, std::allocator<double>>::operator[](unsigned long)",stl_vector.h,0x43dda4
+"std::__copy_move<(bool)1, (bool)1, std::random_access_iterator_tag>::__copy_m<double>",28.554711,4.0,6.8,3.4,1.7,0.8,0.0,0.0,10206306180,1932057960,0,0,0,0,0,0,7.044944,driverForGraphClustering,"double* std::__copy_move<(bool)1, (bool)1, std::random_access_iterator_tag>::__copy_m<double>(double const*, double const*, double*)",stl_algobase.h,0x43e2e3
+unlink_chunk,27.848688,0.3,19.6,5.6,2.8,0.9,0.0,0.0,27720831600,7140214200,0,0,0,0,0,0,8.071895,libc-2.29.so,unlink_chunk,malloc.c,0x93760
+__kmpc_atomic_float8_add,26.122853,63.8,24.3,5.6,0.0,53.3,0.0,0.0,2142064260,336010080,84005880,84005880,0,0,0,0,630.000000,libiomp5.so,__kmpc_atomic_float8_add,kmp_atomic.cpp,0x458c0
+entry_SYSCALL_64,25.887512,4.4,10.0,0.0,0.0,0.0,0.0,0.0,882026460,1596047880,0,0,0,0,0,0,14.555556,vmlinux,entry_SYSCALL_64,[Unknown],0xffffffffb4000010
+__gnu_cxx::new_allocator<double>::deallocate,24.789254,0.0,14.5,0.0,1.2,4.8,0.0,0.0,9828294840,22092662760,0,0,0,0,0,0,7.552000,driverForGraphClustering,"__gnu_cxx::new_allocator<double>::deallocate(double*, unsigned long)",new_allocator.h,0x43e313
+"std::vector<double, std::allocator<double>>::_M_realloc_insert<double const&>",23.769443,0.0,12.5,0.0,0.0,1.1,0.0,0.0,0,41161234800,0,0,0,0,0,0,0.0,driverForGraphClustering,"void std::vector<double, std::allocator<double>>::_M_realloc_insert<double const&>(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double>>>, double const&&&)",stl_vector.h,0x43e277
+"std::vector<double, std::allocator<double>>::_M_check_len",21.494480,6.0,2.2,4.4,0.0,3.3,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,"std::vector<double, std::allocator<double>>::_M_check_len(unsigned long, char const*) const",stl_vector.h,0x43e277
+__schedule,19.847093,0.0,14.9,0.0,1.2,0.0,0.0,0.0,32382971460,20160604800,0,0,0,0,0,0,7.974359,vmlinux,__schedule,[Unknown],0xffffffffb3e4a700
+pick_next_task_fair,19.847093,0.0,11.8,1.3,0.0,0.0,0.0,0.0,37927137780,27300819000,0,0,0,0,0,0,7.527778,vmlinux,pick_next_task_fair,[Unknown],0xffffffffb34dac90
+sched_yield,18.356600,7.9,5.3,0.0,0.0,0.0,0.0,0.0,16002480060,0,0,0,0,0,0,0,7.000000,libc-2.29.so,sched_yield,syscall-template.S,0x101860
+"std::_Vector_base<double, std::allocator<double>>::_M_allocate",16.473872,0.0,7.7,0.0,0.0,0.0,0.0,0.0,3528105840,0,0,0,0,0,0,0,13.805556,driverForGraphClustering,"std::_Vector_base<double, std::allocator<double>>::_M_allocate(unsigned long)",stl_vector.h,0x43219b
+func@0x4042b0,16.395425,25.6,10.9,6.8,0.0,15.0,0.0,0.0,223152694380,0,0,0,0,0,0,84005880,8.383142,driverForGraphClustering,func@0x4042b0,[Unknown],0x4042b0
+_raw_spin_lock,16.003189,33.5,28.2,4.5,0.0,4.5,0.0,0.0,11718351540,13440403200,0,0,0,0,0,0,14.750000,vmlinux,_raw_spin_lock,[Unknown],0xffffffffb3e50560
+update_curr,15.689401,17.4,11.0,9.4,0.0,17.2,0.0,0.0,18018540540,19572587160,84005880,0,0,0,0,0,7.281818,vmlinux,update_curr,[Unknown],0xffffffffb34d2fd0
+_intel_fast_memmove,15.610954,8.8,3.0,3.0,1.5,0.0,0.0,0.0,57079712340,3612108360,0,0,0,0,0,0,7.500000,driverForGraphClustering,_intel_fast_memmove,[Unknown],0x46b200
+__gnu_cxx::new_allocator<double>::allocate,15.532507,0.0,12.0,0.0,0.0,0.0,0.0,0.0,8316249480,55777673280,0,0,0,0,0,0,11.507463,driverForGraphClustering,"__gnu_cxx::new_allocator<double>::allocate(unsigned long, void const*)",new_allocator.h,0x432549
+clear_page_erms,14.748037,92.0,2.3,0.0,0.0,0.0,52.4,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,clear_page_erms,[Unknown],0xffffffffb3e3c070
+"__gnu_cxx::new_allocator<double>::construct<double, double const&>",14.198908,50.7,0.0,38.6,0.0,11.6,0.0,0.0,16632498960,20412612360,0,0,0,0,0,0,7.354167,driverForGraphClustering,"void __gnu_cxx::new_allocator<double>::construct<double, double const&>(double*, double const&&&)",new_allocator.h,0x43e2d5
+"std::__copy_move<(bool)1, (bool)1, std::random_access_iterator_tag>::__copy_m<double>",13.571332,0.0,32.7,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,"double* std::__copy_move<(bool)1, (bool)1, std::random_access_iterator_tag>::__copy_m<double>(double const*, double const*, double*)",stl_algobase.h,0x4321cd
+renumberClustersContiguously,12.865309,65.2,62.2,6.5,0.0,1.6,0.0,0.0,12096362880,252007560,0,0,0,0,0,0,11.294118,driverForGraphClustering,"renumberClustersContiguously(long*, long)",buildNextPhase.cpp,0x450dd0
+native_sched_clock,11.767051,15.5,39.1,4.1,0.0,0.0,0.0,0.0,7938238140,0,0,0,0,0,0,0,8.826087,vmlinux,native_sched_clock,[Unknown],0xffffffffb3438f10
+"std::vector<double, std::allocator<double>>::_M_check_len",11.610157,0.4,2.7,0.0,0.0,0.0,0.0,0.0,43849315440,19824594720,0,0,0,0,0,0,14.100000,driverForGraphClustering,"std::vector<double, std::allocator<double>>::_M_check_len(unsigned long, char const*) const",stl_vector.h,0x43214a
+__calc_delta,11.296369,0.0,5.1,0.0,0.0,2.5,0.0,0.0,9324279720,168005040,0,0,0,0,0,0,7.000000,vmlinux,__calc_delta,[Unknown],0xffffffffb34cdda0
+task_tick_fair,11.217922,79.6,84.4,0.0,19.9,32.3,0.0,0.0,1260037800,336010080,42002940,84005880,0,0,0,0,36.000000,vmlinux,task_tick_fair,[Unknown],0xffffffffb34d77c0
+"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate",11.061028,1.1,9.9,0.0,0.0,0.0,0.0,0.0,0,19992599760,0,0,0,0,0,0,0.0,driverForGraphClustering,"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate(std::_Rb_tree_node<std::pair<long const, long>>*, unsigned long)",new_allocator.h,0x432483
+get_max_fast,10.511899,0.0,7.5,0.0,0.0,2.5,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libc-2.29.so,get_max_fast,malloc.c,0x9670a
+copy_user_enhanced_fast_string,10.276558,52.1,19.9,0.0,0.0,49.6,0.0,0.0,126003780,168005040,0,0,0,0,0,0,227.600000,vmlinux,copy_user_enhanced_fast_string,[Unknown],0xffffffffb3e3c560
+func@0x95d60,9.413641,0.0,8.5,5.7,0.0,2.8,0.0,0.0,430554916260,0,0,0,0,0,0,0,7.194631,libstdc++.so.6.0.26,func@0x95d60,[Unknown],0x95d60
+cgroup_rstat_updated,9.256747,0.0,5.7,5.7,0.0,0.0,0.0,0.0,11970359100,8736262080,0,0,0,0,0,0,7.384615,vmlinux,cgroup_rstat_updated,[Unknown],0xffffffffb35515c0
+free_perturb,9.178300,14.1,5.2,2.6,0.0,0.0,0.0,0.0,11592347760,0,0,0,0,0,0,0,7.382353,libc-2.29.so,free_perturb,malloc.c,0x95192
+"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_M_erase",8.472277,8.0,9.0,6.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_M_erase(std::_Rb_tree_node<std::pair<long const, long>>*)",stl_tree.h,0x41ea70
+_INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_hyper_barrier_gather,8.315383,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,7.012821,libiomp5.so,"_INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_hyper_barrier_gather(barrier_type, kmp_info*, int, int, void (*)(void*, void*), void*)",kmp_barrier.cpp,0x62b80
+cpuacct_charge,8.315383,0.0,27.5,3.1,0.0,6.1,0.0,0.0,10836325080,3612108360,0,0,0,0,0,0,8.612903,vmlinux,cpuacct_charge,[Unknown],0xffffffffb34ee270
+"std::_Vector_base<double, std::allocator<double>>::_Vector_impl::_Vector_impl",8.158489,0.0,30.1,0.0,0.0,0.0,0.0,0.0,0,5880176400,0,0,0,0,0,0,0.0,driverForGraphClustering,"std::_Vector_base<double, std::allocator<double>>::_Vector_impl::_Vector_impl(void)",stl_vector.h,0x422250
+"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate",8.001595,0.0,12.8,0.0,0.0,0.0,0.0,0.0,0,3696110880,0,0,0,0,0,0,0.0,driverForGraphClustering,"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate(std::_Rb_tree_node<std::pair<long const, long>>*, unsigned long)",new_allocator.h,0x432447
+"std::map<long, long, std::less<long>, std::allocator<std::pair<long const, long>>>::operator[]",7.923148,0.0,24.9,0.0,0.0,3.6,0.0,0.0,0,12012360360,0,0,0,0,0,0,0.0,driverForGraphClustering,"std::map<long, long, std::less<long>, std::allocator<std::pair<long const, long>>>::operator[](long const&)",stl_map.h,0x431fa3
+__kmpc_atomic_float8_sub,7.844701,69.8,20.1,30.2,0.0,30.2,0.0,0.0,1890056700,420012600,126008820,84005880,42002940,0,0,0,7.000000,libiomp5.so,__kmpc_atomic_float8_sub,kmp_atomic.cpp,0x45910
+"std::_Rb_tree_iterator<std::pair<long const, long>>::operator!=",7.844701,7.0,22.2,0.0,0.0,7.4,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,"std::_Rb_tree_iterator<std::pair<long const, long>>::operator!=(std::_Rb_tree_iterator<std::pair<long const, long>> const&) const",stl_tree.h,0x43e7e9
+syscall_return_via_sysret,7.766254,14.1,26.8,0.0,0.0,0.0,0.0,0.0,21420642600,1260037800,0,0,0,0,0,0,7.844444,vmlinux,syscall_return_via_sysret,[Unknown],0xffffffffb40000f1
+update_min_vruntime,7.609360,8.6,11.1,3.7,0.0,11.1,0.0,0.0,9198275940,5544166320,42002940,0,42002940,0,0,0,7.636364,vmlinux,update_min_vruntime,[Unknown],0xffffffffb34cde80
+do_syscall_64,6.981784,2.8,13.5,0.0,0.0,0.0,0.0,0.0,10710321300,17472524160,0,0,0,0,0,0,10.250000,vmlinux,do_syscall_64,[Unknown],0xffffffffb3404210
+"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::allocate",6.746443,0.3,4.4,0.0,8.7,0.0,0.0,0.0,0,2436073080,0,0,0,0,0,0,0.0,driverForGraphClustering,"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::allocate(unsigned long, void const*)",new_allocator.h,0x4320af
+pick_next_entity,6.746443,0.0,32.7,0.0,0.0,0.0,0.0,0.0,25956778680,3948118440,0,0,0,0,0,0,7.203390,vmlinux,pick_next_entity,[Unknown],0xffffffffb34cee90
+"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate",6.511102,0.0,22.9,0.0,0.0,0.0,0.0,0.0,0,5712171360,0,0,0,0,0,0,0.0,driverForGraphClustering,"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate(std::_Rb_tree_node<std::pair<long const, long>>*, unsigned long)",new_allocator.h,0x43246f
+entry_SYSCALL_64_after_hwframe,6.511102,3.7,9.8,0.0,4.9,0.0,0.0,0.0,3402102060,8568257040,0,0,0,0,0,0,7.562500,vmlinux,entry_SYSCALL_64_after_hwframe,[Unknown],0xffffffffb4000048
+"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate",6.432655,0.0,19.2,0.0,0.0,0.0,0.0,0.0,0,9828294840,0,0,0,0,0,0,0.0,driverForGraphClustering,"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate(std::_Rb_tree_node<std::pair<long const, long>>*, unsigned long)",new_allocator.h,0x41eaef
+"std::vector<double, std::allocator<double>>::_M_realloc_insert<double>",6.354208,0.0,25.9,4.3,0.0,0.0,0.0,0.0,27594827820,0,0,0,0,0,0,0,8.233333,driverForGraphClustering,"void std::vector<double, std::allocator<double>>::_M_realloc_insert<double>(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double>>>, double&&)",stl_vector.h,0x43214a
+"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate",6.275761,0.0,8.5,0.0,0.0,0.0,0.0,0.0,0,3360100800,0,0,0,0,0,0,0.0,driverForGraphClustering,"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate(std::_Rb_tree_node<std::pair<long const, long>>*, unsigned long)",new_allocator.h,0x43245b
+"std::_Rb_tree_iterator<std::pair<long const, long>>::operator==",6.275761,10.2,10.6,0.0,0.0,0.0,0.0,0.0,11340340200,0,0,0,0,0,0,0,7.375000,driverForGraphClustering,"std::_Rb_tree_iterator<std::pair<long const, long>>::operator==(std::_Rb_tree_iterator<std::pair<long const, long>> const&) const",stl_tree.h,0x41f0fb
+"std::map<long, long, std::less<long>, std::allocator<std::pair<long const, long>>>::operator[]",5.883526,3.9,0.0,4.1,0.0,8.2,0.0,0.0,8946268380,156244687200,0,0,0,0,0,0,7.256228,driverForGraphClustering,"std::map<long, long, std::less<long>, std::allocator<std::pair<long const, long>>>::operator[](long const&)",stl_map.h,0x43ddbe
+"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_M_erase",5.726632,0.0,4.4,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_M_erase(std::_Rb_tree_node<std::pair<long const, long>>*)",stl_tree.h,0x41ea70
+"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate",5.648185,31.0,16.5,0.0,0.0,0.0,0.0,0.0,0,7140214200,0,0,0,0,0,0,0.0,driverForGraphClustering,"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate(std::_Rb_tree_node<std::pair<long const, long>>*, unsigned long)",new_allocator.h,0x41eb03
+tcache_get,5.648185,1.1,8.8,0.0,0.0,0.0,0.0,0.0,19908597240,12096362880,0,0,0,0,0,0,7.347826,libc-2.29.so,tcache_get,malloc.c,0x974b8
+std::_Rb_tree_decrement,5.334396,0.0,9.6,4.8,4.8,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libstdc++.so.6.0.26,std::_Rb_tree_decrement(std::_Rb_tree_node_base*),[Unknown],0xbcdf0
+"__gnu_cxx::new_allocator<double>::construct<double, double>",5.020608,5.3,32.2,0.0,0.0,0.0,0.0,0.0,0,19656589680,0,0,0,0,0,0,0.0,driverForGraphClustering,"void __gnu_cxx::new_allocator<double>::construct<double, double>(double*, double&&)",new_allocator.h,0x4321c4
+ktime_get,5.020608,75.0,4.7,0.0,65.3,0.0,0.0,0.0,0,0,0,0,0,0,0,0,7.000000,vmlinux,ktime_get,[Unknown],0xffffffffb3525d90
+update_cfs_group,4.863714,81.2,85.8,0.0,42.9,0.0,0.0,0.0,126003780,252007560,0,0,0,0,0,0,0.0,vmlinux,update_cfs_group,[Unknown],0xffffffffb34d3380
+apic_timer_interrupt,4.706820,81.7,0.0,27.0,19.3,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,apic_timer_interrupt,[Unknown],0xffffffffb4001a60
+yield_task_fair,4.628373,0.0,0.0,25.4,0.0,0.0,0.0,0.0,3402102060,1176035280,0,0,0,0,0,0,7.363636,vmlinux,yield_task_fair,[Unknown],0xffffffffb34d3560
+native_flush_tlb_one_user,4.471479,0.0,0.0,0.0,0.0,0.0,0.0,0.0,504015120,0,0,0,0,0,0,0,16.000000,vmlinux,native_flush_tlb_one_user,[Unknown],0xffffffffb3473e10
+"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate",4.393032,,24.6,0.0,0.0,0.0,0.0,0.0,0,6384191520,0,0,0,0,0,0,0.0,driverForGraphClustering,"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate(std::_Rb_tree_node<std::pair<long const, long>>*, unsigned long)",new_allocator.h,0x41eadb
+ktime_get_update_offsets_now,4.393032,26.4,20.6,0.0,27.5,34.3,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,ktime_get_update_offsets_now,[Unknown],0xffffffffb3526be0
+llist_add_batch,4.393032,83.3,53.3,0.0,0.0,66.7,0.0,0.0,126003780,336010080,0,0,0,0,0,0,0.0,vmlinux,llist_add_batch,[Unknown],0xffffffffb38ec440
+call_function_interrupt,4.157691,34.9,5.7,0.0,5.7,17.1,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,call_function_interrupt,[Unknown],0xffffffffb4001b20
+do_sched_yield,3.922350,17.0,32.0,0.0,0.0,0.0,0.0,0.0,2898086940,1932057960,0,0,0,0,0,0,7.961538,vmlinux,do_sched_yield,[Unknown],0xffffffffb34c82a0
+clear_buddies,3.687009,0.0,8.3,0.0,0.0,0.0,0.0,0.0,11718351540,588017640,0,0,0,0,0,0,7.473684,vmlinux,clear_buddies,[Unknown],0xffffffffb34ce330
+account_user_time,3.294774,21.7,0.0,0.0,0.0,100.0,0.0,0.0,252007560,336010080,0,42002940,0,0,0,0,0.0,vmlinux,account_user_time,[Unknown],0xffffffffb34ccfa0
+__ia32_sys_sched_yield,3.216327,0.0,37.8,0.0,0.0,0.0,0.0,0.0,1008030240,3024090720,0,0,0,0,0,0,7.500000,vmlinux,__ia32_sys_sched_yield,[Unknown],0xffffffffb34c8310
+kmp_basic_flag_native<unsigned long long>::notdone_check,3.216327,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3906117180,0,0,0,0,0,0,0,6.906944,libiomp5.so,kmp_basic_flag_native<unsigned long long>::notdone_check(void),kmp_wait_release.h,0x6253a
+tcache_put,3.137880,0.0,9.2,0.0,0.0,0.0,0.0,0.0,8820264600,7560226800,0,0,0,0,0,0,7.176471,libc-2.29.so,tcache_put,malloc.c,0x96e44
+__default_send_IPI_dest_field,3.059433,49.1,16.1,0.0,8.0,0.0,0.0,0.0,0,168005040,0,0,0,0,0,0,26.500000,vmlinux,__default_send_IPI_dest_field,[Unknown],0xffffffffb3463f70
+__kmp_x86_pause,3.059433,52.4,56.9,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libiomp5.so,__kmp_x86_pause,kmp.h,0x62448
+"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_M_begin",3.059433,-0.0,0.0,19.0,0.0,0.0,0.0,0.0,4662139860,0,0,0,0,0,0,0,7.633333,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_M_begin(void)",stl_tree.h,0x41f07d
+"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_S_right",2.980986,0.0,38.9,0.0,0.0,0.0,0.0,0.0,7182215460,0,0,0,0,0,0,0,7.294118,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_S_right(std::_Rb_tree_node_base*)",stl_tree.h,0x41eab2
+"std::_Vector_base<double, std::allocator<double>>::_M_deallocate",2.980986,16.2,12.3,0.0,24.6,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,"std::_Vector_base<double, std::allocator<double>>::_M_deallocate(double*, unsigned long)",stl_vector.h,0x43e30e
+"std::vector<double, std::allocator<double>>::vector",2.980986,2.9,41.2,0.0,0.0,0.0,0.0,0.0,17766532980,0,0,0,0,0,0,0,9.935484,driverForGraphClustering,"std::vector<double, std::allocator<double>>::vector(void)",stl_vector.h,0x422250
+alloc_perturb,2.902539,10.5,20.3,0.0,0.0,0.0,0.0,0.0,86312589300,0,0,0,0,0,0,0,7.180000,libc-2.29.so,alloc_perturb,malloc.c,0x970f1
+tcache_put,2.902539,0.0,10.4,0.0,0.0,0.0,0.0,0.0,504015120,3696110880,0,0,0,0,0,0,16.000000,libc-2.29.so,tcache_put,malloc.c,0x96c61
+schedule,2.824092,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,2772083160,1428042840,0,0,0,0,0,0,10.764706,vmlinux,schedule,[Unknown],0xffffffffb3e4af40
+"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_S_right",2.824092,0.0,0.0,11.4,0.0,0.0,0.0,0.0,9324279720,0,0,0,0,0,0,0,7.923077,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_S_right(std::_Rb_tree_node_base*)",stl_tree.h,0x41eaa9
+update_rq_clock,2.824092,22.8,82.8,0.0,15.1,15.1,0.0,0.0,1260037800,14028420840,0,0,0,0,0,0,11.478261,vmlinux,update_rq_clock,[Unknown],0xffffffffb34c65c0
+trigger_load_balance,2.588751,88.8,0.0,0.0,100.0,9.0,0.0,0.0,0,0,0,0,0,0,0,0,7.000000,vmlinux,trigger_load_balance,[Unknown],0xffffffffb34db5d0
+"__gnu_cxx::__aligned_membuf<std::pair<long const, long>>::_M_addr",2.510304,0.0,14.6,0.0,14.6,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,"__gnu_cxx::__aligned_membuf<std::pair<long const, long>>::_M_addr(void)",aligned_buffer.h,0x43decc
+"std::vector<double, std::allocator<double>>::operator[]",2.510304,1.0,0.0,14.1,0.0,0.0,0.0,0.0,18018540540,0,0,0,0,0,0,0,7.146341,driverForGraphClustering,"std::vector<double, std::allocator<double>>::operator[](unsigned long)",stl_vector.h,0x43e721
+"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate",2.196516,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,2856085680,0,0,0,0,0,0,0.0,driverForGraphClustering,"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::deallocate(std::_Rb_tree_node<std::pair<long const, long>>*, unsigned long)",new_allocator.h,0x41eac7
+__kmpc_atomic_fixed8_add,2.196516,63.8,42.4,0.0,14.1,14.1,0.0,0.0,1764052920,756022680,0,0,0,0,0,0,392.000000,libiomp5.so,__kmpc_atomic_fixed8_add,kmp_atomic.cpp,0x458a0
+native_queued_spin_lock_slowpath,2.196516,83.3,100.0,0.0,0.0,40.6,0.0,0.0,126003780,84002520,0,0,0,0,0,0,0.0,vmlinux,native_queued_spin_lock_slowpath,[Unknown],0xffffffffb34f1320
+run_local_timers,2.196516,,0.0,0.0,65.5,16.4,0.0,0.0,126003780,168005040,42002940,0,0,0,0,0,0.0,vmlinux,run_local_timers,[Unknown],0xffffffffb3522820
+page_fault,2.118069,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,page_fault,[Unknown],0xffffffffb4001070
+interrupt_entry,2.039622,0.0,24.6,0.0,49.1,0.0,0.0,0.0,756022680,588017640,0,0,0,0,0,0,0.0,vmlinux,interrupt_entry,[Unknown],0xffffffffb4000880
+rcu_note_context_switch,2.039622,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,3276098280,1008030240,0,0,0,0,0,0,8.629630,vmlinux,rcu_note_context_switch,[Unknown],0xffffffffb3512930
+__update_load_avg_cfs_rq,1.961175,11.4,14.1,14.1,0.0,14.1,0.0,0.0,630018900,504015120,0,0,0,0,0,0,10.500000,vmlinux,__update_load_avg_cfs_rq,[Unknown],0xffffffffb34e7ca0
+__raw_spin_unlock_irq,1.882728,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,9.333333,vmlinux,__raw_spin_unlock_irq,[Unknown],0xffffffffb34c49c0
+"std::_Vector_base<double, std::allocator<double>>::_M_deallocate",1.804281,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,34399031940,0,0,0,0,0,0,0,8.210526,driverForGraphClustering,"std::_Vector_base<double, std::allocator<double>>::_M_deallocate(double*, unsigned long)",stl_vector.h,0x4321ea
+check_cfs_rq_runtime,1.725834,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,3654109620,504015120,0,0,0,0,0,0,7.818182,vmlinux,check_cfs_rq_runtime,[Unknown],0xffffffffb34d3c40
+flush_tlb_func_remote,1.647387,90.7,74.7,0.0,74.7,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,flush_tlb_func_remote,[Unknown],0xffffffffb3484330
+rcu_sched_clock_irq,1.647387,,51.9,0.0,51.9,34.6,0.0,0.0,0,168005040,0,0,0,0,0,0,134.000000,vmlinux,rcu_sched_clock_irq,[Unknown],0xffffffffb3514a20
+sched_clock_cpu,1.647387,39.5,0.0,17.3,0.0,17.3,0.0,0.0,1764052920,0,0,0,0,0,0,0,7.666667,vmlinux,sched_clock_cpu,[Unknown],0xffffffffb34ccd50
+_intel_fast_memmove,1.568940,3.3,16.7,16.7,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,_intel_fast_memmove,[Unknown],0x46b1f0
+flush_smp_call_function_queue,1.568940,30.3,74.7,56.0,0.0,0.0,0.0,0.0,126003780,84002520,0,0,0,0,0,0,0.0,vmlinux,flush_smp_call_function_queue,[Unknown],0xffffffffb3539e00
+generic_file_buffered_read,1.568940,22.2,100.0,0.0,0.0,0.0,0.0,0.0,378011340,84002520,0,0,0,0,0,0,7.000000,vmlinux,generic_file_buffered_read,[Unknown],0xffffffffb3605250
+llist_reverse_order,1.568940,90.3,0.0,0.0,38.9,51.9,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,llist_reverse_order,[Unknown],0xffffffffb38ec4a0
+"__gnu_cxx::__aligned_membuf<std::pair<long const, long>>::_M_addr",1.490493,2.6,24.6,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,"__gnu_cxx::__aligned_membuf<std::pair<long const, long>>::_M_addr(void)",aligned_buffer.h,0x4320c1
+smp_apic_timer_interrupt,1.490493,0.0,35.9,0.0,100.0,0.0,0.0,0.0,126003780,84002520,0,0,0,0,0,0,27.000000,vmlinux,smp_apic_timer_interrupt,[Unknown],0xffffffffb40024e0
+try_charge,1.490493,26.3,0.0,0.0,0.0,0.0,24.6,0.0,252007560,336010080,0,0,0,0,0,0,7.000000,vmlinux,try_charge,[Unknown],0xffffffffb369fb50
+__handle_mm_fault,1.412046,44.3,16.1,0.0,0.0,0.0,80.5,0.0,252007560,168005040,0,0,0,0,0,0,7.000000,vmlinux,__handle_mm_fault,[Unknown],0xffffffffb3648830
+__acct_update_integrals,1.333599,61.1,0.0,51.9,25.9,25.9,0.0,0.0,0,0,0,42002940,0,0,0,0,582.000000,vmlinux,__acct_update_integrals,[Unknown],0xffffffffb357ef80
+ksoftirqd_running,1.333599,43.7,25.9,0.0,38.9,38.9,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,ksoftirqd_running,[Unknown],0xffffffffb349c6e0
+read_tsc,1.333599,0.0,51.9,0.0,51.9,51.9,0.0,0.0,0,168005040,0,0,0,0,0,0,0.0,vmlinux,read_tsc,[Unknown],0xffffffffb3438db0
+"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_S_left",1.333599,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,6804204120,0,0,0,0,0,0,0,7.388889,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_S_left(std::_Rb_tree_node_base*)",stl_tree.h,0x41eb06
+"std::vector<double, std::allocator<double>>::emplace_back<double>",1.333599,24.1,25.9,0.0,0.0,0.0,0.0,0.0,1260037800,0,0,0,0,0,0,0,7.600000,driverForGraphClustering,"void std::vector<double, std::allocator<double>>::emplace_back<double>(double&&)",stl_vector.h,0x43213c
+__cgroup_account_cputime,1.255152,0.0,31.1,10.4,0.0,0.0,0.0,0.0,3276098280,420012600,0,0,0,0,0,0,9.222222,vmlinux,__cgroup_account_cputime,[Unknown],0xffffffffb3551b20
+hrtimer_interrupt,1.255152,0.0,0.0,30.1,60.2,15.1,0.0,0.0,756022680,168005040,0,0,0,0,0,0,9.000000,vmlinux,hrtimer_interrupt,[Unknown],0xffffffffb3523c70
+__intel_avx_rep_memcpy,1.176705,100.0,77.8,0.0,77.8,77.8,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,__intel_avx_rep_memcpy,[Unknown],0x46eb80
+calc_global_load_tick,1.176705,50.9,0.0,0.0,0.0,24.6,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,calc_global_load_tick,[Unknown],0xffffffffb34ccb40
+default_send_IPI_mask_sequence_phys,1.176705,,100.0,0.0,100.0,77.8,0.0,0.0,126003780,252007560,0,0,0,0,0,0,7.000000,vmlinux,default_send_IPI_mask_sequence_phys,[Unknown],0xffffffffb3464030
+__gnu_cxx::new_allocator<double>::deallocate,1.098258,0.0,0.0,0.0,0.0,0.0,35.9,0.0,0,1596047880,0,0,0,0,0,0,0.0,driverForGraphClustering,"__gnu_cxx::new_allocator<double>::deallocate(double*, unsigned long)",new_allocator.h,0x4324e7
+"__gnu_cxx::operator-<double*, std::vector<double, std::allocator<double>>>",1.098258,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,"__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double>>>::difference_type __gnu_cxx::operator-<double*, std::vector<double, std::allocator<double>>>(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double>>> const&, __gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double>>> const&)",stl_iterator.h,0x43e2c5
+hrtimer_active,1.098258,40.8,14.6,14.6,0.0,58.3,0.0,0.0,252007560,0,0,0,0,0,0,0,0.0,vmlinux,hrtimer_active,[Unknown],0xffffffffb3522c80
+kick_ilb,1.098258,88.3,93.3,0.0,0.0,23.3,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,kick_ilb,[Unknown],0xffffffffb34ce2a0
+__cgroup_account_cputime_field,1.019811,59.3,0.0,0.0,22.2,44.4,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__cgroup_account_cputime_field,[Unknown],0xffffffffb3551b50
+_raw_spin_lock_irqsave,1.019811,100.0,0.0,0.0,24.6,0.0,0.0,0.0,126003780,168005040,0,0,0,0,0,0,0.0,vmlinux,_raw_spin_lock_irqsave,[Unknown],0xffffffffb3e50390
+__do_softirq,0.941364,,62.2,0.0,0.0,62.2,0.0,0.0,252007560,84002520,0,0,0,0,0,0,12.000000,vmlinux,__do_softirq,[Unknown],0xffffffffb4200000
+__update_load_avg_se,0.941364,0.0,0.0,77.8,0.0,0.0,0.0,0.0,630018900,504015120,0,0,0,0,0,0,193.000000,vmlinux,__update_load_avg_se,[Unknown],0xffffffffb34e7a00
+_raw_spin_trylock,0.941364,,50.0,16.7,16.7,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,_raw_spin_trylock,[Unknown],0xffffffffb3e501b0
+account_entity_dequeue,0.941364,29.7,18.7,0.0,18.7,74.7,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,account_entity_dequeue,[Unknown],0xffffffffb34d24f0
+alloc_perturb,0.941364,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,10962328860,0,0,0,0,0,0,0,7.111111,libc-2.29.so,alloc_perturb,malloc.c,0x975ca
+get_page_from_freelist,0.941364,29.6,0.0,44.4,22.2,22.2,0.0,0.0,1008030240,756022680,0,0,0,0,0,0,56.000000,vmlinux,get_page_from_freelist,[Unknown],0xffffffffb360f520
+initCommAss$omp$parallel_for@99,0.941364,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,driverForGraphClustering,initCommAss$omp$parallel_for@99,utilityClusteringFunctions.cpp,0x43f320
+native_write_msr,0.941364,0.0,0.0,0.0,0.0,0.0,0.0,0.0,378011340,0,0,0,0,0,0,0,0.0,vmlinux,native_write_msr,[Unknown],0xffffffffb3473f60
+run_posix_cpu_timers,0.941364,53.3,93.3,93.3,0.0,46.7,0.0,0.0,126003780,168005040,42002940,0,0,0,0,0,470.000000,vmlinux,run_posix_cpu_timers,[Unknown],0xffffffffb352f810
+__pagevec_lru_add_fn,0.862917,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,378011340,0,0,0,0,0,0,0,7.000000,vmlinux,__pagevec_lru_add_fn,[Unknown],0xffffffffb361a370
+mem_cgroup_try_charge,0.862917,66.7,0.0,0.0,0.0,0.0,100.0,0.0,252007560,252007560,0,0,0,0,0,0,0.0,vmlinux,mem_cgroup_try_charge,[Unknown],0xffffffffb36a1f70
+"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_M_end",0.862917,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_M_end(void)",stl_tree.h,0x41ee75
+"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_S_left",0.862917,,0.0,42.4,0.0,0.0,42.4,0.0,5544166320,0,0,0,0,0,0,0,6.760000,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_S_left(std::_Rb_tree_node_base*)",stl_tree.h,0x41eaf2
+tlb_is_not_lazy,0.862917,0.0,66.7,0.0,66.7,66.7,0.0,0.0,126003780,0,0,0,42002940,0,0,42002940,7.000000,vmlinux,tlb_is_not_lazy,[Unknown],0xffffffffb3483870
+alloc_perturb,0.784470,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,378011340,0,0,0,0,0,0,0,0.0,libc-2.29.so,alloc_perturb,malloc.c,0x96dd6
+idle_cpu,0.784470,0.0,0.0,0.0,0.0,77.8,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,idle_cpu,[Unknown],0xffffffffb34cac40
+sched_clock,0.784470,76.7,46.7,0.0,0.0,0.0,0.0,0.0,630018900,0,0,0,0,0,0,0,7.083333,vmlinux,sched_clock,[Unknown],0xffffffffb3439a60
+__kmp_yield,0.706023,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libiomp5.so,__kmp_yield,z_Linux_util.cpp,0xeb370
+handle_mm_fault,0.706023,100.0,100.0,0.0,0.0,100.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,handle_mm_fault,[Unknown],0xffffffffb3649ab0
+irq_enter,0.706023,0.0,0.0,0.0,62.2,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,irq_enter,[Unknown],0xffffffffb349d140
+irq_work_run_list,0.706023,0.0,0.0,0.0,0.0,46.7,0.0,0.0,378011340,0,0,0,0,0,0,0,0.0,vmlinux,irq_work_run_list,[Unknown],0xffffffffb35c1a60
+tick_program_event,0.706023,0.0,0.0,0.0,0.0,46.7,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,tick_program_event,[Unknown],0xffffffffb3534060
+_raw_spin_lock_irq,0.627576,,100.0,0.0,0.0,0.0,0.0,0.0,378011340,168005040,0,0,0,0,0,0,0.0,vmlinux,_raw_spin_lock_irq,[Unknown],0xffffffffb3e50590
+perf_event_task_tick,0.627576,48.1,51.9,0.0,0.0,100.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,perf_event_task_tick,[Unknown],0xffffffffb35f19d0
+smp_call_function_many,0.627576,,44.4,22.2,0.0,22.2,0.0,0.0,0,0,84005880,0,0,0,0,0,0.0,vmlinux,smp_call_function_many,[Unknown],0xffffffffb353a340
+__do_page_fault,0.549129,-0.0,0.0,100.0,0.0,0.0,0.0,0.0,0,252007560,0,0,0,0,0,0,0.0,vmlinux,__do_page_fault,[Unknown],0xffffffffb347c190
+clear_huge_page,0.549129,100.0,0.0,0.0,0.0,0.0,100.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,clear_huge_page,[Unknown],0xffffffffb364bbe0
+clear_subpage,0.549129,100.0,0.0,0.0,0.0,0.0,100.0,0.0,252007560,84002520,0,0,0,0,0,0,8.000000,vmlinux,clear_subpage,[Unknown],0xffffffffb3643800
+find_next_bit,0.549129,-0.0,0.0,0.0,100.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,find_next_bit,[Unknown],0xffffffffb38ec360
+irq_exit,0.549129,,0.0,0.0,0.0,0.0,0.0,0.0,882026460,504015120,0,0,0,0,0,0,0.0,vmlinux,irq_exit,[Unknown],0xffffffffb349d190
+mem_cgroup_throttle_swaprate,0.549129,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,mem_cgroup_throttle_swaprate,[Unknown],0xffffffffb3669730
+page_counter_try_charge,0.549129,55.6,66.7,66.7,66.7,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,page_counter_try_charge,[Unknown],0xffffffffb3699db0
+run_timer_softirq,0.549129,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,168005040,0,0,0,0,0,0,7.500000,vmlinux,run_timer_softirq,[Unknown],0xffffffffb3521380
+"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_S_right",0.549129,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,19026570780,0,0,0,0,0,0,0,7.976744,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_S_right(std::_Rb_tree_node_base*)",stl_tree.h,0x41eaa0
+__hrtimer_run_queues,0.470682,87.0,0.0,0.0,77.8,51.9,0.0,0.0,252007560,336010080,0,0,0,0,0,0,8.000000,vmlinux,__hrtimer_run_queues,[Unknown],0xffffffffb3523490
+__intel_avx_rep_memset,0.470682,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,__intel_avx_rep_memset,[Unknown],0x470350
+flush_tlb_func_common.constprop.9,0.470682,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,588017640,0,0,0,0,0,0,7.000000,vmlinux,flush_tlb_func_common.constprop.9,[Unknown],0xffffffffb3484100
+get_mem_cgroup_from_mm,0.470682,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,get_mem_cgroup_from_mm,[Unknown],0xffffffffb369b5c0
+nohz_balance_exit_idle,0.470682,70.8,100.0,0.0,58.3,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,nohz_balance_exit_idle,[Unknown],0xffffffffb34db400
+pci_mmcfg_read,0.470682,0.0,0.0,0.0,93.3,0.0,0.0,0.0,0,168005040,0,0,0,0,0,0,0.0,vmlinux,pci_mmcfg_read,[Unknown],0xffffffffb3c9ab90
+rb_next,0.470682,36.4,84.8,42.4,0.0,100.0,0.0,0.0,126003780,0,42002940,0,0,0,0,0,0.0,vmlinux,rb_next,[Unknown],0xffffffffb3e312d0
+scheduler_tick,0.470682,0.0,100.0,0.0,0.0,0.0,0.0,0.0,504015120,252007560,42002940,42002940,0,0,0,0,0.0,vmlinux,scheduler_tick,[Unknown],0xffffffffb34ca6f0
+"std::_Vector_base<double, std::allocator<double>>::_M_allocate",0.470682,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,"std::_Vector_base<double, std::allocator<double>>::_M_allocate(unsigned long)",stl_vector.h,0x43e2b4
+tick_sched_timer,0.470682,,0.0,0.0,0.0,0.0,0.0,0.0,378011340,168005040,0,0,0,0,0,0,0.0,vmlinux,tick_sched_timer,[Unknown],0xffffffffb3534880
+[Import thunk sched_yield],0.392235,0.0,0.0,0.0,0.0,0.0,0.0,0.0,8568257040,0,0,0,0,0,0,0,7.000000,libiomp5.so,[Import thunk sched_yield],[Unknown],0x27a48
+__alloc_pages_nodemask,0.392235,55.6,66.7,0.0,0.0,0.0,0.0,0.0,0,336010080,0,0,0,0,0,0,8.000000,vmlinux,__alloc_pages_nodemask,[Unknown],0xffffffffb3611a00
+note_gp_changes,0.392235,0.0,0.0,58.3,0.0,29.2,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,note_gp_changes,[Unknown],0xffffffffb35134b0
+rcu_irq_enter,0.392235,54.3,0.0,0.0,40.6,0.0,0.0,0.0,0,168005040,0,0,0,0,0,0,13.000000,vmlinux,rcu_irq_enter,[Unknown],0xffffffffb3514900
+rebalance_domains,0.392235,100.0,100.0,0.0,100.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,rebalance_domains,[Unknown],0xffffffffb34da6c0
+xas_load,0.392235,0.0,58.3,0.0,58.3,0.0,0.0,0.0,504015120,420012600,0,0,0,0,0,0,7.000000,vmlinux,xas_load,[Unknown],0xffffffffb3e39ba0
+[sep5],0.313788,100.0,93.3,0.0,0.0,93.3,0.0,0.0,1260037800,1512045360,0,0,0,0,0,0,7.000000,sep5,[sep5],[Unknown],0x0
+__x64_sys_madvise,0.313788,-0.0,0.0,100.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__x64_sys_madvise,[Unknown],0xffffffffb3660b10
+copy_page_to_iter,0.313788,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,7.000000,vmlinux,copy_page_to_iter,[Unknown],0xffffffffb38ea050
+cpu_load_update,0.313788,0.0,0.0,100.0,0.0,0.0,0.0,0.0,126003780,336010080,0,0,0,0,0,0,7.000000,vmlinux,cpu_load_update,[Unknown],0xffffffffb34cefc0
+default_send_IPI_mask_allbutself_phys,0.313788,100.0,51.9,0.0,100.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,default_send_IPI_mask_allbutself_phys,[Unknown],0xffffffffb34640b0
+ext4_mpage_readpages,0.313788,,0.0,0.0,0.0,0.0,0.0,0.0,504015120,84002520,0,0,0,0,0,0,0.0,vmlinux,ext4_mpage_readpages,[Unknown],0xffffffffb3797b80
+find_get_entry,0.313788,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,find_get_entry,[Unknown],0xffffffffb3604140
+intel_pstate_update_util_hwp,0.313788,66.7,0.0,0.0,100.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,intel_pstate_update_util_hwp,[Unknown],0xffffffffb3c6a160
+native_apic_mem_write,0.313788,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,native_apic_mem_write,[Unknown],0xffffffffb3469950
+pci_conf1_read,0.313788,84.4,31.1,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,pci_conf1_read,[Unknown],0xffffffffb3c9ae40
+reweight_entity,0.313788,,100.0,100.0,0.0,0.0,0.0,0.0,126003780,168005040,0,0,0,0,0,0,0.0,vmlinux,reweight_entity,[Unknown],0xffffffffb34d31d0
+"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_S_left",0.313788,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,5418162540,0,0,0,0,0,0,0,7.045455,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_S_left(std::_Rb_tree_node_base*)",stl_tree.h,0x41eade
+timerqueue_del,0.313788,100.0,0.0,0.0,0.0,0.0,100.0,0.0,126003780,252007560,0,0,0,0,0,0,0.0,vmlinux,timerqueue_del,[Unknown],0xffffffffb3e35040
+update_sd_lb_stats,0.313788,-0.0,0.0,0.0,0.0,100.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,update_sd_lb_stats,[Unknown],0xffffffffb34d8eb0
+vmacache_find,0.313788,-0.0,0.0,0.0,100.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,vmacache_find,[Unknown],0xffffffffb363d720
+__hrtimer_get_next_event,0.235341,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,7.000000,vmlinux,__hrtimer_get_next_event,[Unknown],0xffffffffb3522e70
+__hrtimer_next_event_base,0.235341,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,168005040,0,0,0,0,0,0,7.000000,vmlinux,__hrtimer_next_event_base,[Unknown],0xffffffffb3522d90
+__kmalloc_node,0.235341,,0.0,,,,0.0,,0,84002520,0,0,0,0,0,0,0.0,vmlinux,__kmalloc_node,[Unknown],0xffffffffb3682d50
+__kmp_join_barrier,0.235341,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libiomp5.so,__kmp_join_barrier(int),kmp_barrier.cpp,0x6ae40
+__kmpc_for_static_fini,0.235341,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libiomp5.so,__kmpc_for_static_fini,kmp_csupport.cpp,0x6ece0
+__lru_cache_add,0.235341,0.0,100.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,7.000000,vmlinux,__lru_cache_add,[Unknown],0xffffffffb361aba0
+__mod_node_page_state,0.235341,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,8.000000,vmlinux,__mod_node_page_state,[Unknown],0xffffffffb362dcd0
+_cond_resched,0.235341,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,_cond_resched,[Unknown],0xffffffffb3e4b1c0
+_raw_spin_unlock_irqrestore,0.235341,0.0,0.0,0.0,0.0,0.0,0.0,0.0,504015120,0,0,0,0,0,0,0,7.000000,vmlinux,_raw_spin_unlock_irqrestore,[Unknown],0xffffffffb3e501e0
+account_process_tick,0.235341,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,account_process_tick,[Unknown],0xffffffffb34cd360
+cpuacct_account_field,0.235341,0.0,0.0,0.0,66.7,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,cpuacct_account_field,[Unknown],0xffffffffb34ee2f0
+displayGraphCharacteristics,0.235341,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,displayGraphCharacteristics(graph*),utilityFunctions.cpp,0x44d8e0
+find_next_and_bit,0.235341,100.0,100.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,find_next_and_bit,[Unknown],0xffffffffb38ec1e0
+func@0x4043e0,0.235341,-0.0,0.0,0.0,93.3,0.0,0.0,0.0,36163084860,0,0,0,0,0,0,0,7.434783,driverForGraphClustering,func@0x4043e0,[Unknown],0x4043e0
+lapic_next_deadline,0.235341,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,lapic_next_deadline,[Unknown],0xffffffffb3462aa0
+load_balance,0.235341,6.7,0.0,0.0,93.3,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,load_balance,[Unknown],0xffffffffb34d9bc0
+mark_page_accessed,0.235341,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,252007560,0,0,0,0,0,0,0,0.0,vmlinux,mark_page_accessed,[Unknown],0xffffffffb361adb0
+prep_new_page,0.235341,100.0,0.0,0.0,0.0,0.0,93.3,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,prep_new_page,[Unknown],0xffffffffb360c730
+raise_softirq,0.235341,100.0,58.3,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,raise_softirq,[Unknown],0xffffffffb349d2f0
+rcu_all_qs,0.235341,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,252007560,0,0,0,0,0,0,0.0,vmlinux,rcu_all_qs,[Unknown],0xffffffffb35121e0
+smp_call_function_interrupt,0.235341,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,smp_call_function_interrupt,[Unknown],0xffffffffb4002340
+sync_regs,0.235341,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,sync_regs,[Unknown],0xffffffffb342f3b0
+xas_store,0.235341,0.0,0.0,0.0,0.0,0.0,0.0,0.0,504015120,252007560,0,0,0,0,0,0,0.0,vmlinux,xas_store,[Unknown],0xffffffffb3e3b030
+__add_to_page_cache_locked,0.156894,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,378011340,252007560,0,0,0,0,0,0,9.000000,vmlinux,__add_to_page_cache_locked,[Unknown],0xffffffffb3604370
+__kmp_launch_thread,0.156894,100.0,,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libiomp5.so,__kmp_launch_thread,kmp_runtime.cpp,0xa9570
+__mod_zone_page_state,0.156894,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,378011340,168005040,0,0,0,0,0,0,0.0,vmlinux,__mod_zone_page_state,[Unknown],0xffffffffb362dc70
+__switch_to_asm,0.156894,100.0,,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__switch_to_asm,[Unknown],0xffffffffb4000170
+__x86_indirect_thunk_rax,0.156894,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__x86_indirect_thunk_rax,[Unknown],0xffffffffb4200ca0
+alloc_perturb,0.156894,0.0,0.0,93.3,0.0,100.0,0.0,0.0,6300189000,0,0,0,0,0,0,0,7.000000,libc-2.29.so,alloc_perturb,malloc.c,0x97776
+alloc_perturb,0.156894,0.0,0.0,0.0,0.0,0.0,0.0,0.0,756022680,0,0,0,0,0,0,0,20.470588,libc-2.29.so,alloc_perturb,malloc.c,0x96860
+clockevents_program_event,0.156894,100.0,100.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,7.000000,vmlinux,clockevents_program_event,[Unknown],0xffffffffb3531fc0
+cpu_load_update_active,0.156894,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,cpu_load_update_active,[Unknown],0xffffffffb34d8bd0
+down_read_trylock,0.156894,0.0,0.0,0.0,0.0,0.0,0.0,0.0,252007560,0,0,0,0,0,0,0,0.0,vmlinux,down_read_trylock,[Unknown],0xffffffffb34f09f0
+free_pcppages_bulk,0.156894,0.0,0.0,0.0,0.0,0.0,0.0,0.0,756022680,756022680,0,0,0,0,0,0,0.0,vmlinux,free_pcppages_bulk,[Unknown],0xffffffffb360d780
+free_perturb,0.156894,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libc-2.29.so,free_perturb,malloc.c,0x95291
+func@0x404030,0.156894,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,7.000000,driverForGraphClustering,func@0x404030,[Unknown],0x404030
+func@0x404140,0.156894,0.0,0.0,0.0,0.0,100.0,0.0,0.0,252007560,0,0,0,0,0,0,0,16.000000,driverForGraphClustering,func@0x404140,[Unknown],0x404140
+irq_work_tick,0.156894,100.0,100.0,0.0,0.0,100.0,0.0,0.0,0,84002520,42002940,0,0,0,0,0,0.0,vmlinux,irq_work_tick,[Unknown],0xffffffffb35c1d00
+kthread_blkcg,0.156894,100.0,0.0,0.0,0.0,0.0,100.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,kthread_blkcg,[Unknown],0xffffffffb34bcd80
+mem_cgroup_commit_charge,0.156894,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,7.000000,vmlinux,mem_cgroup_commit_charge,[Unknown],0xffffffffb36a2b30
+mem_cgroup_page_lruvec,0.156894,-0.0,0.0,100.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,mem_cgroup_page_lruvec,[Unknown],0xffffffffb36a0c40
+mem_cgroup_try_charge_delay,0.156894,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,7.000000,vmlinux,mem_cgroup_try_charge_delay,[Unknown],0xffffffffb36a2100
+mem_cgroup_update_lru_size,0.156894,,0.0,0.0,0.0,0.0,0.0,0.0,378011340,0,0,0,0,0,0,0,0.0,vmlinux,mem_cgroup_update_lru_size,[Unknown],0xffffffffb36a0c90
+memcg_check_events,0.156894,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,memcg_check_events,[Unknown],0xffffffffb369de40
+page_counter_cancel,0.156894,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,page_counter_cancel,[Unknown],0xffffffffb3699d20
+page_remove_rmap,0.156894,0.0,0.0,0.0,0.0,0.0,0.0,0.0,378011340,168005040,0,0,0,0,0,0,0.0,vmlinux,page_remove_rmap,[Unknown],0xffffffffb3659db0
+pagevec_lru_move_fn,0.156894,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0,252007560,0,0,0,0,0,0,0.0,vmlinux,pagevec_lru_move_fn,[Unknown],0xffffffffb361aa40
+rb_insert_color,0.156894,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,rb_insert_color,[Unknown],0xffffffffb3e306d0
+rcu_core,0.156894,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,rcu_core,[Unknown],0xffffffffb35140e0
+sysmalloc,0.156894,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libc-2.29.so,sysmalloc,malloc.c,0x95d90
+tick_sched_do_timer,0.156894,0.0,0.0,0.0,66.7,0.0,0.0,0.0,0,0,0,0,0,0,0,0,8.000000,vmlinux,tick_sched_do_timer,[Unknown],0xffffffffb3534820
+unmap_page_range,0.156894,,0.0,0.0,0.0,0.0,0.0,0.0,504015120,336010080,0,0,0,0,0,0,7.000000,vmlinux,unmap_page_range,[Unknown],0xffffffffb3645c80
+PageHuge,0.078447,100.0,0.0,0.0,0.0,0.0,100.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,PageHuge,[Unknown],0xffffffffb366c7d0
+__accumulate_pelt_segments,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,__accumulate_pelt_segments,[Unknown],0xffffffffb34e77d0
+__bio_try_merge_page,0.078447,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,378011340,0,0,0,0,0,0,0,8.000000,vmlinux,__bio_try_merge_page,[Unknown],0xffffffffb38a3060
+__bitmap_and,0.078447,100.0,100.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__bitmap_and,[Unknown],0xffffffffb38e4590
+__kmp_finish_implicit_task,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libiomp5.so,__kmp_finish_implicit_task,kmp_tasking.cpp,0xd6210
+__kmp_init_implicit_task,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libiomp5.so,__kmp_init_implicit_task,kmp_tasking.cpp,0xdfd80
+__kmp_x86_pause,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libiomp5.so,__kmp_x86_pause,kmp.h,0x62fc5
+__memcg_kmem_charge,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__memcg_kmem_charge,[Unknown],0xffffffffb36a1730
+__note_gp_changes,0.078447,100.0,100.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__note_gp_changes,[Unknown],0xffffffffb3513380
+__page_cache_alloc,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__page_cache_alloc,[Unknown],0xffffffffb3601d50
+__switch_to,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__switch_to,[Unknown],0xffffffffb342d820
+account_entity_enqueue,0.078447,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,7.000000,vmlinux,account_entity_enqueue,[Unknown],0xffffffffb34d2430
+bio_alloc_bioset,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,bio_alloc_bioset,[Unknown],0xffffffffb38a4d80
+bio_integrity_prep,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,bio_integrity_prep,[Unknown],0xffffffffb38d6d30
+blk_queue_bounce,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,blk_queue_bounce,[Unknown],0xffffffffb38cb190
+calConstantForSecondTerm$omp$parallel_for@91,0.078447,100.0,100.0,0.0,100.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,driverForGraphClustering,calConstantForSecondTerm$omp$parallel_for@91,utilityClusteringFunctions.cpp,0x43d9b1
+check_may_shrink_heap,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libc-2.29.so,check_may_shrink_heap,malloc-sysdep.h,0x95a66
+cpumask_next,0.078447,,0.0,,,,0.0,,0,0,0,0,0,0,0,0,7.000000,vmlinux,cpumask_next,[Unknown],0xffffffffb3e29e10
+d_path,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,d_path,[Unknown],0xffffffffb36f0160
+down_read,0.078447,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,down_read,[Unknown],0xffffffffb3e4d840
+enqueue_entity,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,enqueue_entity,[Unknown],0xffffffffb34d4010
+enqueue_hrtimer,0.078447,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,enqueue_hrtimer,[Unknown],0xffffffffb35230b0
+error_entry,0.078447,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,error_entry,[Unknown],0xffffffffb4001210
+flush_tlb_mm_range,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,flush_tlb_mm_range,[Unknown],0xffffffffb3484600
+free_pages_and_swap_cache,0.078447,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,free_pages_and_swap_cache,[Unknown],0xffffffffb3662ed0
+free_pcp_prepare,0.078447,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,free_pcp_prepare,[Unknown],0xffffffffb360cd10
+free_unref_page_prepare.part.74,0.078447,100.0,100.0,0.0,100.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,free_unref_page_prepare.part.74,[Unknown],0xffffffffb360c930
+futex_wake,0.078447,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,futex_wake,[Unknown],0xffffffffb35363f0
+get_task_policy.part.35,0.078447,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,get_task_policy.part.35,[Unknown],0xffffffffb36741e0
+get_vma_policy.part.39,0.078447,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,get_vma_policy.part.39,[Unknown],0xffffffffb3674220
+heap_trim,0.078447,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libc-2.29.so,heap_trim,arena.c,0x95748
+hrtimer_forward,0.078447,0.0,,,0.0,,0.0,,504015120,84002520,0,0,0,0,0,0,7.000000,vmlinux,hrtimer_forward,[Unknown],0xffffffffb3522b90
+kmalloc_slab,0.078447,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,kmalloc_slab,[Unknown],0xffffffffb3637d00
+kmem_cache_alloc,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,kmem_cache_alloc,[Unknown],0xffffffffb3682310
+kmem_cache_free,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,kmem_cache_free,[Unknown],0xffffffffb3683cc0
+kmp_basic_flag_native<unsigned long long>::notdone_check,0.078447,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,6.978873,libiomp5.so,kmp_basic_flag_native<unsigned long long>::notdone_check(void),kmp_wait_release.h,0x630b3
+kmp_basic_flag_native<unsigned long long>::notdone_check,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libiomp5.so,kmp_basic_flag_native<unsigned long long>::notdone_check(void),kmp_wait_release.h,0x62f09
+lru_cache_add_active_or_unevictable,0.078447,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,378011340,0,0,0,0,0,0,0,0.0,vmlinux,lru_cache_add_active_or_unevictable,[Unknown],0xffffffffb361af60
+mem_cgroup_charge_statistics,0.078447,,0.0,100.0,0.0,0.0,0.0,0.0,252007560,84002520,0,0,0,0,0,0,7.000000,vmlinux,mem_cgroup_charge_statistics,[Unknown],0xffffffffb369bf80
+mem_cgroup_from_task,0.078447,0.0,0.0,,,,0.0,,0,0,0,0,0,0,0,0,0.0,vmlinux,mem_cgroup_from_task,[Unknown],0xffffffffb369a020
+new_slab,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,new_slab,[Unknown],0xffffffffb367fec0
+page_evictable,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,page_evictable,[Unknown],0xffffffffb3621710
+pagecache_get_page,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,168005040,0,0,0,0,0,0,0.0,vmlinux,pagecache_get_page,[Unknown],0xffffffffb36047a0
+pfn_pte,0.078447,,0.0,0.0,0.0,0.0,0.0,0.0,252007560,0,0,0,0,0,0,0,0.0,vmlinux,pfn_pte,[Unknown],0xffffffffb3643530
+pmd_devmap_trans_unstable,0.078447,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,pmd_devmap_trans_unstable,[Unknown],0xffffffffb3643850
+pmd_pfn,0.078447,100.0,0.0,0.0,0.0,0.0,100.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,pmd_pfn,[Unknown],0xffffffffb36434e0
+policy_nodemask,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,policy_nodemask,[Unknown],0xffffffffb3674260
+prepare_exit_to_usermode,0.078447,,0.0,,,,0.0,,378011340,0,0,0,0,0,0,0,7.000000,vmlinux,prepare_exit_to_usermode,[Unknown],0xffffffffb34040f0
+propagate_protected_usage,0.078447,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,propagate_protected_usage,[Unknown],0xffffffffb3699c90
+psi_task_change,0.078447,100.0,100.0,0.0,100.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,psi_task_change,[Unknown],0xffffffffb34efeb0
+radix_tree_node_ctor,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,radix_tree_node_ctor,[Unknown],0xffffffffb3e2f3c0
+rcu_irq_exit,0.078447,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,378011340,168005040,0,0,0,0,0,0,0.0,vmlinux,rcu_irq_exit,[Unknown],0xffffffffb35147b0
+rcu_segcblist_ready_cbs,0.078447,100.0,100.0,0.0,100.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,rcu_segcblist_ready_cbs,[Unknown],0xffffffffb3516160
+release_pages,0.078447,0.0,0.0,0.0,77.8,0.0,0.0,0.0,1008030240,420012600,0,0,0,0,0,0,0.0,vmlinux,release_pages,[Unknown],0xffffffffb361a650
+ret_from_intr,0.078447,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,ret_from_intr,[Unknown],0xffffffffb400094f
+ring_buffer_record_is_on,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,ring_buffer_record_is_on,[Unknown],0xffffffffb358bd50
+select_task_rq_rt,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,select_task_rq_rt,[Unknown],0xffffffffb34dc8f0
+shrink_heap,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libc-2.29.so,shrink_heap,arena.c,0x95a55
+"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_M_get_insert_unique_pos",0.078447,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_M_get_insert_unique_pos(long const&)",stl_tree.h,0x41f07d
+"std::_Rb_tree_iterator<std::pair<long const, long>>::operator!=",0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,driverForGraphClustering,"std::_Rb_tree_iterator<std::pair<long const, long>>::operator!=(std::_Rb_tree_iterator<std::pair<long const, long>> const&) const",stl_tree.h,0x450f1f
+swapgs_restore_regs_and_return_to_usermode,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2520075600,168005040,0,0,0,0,0,0,7.500000,vmlinux,swapgs_restore_regs_and_return_to_usermode,[Unknown],0xffffffffb4000974
+tlb_flush_mmu,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,tlb_flush_mmu,[Unknown],0xffffffffb3653a90
+uncharge_page,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,uncharge_page,[Unknown],0xffffffffb369e6c0
+update_blocked_averages,0.078447,100.0,100.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,update_blocked_averages,[Unknown],0xffffffffb34d25a0
+update_dl_rq_load_avg,0.078447,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,update_dl_rq_load_avg,[Unknown],0xffffffffb34e8170
+update_load_avg,0.078447,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,update_load_avg,[Unknown],0xffffffffb34d10d0
+update_process_times,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,252007560,0,0,0,0,0,0,0.0,vmlinux,update_process_times,[Unknown],0xffffffffb3522870
+update_rt_rq_load_avg,0.078447,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,update_rt_rq_load_avg,[Unknown],0xffffffffb34e7f00
+update_vsyscall,0.078447,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,update_vsyscall,[Unknown],0xffffffffb3404ba0
+xa_load,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,xa_load,[Unknown],0xffffffffb3e3a430
+xas_nomem,0.078447,,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,xas_nomem,[Unknown],0xffffffffb3e3a670
+zap_page_range,0.078447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,zap_page_range,[Unknown],0xffffffffb3646c10
+[Unknown stack frame(s)],0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,21168635040,3864115920,1302091140,2142149940,2982208740,0,0,0,0.0,[Unknown],[Unknown stack frame(s)],[Unknown],0x0
+_INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_release_template<kmp_flag_64>,0.0,100.0,,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libiomp5.so,void _INTERNAL_25_______src_kmp_barrier_cpp_ddfed41b::__kmp_release_template<kmp_flag_64>(kmp_flag_64*),kmp_wait_release.h,0x632f1
+__dec_node_state,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,42002940,0,0,0,0,0,0.0,vmlinux,__dec_node_state,[Unknown],0xffffffffb362fb00
+__do_page_cache_readahead,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,__do_page_cache_readahead,[Unknown],0xffffffffb3618410
+__free_pages_ok,0.0,,0.0,0.0,0.0,0.0,0.0,0.0,252007560,84002520,0,0,0,0,0,0,0.0,vmlinux,__free_pages_ok,[Unknown],0xffffffffb360d480
+"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::allocate",0.0,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,168005040,0,0,0,0,0,0,0.0,driverForGraphClustering,"__gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<long const, long>>>::allocate(unsigned long, void const*)",new_allocator.h,0x451013
+__inc_node_state,0.0,,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,__inc_node_state,[Unknown],0xffffffffb362f9d0
+__inc_numa_state,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,168005040,0,0,0,0,0,0,0.0,vmlinux,__inc_numa_state,[Unknown],0xffffffffb362fe50
+__kmp_invoke_microtask,0.0,0.0,0.0,0.0,0.0,100.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libiomp5.so,__kmp_invoke_microtask,[Unknown],0xe7e40
+__page_cache_release,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,__page_cache_release,[Unknown],0xffffffffb3619cd0
+__radix_tree_lookup,0.0,0.0,0.0,0.0,0.0,100.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__radix_tree_lookup,[Unknown],0xffffffffb3e2ffc0
+__raw_spin_unlock,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,__raw_spin_unlock,[Unknown],0xffffffffb36434d0
+__remove_hrtimer,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,__remove_hrtimer,[Unknown],0xffffffffb3522f70
+__tlb_remove_page_size,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,__tlb_remove_page_size,[Unknown],0xffffffffb3653870
+__vma_adjust,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,__vma_adjust,[Unknown],0xffffffffb364f2d0
+_vm_normal_page,0.0,,0.0,,,,0.0,,126003780,0,0,0,0,0,0,0,0.0,vmlinux,_vm_normal_page,[Unknown],0xffffffffb36452b0
+add_to_page_cache_lru,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,84002520,0,0,0,0,0,0,0.0,vmlinux,add_to_page_cache_lru,[Unknown],0xffffffffb36046d0
+alloc_pages_current,0.0,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,7.000000,vmlinux,alloc_pages_current,[Unknown],0xffffffffb36742e0
+alloc_pages_vma,0.0,,0.0,0.0,0.0,0.0,0.0,0.0,126003780,168005040,0,0,0,0,0,0,0.0,vmlinux,alloc_pages_vma,[Unknown],0xffffffffb36775d0
+alloc_perturb,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,252007560,0,0,0,0,0,0,0,0.0,libc-2.29.so,alloc_perturb,malloc.c,0x976d5
+blk_mq_get_driver_tag,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,blk_mq_get_driver_tag,[Unknown],0xffffffffb38b6810
+blk_mq_get_request,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,blk_mq_get_request,[Unknown],0xffffffffb38b4f10
+blk_mq_sched_insert_requests,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,blk_mq_sched_insert_requests,[Unknown],0xffffffffb38bc1f0
+blk_queue_split,0.0,,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,blk_queue_split,[Unknown],0xffffffffb38b06e0
+copyout,0.0,100.0,,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,copyout,[Unknown],0xffffffffb38e76b0
+default_do_nmi,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,default_do_nmi,[Unknown],0xffffffffb3433ec0
+do_brk_flags,0.0,100.0,,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,do_brk_flags,[Unknown],0xffffffffb36518b0
+do_nmi,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,168005040,0,0,0,0,0,0,9.000000,vmlinux,do_nmi,[Unknown],0xffffffffb3433fd0
+find_busiest_group,0.0,,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,find_busiest_group,[Unknown],0xffffffffb34d9690
+free_unref_page_commit,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,504015120,168005040,0,0,0,0,0,0,0.0,vmlinux,free_unref_page_commit,[Unknown],0xffffffffb360ded0
+free_unref_page_list,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,84002520,0,0,0,0,0,0,0.0,vmlinux,free_unref_page_list,[Unknown],0xffffffffb360f060
+generic_smp_call_function_single_interrupt,0.0,-0.0,0.0,0.0,100.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,8.000000,vmlinux,generic_smp_call_function_single_interrupt,[Unknown],0xffffffffb353a940
+hrtimer_run_queues,0.0,,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,hrtimer_run_queues,[Unknown],0xffffffffb3523e90
+irq_work_run,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,252007560,168005040,0,0,0,0,0,0,0.0,vmlinux,irq_work_run,[Unknown],0xffffffffb35c1ae0
+kernel_poison_pages,0.0,,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,kernel_poison_pages,[Unknown],0xffffffffb367e350
+lru_add_drain_cpu,0.0,0.0,0.0,,,,0.0,,0,84002520,0,0,0,0,0,0,0.0,vmlinux,lru_add_drain_cpu,[Unknown],0xffffffffb361b010
+mem_cgroup_uncharge_list,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,252007560,84002520,0,0,0,0,0,0,0.0,vmlinux,mem_cgroup_uncharge_list,[Unknown],0xffffffffb36a2210
+native_irq_return_iret,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,504015120,0,0,0,0,0,0,0,7.800000,vmlinux,native_irq_return_iret,[Unknown],0xffffffffb4000a27
+native_send_call_func_ipi,0.0,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,native_send_call_func_ipi,[Unknown],0xffffffffb345fa70
+notifier_call_chain,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,notifier_call_chain,[Unknown],0xffffffffb34bdd80
+on_each_cpu_cond_mask,0.0,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,7.000000,vmlinux,on_each_cpu_cond_mask,[Unknown],0xffffffffb353a6c0
+page_mapping,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,58.000000,vmlinux,page_mapping,[Unknown],0xffffffffb362cde0
+pci_read,0.0,0.0,,,0.0,,0.0,,0,84002520,0,0,0,0,0,0,0.0,vmlinux,pci_read,[Unknown],0xffffffffb3c9ece0
+policy_node,0.0,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,8.000000,vmlinux,policy_node,[Unknown],0xffffffffb3674070
+printk_nmi_exit,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,printk_nmi_exit,[Unknown],0xffffffffb35016d0
+profile_tick,0.0,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,7.000000,vmlinux,profile_tick,[Unknown],0xffffffffb351d4e0
+rb_erase,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,252007560,0,0,0,0,0,0,0,0.0,vmlinux,rb_erase,[Unknown],0xffffffffb3e30820
+record_times,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,record_times,[Unknown],0xffffffffb34efdf0
+restore_regs_and_return_to_kernel,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,7.000000,vmlinux,restore_regs_and_return_to_kernel,[Unknown],0xffffffffb40009fb
+sg_next,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,sg_next,[Unknown],0xffffffffb38e56f0
+"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_S_left",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,630018900,0,0,0,0,0,0,0,6.916667,driverForGraphClustering,"std::_Rb_tree<long, std::pair<long const, long>, std::_Select1st<std::pair<long const, long>>, std::less<long>, std::allocator<std::pair<long const, long>>>::_S_left(std::_Rb_tree_node_base*)",stl_tree.h,0x41eaca
+sync_mm_rss,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,sync_mm_rss,[Unknown],0xffffffffb36448c0
+tick_nohz_tick_stopped,0.0,,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,tick_nohz_tick_stopped,[Unknown],0xffffffffb3534a90
+timerqueue_add,0.0,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,7.000000,vmlinux,timerqueue_add,[Unknown],0xffffffffb3e34f90
+uncharge_batch,0.0,0.0,100.0,0.0,100.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,uncharge_batch,[Unknown],0xffffffffb369e400
+up_read,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,84002520,0,0,0,0,0,0,0.0,vmlinux,up_read,[Unknown],0xffffffffb34f0a70
+update_group_capacity,0.0,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,0,0,0,0,0,0,0,0.0,vmlinux,update_group_capacity,[Unknown],0xffffffffb34d8d00
+update_nohz_stats,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,update_nohz_stats,[Unknown],0xffffffffb34d2f70
+xas_create,0.0,,0.0,0.0,0.0,0.0,0.0,0.0,252007560,0,0,0,0,0,0,0,7.000000,vmlinux,xas_create,[Unknown],0xffffffffb3e3ab10
+xas_start,0.0,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,126003780,168005040,0,0,0,0,0,0,10.500000,vmlinux,xas_start,[Unknown],0xffffffffb3e39b10
