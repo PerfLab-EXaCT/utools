@@ -180,14 +180,21 @@ def main_grappolo(makeColL):
     path_pfx = './1grappolo/grappolo-'
 
     #-------------------------------------------------------
-    # Medium graphs (192 threads)/All memory modes
+    # Grappolo, 192 threads, all memory modes
     #-------------------------------------------------------
 
     # grappolo-<graph>-<type>-pkg.csv
     # grappolo-<graph>-<type>-fn.csv
 
-    graphL_med = ['friendster',
-                  'moliere2016']
+
+    graphL1 = [ [ 'friendster' ] ]
+    graphL2 = [ [ 'moliere2016' ] ]
+    graphL3 = [ [ ('clueweb12', 'clueweb') ] ]
+    graphL4 = [ [ ('uk2014', 'uk') ] ]
+
+    
+    graphL_med = [graphL1[0][0],  # 'friendster'
+                  graphL2[0][0] ] # 'moliere2016'
 
     graph_sfx = ['-t192-dram',
                  '-t192-mem',
@@ -218,8 +225,8 @@ def main_grappolo(makeColL):
     # Big graphs (192 threads)/Big memory modes
     #-------------------------------------------------------
 
-    graphL_big = [ ('clueweb12', 'clueweb'),
-                   ('uk2014', 'uk') ]
+    graphL_big = [ graphL3[0][0],  # ('clueweb12', 'clueweb'),
+                   graphL4[0][0] ] #  ('uk2014', 'uk')
 
     graphL_0 = [ x[0] for x in graphL_big ]
 
@@ -240,10 +247,6 @@ def main_grappolo(makeColL):
 
     graphL = [ graphL_med, graphL_big ]
 
-    graphL1 = [ [ 'friendster' ] ]
-    graphL2 = [ [ 'moliere2016' ] ]
-    graphL3 = [ [ ('clueweb12', 'clueweb') ] ]
-    graphL4 = [ [ ('uk2014', 'uk') ] ]
     
     pathL_p = pathL_Mp + pathL_Bp
 
@@ -343,7 +346,7 @@ def main_grappolo(makeColL):
 def main_ripples(makeColL):
 
     #-------------------------------------------------------
-    # Ripples
+    # Ripples, 64 threads, all memory modes
     #-------------------------------------------------------
 
     path_pfx = './2ripples/'
@@ -351,18 +354,19 @@ def main_ripples(makeColL):
     # <graph>.imm-<type>.T64.R0-pkg.csv
     # <graph>.imm-<type>.T64.R0-fn.csv
 
-    graphL = [ [('soc-Slashdot0902', 'slash'),
-                ('soc-twitter-combined', 'twitter'),
-                ('wiki-talk', 'talk') ],
-               [('soc-pokec-relationships', 'pokec') ],
-               [('wiki-topcats', 'topcats') ]
-    ]
-    
     graphL1 = [ [ ('soc-Slashdot0902', 'slash') ] ]
     graphL2 = [ [ ('soc-twitter-combined', 'twitter') ] ]
     graphL3 = [ [ ('wiki-talk', 'talk') ] ]
     graphL4 = [ [ ('soc-pokec-relationships', 'pokec') ] ]
     graphL5 = [ [ ('wiki-topcats', 'topcats') ] ]
+    
+    graphL = [ [ graphL1[0][0],   # 'slash'
+                 graphL2[0][0],   # 'twitter'
+                 graphL3[0][0] ], # 'talk'
+               [ graphL4[0][0] ], # 'pokec'
+               [ graphL5[0][0] ]  # 'topcats'
+    ]
+    
 
     graphL_0 = [ x[0] for x in flattenL(graphL) ]
 
@@ -372,19 +376,19 @@ def main_ripples(makeColL):
                  '.imm-kdax1.T64.R0']
 
 
+    mykeep = lambda x: not ('topcats' in x and 'dram' in x)
+
     pathL_p = [
         [ (path_pfx + grph + sfx + '-hotspots-pkg.csv') for sfx in graph_sfx ]
         for grph in graphL_0 ]
 
-    pathL_p = flattenL(pathL_p)
-    pathL_p = [x for x in pathL_p if not ('topcats' in x and 'dram' in x)]
+    pathL_p = list(filter(mykeep, flattenL(pathL_p) )) 
 
     pathL_f = [
         [ (path_pfx + grph + sfx + '-hotspots-fn.csv') for sfx in graph_sfx ]
         for grph in graphL_0 ]
 
-    pathL_f = flattenL(pathL_f)
-    pathL_f = [x for x in pathL_f if not ('topcats' in x and 'dram' in x)]
+    pathL_f = list(filter(mykeep, flattenL(pathL_f) ))
 
     #-------------------------------------------------------
     # 
