@@ -716,12 +716,17 @@ def plotL_mk(vt, metricL, w, h, graph_grpL):
     if (Do_rows):
         fig, axesL = pyplt.subplots(nrows=1, ncols=(num_axes),
                                     figsize=(w * num_axes, h),
+                                    #squeeze=False,
                                     gridspec_kw={'width_ratios': widthL})
     else:
         # FIXME: ncol = num_groups
         fig, axesL = pyplt.subplots(nrows=(num_axes), ncols=1,
                                     figsize=(w, h * num_axes),
+                                    #squeeze=False,
                                     gridspec_kw={'width_ratios': widthL})
+
+    if (num_axes == 1): # squeeze=True
+        axesL = numpy.array([axesL])
 
     return (fig, axesL)
 
@@ -769,9 +774,6 @@ def plotL_do(vt, fig, axesL, metricL, dfrm_xformF, graph_grpL, plotH):
             #print(graph_grp)
         
             axes_i = (i_m * grp_per_metric) + i_g
-
-            #if (not isinstance(axesL, list)): #AxesSubplot
-            #    axes = axesL
 
             axes = axesL[axes_i]
 
