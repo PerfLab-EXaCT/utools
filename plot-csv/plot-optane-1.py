@@ -74,11 +74,12 @@ def main():
 
     makeColL_g1 = [
         ('CPU Time', 'CPU Time (s)', makeCol_wallclock(192) ),
-        ('Memory Bound:L2 Bound(%)',  'L2/1 Bound (%)', makeCol_L2xBound('Memory Bound:L1 Bound(%)') ),
+        ('Memory Bound:L2 Bound(%)',  'L2/1 Bound (%)', makeCol_Sum('Memory Bound:L1 Bound(%)') ),
         ('Stores',   'Stores (%)',   vtcsv.makeCol_pctOfOther('Loads') ),
     ]
 
     makeColL_g2 = [
+        ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_MEM_ANY', 'All Mem Stalls', makeCol_Sum('Hardware Event Count:EXE_ACTIVITY.BOUND_ON_STORES') ),
     ]
     
     makeColL_r = [
@@ -959,12 +960,12 @@ def makeCol_wallclock(n_threads):
     return mk_fn
 
 
-def makeCol_L2xBound(col_src2): # could be a list of source columns
+def makeCol_Sum(col_src2): # could be a list of source columns
 
     def mk_fn(dfrm, col_src):
         dfrm_dst = dfrm[col_src] + dfrm[col_src2]
         return dfrm_dst
-        
+
     return mk_fn
 
 
