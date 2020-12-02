@@ -355,8 +355,8 @@ def main_ripples(makeColL):
 
     path_pfx = './2ripples/'
 
-    # <graph>.imm-<type>.T64.R0-pkg.csv
-    # <graph>.imm-<type>.T64.R0-fn.csv
+    # <graph>.imm-<type>.T64-pkg.csv
+    # <graph>.imm-<type>.T64-fn.csv
 
     graphL1 = [ [ ('soc-Slashdot0902', 'slash') ] ]
     graphL2 = [ [ ('soc-twitter-combined', 'twitter') ] ]
@@ -373,10 +373,10 @@ def main_ripples(makeColL):
 
     graphL_0 = [ x[0] for x in flattenL(graphL) ]
 
-    graph_sfx = ['.imm-dram.T64.R0',
-                 '.imm-mem.T64.R0',
-                 '.imm-kdax.T64.R0',
-                 '.imm-kdax1.T64.R0']
+    graph_sfx = ['.imm-dram.T64',
+                 '.imm-mem.T64',
+                 '.imm-kdax1.T64',
+                 '.imm-kdax2.T64']
 
     # 'topcats' has no dram
     mykeep = lambda x: not ('topcats' in x and 'dram' in x)
@@ -966,7 +966,7 @@ def rename_col(x, graph_grpL):
 
     # ripples
     x0 = x0.replace('.imm-', '') # not a typo!
-    x0 = re.sub('\.T\d+\.R0', '', x0) #x0 = x0.replace('.T64.R0', '')
+    x0 = re.sub('\.T\d+', '', x0) #x0 = x0.replace('.T64', '')
 
     # both
     x0 = x0.replace('-hotspots-pkg', '')
