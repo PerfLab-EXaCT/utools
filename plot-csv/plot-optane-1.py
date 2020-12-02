@@ -74,7 +74,7 @@ def main():
 
     makeColL_g1 = [
         ('CPU Time', 'CPU Time (s)', makeCol_wallclock(192) ),
-        ('Memory Bound:L2 Bound(%)',  'L2/1 Bound (%)', makeCol_Sum('Memory Bound:L1 Bound(%)') ),
+        ('Memory Bound:L2 Bound(%)', 'L2/1 Bound (%)', makeCol_Sum('Memory Bound:L1 Bound(%)') ),
         ('Stores',   'Stores (%)',   vtcsv.makeCol_pctOfOther('Loads') ),
     ]
 
@@ -88,7 +88,6 @@ def main():
         makeColL_g1[2],
         #('Memory Bound:L2 Bound(%)',  'L2/1 Bound (%)', makeCol_L2xBound('Memory Bound:L1 Bound(%)') ),
         #('Stores',   'Stores (%)',   vtcsv.makeCol_pctOfOther('Loads') ),
-
     ]
 
     #-------------------------------------------------------
@@ -96,7 +95,7 @@ def main():
     #-------------------------------------------------------
 
     global metricLp
-    metricLp = [ # metricL1.copy()
+    metricLp = [
         #(makeColL_g1[0][1] ,),  #('CPU Time'),
         #
         ('Average Latency (cycles)',    'Latency (cycles)'),
@@ -111,9 +110,9 @@ def main():
         #('Memory Bound:Store Bound(%)', 'Store Bound (%)'),
     ]
     
-    global metricLf_g
-    metricLf_g = [ # metricL1.copy()
-        (makeColL_g1[0][1] ,),  #('CPU Time'),
+    global metricLf_g1
+    metricLf_g1 = [
+        (makeColL_g1[0][1] ,),  # ('CPU Time'),
         #
         ('Average Latency (cycles)',    'Latency (cycles)'),
         #
@@ -127,6 +126,11 @@ def main():
 
         #(makeColL_g1[2][1] ,),  #('Stores (%)',),
         #('Memory Bound:Store Bound(%)', 'Store Bound (%)'),
+    ]
+
+    global metricLf_g2
+    metricLf_g2 = [
+        (makeColL_g2[0][1] ,), # ('All Mem Stalls'),
     ]
 
 
@@ -312,12 +316,15 @@ def main_grappolo(makeColL1, makeColL2):
     adjHf = { 'left':0.15, 'right':0.98, 'bottom':0.15, 'top':0.90,
               'wspace':0.13, 'hspace':0.0 }
 
-    fig_f1 = plot_fn(vt_f1, graphL1, funcH, metricLf_g, {**plotHf, 'title':1}, adjHf)
-    fig_f2 = plot_fn(vt_f1, graphL2, funcH, metricLf_g, {**plotHf, 'xtitle_bot':1}, adjHf)
-    fig_f3 = plot_fn(vt_f1, graphL3, funcH, metricLf_g, {**plotHf, 'h':1.4, 'txt_rot':0}, adjHf)
-    fig_f4 = plot_fn(vt_f1, graphL4, funcH, metricLf_g, {**plotHf, 'h':1.4, 'xtitle_bot':1, 'txt_rot':0}, adjHf)
+    fig_f1a = plot_fn(vt_f1, graphL1, funcH, metricLf_g1, {**plotHf, 'title':1}, adjHf)
+    #fig_f1b = plot_fn(vt_f2, graphL1, funcH, metricLf_g2, {**plotHf, 'title':1}, adjHf)
+    
+    fig_f2 = plot_fn(vt_f1, graphL2, funcH, metricLf_g1, {**plotHf, 'xtitle_bot':1}, adjHf)
+    fig_f3 = plot_fn(vt_f1, graphL3, funcH, metricLf_g1, {**plotHf, 'h':1.4, 'txt_rot':0}, adjHf)
+    fig_f4 = plot_fn(vt_f1, graphL4, funcH, metricLf_g1, {**plotHf, 'h':1.4, 'xtitle_bot':1, 'txt_rot':0}, adjHf)
 
     fig_fx = plot_fn(vt_f1, graphL, funcH, metricLx, {'w':3.2, 'h':2.7, 'xtitle_bot':1}, adjHx)
+
 
     #fig_f1 = plot_fn(vt_f1, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'xtitle_bot':False}, adjH)
 
@@ -325,7 +332,7 @@ def main_grappolo(makeColL1, makeColL2):
     fig_p1.savefig('chart-grappolo-pkg1.pdf', bbox_inches='tight')
     fig_p2.savefig('chart-grappolo-pkg2.pdf', bbox_inches='tight')
 
-    fig_f1.savefig('chart-grappolo-fn1.pdf', bbox_inches='tight')
+    fig_f1a.savefig('chart-grappolo-fn1.pdf', bbox_inches='tight')
     fig_f2.savefig('chart-grappolo-fn2.pdf', bbox_inches='tight')
     fig_f3.savefig('chart-grappolo-fn3.pdf', bbox_inches='tight')
     fig_f4.savefig('chart-grappolo-fn4.pdf', bbox_inches='tight')
@@ -508,7 +515,7 @@ def main_ripples(makeColL):
     adjHf = { 'left':0.15, 'right':0.98, 'bottom':0.15, 'top':0.90,
               'wspace':0.13, 'hspace':0.0 }
 
-    fig_f1 = plot_fn(vt_f, graphL1, funcH, metricLf_r, {**plotHf, 'title':1}, adjHf)
+    fig_f1a = plot_fn(vt_f, graphL1, funcH, metricLf_r, {**plotHf, 'title':1}, adjHf)
     fig_f2 = plot_fn(vt_f, graphL2, funcH, metricLf_r, {**plotHf, 'title':1}, adjHf)
     fig_f3 = plot_fn(vt_f, graphL3, funcH, metricLf_r, {**plotHf, 'title':1}, adjHf)
     fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf_r, {**plotHf, 'xtitle_bot':1}, adjHf)
@@ -521,7 +528,7 @@ def main_ripples(makeColL):
     fig_p1.savefig('chart-ripples-pkg1.pdf', bbox_inches='tight')
     fig_p2.savefig('chart-ripples-pkg2.pdf', bbox_inches='tight')
 
-    fig_f1.savefig('chart-ripples-fn1.pdf', bbox_inches='tight')
+    fig_f1a.savefig('chart-ripples-fn1.pdf', bbox_inches='tight')
     fig_f2.savefig('chart-ripples-fn2.pdf', bbox_inches='tight')
     fig_f3.savefig('chart-ripples-fn3.pdf', bbox_inches='tight')
     fig_f4.savefig('chart-ripples-fn4.pdf', bbox_inches='tight')
@@ -587,31 +594,36 @@ def dfrm_fn_xform(vt, functionH, graph_grpL):
     try:
         # Note: before 'MergeRows_nosum_scaleMetric' has been renamed!
         dfrm_time = vt.dataH[MergeRows_nosum_scaleMetric]
-        dfrm_st =  vt.dataH[MergeRows_nosum_scaleMetric_st]
+        dfrm_st =   vt.dataH[MergeRows_nosum_scaleMetric_st]
     except KeyError:
-        vtcsv.MSG.err(("Cannot find metric: '%s'" % MergeRows_nosum_scaleMetric))
+        pass
 
     
     def dfrm_fn_xform1(dfrm, graph_grp, metric):
         # 'metric' is *original* metric name
-        
-        # 0. Select columns for 'graph_grp'
-        df_tm = select_dfrm_col(dfrm_time, graph_grp) # copies dfrm slice
 
-        # FIXME:
-        if (re.search(MergeRows_nosum_metricPat_st, metric, re.IGNORECASE)):
-            df_tm = select_dfrm_col(dfrm_st, graph_grp) # copies dfrm slice
-    
-        # 1. Rename columns
+        # 1. Rename columns/rows
         dfrm = dfrm.rename(columns = (lambda x: rename_col(x, graph_grpL)))
-        df_tm.rename(columns = (lambda x: rename_col(x, graph_grpL)), inplace=True)
-
-        # 2. Rename rows
         dfrm.rename(index = functionH, inplace=True)
-        df_tm.rename(index = functionH, inplace=True)
 
-        # 3. Select and merge rows with same target name
-        if (re.search(MergeRows_nosum_metricPat, metric)): # re.IGNORECASE
+        # 2. Select and merge rows with same target name
+        if (re.search(MergeRows_nosum_metricPat, metric)):
+
+            if (dfrm_time is None):
+                vtcsv.MSG.err(("Cannot find metric: '%s'" % MergeRows_nosum_scaleMetric))
+            if (dfrm_st is None):
+                vtcsv.MSG.err(("Cannot find metric: '%s'" % MergeRows_nosum_scaleMetric_st))
+                
+            
+            # 0. Select weighting column for 'graph_grp' (FIXME)
+            df_tm = select_dfrm_col(dfrm_time, graph_grp) # copies dfrm slice
+            if (re.search(MergeRows_nosum_metricPat_st, metric, re.IGNORECASE)):
+                df_tm = select_dfrm_col(dfrm_st, graph_grp) # copies dfrm slice
+
+            # 1. Rename columns/rows
+            df_tm.rename(columns = (lambda x: rename_col(x, graph_grpL)), inplace=True)
+            df_tm.rename(index = functionH, inplace=True)
+            
             # Merge by weighted average
             rowL = []
             for fn in functionHx_keys:

@@ -92,7 +92,7 @@ class VTuneCSV:
         if (not isinstance(csv_pathL, list)):
             csv_pathL = [csv_pathL]
 
-        if (makeColL == None):
+        if (makeColL is None):
             makeColL = []
         elif (not isinstance(makeColL, list)):
             makeColL = [makeColL]
@@ -238,7 +238,6 @@ class VTuneCSV:
                 col_src_i = dfrm.columns.get_loc(col_src)
             except:
                 MSG.err("For new column '{}', cannot find source '{}'".format(col_dst, col_src))
-                sys.exit(1)
 
             col_dst_i = col_src_i + 1
 
@@ -253,7 +252,7 @@ class VTuneCSV:
 
         if (self.group_by == 'csv'):
 
-            if (columnL == None):
+            if (columnL is None):
                 colL = dfrm.columns
             elif (len(columnL) == 0):
                 colL = [ '<all>' ]
