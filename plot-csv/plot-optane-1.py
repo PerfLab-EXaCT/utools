@@ -180,26 +180,21 @@ def main_grappolo(makeColL):
     path_pfx = './1grappolo/grappolo-'
 
     #-------------------------------------------------------
-    # Grappolo, 192 threads, all memory modes
+    # Grappolo, Medium graphs, 192 threads, *all* memory modes
     #-------------------------------------------------------
 
     # grappolo-<graph>-<type>-pkg.csv
     # grappolo-<graph>-<type>-fn.csv
 
-
     graphL1 = [ [ 'friendster' ] ]
     graphL2 = [ [ 'moliere2016' ] ]
     graphL3 = [ [ ('clueweb12', 'clueweb') ] ]
     graphL4 = [ [ ('uk2014', 'uk') ] ]
-
     
     graphL_med = [graphL1[0][0],  # 'friendster'
                   graphL2[0][0] ] # 'moliere2016'
 
-    graph_sfx = ['-t192-dram',
-                 '-t192-mem',
-                 '-t192-kdax',
-                 '-t192-pdax']
+    graph_sfx = ['-t192-dram', '-t192-mem', '-t192-kdax', '-t192-pdax']
 
     pathL_Mp = [
         [ (path_pfx + grph + sfx + '-hotspots-pkg.csv') for sfx in graph_sfx ]
@@ -214,44 +209,37 @@ def main_grappolo(makeColL):
     pathL_Mf = flattenL(pathL_Mf)
 
     # (path_pfx + grph + sfx + '-hw-events-fn.csv')
-
-    #-------------------------------------------------------
-
-    pathL_mxp = [ (path_pfx + 'moliere2016-t16-' + mode + '-hotspots-pkg.csv') for mode in ['dram', 'mem'] ]
-    pathL_mxf = [ (path_pfx + 'moliere2016-t16-' + mode + '-hotspots-fn.csv') for mode in ['dram', 'mem'] ]
-    
     
     #-------------------------------------------------------
-    # Big graphs (192 threads)/Big memory modes
+    # Grappolo, Big graphs, 192 threads, *big* memory modes
     #-------------------------------------------------------
 
     graphL_big = [ graphL3[0][0],  # ('clueweb12', 'clueweb'),
-                   graphL4[0][0] ] #  ('uk2014', 'uk')
+                   graphL4[0][0] ] # ('uk2014', 'uk')
 
     graphL_0 = [ x[0] for x in graphL_big ]
 
+    graph_sfx = ['-t192-mem', '-t192-kdax']
 
     pathL_Bp = [
-        [path_pfx + grph + '-t192-mem-hotspots-pkg.csv',
-         path_pfx + grph + '-t192-kdax-hotspots-pkg.csv'] for grph in graphL_0 ]
+        [ (path_pfx + grph + sfx + '-hotspots-pkg.csv') for sfx in graph_sfx ]
+        for grph in graphL_0 ]
 
     pathL_Bp = flattenL(pathL_Bp)
     
     pathL_Bf = [
-        [path_pfx + grph + '-t192-mem-hotspots-fn.csv',
-         path_pfx + grph + '-t192-kdax-hotspots-fn.csv'] for grph in graphL_0 ]
+        [ (path_pfx + grph + sfx + '-hotspots-fn.csv') for sfx in graph_sfx ]
+        for grph in graphL_0 ]
 
     pathL_Bf = flattenL(pathL_Bf)
 
     #-------------------------------------------------------
 
     graphL = [ graphL_med, graphL_big ]
-
     
     pathL_p = pathL_Mp + pathL_Bp
 
     pathL_f = pathL_Mf + pathL_Bf
-
 
     
     #-------------------------------------------------------
@@ -293,11 +281,7 @@ def main_grappolo(makeColL):
     #-------------------------------------------------------
 
     vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv', makeColL = makeColL)
-    vt_f = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL)
-
-    vt_mp = vtcsv.VTuneCSV(pathL_mxp, group_by = 'csv', makeColL = makeColL)
-    vt_mf = vtcsv.VTuneCSV(pathL_mxf, group_by = 'csv', makeColL = makeColL)
-    
+    vt_f = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL)    
 
     adjHx = { 'left':0.05, 'right':0.99, 'bottom':0.10, 'top':0.75,
               'wspace':0.15, 'hspace':0.0 }
@@ -324,12 +308,6 @@ def main_grappolo(makeColL):
     #fig_f1 = plot_fn(vt_f, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'xtitle_bot':False}, adjH)
 
 
-    mL = metricLf_g.copy()
-    mL.pop(3) # 'Pmem Bound (%)'
-
-    fig_mp = plot_pkg(vt_mp, graphL2, mL, {**plotHf, 'title':1, 'xtitle_bot':1}, adjHx)
-    fig_mf = plot_fn(vt_mf, graphL2, funcH, mL, {**plotHf, 'title':1, 'xtitle_bot':1}, adjHf)
-
     fig_p1.savefig('chart-grappolo-pkg1.pdf', bbox_inches='tight')
     fig_p2.savefig('chart-grappolo-pkg2.pdf', bbox_inches='tight')
 
@@ -337,9 +315,6 @@ def main_grappolo(makeColL):
     fig_f2.savefig('chart-grappolo-fn2.pdf', bbox_inches='tight')
     fig_f3.savefig('chart-grappolo-fn3.pdf', bbox_inches='tight')
     fig_f4.savefig('chart-grappolo-fn4.pdf', bbox_inches='tight')
-
-    fig_mp.savefig('chart-grappolo-m16-pkg.pdf', bbox_inches='tight')
-    fig_mf.savefig('chart-grappolo-m16-fn.pdf', bbox_inches='tight')
 
 
 
@@ -376,6 +351,7 @@ def main_ripples(makeColL):
                  '.imm-kdax1.T64.R0']
 
 
+    # 'topcats' has no dram
     mykeep = lambda x: not ('topcats' in x and 'dram' in x)
 
     pathL_p = [
