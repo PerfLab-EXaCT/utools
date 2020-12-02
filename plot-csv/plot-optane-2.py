@@ -146,42 +146,41 @@ slash	64	mem	59.48	nan
 slash	128	mem	53.11	nan
 slash	192	mem	35.44	nan
 
-slash	2	kdax	nan	nan
-slash	4	kdax	nan	nan
-slash	8	kdax	nan	nan
-slash	16	kdax	nan	nan
-slash	32	kdax	64.10	nan
-slash	64	kdax	66.03	nan
-slash	128	kdax	nan	nan
-slash	192	kdax	46.58	nan
-
 slash	2	kdax1	nan	nan
 slash	4	kdax1	nan	nan
 slash	8	kdax1	nan	nan
 slash	16	kdax1	nan	nan
-slash	32	kdax1	37.79	40.4645827
-slash	64	kdax1	34.47	38.49604419
+slash	32	kdax1	64.10	nan
+slash	64	kdax1	66.03	nan
 slash	128	kdax1	nan	nan
-slash	192	kdax1	25.45	41.54662348
+slash	192	kdax1	46.58	nan
 
 slash	2	kdax2	nan	nan
 slash	4	kdax2	nan	nan
 slash	8	kdax2	nan	nan
 slash	16	kdax2	nan	nan
-slash	32	kdax2	39.50	43.77249092
-slash	64	kdax2	35.39	40.34433134
+slash	32	kdax2	40.23	45.664748
+slash	64	kdax2	37.38	43.11986708
 slash	128	kdax2	nan	nan
-slash	192	kdax2	26.61	38.77803595
+slash	192	kdax2	29.12	40.62709505
 
 slash	2	kdax3	nan	nan
 slash	4	kdax3	nan	nan
 slash	8	kdax3	nan	nan
 slash	16	kdax3	nan	nan
-slash	32	kdax3	40.23	45.664748
-slash	64	kdax3	37.38	43.11986708
+slash	32	kdax3	39.50	43.77249092
+slash	64	kdax3	35.39	40.34433134
 slash	128	kdax3	nan	nan
-slash	192	kdax3	29.12	40.62709505
+slash	192	kdax3	26.61	38.77803595
 
+slash	2	kdaxX	nan	nan
+slash	4	kdaxX	nan	nan
+slash	8	kdaxX	nan	nan
+slash	16	kdaxX	nan	nan
+slash	32	kdaxX	37.79	40.4645827
+slash	64	kdaxX	34.47	38.49604419
+slash	128	kdaxX	nan	nan
+slash	192	kdaxX	25.45	41.54662348
 
 twitter	2	dram	468.68	nan
 twitter	4	dram	235.69	nan
@@ -201,41 +200,41 @@ twitter	64	mem	118.32	nan
 twitter	128	mem	108.72	nan
 twitter	192	mem	50.23	nan
 
-twitter	2	kdax	nan	nan
-twitter	4	kdax	nan	nan
-twitter	8	kdax	nan	nan
-twitter	16	kdax	nan	nan
-twitter	32	kdax	141.27	nan
-twitter	64	kdax	125.70	nan
-twitter	128	kdax	nan	nan
-twitter	192	kdax	71.81	nan
-
 twitter	2	kdax1	nan	nan
 twitter	4	kdax1	nan	nan
 twitter	8	kdax1	nan	nan
 twitter	16	kdax1	nan	nan
-twitter	32	kdax1	64.46	69.03614913
-twitter	64	kdax1	58.11	65.7562004
+twitter	32	kdax1	141.27	nan
+twitter	64	kdax1	125.70	nan
 twitter	128	kdax1	nan	nan
-twitter	192	kdax1	37.14	55.71388362
+twitter	192	kdax1	71.81	nan
 
 twitter	2	kdax2	nan	nan
 twitter	4	kdax2	nan	nan
 twitter	8	kdax2	nan	nan
 twitter	16	kdax2	nan	nan
-twitter	32	kdax2	66.07	71.32162039
-twitter	64	kdax2	59.45	63.05750133
+twitter	32	kdax2	75.73	78.84232883
+twitter	64	kdax2	70.83	77.23828308
 twitter	128	kdax2	nan	nan
-twitter	192	kdax2	37.97	50.44523449
+twitter	192	kdax2	33.21	55.70712258
 
 twitter	2	kdax3	nan	nan
 twitter	4	kdax3	nan	nan
 twitter	8	kdax3	nan	nan
 twitter	16	kdax3	nan	nan
-twitter	32	kdax3	75.73	78.84232883
-twitter	64	kdax3	70.83	77.23828308
+twitter	32	kdax3	66.07	71.32162039
+twitter	64	kdax3	59.45	63.05750133
 twitter	128	kdax3	nan	nan
-twitter	192	kdax3	33.21	55.70712258
+twitter	192	kdax3	37.97	50.44523449
+
+twitter	2	kdaxX	nan	nan
+twitter	4	kdaxX	nan	nan
+twitter	8	kdaxX	nan	nan
+twitter	16	kdaxX	nan	nan
+twitter	32	kdaxX	64.46	69.03614913
+twitter	64	kdaxX	58.11	65.7562004
+twitter	128	kdaxX	nan	nan
+twitter	192	kdaxX	37.14	55.71388362
 
 
 talk	2	dram	606.44	nan
@@ -256,41 +255,41 @@ talk	64	mem	83.60	nan
 talk	128	mem	70.46	nan
 talk	192	mem	53.20	nan
 
-talk	2	kdax	nan	nan
-talk	4	kdax	nan	nan
-talk	8	kdax	nan	nan
-talk	16	kdax	nan	nan
-talk	32	kdax	101.20	nan
-talk	64	kdax	101.98	nan
-talk	128	kdax	nan	nan
-talk	192	kdax	123.27	nan
-
 talk	2	kdax1	nan	nan
 talk	4	kdax1	nan	nan
 talk	8	kdax1	nan	nan
 talk	16	kdax1	nan	nan
-talk	32	kdax1	73.46	73.77388803
-talk	64	kdax1	69.65	75.43769374
+talk	32	kdax1	101.20	nan
+talk	64	kdax1	101.98	nan
 talk	128	kdax1	nan	nan
-talk	192	kdax1	88.87	104.2051243
+talk	192	kdax1	123.27	nan
 
 talk	2	kdax2	nan	nan
 talk	4	kdax2	nan	nan
 talk	8	kdax2	nan	nan
 talk	16	kdax2	nan	nan
-talk	32	kdax2	76.53	79.71498115
-talk	64	kdax2	70.61	74.92748809
+talk	32	kdax2	86.90	88.26351887
+talk	64	kdax2	76.12	81.04203942
 talk	128	kdax2	nan	nan
-talk	192	kdax2	84.81	98.67837559
+talk	192	kdax2	71.57	77.98582283
 
 talk	2	kdax3	nan	nan
 talk	4	kdax3	nan	nan
 talk	8	kdax3	nan	nan
 talk	16	kdax3	nan	nan
-talk	32	kdax3	86.90	88.26351887
-talk	64	kdax3	76.12	81.04203942
+talk	32	kdax3	76.53	79.71498115
+talk	64	kdax3	70.61	74.92748809
 talk	128	kdax3	nan	nan
-talk	192	kdax3	71.57	77.98582283
+talk	192	kdax3	84.81	98.67837559
+
+talk	2	kdaxX	nan	nan
+talk	4	kdaxX	nan	nan
+talk	8	kdaxX	nan	nan
+talk	16	kdaxX	nan	nan
+talk	32	kdaxX	73.46	73.77388803
+talk	64	kdaxX	69.65	75.43769374
+talk	128	kdaxX	nan	nan
+talk	192	kdaxX	88.87	104.2051243
 
 
 pokec	2	dram	22531.59	nan
@@ -311,41 +310,41 @@ pokec	64	mem	939.25	        nan
 pokec	128	mem	718.31	        nan
 pokec	192	mem	771.15	        nan
 
-pokec	2	kdax	nan	nan
-pokec	4	kdax	nan	nan
-pokec	8	kdax	nan	nan
-pokec	16	kdax	nan	nan
-pokec	32	kdax	2450.37	nan
-pokec	64	kdax	1639.97	nan
-pokec	128	kdax	nan	nan
-pokec	192	kdax	1974.83	nan
-
 pokec	2	kdax1	nan	nan
 pokec	4	kdax1	nan	nan
 pokec	8	kdax1	nan	nan
 pokec	16	kdax1	nan	nan
-pokec	32	kdax1	2480.16	2557.437547
-pokec	64	kdax1	2711.26	2696.422974
+pokec	32	kdax1	2450.37	nan
+pokec	64	kdax1	1639.97	nan
 pokec	128	kdax1	nan	nan
-pokec	192	kdax1	6173.22	6303.312064
+pokec	192	kdax1	1974.83	nan
 
 pokec	2	kdax2	nan	nan
 pokec	4	kdax2	nan	nan
 pokec	8	kdax2	nan	nan
 pokec	16	kdax2	nan	nan
-pokec	32	kdax2	2659.48	2764.888682
-pokec	64	kdax2	2338.70	2313.266827
+pokec	32	kdax2	2237.83	2199.75474
+pokec	64	kdax2	1384.91	1437.639276
 pokec	128	kdax2	nan	nan
-pokec	192	kdax2	3013.94	3153.660593
+pokec	192	kdax2	1262.70	1267.780125
 
 pokec	2	kdax3	nan	nan
 pokec	4	kdax3	nan	nan
 pokec	8	kdax3	nan	nan
 pokec	16	kdax3	nan	nan
-pokec	32	kdax3	2237.83	2199.75474
-pokec	64	kdax3	1384.91	1437.639276
+pokec	32	kdax3	2659.48	2764.888682
+pokec	64	kdax3	2338.70	2313.266827
 pokec	128	kdax3	nan	nan
-pokec	192	kdax3	1262.70	1267.780125
+pokec	192	kdax3	3013.94	3153.660593
+
+pokec	2	kdaxX	nan	nan
+pokec	4	kdaxX	nan	nan
+pokec	8	kdaxX	nan	nan
+pokec	16	kdaxX	nan	nan
+pokec	32	kdaxX	2480.16	2557.437547
+pokec	64	kdaxX	2711.26	2696.422974
+pokec	128	kdaxX	nan	nan
+pokec	192	kdaxX	6173.22	6303.312064
 
 
 topcats	2	mem	19722.79	nan
@@ -357,41 +356,41 @@ topcats	64	mem	1041.00	nan
 topcats	128	mem	880.35	nan
 topcats	192	mem	867.02	nan
 
-topcats	2	kdax	nan	nan
-topcats	4	kdax	nan	nan
-topcats	8	kdax	nan	nan
-topcats	16	kdax	nan	nan
-topcats	32	kdax	2298.37	nan
-topcats	64	kdax	1891.35	nan
-topcats	128	kdax	nan	nan
-topcats	192	kdax	2368.92	nan
-
 topcats	2	kdax1	nan	nan
 topcats	4	kdax1	nan	nan
 topcats	8	kdax1	nan	nan
 topcats	16	kdax1	nan	nan
-topcats	32	kdax1	2358.83	2369.970634
-topcats	64	kdax1	4986.54	5099.429601
+topcats	32	kdax1	2298.37	nan
+topcats	64	kdax1	1891.35	nan
 topcats	128	kdax1	nan	nan
-topcats	192	kdax1	6396.29	6483.311098
+topcats	192	kdax1	2368.92	nan
 
 topcats	2	kdax2	nan	nan
 topcats	4	kdax2	nan	nan
 topcats	8	kdax2	nan	nan
 topcats	16	kdax2	nan	nan
-topcats	32	kdax2	2842.89	2894.704997
-topcats	64	kdax2	2778.72	2718.955827
+topcats	32	kdax2	2089.34	2065.797776
+topcats	64	kdax2	1487.88	1499.681414
 topcats	128	kdax2	nan	nan
-topcats	192	kdax2	3400.19	3375.656995
+topcats	192	kdax2	1437.10	1512.404942
 
 topcats	2	kdax3	nan	nan
 topcats	4	kdax3	nan	nan
 topcats	8	kdax3	nan	nan
 topcats	16	kdax3	nan	nan
-topcats	32	kdax3	2089.34	2065.797776
-topcats	64	kdax3	1487.88	1499.681414
+topcats	32	kdax3	2842.89	2894.704997
+topcats	64	kdax3	2778.72	2718.955827
 topcats	128	kdax3	nan	nan
-topcats	192	kdax3	1437.10	1512.404942
+topcats	192	kdax3	3400.19	3375.656995
+
+topcats	2	kdaxX	nan	nan
+topcats	4	kdaxX	nan	nan
+topcats	8	kdaxX	nan	nan
+topcats	16	kdaxX	nan	nan
+topcats	32	kdaxX	2358.83	2369.970634
+topcats	64	kdaxX	4986.54	5099.429601
+topcats	128	kdaxX	nan	nan
+topcats	192	kdaxX	6396.29	6483.311098
 """
 
 # Degenerate.
