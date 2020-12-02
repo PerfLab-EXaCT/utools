@@ -80,6 +80,9 @@ def main():
 
     makeColL_g2 = [
         ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_MEM_ANY', 'All Mem Stalls', makeCol_Sum('Hardware Event Count:EXE_ACTIVITY.BOUND_ON_STORES') ),
+        ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_MEM_ANY', 'L1 Stalls', makeCol_Diff('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L1D_MISS') ),
+        ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L1D_MISS', 'L2 Stalls', makeCol_Diff('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L2_MISS') ),
+        ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L2_MISS', 'L3 Stalls', makeCol_Diff('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L3_MISS') ),
     ]
     
     makeColL_r = [
@@ -130,7 +133,12 @@ def main():
 
     global metricLf_g2
     metricLf_g2 = [
-        (makeColL_g2[0][1] ,), # ('All Mem Stalls'),
+        #(makeColL_g2[0][1] ,), # ('All Mem Stalls'),
+        ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L3_MISS', 'Mem Stalls'),
+        (makeColL_g2[3][1] ,), # ('L3 Stalls'),
+        (makeColL_g2[2][1] ,), # ('L2 Stalls'),
+        (makeColL_g2[1][1] ,), # ('L1 Stalls'),
+        ('Hardware Event Count:EXE_ACTIVITY.BOUND_ON_STORES',  'Store Stalls'),
     ]
 
 
@@ -313,11 +321,11 @@ def main_grappolo(makeColL1, makeColL2):
     fig_px = plot_pkg(vt_p, graphL, metricLx, {'w':3.0, 'h':1.8}, adjHx)
 
     plotHf = {'w':2.3, 'h':1.5, 'title':0, 'xtitle_top':0, 'xtitle_bot':0}
-    adjHf = { 'left':0.15, 'right':0.98, 'bottom':0.15, 'top':0.90,
+    adjHf = { 'left':0.15, 'right':0.98, 'bottom':0.15, 'top':0.85,
               'wspace':0.13, 'hspace':0.0 }
 
     fig_f1a = plot_fn(vt_f1, graphL1, funcH, metricLf_g1, {**plotHf, 'title':1}, adjHf)
-    #fig_f1b = plot_fn(vt_f2, graphL1, funcH, metricLf_g2, {**plotHf, 'title':1}, adjHf)
+    fig_f1b = plot_fn(vt_f2, graphL1, funcH, metricLf_g2, {**plotHf, 'title':1}, adjHf)
     
     fig_f2 = plot_fn(vt_f1, graphL2, funcH, metricLf_g1, {**plotHf, 'xtitle_bot':1}, adjHf)
     fig_f3 = plot_fn(vt_f1, graphL3, funcH, metricLf_g1, {**plotHf, 'h':1.4, 'txt_rot':0}, adjHf)
@@ -762,6 +770,9 @@ def plotL_do(vt, fig, axesL, metricL, dfrm_xformF, graph_grpL, plotH):
         
             axes_i = (i_m * grp_per_metric) + i_g
 
+            #if (not isinstance(axesL, list)): #AxesSubplot
+            #    axes = axesL
+
             axes = axesL[axes_i]
 
             metricPair = metricL[i_m]
@@ -976,6 +987,15 @@ def makeCol_Sum(col_src2): # could be a list of source columns
 
     def mk_fn(dfrm, col_src):
         dfrm_dst = dfrm[col_src] + dfrm[col_src2]
+        return dfrm_dst
+
+    return mk_fn
+
+
+def makeCol_Diff(col_src2): # could be a list of source columns
+
+    def mk_fn(dfrm, col_src):
+        dfrm_dst = dfrm[col_src] - dfrm[col_src2]
         return dfrm_dst
 
     return mk_fn
