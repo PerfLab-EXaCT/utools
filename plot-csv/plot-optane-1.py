@@ -72,16 +72,19 @@ def main():
     # Make new columns in 'vtcsv'
     #-------------------------------------------------------
 
-    makeColL_g = [
+    makeColL_g1 = [
         ('CPU Time', 'CPU Time (s)', makeCol_wallclock(192) ),
         ('Memory Bound:L2 Bound(%)',  'L2/1 Bound (%)', makeCol_L2xBound('Memory Bound:L1 Bound(%)') ),
         ('Stores',   'Stores (%)',   vtcsv.makeCol_pctOfOther('Loads') ),
     ]
 
+    makeColL_g2 = [
+    ]
+    
     makeColL_r = [
         ('CPU Time', 'CPU Time (s)', makeCol_wallclock(64) ),
-        makeColL_g[1],
-        makeColL_g[2],
+        makeColL_g1[1],
+        makeColL_g1[2],
         #('Memory Bound:L2 Bound(%)',  'L2/1 Bound (%)', makeCol_L2xBound('Memory Bound:L1 Bound(%)') ),
         #('Stores',   'Stores (%)',   vtcsv.makeCol_pctOfOther('Loads') ),
 
@@ -93,7 +96,7 @@ def main():
 
     global metricLp
     metricLp = [ # metricL1.copy()
-        #(makeColL_g[0][1] ,),  #('CPU Time'),
+        #(makeColL_g1[0][1] ,),  #('CPU Time'),
         #
         ('Average Latency (cycles)',    'Latency (cycles)'),
         #
@@ -103,13 +106,13 @@ def main():
         #('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
         #('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
 
-        #(makeColL_g[1][1] ,),  #('Stores (%)',),
+        #(makeColL_g1[1][1] ,),  #('Stores (%)',),
         #('Memory Bound:Store Bound(%)', 'Store Bound (%)'),
     ]
     
     global metricLf_g
     metricLf_g = [ # metricL1.copy()
-        (makeColL_g[0][1] ,),  #('CPU Time'),
+        (makeColL_g1[0][1] ,),  #('CPU Time'),
         #
         ('Average Latency (cycles)',    'Latency (cycles)'),
         #
@@ -117,11 +120,11 @@ def main():
         ('Memory Bound:Persistent Memory Bound(%)', 'Pmem Bound (%)'),
         #('Memory Bound(%)',),
         ('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
-        (makeColL_g[1][1] ,),  #('L2/1 Bound (%)'),
+        (makeColL_g1[1][1] ,),  #('L2/1 Bound (%)'),
         #('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
         #('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
 
-        #(makeColL_g[2][1] ,),  #('Stores (%)',),
+        #(makeColL_g1[2][1] ,),  #('Stores (%)',),
         #('Memory Bound:Store Bound(%)', 'Store Bound (%)'),
     ]
 
@@ -169,13 +172,13 @@ def main():
 
     pyplt.rcParams.update({'figure.max_open_warning': 0})
 
-    main_grappolo(makeColL_g)
+    main_grappolo(makeColL_g1, makeColL_g2)
     main_ripples (makeColL_r)
 
     pyplt.show()
 
     
-def main_grappolo(makeColL):
+def main_grappolo(makeColL1, makeColL2):
 
     path_pfx = './1grappolo/grappolo-'
 
@@ -199,14 +202,18 @@ def main_grappolo(makeColL):
     pathL_Mp = [
         [ (path_pfx + grph + sfx + '-hotspots-pkg.csv') for sfx in graph_sfx ]
         for grph in graphL_med ]
-
     pathL_Mp = flattenL(pathL_Mp)
 
-    pathL_Mf = [
+    pathL_Mf1 = [
         [ (path_pfx + grph + sfx + '-hotspots-fn.csv') for sfx in graph_sfx ]
         for grph in graphL_med ]
+    pathL_Mf1 = flattenL(pathL_Mf1)
 
-    pathL_Mf = flattenL(pathL_Mf)
+    pathL_Mf2 = [
+        [ (path_pfx + grph + sfx + '-hw-events-fn.csv') for sfx in graph_sfx ]
+        for grph in graphL_med ]
+    pathL_Mf2 = flattenL(pathL_Mf2)
+
 
     # (path_pfx + grph + sfx + '-hw-events-fn.csv')
     
@@ -227,11 +234,15 @@ def main_grappolo(makeColL):
 
     pathL_Bp = flattenL(pathL_Bp)
     
-    pathL_Bf = [
+    pathL_Bf1 = [
         [ (path_pfx + grph + sfx + '-hotspots-fn.csv') for sfx in graph_sfx ]
         for grph in graphL_0 ]
+    pathL_Bf1 = flattenL(pathL_Bf1)
 
-    pathL_Bf = flattenL(pathL_Bf)
+    pathL_Bf2 = [
+        [ (path_pfx + grph + sfx + '-hw-events-fn.csv') for sfx in graph_sfx ]
+        for grph in graphL_0 ]
+    pathL_Bf2 = flattenL(pathL_Bf2)
 
     #-------------------------------------------------------
 
@@ -239,7 +250,8 @@ def main_grappolo(makeColL):
     
     pathL_p = pathL_Mp + pathL_Bp
 
-    pathL_f = pathL_Mf + pathL_Bf
+    pathL_f1 = pathL_Mf1 + pathL_Bf1
+    pathL_f2 = pathL_Mf2 + pathL_Bf2
 
     
     #-------------------------------------------------------
@@ -280,8 +292,9 @@ def main_grappolo(makeColL):
     # 
     #-------------------------------------------------------
 
-    vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv', makeColL = makeColL)
-    vt_f = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL)    
+    vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv', makeColL = makeColL1)
+    vt_f1 = vtcsv.VTuneCSV(pathL_f1, group_by = 'csv', makeColL = makeColL1)
+    vt_f2 = vtcsv.VTuneCSV(pathL_f2, group_by = 'csv', makeColL = makeColL2)
 
     adjHx = { 'left':0.05, 'right':0.99, 'bottom':0.10, 'top':0.75,
               'wspace':0.15, 'hspace':0.0 }
@@ -298,14 +311,14 @@ def main_grappolo(makeColL):
     adjHf = { 'left':0.15, 'right':0.98, 'bottom':0.15, 'top':0.90,
               'wspace':0.13, 'hspace':0.0 }
 
-    fig_f1 = plot_fn(vt_f, graphL1, funcH, metricLf_g, {**plotHf, 'title':1}, adjHf)
-    fig_f2 = plot_fn(vt_f, graphL2, funcH, metricLf_g, {**plotHf, 'xtitle_bot':1}, adjHf)
-    fig_f3 = plot_fn(vt_f, graphL3, funcH, metricLf_g, {**plotHf, 'h':1.4, 'txt_rot':0}, adjHf)
-    fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf_g, {**plotHf, 'h':1.4, 'xtitle_bot':1, 'txt_rot':0}, adjHf)
+    fig_f1 = plot_fn(vt_f1, graphL1, funcH, metricLf_g, {**plotHf, 'title':1}, adjHf)
+    fig_f2 = plot_fn(vt_f1, graphL2, funcH, metricLf_g, {**plotHf, 'xtitle_bot':1}, adjHf)
+    fig_f3 = plot_fn(vt_f1, graphL3, funcH, metricLf_g, {**plotHf, 'h':1.4, 'txt_rot':0}, adjHf)
+    fig_f4 = plot_fn(vt_f1, graphL4, funcH, metricLf_g, {**plotHf, 'h':1.4, 'xtitle_bot':1, 'txt_rot':0}, adjHf)
 
-    fig_fx = plot_fn(vt_f, graphL, funcH, metricLx, {'w':3.2, 'h':2.7, 'xtitle_bot':1}, adjHx)
+    fig_fx = plot_fn(vt_f1, graphL, funcH, metricLx, {'w':3.2, 'h':2.7, 'xtitle_bot':1}, adjHx)
 
-    #fig_f1 = plot_fn(vt_f, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'xtitle_bot':False}, adjH)
+    #fig_f1 = plot_fn(vt_f1, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'xtitle_bot':False}, adjH)
 
 
     fig_p1.savefig('chart-grappolo-pkg1.pdf', bbox_inches='tight')
@@ -341,7 +354,6 @@ def main_ripples(makeColL):
                [ graphL4[0][0] ], # 'pokec'
                [ graphL5[0][0] ]  # 'topcats'
     ]
-    
 
     graphL_0 = [ x[0] for x in flattenL(graphL) ]
 
@@ -350,20 +362,17 @@ def main_ripples(makeColL):
                  '.imm-kdax.T64.R0',
                  '.imm-kdax1.T64.R0']
 
-
     # 'topcats' has no dram
     mykeep = lambda x: not ('topcats' in x and 'dram' in x)
 
     pathL_p = [
         [ (path_pfx + grph + sfx + '-hotspots-pkg.csv') for sfx in graph_sfx ]
         for grph in graphL_0 ]
-
     pathL_p = list(filter(mykeep, flattenL(pathL_p) )) 
 
     pathL_f = [
         [ (path_pfx + grph + sfx + '-hotspots-fn.csv') for sfx in graph_sfx ]
         for grph in graphL_0 ]
-
     pathL_f = list(filter(mykeep, flattenL(pathL_f) ))
 
     #-------------------------------------------------------
