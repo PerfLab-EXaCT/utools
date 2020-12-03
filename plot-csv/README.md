@@ -149,8 +149,8 @@ done
 ```
 
 ```
-#dir=/files0/tallent/xxx-optane/grappolo
-dir=/files0/tallent/xxx-optane/ripples
+dir=/files0/tallent/xxx-optane/grappolo
+#dir=/files0/tallent/xxx-optane/ripples
 for src in ${dir}/*.csv ; do
   csv=$(basename ${src})
   if ! diff ${src} ${csv} >& /dev/null ; then
