@@ -82,7 +82,7 @@ def main():
         ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_MEM_ANY', 'All Mem Stalls', makeCol_Sum('Hardware Event Count:EXE_ACTIVITY.BOUND_ON_STORES') ),
         ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L2_MISS', 'L3 Stalls', makeCol_Diff('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L3_MISS') ),
         ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L1D_MISS', 'L2 Stalls', makeCol_Diff('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L2_MISS') ),
-        ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_MEM_ANY', 'L1 Stalls', makeCol_Diff('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L1D_MISS', True) ),
+        ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_MEM_ANY', 'L1 Stalls', makeCol_Diff('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L1D_MISS') ),
     ]
     
     makeColL_r = [
@@ -1002,7 +1002,7 @@ def makeCol_Sum(col_src2): # could be a list of source columns
     return mk_fn
 
 
-def makeCol_Diff(col_src2, is_pos = False): # could be a list of source columns
+def makeCol_Diff(col_src2, is_pos = True): # could be a list of source columns
 
     def mk_fn(dfrm, col_src):
         dfrm_dst = dfrm[col_src] - dfrm[col_src2]
