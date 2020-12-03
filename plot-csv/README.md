@@ -91,6 +91,37 @@ myL=(
   grappolo-vtune-clueweb12-t192-kdax
 )
 
+myL=(
+  soc-Slashdot0902.imm-dram.T64-vtune
+  soc-Slashdot0902.imm-mem.T64-vtune
+  soc-Slashdot0902.imm-kdax1.T64-vtune
+  soc-Slashdot0902.imm-kdax2.T64-vtune
+  soc-Slashdot0902.imm-kdax3.T64-vtune
+  #
+  soc-twitter-combined.imm-dram.T64-vtune
+  soc-twitter-combined.imm-mem.T64-vtune
+  soc-twitter-combined.imm-kdax1.T64-vtune
+  soc-twitter-combined.imm-kdax2.T64-vtune
+  soc-twitter-combined.imm-kdax3.T64-vtune
+  #
+  wiki-talk.imm-dram.T64-vtune
+  wiki-talk.imm-mem.T64-vtune
+  wiki-talk.imm-kdax1.T64-vtune
+  wiki-talk.imm-kdax2.T64-vtune
+  wiki-talk.imm-kdax3.T64-vtune
+  #
+  soc-pokec-relationships.imm-dram.T64-vtune
+  soc-pokec-relationships.imm-mem.T64-vtune
+  soc-pokec-relationships.imm-kdax1.T64-vtune
+  soc-pokec-relationships.imm-kdax2.T64-vtune
+  soc-pokec-relationships.imm-kdax3.T64-vtune
+  #
+  wiki-topcats.imm-mem.T64-vtune
+  wiki-topcats.imm-kdax1.T64-vtune
+  wiki-topcats.imm-kdax2.T64-vtune
+  wiki-topcats.imm-kdax3.T64-vtune
+)
+
 # vtune -report summary
 # vtune -report hotspots
 # vtune -report hw-events
@@ -98,7 +129,7 @@ myL=(
 for path in "${myL[@]}" ; do
   report='hotspots'
   path=${path%/*} # strip trailing /
-  path_new="${path//-vtune-/-}" ;
+  path_new="${path//-vtune/}" ;
   out1="${path_new}-${report}-fn.csv"
   out2="${path_new}-${report}-pkg.csv"
   printf "${path} --> ${out1}\n"
@@ -109,11 +140,13 @@ done
 ```
 
 ```
-for src in /files0/tallent/xxx-optane/grappolo/*.csv ; do
+#dir=/files0/tallent/xxx-optane/grappolo
+dir=/files0/tallent/xxx-optane/ripples
+for src in ${dir}/*.csv ; do
   csv=$(basename ${src})
   if ! diff ${src} ${csv} >& /dev/null ; then
     echo ${csv}
-    #cp ${src} ${csv}
+    cp ${src} ${csv}
   fi
 done
 ```

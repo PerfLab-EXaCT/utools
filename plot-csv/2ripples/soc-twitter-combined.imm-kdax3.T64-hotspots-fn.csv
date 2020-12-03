@@ -1,0 +1,286 @@
+Function,CPU Time,Memory Bound(%),Memory Bound:L1 Bound(%),Memory Bound:L2 Bound(%),Memory Bound:L3 Bound(%),Memory Bound:DRAM Bound(%),Memory Bound:Store Bound(%),Memory Bound:Persistent Memory Bound(%),Loads,Stores,LLC Miss Count,LLC Miss Count:Local DRAM Access Count,LLC Miss Count:Remote DRAM Access Count,LLC Miss Count:Local Persistent Memory Access Count,LLC Miss Count:Remote Persistent Memory Access Count,LLC Miss Count:Remote Cache Access Count,Average Latency (cycles),Module,Function (Full),Source File,Start Address
+func@0x1d6d0,447.188416,19.5,10.6,0.0,0.0,0.0,0.0,0.0,15260457800,0,0,0,0,0,0,0,7.000000,libgomp.so.1.0.0,func@0x1d6d0,[Unknown],0x1d6d0
+"ripples::AddRRRSet<ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>, trng::lcg64, ripples::independent_cascade_tag>",399.031004,24.2,6.2,6.2,19.3,0.0,1.2,0.0,593197795400,210146304200,0,0,0,0,0,0,12.712727,imm,"void ripples::AddRRRSet<ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>, trng::lcg64, ripples::independent_cascade_tag>(ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>> const&, ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::vertex_type, trng::lcg64&, std::vector<ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::vertex_type, libmemkind::static_kind::allocator<ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::vertex_type>>&, ripples::independent_cascade_tag&&)",stl_vector.h,0xae64
+func@0x1d860,85.201574,9.5,5.0,0.0,0.0,0.0,0.0,0.0,1680050400,0,0,0,0,0,0,0,7.000000,libgomp.so.1.0.0,func@0x1d860,[Unknown],0x1d860
+std::swap<unsigned int>,80.799856,16.3,14.5,1.0,0.0,0.0,0.0,0.0,38361150800,31640949200,0,0,0,0,0,0,7.147059,imm,"std::enable_if<std::__and_<std::__not_<std::__is_tuple_like<unsigned int>>, std::is_move_constructible<unsigned int>, std::is_move_assignable<unsigned int>>::value, void>::type std::swap<unsigned int>(unsigned int&, unsigned int&)",move.h,0xe542
+"std::__unguarded_partition<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>",79.623159,3.2,23.8,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,imm,"__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>> std::__unguarded_partition<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter)",stl_algo.h,0xe53f
+"ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::neighbors",76.441719,62.5,2.0,7.0,57.8,0.0,0.0,0.0,29260877800,0,0,0,0,0,0,0,66.142857,imm,"ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::neighbors(unsigned int) const",graph.h,0x1202e
+"std::vector<unsigned int, std::allocator<unsigned int>>::push_back",69.381538,20.8,5.9,0.0,10.6,0.0,0.0,0.0,5740172200,280008400,0,0,0,0,0,0,7.000000,imm,"std::vector<unsigned int, std::allocator<unsigned int>>::push_back(unsigned int const&)",stl_vector.h,0x11ff6
+"ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.13",64.892657,93.0,100.0,36.3,0.0,22.2,0.0,0.0,29260877800,14280428400,0,0,0,0,0,0,48.100000,imm,"ripples::CountOccurrencies<__gnu_cxx::__normal_iterator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>._omp_fn.13",counting.h,0xd430
+"trng::utility::u01xx_traits<float, (unsigned long)1, trng::lcg64>::addin",30.027562,0.0,0.0,0.0,8.7,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,imm,"trng::utility::u01xx_traits<float, (unsigned long)1, trng::lcg64>::addin(trng::lcg64&)",uniformxx.hpp,0x12073
+trng::lcg64::step,21.877847,41.0,0.0,10.4,3.5,0.0,6.9,0.0,74762242800,31640949200,0,0,0,0,0,0,7.034483,imm,trng::lcg64::step(void),lcg64.hpp,0x12073
+"std::__unguarded_linear_insert<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Val_less_iter>",20.875475,0.0,30.2,0.0,0.0,0.0,0.0,0.0,18480554400,17080512400,0,0,0,0,0,0,8.555556,imm,"void std::__unguarded_linear_insert<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Val_less_iter>(__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Val_less_iter)",stl_algo.h,0x121e8
+"__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>::operator--",20.483243,0.0,14.7,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,imm,"__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>::operator--(void)",stl_iterator.h,0xe560
+"__gnu_cxx::__ops::_Iter_less_iter::operator()<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>",17.999105,27.8,16.6,0.0,0.0,0.0,0.0,0.0,36961108800,0,0,0,0,0,0,0,7.119048,imm,"bool __gnu_cxx::__ops::_Iter_less_iter::operator()<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>(__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>) const",predefined_ops.h,0xe548
+"trng::utility::u01xx_traits<float, (unsigned long)1, trng::lcg64>::co",17.737617,13.2,0.0,5.0,10.0,0.0,0.0,0.0,45081352400,0,0,0,0,0,0,0,7.000000,imm,"trng::utility::u01xx_traits<float, (unsigned long)1, trng::lcg64>::co(trng::lcg64&)",uniformxx.hpp,0x12073
+clear_page_erms,14.861246,98.7,0.0,0.0,0.0,0.0,26.4,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,clear_page_erms,[Unknown],0xffffffff9c43c070
+[sep5],12.856504,100.0,68.3,0.0,17.1,0.0,0.0,0.0,1260037800,0,0,0,0,0,0,0,55.000000,sep5,[sep5],[Unknown],0x0
+"__gnu_cxx::__ops::_Val_less_iter::operator()<unsigned int, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>",12.028458,0.0,30.2,0.0,0.0,0.0,0.0,0.0,10780323400,0,0,0,0,0,0,0,7.000000,imm,"bool __gnu_cxx::__ops::_Val_less_iter::operator()<unsigned int, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>(unsigned int&, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>) const",predefined_ops.h,0x121ec
+"libmemkind::static_kind::allocator<unsigned int>::construct<unsigned int, unsigned int&>",9.064925,100.0,60.5,0.0,8.6,0.0,0.0,0.0,2100063000,1960058800,0,0,0,0,0,0,1714.000000,imm,"void libmemkind::static_kind::allocator<unsigned int>::construct<unsigned int, unsigned int&>(unsigned int*, unsigned int&&&) const",memkind_allocator.h,0xe8d0
+"__gnu_cxx::__ops::_Iter_less_iter::operator()<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>",8.803436,0.0,20.5,0.0,0.0,0.0,0.0,0.0,27440823200,0,0,0,0,0,0,0,7.000000,imm,"bool __gnu_cxx::__ops::_Iter_less_iter::operator()<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>(__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>) const",predefined_ops.h,0xe563
+"__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>::operator++",7.583158,0.0,74.2,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,imm,"__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>::operator++(void)",stl_iterator.h,0x12211
+"std::__introsort_loop<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, long, __gnu_cxx::__ops::_Iter_less_iter>",6.493624,56.7,11.3,0.0,0.0,0.0,0.0,0.0,1960058800,700021000,0,0,0,0,0,0,7.000000,imm,"void std::__introsort_loop<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, long, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, long, __gnu_cxx::__ops::_Iter_less_iter)",stl_algo.h,0xe4d0
+__memmove_avx_unaligned_erms,6.450042,82.5,57.4,11.5,11.5,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libc-2.29.so,__memmove_avx_unaligned_erms,memmove-vec-unaligned-erms.S,0x189080
+"std::__unguarded_insertion_sort<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>",6.057810,,12.3,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,imm,"void std::__unguarded_insertion_sort<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter)",stl_algo.h,0x121de
+native_queued_spin_lock_slowpath,3.660835,54.8,90.3,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,native_queued_spin_lock_slowpath,[Unknown],0xffffffff9baf1320
+"std::vector<bool, std::allocator<bool>>::operator[]",3.007114,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,imm,"std::vector<bool, std::allocator<bool>>::operator[](unsigned long)",stl_bvector.h,0x120ca
+"ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::Neighborhood::Neighborhood",2.135487,,0.0,70.9,70.9,0.0,0.0,0.0,0,0,0,0,0,0,0,0,7.000000,imm,"ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>::Neighborhood::Neighborhood(ripples::WeightedDestination<unsigned int, float>*, ripples::WeightedDestination<unsigned int, float>*)",graph.h,0x12039
+_int_free,2.048324,56.3,0.0,0.0,100.0,0.0,0.0,0.0,700021000,420012600,0,0,0,0,0,0,13.000000,libc-2.29.so,_int_free,malloc.c,0x950c0
+__GI___libc_malloc,1.961162,23.3,76.7,0.0,0.0,0.0,0.0,0.0,560016800,700021000,0,0,0,0,0,0,10.500000,libc-2.29.so,__GI___libc_malloc,malloc.c,0x98a40
+"std::__move_median_to_first<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>",1.961162,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,imm,"void std::__move_median_to_first<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter)",stl_algo.h,0xe519
+strncpy,1.830417,100.0,100.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,strncpy,[Unknown],0xffffffff9c4344c0
+smp_call_function_many,1.481767,0.0,0.0,0.0,0.0,0.0,0.0,0.0,140004200,280008400,0,0,0,0,0,0,0.0,vmlinux,smp_call_function_many,[Unknown],0xffffffff9bb3a340
+std::swap<unsigned int>,1.307441,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1260037800,1540046200,0,0,0,0,0,0,7.000000,imm,"std::enable_if<std::__and_<std::__not_<std::__is_tuple_like<unsigned int>>, std::is_move_constructible<unsigned int>, std::is_move_assignable<unsigned int>>::value, void>::type std::swap<unsigned int>(unsigned int&, unsigned int&)",move.h,0xe638
+"__gnu_cxx::new_allocator<unsigned int>::construct<unsigned int, unsigned int const&>",1.133116,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,9240277200,0,0,0,0,0,0,0.0,imm,"void __gnu_cxx::new_allocator<unsigned int>::construct<unsigned int, unsigned int const&>(unsigned int*, unsigned int const&&&)",new_allocator.h,0x120b8
+clear_huge_page,0.958790,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,140004200,0,0,0,0,0,0,0.0,vmlinux,clear_huge_page,[Unknown],0xffffffff9bc4bbe0
+_int_malloc,0.828046,0.0,0.0,0.0,0.0,0.0,0.0,0.0,560016800,420012600,0,0,0,0,0,0,0.0,libc-2.29.so,_int_malloc,malloc.c,0x966c0
+llist_add_batch,0.784465,0.0,0.0,100.0,0.0,100.0,0.0,0.0,140004200,0,0,0,0,0,0,0,0.0,vmlinux,llist_add_batch,[Unknown],0xffffffff9beec440
+std::swap<unsigned int>,0.740883,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,1260037800,1400042000,0,0,0,0,0,0,0.0,imm,"std::enable_if<std::__and_<std::__not_<std::__is_tuple_like<unsigned int>>, std::is_move_constructible<unsigned int>, std::is_move_assignable<unsigned int>>::value, void>::type std::swap<unsigned int>(unsigned int&, unsigned int&)",move.h,0xe537
+"__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>::operator++",0.697302,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,imm,"__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>::operator++(void)",stl_iterator.h,0xe8da
+_raw_spin_lock,0.697302,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,_raw_spin_lock,[Unknown],0xffffffff9c450560
+prepend_name,0.653721,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,140004200,0,0,0,0,0,0,0,0.0,vmlinux,prepend_name,[Unknown],0xffffffff9bcefd40
+prepend_path.isra.3,0.653721,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,280008400,420012600,0,0,0,0,0,0,7.000000,vmlinux,prepend_path.isra.3,[Unknown],0xffffffff9bcefe90
+std::swap<unsigned int>,0.653721,,0.0,0.0,0.0,0.0,0.0,0.0,560016800,980029400,0,0,0,0,0,0,0.0,imm,"std::enable_if<std::__and_<std::__not_<std::__is_tuple_like<unsigned int>>, std::is_move_constructible<unsigned int>, std::is_move_assignable<unsigned int>>::value, void>::type std::swap<unsigned int>(unsigned int&, unsigned int&)",move.h,0xe59c
+"__gnu_cxx::operator-<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>",0.610139,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,imm,"__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>::difference_type __gnu_cxx::operator-<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>(__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>> const&, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>> const&)",stl_iterator.h,0xe4d5
+clear_subpage,0.610139,100.0,100.0,0.0,0.0,0.0,0.0,0.0,420012600,0,0,0,0,0,0,0,0.0,vmlinux,clear_subpage,[Unknown],0xffffffff9bc43800
+_raw_spin_lock_irqsave,0.522976,0.0,0.0,0.0,0.0,0.0,0.0,0.0,140004200,140004200,0,0,0,0,0,0,0.0,vmlinux,_raw_spin_lock_irqsave,[Unknown],0xffffffff9c450390
+memcpy_erms,0.522976,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,memcpy_erms,[Unknown],0xffffffff9c43e920
+unmap_page_range,0.522976,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,140004200,140004200,0,0,0,0,0,0,0.0,vmlinux,unmap_page_range,[Unknown],0xffffffff9bc45c80
+"__gnu_cxx::operator-<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>",0.479395,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,imm,"__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>::difference_type __gnu_cxx::operator-<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>(__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>> const&, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>> const&)",stl_iterator.h,0xe4fe
+_ZN7ripples9partitionIN9__gnu_cxx17__normal_iteratorIPSt6vectorIjN10libmemkind11static_kind9allocatorIjEEES3_IS8_SaIS8_EEEEZNS_28CPUFindMostInfluentialWorkerINS_5GraphIjNS_19WeightedDestinationIjfEENS_17BackwardDirectionIjEEEEE14UpdateCountersEjEUlRKS8_E_EET_SO_SO_T0_m._omp_fn.9,0.435814,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,imm,_ZN7ripples9partitionIN9__gnu_cxx17__normal_iteratorIPSt6vectorIjN10libmemkind11static_kind9allocatorIjEEES3_IS8_SaIS8_EEEEZNS_28CPUFindMostInfluentialWorkerINS_5GraphIjNS_19WeightedDestinationIjfEENS_17BackwardDirectionIjEEEEE14UpdateCountersEjEUlRKS8_E_EET_SO_SO_T0_m._omp_fn.9,partition.h,0x17640
+__GI_,0.435814,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libc-2.29.so,"float __GI_(long, int, bool, char)",malloc.c,0x991d0
+find_next_bit,0.435814,0.0,0.0,0.0,0.0,0.0,0.0,0.0,140004200,0,0,0,0,0,0,0,0.0,vmlinux,find_next_bit,[Unknown],0xffffffff9beec360
+llist_reverse_order,0.435814,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,llist_reverse_order,[Unknown],0xffffffff9beec4a0
+update_nohz_stats,0.435814,100.0,100.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,update_nohz_stats,[Unknown],0xffffffff9bad2f70
+find_vma,0.392232,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,find_vma,[Unknown],0xffffffff9bc4ec20
+"__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>::operator--",0.348651,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,imm,"__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>::operator--(void)",stl_iterator.h,0x12209
+flush_tlb_func_common.constprop.9,0.348651,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,flush_tlb_func_common.constprop.9,[Unknown],0xffffffff9ba84100
+__GI___pthread_mutex_trylock,0.305070,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libpthread-2.29.so,__GI___pthread_mutex_trylock,pthread_mutex_trylock.c,0xbba0
+__alloc_pages_nodemask,0.305070,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__alloc_pages_nodemask,[Unknown],0xffffffff9bc11a00
+__schedule,0.305070,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,140004200,0,0,0,0,0,0,0.0,vmlinux,__schedule,[Unknown],0xffffffff9c44a700
+apic_timer_interrupt,0.305070,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,apic_timer_interrupt,[Unknown],0xffffffff9c601a60
+pci_conf1_read,0.305070,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,pci_conf1_read,[Unknown],0xffffffff9c29ae40
+psi_task_change,0.305070,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,psi_task_change,[Unknown],0xffffffff9baefeb0
+"__gnu_cxx::new_allocator<unsigned int>::construct<unsigned int, unsigned int const&>",0.261488,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,1400042000,0,0,0,0,0,0,0.0,imm,"void __gnu_cxx::new_allocator<unsigned int>::construct<unsigned int, unsigned int const&>(unsigned int*, unsigned int const&&&)",new_allocator.h,0x120f0
+__gnu_cxx::new_allocator<unsigned int>::deallocate,0.261488,,0.0,0.0,0.0,0.0,0.0,0.0,140004200,420012600,0,0,0,0,0,0,0.0,imm,"__gnu_cxx::new_allocator<unsigned int>::deallocate(unsigned int*, unsigned long)",new_allocator.h,0x12310
+call_function_interrupt,0.261488,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,call_function_interrupt,[Unknown],0xffffffff9c601b20
+ktime_get,0.261488,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,ktime_get,[Unknown],0xffffffff9bb25d90
+native_sched_clock,0.261488,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,native_sched_clock,[Unknown],0xffffffff9ba38f10
+task_tick_fair,0.261488,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,task_tick_fair,[Unknown],0xffffffff9bad77c0
+unlink_chunk,0.261488,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0,280008400,0,0,0,0,0,0,0.0,libc-2.29.so,unlink_chunk,malloc.c,0x93760
+update_sd_lb_stats,0.261488,,0.0,0.0,0.0,0.0,0.0,0.0,420012600,140004200,0,0,0,0,0,0,0.0,vmlinux,update_sd_lb_stats,[Unknown],0xffffffff9bad8eb0
+flush_tlb_func_remote,0.217907,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,140004200,0,0,0,0,0,0,0.0,vmlinux,flush_tlb_func_remote,[Unknown],0xffffffff9ba84330
+native_flush_tlb,0.217907,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,native_flush_tlb,[Unknown],0xffffffff9ba74070
+number,0.217907,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,number,[Unknown],0xffffffff9c435270
+page_counter_cancel,0.217907,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,page_counter_cancel,[Unknown],0xffffffff9bc99d20
+page_fault,0.217907,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,page_fault,[Unknown],0xffffffff9c601070
+queued_write_lock_slowpath,0.217907,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,queued_write_lock_slowpath,[Unknown],0xffffffff9baf29c0
+start_thread,0.217907,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libpthread-2.29.so,start_thread,pthread_create.c,0x90a0
+__acct_update_integrals,0.174325,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__acct_update_integrals,[Unknown],0xffffffff9bb7ef80
+_raw_spin_unlock_irqrestore,0.174325,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,_raw_spin_unlock_irqrestore,[Unknown],0xffffffff9c4501e0
+cgroup_rstat_updated,0.174325,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,cgroup_rstat_updated,[Unknown],0xffffffff9bb515c0
+down_read,0.174325,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,down_read,[Unknown],0xffffffff9c44d840
+func@0x1d7f0,0.174325,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libgomp.so.1.0.0,func@0x1d7f0,[Unknown],0x1d7f0
+idle_cpu,0.174325,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,idle_cpu,[Unknown],0xffffffff9bacac40
+operator delete,0.174325,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libstdc++.so.6.0.26,operator delete(void*),[Unknown],0xa3d60
+operator new,0.174325,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,420012600,0,0,0,0,0,0,0.0,libstdc++.so.6.0.26,operator new(unsigned long),[Unknown],0xa5a10
+pick_next_task_fair,0.174325,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,pick_next_task_fair,[Unknown],0xffffffff9badac90
+"std::__unguarded_partition_pivot<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>",0.174325,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,imm,"__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>> std::__unguarded_partition_pivot<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__ops::_Iter_less_iter)",stl_algo.h,0xe4fe
+"std::deque<unsigned int, std::allocator<unsigned int>>::_M_push_back_aux<unsigned int const&>",0.174325,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,imm,"void std::deque<unsigned int, std::allocator<unsigned int>>::_M_push_back_aux<unsigned int const&>(unsigned int const&&&)",deque.tcc,0x43ad0
+try_to_wake_up,0.174325,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,try_to_wake_up,[Unknown],0xffffffff9bac8e70
+update_curr,0.174325,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,update_curr,[Unknown],0xffffffff9bad2fd0
+__deallocate_stack,0.130744,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libpthread-2.29.so,__deallocate_stack,allocatestack.c,0x8f78
+__default_send_IPI_dest_field,0.130744,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__default_send_IPI_dest_field,[Unknown],0xffffffff9ba63f70
+"__gnu_cxx::__ops::_Iter_less_iter::operator()<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>",0.130744,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2660079800,0,0,0,0,0,0,0,7.000000,imm,"bool __gnu_cxx::__ops::_Iter_less_iter::operator()<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>>(__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>, __gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>) const",predefined_ops.h,0xe519
+__split_huge_pmd_locked,0.130744,0.0,0.0,0.0,0.0,0.0,0.0,0.0,140004200,0,0,0,0,0,0,0,0.0,vmlinux,__split_huge_pmd_locked,[Unknown],0xffffffff9bc8f690
+__update_load_avg_se,0.130744,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__update_load_avg_se,[Unknown],0xffffffff9bae7a00
+account_entity_enqueue,0.130744,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,account_entity_enqueue,[Unknown],0xffffffff9bad2430
+d_path,0.130744,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,d_path,[Unknown],0xffffffff9bcf0160
+func@0x1da00,0.130744,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libgomp.so.1.0.0,func@0x1da00,[Unknown],0x1da00
+get_page_from_freelist,0.130744,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,get_page_from_freelist,[Unknown],0xffffffff9bc0f520
+prep_new_page,0.130744,,0.0,0.0,0.0,0.0,0.0,0.0,0,140004200,0,0,0,0,0,0,0.0,vmlinux,prep_new_page,[Unknown],0xffffffff9bc0c730
+rcu_all_qs,0.130744,0.0,0.0,0.0,0.0,0.0,0.0,0.0,140004200,0,0,0,0,0,0,0,0.0,vmlinux,rcu_all_qs,[Unknown],0xffffffff9bb121e0
+resched_curr,0.130744,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,resched_curr,[Unknown],0xffffffff9bac7670
+run_local_timers,0.130744,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,run_local_timers,[Unknown],0xffffffff9bb22820
+select_task_rq_fair,0.130744,0.0,100.0,0.0,0.0,0.0,0.0,0.0,560016800,0,0,0,0,0,0,0,0.0,vmlinux,select_task_rq_fair,[Unknown],0xffffffff9bacf640
+smp_apic_timer_interrupt,0.130744,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,smp_apic_timer_interrupt,[Unknown],0xffffffff9c6024e0
+tcache_get,0.130744,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,140004200,0,0,0,0,0,0,0.0,libc-2.29.so,tcache_get,malloc.c,0x98bd9
+tlb_gather_mmu,0.130744,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,tlb_gather_mmu,[Unknown],0xffffffff9bc53db0
+tlb_is_not_lazy,0.130744,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,tlb_is_not_lazy,[Unknown],0xffffffff9ba83870
+update_cfs_group,0.130744,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,update_cfs_group,[Unknown],0xffffffff9bad3380
+update_load_avg,0.130744,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,update_load_avg,[Unknown],0xffffffff9bad10d0
+update_rq_clock,0.130744,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,update_rq_clock,[Unknown],0xffffffff9bac65c0
+__GI,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,ld-2.29.so,"double __GI(double, long)",dl-tls.c,0x13750
+__dec_node_state,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__dec_node_state,[Unknown],0xffffffff9bc2fb00
+__free_pages_ok,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__free_pages_ok,[Unknown],0xffffffff9bc0d480
+"__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>::operator+",0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,imm,"__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int>>>::operator+(long) const",stl_iterator.h,0xe515
+__handle_mm_fault,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__handle_mm_fault,[Unknown],0xffffffff9bc48830
+__hrtimer_run_queues,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__hrtimer_run_queues,[Unknown],0xffffffff9bb23490
+__kmalloc_node,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,140004200,0,0,0,0,0,0,0.0,vmlinux,__kmalloc_node,[Unknown],0xffffffff9bc82d50
+__pthread_mutex_unlock_usercnt,0.087163,100.0,100.0,0.0,100.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libpthread-2.29.so,__pthread_mutex_unlock_usercnt,pthread_mutex_unlock.c,0xd200
+__switch_to,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__switch_to,[Unknown],0xffffffff9ba2d820
+__switch_to_asm,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__switch_to_asm,[Unknown],0xffffffff9c600170
+__update_load_avg_cfs_rq,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,140004200,0,0,0,0,0,0,0.0,vmlinux,__update_load_avg_cfs_rq,[Unknown],0xffffffff9bae7ca0
+__vma_rb_erase,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__vma_rb_erase,[Unknown],0xffffffff9bc4ee70
+_cond_resched,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,_cond_resched,[Unknown],0xffffffff9c44b1c0
+_mix_pool_bytes,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,_mix_pool_bytes,[Unknown],0xffffffff9c070800
+account_user_time,0.087163,0.0,0.0,0.0,100.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,account_user_time,[Unknown],0xffffffff9baccfa0
+blocking_notifier_call_chain,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,blocking_notifier_call_chain,[Unknown],0xffffffff9babe520
+copy_process.part.37,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,copy_process.part.37,[Unknown],0xffffffff9ba93720
+cpumask_next,0.087163,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,cpumask_next,[Unknown],0xffffffff9c429e10
+cpumask_next_and,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,140004200,0,0,0,0,0,0,0,0.0,vmlinux,cpumask_next_and,[Unknown],0xffffffff9c429f00
+do_exit,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,do_exit,[Unknown],0xffffffff9ba9b2d0
+down_write,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,down_write,[Unknown],0xffffffff9c44d880
+down_write_killable,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,down_write_killable,[Unknown],0xffffffff9c44d910
+exit_signals,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,exit_signals,[Unknown],0xffffffff9baa9080
+find_next_and_bit,0.087163,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,find_next_and_bit,[Unknown],0xffffffff9beec1e0
+flush_tlb_batched_pending,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,flush_tlb_batched_pending,[Unknown],0xffffffff9bc59770
+format_decode,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,format_decode,[Unknown],0xffffffff9c435950
+func@0x967a0,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libstdc++.so.6.0.26,func@0x967a0,[Unknown],0x967a0
+futex_wake,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,futex_wake,[Unknown],0xffffffff9bb363f0
+je_extent_heap_first,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libmemkind.so.0.0.1,je_extent_heap_first,extent.c,0x50c70
+page_counter_try_charge,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,page_counter_try_charge,[Unknown],0xffffffff9bc99db0
+raise_softirq,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,raise_softirq,[Unknown],0xffffffff9ba9d2f0
+rb_next,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,rb_next,[Unknown],0xffffffff9c4312d0
+rcu_core,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,rcu_core,[Unknown],0xffffffff9bb140e0
+rcu_irq_exit,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,rcu_irq_exit,[Unknown],0xffffffff9bb147b0
+reweight_entity,0.087163,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,reweight_entity,[Unknown],0xffffffff9bad31d0
+rwsem_down_read_failed,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,rwsem_down_read_failed,[Unknown],0xffffffff9c44e5a0
+"std::_Deque_iterator<unsigned int, unsigned int&, unsigned int*>::_M_set_node",0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,imm,"std::_Deque_iterator<unsigned int, unsigned int&, unsigned int*>::_M_set_node(unsigned int**)",stl_deque.h,0x43b25
+strcmp,0.087163,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,strcmp,[Unknown],0xffffffff9c434900
+tcache_put,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,140004200,0,0,0,0,0,0,0,0.0,libc-2.29.so,tcache_put,malloc.c,0x95390
+tick_sched_timer,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,tick_sched_timer,[Unknown],0xffffffff9bb34880
+timerqueue_add,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,timerqueue_add,[Unknown],0xffffffff9c434f90
+tlb_finish_mmu,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,tlb_finish_mmu,[Unknown],0xffffffff9bc53e70
+trigger_load_balance,0.087163,0.0,0.0,100.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,trigger_load_balance,[Unknown],0xffffffff9badb5d0
+update_process_times,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,update_process_times,[Unknown],0xffffffff9bb22870
+userfaultfd_unmap_prep,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,userfaultfd_unmap_prep,[Unknown],0xffffffff9bd0fbc0
+vmap_page_range_noflush,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,vmap_page_range_noflush,[Unknown],0xffffffff9bc5c120
+wake_q_add,0.087163,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,wake_q_add,[Unknown],0xffffffff9bac75e0
+_GLOBAL__sub_I_yarn3s.cc,0.043581,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libtrng4.so.21.0.0,_GLOBAL__sub_I_yarn3s.cc,[Unknown],0x6990
+__GI___call_tls_dtors,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libc-2.29.so,__GI___call_tls_dtors,cxa_thread_atexit_impl.c,0x47ba0
+__calc_delta,0.043581,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__calc_delta,[Unknown],0xffffffff9bacdda0
+__d_lookup,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__d_lookup,[Unknown],0xffffffff9bcd3ef0
+__dec_node_page_state,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__dec_node_page_state,[Unknown],0xffffffff9bc2fb70
+__do_page_fault,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__do_page_fault,[Unknown],0xffffffff9ba7c190
+__enqueue_entity,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__enqueue_entity,[Unknown],0xffffffff9bace240
+__get_user_8,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__get_user_8,[Unknown],0xffffffff9c43ce70
+"__gnu_cxx::new_allocator<unsigned int>::construct<unsigned int, unsigned int const&>",0.043581,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,6.000000,imm,"void __gnu_cxx::new_allocator<unsigned int>::construct<unsigned int, unsigned int const&>(unsigned int*, unsigned int const&&&)",new_allocator.h,0x43b17
+__inc_numa_state,0.043581,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__inc_numa_state,[Unknown],0xffffffff9bc2fe50
+__madvise,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libc-2.29.so,__madvise,syscall-template.S,0x117660
+__mpol_put,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__mpol_put,[Unknown],0xffffffff9bc76180
+__pagevec_lru_add_fn,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__pagevec_lru_add_fn,[Unknown],0xffffffff9bc1a370
+__pthread_detach,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libpthread-2.29.so,__pthread_detach,pthread_detach.c,0xa420
+__radix_tree_lookup,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__radix_tree_lookup,[Unknown],0xffffffff9c42ffc0
+__rwsem_mark_wake,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__rwsem_mark_wake,[Unknown],0xffffffff9baf2570
+__slab_free,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__slab_free,[Unknown],0xffffffff9bc83980
+__srcu_read_lock,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__srcu_read_lock,[Unknown],0xffffffff9bb0fb40
+__unqueue_futex,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__unqueue_futex,[Unknown],0xffffffff9bb35950
+__vmalloc_node_range,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__vmalloc_node_range,[Unknown],0xffffffff9bc5e5e0
+__zone_watermark_ok,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,__zone_watermark_ok,[Unknown],0xffffffff9bc0f1f0
+_raw_spin_trylock,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,_raw_spin_trylock,[Unknown],0xffffffff9c4501b0
+_raw_write_lock_irq,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,_raw_write_lock_irq,[Unknown],0xffffffff9c4504b0
+account_entity_dequeue,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,account_entity_dequeue,[Unknown],0xffffffff9bad24f0
+account_process_tick,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,account_process_tick,[Unknown],0xffffffff9bacd360
+alloc_pages_current,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,alloc_pages_current,[Unknown],0xffffffff9bc742e0
+apparmor_task_free,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,apparmor_task_free,[Unknown],0xffffffff9be6c9f0
+available_idle_cpu,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,available_idle_cpu,[Unknown],0xffffffff9bacac90
+base_extent_bump_alloc_post,0.043581,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libmemkind.so.0.0.1,base_extent_bump_alloc_post,base.c,0x28ef0
+blkcg_exit,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,blkcg_exit,[Unknown],0xffffffff9bece0d0
+change_protection_range,0.043581,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,change_protection_range,[Unknown],0xffffffff9bc54040
+clone,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libc-2.29.so,clone,clone.S,0x11dae0
+copy_thread_tls,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,copy_thread_tls,[Unknown],0xffffffff9ba2df50
+cpuacct_charge,0.043581,100.0,100.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,cpuacct_charge,[Unknown],0xffffffff9baee270
+dequeue_entity,0.043581,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,dequeue_entity,[Unknown],0xffffffff9bad3650
+dequeue_task_fair,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,dequeue_task_fair,[Unknown],0xffffffff9bad4f20
+do_futex,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,do_futex,[Unknown],0xffffffff9bb39030
+do_timer,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,do_timer,[Unknown],0xffffffff9bb26bc0
+down_read_trylock,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,down_read_trylock,[Unknown],0xffffffff9baf09f0
+exit_files,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,exit_files,[Unknown],0xffffffff9bcd8960
+exit_sem,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,exit_sem,[Unknown],0xffffffff9be064c0
+extent_init,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libmemkind.so.0.0.1,extent_init,extent_inlines.h,0x4f79d
+find_vma_prev,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,find_vma_prev,[Unknown],0xffffffff9bc50690
+fpu__copy,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,fpu__copy,[Unknown],0xffffffff9ba3bd50
+free_perturb,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libc-2.29.so,free_perturb,malloc.c,0x95291
+func@0x1ca40,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libgomp.so.1.0.0,func@0x1ca40,[Unknown],0x1ca40
+func@0x1d7d0,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libgomp.so.1.0.0,func@0x1d7d0,[Unknown],0x1d7d0
+func@0x1dcb0,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libgomp.so.1.0.0,func@0x1dcb0,[Unknown],0x1dcb0
+func@0xd280,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libgomp.so.1.0.0,func@0xd280,[Unknown],0xd280
+futex_wait_setup,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,futex_wait_setup,[Unknown],0xffffffff9bb36770
+get_cached_stack,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,140004200,0,0,0,0,0,0,0.0,libpthread-2.29.so,get_cached_stack,allocatestack.c,0x9640
+get_futex_key_refs.isra.17,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,get_futex_key_refs.isra.17,[Unknown],0xffffffff9bb35a70
+get_mem_cgroup_from_mm,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,140004200,0,0,0,0,0,0,0,0.0,vmlinux,get_mem_cgroup_from_mm,[Unknown],0xffffffff9bc9b5c0
+hrtimer_active,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,hrtimer_active,[Unknown],0xffffffff9bb22c80
+hrtimer_interrupt,0.043581,-0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,hrtimer_interrupt,[Unknown],0xffffffff9bb23c70
+idr_get_free,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,idr_get_free,[Unknown],0xffffffff9c4302d0
+intel_pstate_update_util_hwp,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,intel_pstate_update_util_hwp,[Unknown],0xffffffff9c26a160
+interrupt_entry,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,140004200,0,0,0,0,0,0,0.0,vmlinux,interrupt_entry,[Unknown],0xffffffff9c600880
+irq_enter,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,irq_enter,[Unknown],0xffffffff9ba9d140
+irq_exit,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,irq_exit,[Unknown],0xffffffff9ba9d190
+je_base_extent_hooks_get,0.043581,0.0,,,0.0,,0.0,,0,0,0,0,0,0,0,0,0.0,libmemkind.so.0.0.1,je_base_extent_hooks_get,atomic.h,0x299f0
+kfree,0.043581,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,kfree,[Unknown],0xffffffff9bc84210
+kmem_cache_free,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,kmem_cache_free,[Unknown],0xffffffff9bc83cc0
+ktime_get_update_offsets_now,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,ktime_get_update_offsets_now,[Unknown],0xffffffff9bb26be0
+lapic_next_deadline,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,lapic_next_deadline,[Unknown],0xffffffff9ba62aa0
+lru_add_drain_cpu,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,lru_add_drain_cpu,[Unknown],0xffffffff9bc1b010
+malloc_mutex_trylock_final,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libmemkind.so.0.0.1,malloc_mutex_trylock_final,mutex.h,0x5a8a5
+mark_wake_futex,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,mark_wake_futex,[Unknown],0xffffffff9bb35990
+mem_cgroup_throttle_swaprate,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,mem_cgroup_throttle_swaprate,[Unknown],0xffffffff9bc69730
+mem_cgroup_try_charge,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,mem_cgroup_try_charge,[Unknown],0xffffffff9bca1f70
+memcg_check_events,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,memcg_check_events,[Unknown],0xffffffff9bc9de40
+memkind_malloc,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libmemkind.so.0.0.1,memkind_malloc,[Unknown],0xcdf0
+memmove,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,140004200,0,0,0,0,0,0,0,0.0,ld-2.29.so,memmove,memmove-vec-unaligned-erms.S,0x20e50
+memset_erms,0.043581,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,memset_erms,[Unknown],0xffffffff9c43ec70
+mod_zone_page_state,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,mod_zone_page_state,[Unknown],0xffffffff9bc2f210
+native_apic_mem_write,0.043581,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,native_apic_mem_write,[Unknown],0xffffffff9ba69950
+native_send_call_func_ipi,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,native_send_call_func_ipi,[Unknown],0xffffffff9ba5fa70
+perf_event_task_tick,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,perf_event_task_tick,[Unknown],0xffffffff9bbf19d0
+pgtable_trans_huge_deposit,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,pgtable_trans_huge_deposit,[Unknown],0xffffffff9bc58af0
+pids_can_fork,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,pids_can_fork,[Unknown],0xffffffff9bb54760
+prng_lg_range_u64,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libmemkind.so.0.0.1,prng_lg_range_u64,prng.h,0x542cd
+proc_exit_connector,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,proc_exit_connector,[Unknown],0xffffffff9c0ab910
+rcu_sched_clock_irq,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,rcu_sched_clock_irq,[Unknown],0xffffffff9bb14a20
+read_tsc,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,read_tsc,[Unknown],0xffffffff9ba38db0
+release_pages,0.043581,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,release_pages,[Unknown],0xffffffff9bc1a650
+"ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::ForwardDirection<unsigned int>>::get_transpose",0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,imm,"ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::ForwardDirection<unsigned int>>::get_transpose(void) const",graph.h,0x41d10
+"ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::ForwardDirection<unsigned int>>::get_transpose._omp_fn.5",0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,imm,"ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::ForwardDirection<unsigned int>>::get_transpose const._omp_fn.5",graph.h,0x15c40
+"ripples::UpdateCounters<__gnu_cxx::__normal_iterator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>>, std::vector<unsigned int, std::allocator<unsigned int>>>._omp_fn.12",0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,imm,"ripples::UpdateCounters<__gnu_cxx::__normal_iterator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>>, std::vector<unsigned int, std::allocator<unsigned int>>>._omp_fn.12",counting.h,0x15e40
+run_timer_softirq,0.043581,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,run_timer_softirq,[Unknown],0xffffffff9bb21380
+rwsem_down_write_failed_killable,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,rwsem_down_write_failed_killable,[Unknown],0xffffffff9c44e710
+sched_clock_cpu,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,sched_clock_cpu,[Unknown],0xffffffff9baccd50
+sched_move_task,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,sched_move_task,[Unknown],0xffffffff9bacc2d0
+security_mmap_file,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,security_mmap_file,[Unknown],0xffffffff9be1f290
+should_fail_alloc_page,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,should_fail_alloc_page,[Unknown],0xffffffff9bc0bfb0
+smp_call_function_single,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,smp_call_function_single,[Unknown],0xffffffff9bb39fb0
+"std::deque<unsigned int, std::allocator<unsigned int>>::_M_reserve_map_at_back",0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,imm,"std::deque<unsigned int, std::allocator<unsigned int>>::_M_reserve_map_at_back(unsigned long)",stl_deque.h,0x43ae4
+"std::vector<unsigned int, std::allocator<unsigned int>>::_M_check_len",0.043581,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,imm,"std::vector<unsigned int, std::allocator<unsigned int>>::_M_check_len(unsigned long, char const*) const",stl_vector.h,0x3071a
+swapgs_restore_regs_and_return_to_usermode,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,swapgs_restore_regs_and_return_to_usermode,[Unknown],0xffffffff9c600974
+task_active_pid_ns,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,task_active_pid_ns,[Unknown],0xffffffff9bab9e20
+task_change_group_fair,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,140004200,0,0,0,0,0,0,0,0.0,vmlinux,task_change_group_fair,[Unknown],0xffffffff9bad8010
+tcache_get,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,libc-2.29.so,tcache_get,malloc.c,0x974b8
+uncharge_batch,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,uncharge_batch,[Unknown],0xffffffff9bc9e400
+update_blocked_averages,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,update_blocked_averages,[Unknown],0xffffffff9bad25a0
+update_cfs_rq_h_load,0.043581,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,update_cfs_rq_h_load,[Unknown],0xffffffff9bacdfb0
+vma_compute_subtree_gap,0.043581,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,vma_compute_subtree_gap,[Unknown],0xffffffff9bc4e670
+vsnprintf,0.043581,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,vsnprintf,[Unknown],0xffffffff9c4383d0
+zap_page_range,0.043581,,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,zap_page_range,[Unknown],0xffffffff9bc46c10
+[Unknown stack frame(s)],0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2520075600,140004200,0,0,0,0,0,0,0.0,[Unknown],[Unknown stack frame(s)],[Unknown],0x0
+"__gnu_cxx::__ops::_Iter_comp_iter<ripples::CompareHeap<ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>>>::operator()<__gnu_cxx::__normal_iterator<std::pair<unsigned int, unsigned long>*, std::vector<std::pair<unsigned int, unsigned long>, std::allocator<std::pair<unsigned int, unsigned long>>>>, __gnu_cxx::__normal_iterator<std::pair<unsigned int, unsigned long>*, std::vector<std::pair<unsigned int, unsigned long>, std::allocator<std::pair<unsigned int, unsigned long>>>>>",0.0,,0.0,0.0,0.0,0.0,0.0,0.0,140004200,0,0,0,0,0,0,0,0.0,imm,"bool __gnu_cxx::__ops::_Iter_comp_iter<ripples::CompareHeap<ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>>>::operator()<__gnu_cxx::__normal_iterator<std::pair<unsigned int, unsigned long>*, std::vector<std::pair<unsigned int, unsigned long>, std::allocator<std::pair<unsigned int, unsigned long>>>>, __gnu_cxx::__normal_iterator<std::pair<unsigned int, unsigned long>*, std::vector<std::pair<unsigned int, unsigned long>, std::allocator<std::pair<unsigned int, unsigned long>>>>>(__gnu_cxx::__normal_iterator<std::pair<unsigned int, unsigned long>*, std::vector<std::pair<unsigned int, unsigned long>, std::allocator<std::pair<unsigned int, unsigned long>>>>, __gnu_cxx::__normal_iterator<std::pair<unsigned int, unsigned long>*, std::vector<std::pair<unsigned int, unsigned long>, std::allocator<std::pair<unsigned int, unsigned long>>>>)",predefined_ops.h,0xed3f
+__gnu_cxx::new_allocator<unsigned int*>::allocate,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,140004200,0,0,0,0,0,0,0.0,imm,"__gnu_cxx::new_allocator<unsigned int*>::allocate(unsigned long, void const*)",new_allocator.h,0x43b81
+__hrtimer_next_event_base,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,140004200,0,0,0,0,0,0,0,0.0,vmlinux,__hrtimer_next_event_base,[Unknown],0xffffffff9bb22d90
+__memcg_kmem_charge_memcg,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,140004200,0,0,0,0,0,0,0,0.0,vmlinux,__memcg_kmem_charge_memcg,[Unknown],0xffffffff9bca1680
+__page_mapcount,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,7.000000,vmlinux,__page_mapcount,[Unknown],0xffffffff9bc2d1f0
+__tls_get_addr,0.0,100.0,,,,,0.0,,0,0,0,0,0,0,0,0,0.0,ld-2.29.so,__tls_get_addr,tls_get_addr.S,0x19410
+alloc_perturb,0.0,,0.0,0.0,0.0,0.0,0.0,0.0,140004200,0,0,0,0,0,0,0,0.0,libc-2.29.so,alloc_perturb,malloc.c,0x970f1
+calc_global_load_tick,0.0,,0.0,0.0,0.0,0.0,0.0,0.0,140004200,0,0,0,0,0,0,0,0.0,vmlinux,calc_global_load_tick,[Unknown],0xffffffff9baccb40
+do_huge_pmd_anonymous_page,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,7.000000,vmlinux,do_huge_pmd_anonymous_page,[Unknown],0xffffffff9bc90440
+entry_SYSCALL_64,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,140004200,0,0,0,0,0,0,0.0,vmlinux,entry_SYSCALL_64,[Unknown],0xffffffff9c600010
+func@0xa470,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,140004200,0,0,0,0,0,0,0,0.0,imm,func@0xa470,[Unknown],0xa470
+memcg_kmem_get_cache,0.0,100.0,,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,0,0,0.0,vmlinux,memcg_kmem_get_cache,[Unknown],0xffffffff9bca1470
+move_queued_task,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,140004200,0,0,0,0,0,0,0.0,vmlinux,move_queued_task,[Unknown],0xffffffff9bac87c0
+native_irq_return_iret,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,140004200,0,0,0,0,0,0,0,0.0,vmlinux,native_irq_return_iret,[Unknown],0xffffffff9c600a27
+"ripples::CPUWalkWorker<ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>, trng::lcg64, __gnu_cxx::__normal_iterator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>>, ripples::independent_cascade_tag>::batch",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,140004200,0,0,0,0,0,0,0,0.0,imm,"ripples::CPUWalkWorker<ripples::Graph<unsigned int, ripples::WeightedDestination<unsigned int, float>, ripples::BackwardDirection<unsigned int>>, trng::lcg64, __gnu_cxx::__normal_iterator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>>, ripples::independent_cascade_tag>::batch(__gnu_cxx::__normal_iterator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>>, __gnu_cxx::__normal_iterator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>*, std::vector<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>, std::allocator<std::vector<unsigned int, libmemkind::static_kind::allocator<unsigned int>>>>>)",streaming_rrr_generator.h,0x43eae
+run_posix_cpu_timers,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,140004200,0,0,0,0,0,0,0,0.0,vmlinux,run_posix_cpu_timers,[Unknown],0xffffffff9bb2f810
+std::_Bit_reference::operator=,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,840025200,2380071400,0,0,0,0,0,0,7.000000,imm,std::_Bit_reference::operator=(bool),stl_bvector.h,0x120dc
+"std::pair<unsigned int, unsigned long>::operator=",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,140004200,0,0,0,0,0,0,0.0,imm,"std::pair<unsigned int, unsigned long>::operator=(std::pair<unsigned int, unsigned long>&&)",stl_pair.h,0xed10
+up_write,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,140004200,0,0,0,0,0,0,0.0,vmlinux,up_write,[Unknown],0xffffffff9baf0aa0
