@@ -83,15 +83,18 @@ def main():
         ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L2_MISS', 'L3 Stalls', makeCol_Diff('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L3_MISS') ),
         ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L1D_MISS', 'L2 Stalls', makeCol_Diff('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L2_MISS') ),
         ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_MEM_ANY', 'L1 Stalls', makeCol_Diff('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L1D_MISS') ),
+        ('L2 Stalls', 'L2/L1 Stalls', makeCol_Sum('L1 Stalls') ),
     ]
     
-    makeColL_r = [
+    makeColL_r1 = [
         ('CPU Time', 'CPU Time (s)', makeCol_wallclock(64) ),
         makeColL_g1[1],
         makeColL_g1[2],
         #('Memory Bound:L2 Bound(%)',  'L2/1 Bound (%)', makeCol_L2xBound('Memory Bound:L1 Bound(%)') ),
         #('Stores',   'Stores (%)',   vtcsv.makeCol_pctOfOther('Loads') ),
     ]
+
+    makeColL_r2 = makeColL_g2.copy()
 
     #-------------------------------------------------------
     # Metrics: Locally map old -> new names
@@ -138,34 +141,37 @@ def main():
         (makeColL_g2[1][1] ,), # ('L3 Stalls'),
         (makeColL_g2[2][1] ,), # ('L2 Stalls'),
         (makeColL_g2[3][1] ,), # ('L1 Stalls'),
+        #(makeColL_g2[4][1] ,), # ('L2/L1 Stalls'),
         #('Hardware Event Count:EXE_ACTIVITY.BOUND_ON_STORES',  'Store Stalls'),
     ]
 
 
-    global metricLf_r
-    metricLf_r = [ # metricL1.copy()
-        (makeColL_r[0][1] ,),  #('CPU Time'),
+    global metricLf_r1
+    metricLf_r1 = [ # metricL1.copy()
+        (makeColL_r1[0][1] ,),  #('CPU Time'),
         #
         ('Average Latency (cycles)',    'Latency (cycles)'),
-        #
-        #('Memory Bound(%)',),
-        ('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
-        ('Memory Bound:Persistent Memory Bound(%)', 'Pmem Bound (%)'),
-        #('LLC Miss Count:Local DRAM Access Count',  'LLC Miss:Lcl DRAM'),
-        #('LLC Miss Count:Remote DRAM Access Count', 'LLC Miss:Rmt DRAM'),
-        #('LLC Miss Count:Local Persistent Memory Access Count', 'LLC Miss:Lcl PMEM'),
-        #('LLC Miss Count:Remote Persistent Memory Access Count', 'LLC Miss:Rmt PMEM'),
-
-        ('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
-        (makeColL_r[1][1] ,),  #('L2/1 Bound (%)'),
-
-        #
-        #('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
-        #('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
-        #
-        #(makeColL_r[2][1] ,),  #('Stores (%)',),
+        ##
+        ##('Memory Bound(%)',),
+        #('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
+        #('Memory Bound:Persistent Memory Bound(%)', 'Pmem Bound (%)'),
+        ##('LLC Miss Count:Local DRAM Access Count',  'LLC Miss:Lcl DRAM'),
+        ##('LLC Miss Count:Remote DRAM Access Count', 'LLC Miss:Rmt DRAM'),
+        ##('LLC Miss Count:Local Persistent Memory Access Count', 'LLC Miss:Lcl PMEM'),
+        ##('LLC Miss Count:Remote Persistent Memory Access Count', 'LLC Miss:Rmt PMEM'),
+        #('Memory Bound:L3 Bound(%)',    'L3 Bound (%)'),
+        #(makeColL_r1[1][1] ,),  #('L2/1 Bound (%)'),
+        ##
+        ##('Memory Bound:L2 Bound(%)',    'L2 Bound (%)'),
+        ##('Memory Bound:L1 Bound(%)',    'L1 Bound (%)'),
+        ##
+        ##(makeColL_r1[2][1] ,),  #('Stores (%)',),
     ]
 
+    global metricLf_r2
+    metricLf_r2 = metricLf_g2.copy()
+
+    
     global metricLx
     metricLx = [
         ('Loads',),
@@ -186,7 +192,7 @@ def main():
     pyplt.rcParams.update({'figure.max_open_warning': 0})
 
     main_grappolo(makeColL_g1, makeColL_g2)
-    main_ripples (makeColL_r)
+    main_ripples (makeColL_r1, makeColL_r2)
 
     pyplt.show()
 
@@ -354,7 +360,7 @@ def main_grappolo(makeColL1, makeColL2):
 
     
 
-def main_ripples(makeColL):
+def main_ripples(makeColL1, makeColL2):
 
     #-------------------------------------------------------
     # Ripples, 64 threads, all memory modes
@@ -393,11 +399,17 @@ def main_ripples(makeColL):
         for grph in graphL_0 ]
     pathL_p = list(filter(mykeep, flattenL(pathL_p) )) 
 
-    pathL_f = [
+    pathL_f1 = [
         [ (path_pfx + grph + sfx + '-hotspots-fn.csv') for sfx in graph_sfx ]
         for grph in graphL_0 ]
-    pathL_f = list(filter(mykeep, flattenL(pathL_f) ))
+    pathL_f1 = list(filter(mykeep, flattenL(pathL_f1) ))
 
+    pathL_f2 = [
+        [ (path_pfx + grph + sfx + '-hw-events-fn.csv') for sfx in graph_sfx ]
+        for grph in graphL_0 ]
+    pathL_f2 = list(filter(mykeep, flattenL(pathL_f2) ))
+
+    
     #-------------------------------------------------------
     # 
     #-------------------------------------------------------
@@ -511,8 +523,9 @@ def main_ripples(makeColL):
     # 
     #-------------------------------------------------------
 
-    vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv', makeColL = makeColL)
-    vt_f = vtcsv.VTuneCSV(pathL_f, group_by = 'csv', makeColL = makeColL)
+    vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv', makeColL = makeColL1)
+    vt_f1 = vtcsv.VTuneCSV(pathL_f1, group_by = 'csv', makeColL = makeColL1)
+    vt_f2 = vtcsv.VTuneCSV(pathL_f2, group_by = 'csv', makeColL = makeColL2)
 
     adjHx = { 'left':0.05, 'right':0.99, 'bottom':0.15, 'top':0.75,
               'wspace':0.15, 'hspace':0.0 }
@@ -530,24 +543,42 @@ def main_ripples(makeColL):
     adjHf = { 'left':0.15, 'right':0.98, 'bottom':0.15, 'top':0.90,
               'wspace':0.13, 'hspace':0.0 }
 
-    fig_f1a = plot_fn(vt_f, graphL1, funcH, metricLf_r, {**plotHf, 'title':1}, adjHf)
-    fig_f2a = plot_fn(vt_f, graphL2, funcH, metricLf_r, {**plotHf, 'title':1}, adjHf)
-    fig_f3a = plot_fn(vt_f, graphL3, funcH, metricLf_r, {**plotHf, 'title':1}, adjHf)
-    fig_f4a = plot_fn(vt_f, graphL4, funcH, metricLf_r, {**plotHf, 'xtitle_bot':1}, adjHf)
-    fig_f5a = plot_fn(vt_f, graphL5, funcH, metricLf_r, {**plotHf, 'xtitle_bot':1, 'h':1.8, 'txt_rot':0}, adjHf)
+    fig_f1a = plot_fn(vt_f1, graphL1, funcH, metricLf_r1, {**plotHf, 'title':1}, adjHf)
+    fig_f1b = plot_fn(vt_f2, graphL1, funcH, metricLf_r2, {**plotHf, 'title':1, 'ytitle':0}, adjHf)
 
-    # fig_f1 = plot_fn(vt_f, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'xtitle_bot':False}, adjH)
+    fig_f2a = plot_fn(vt_f1, graphL2, funcH, metricLf_r1, {**plotHf, 'title':1}, adjHf)
+    fig_f2b = plot_fn(vt_f2, graphL2, funcH, metricLf_r2, {**plotHf, 'title':1, 'ytitle':0}, adjHf)
 
-    fig_fx = plot_fn(vt_f, graphL, funcH, metricLx, {'w':2.7, 'h':2.3, 'xtitle_bot':1}, adjHx)
+    fig_f3a = plot_fn(vt_f1, graphL3, funcH, metricLf_r1, {**plotHf, 'title':1}, adjHf)
+    fig_f3b = plot_fn(vt_f2, graphL3, funcH, metricLf_r2, {**plotHf, 'title':1, 'ytitle':0}, adjHf)
+
+    fig_f4a = plot_fn(vt_f1, graphL4, funcH, metricLf_r1, {**plotHf, 'xtitle_bot':1}, adjHf)
+    fig_f4b = plot_fn(vt_f2, graphL4, funcH, metricLf_r2, {**plotHf, 'xtitle_bot':1, 'ytitle':0}, adjHf)
+
+    fig_f5a = plot_fn(vt_f1, graphL5, funcH, metricLf_r1, {**plotHf, 'xtitle_bot':1, 'h':1.8, 'txt_rot':0}, adjHf)
+    fig_f5b = plot_fn(vt_f2, graphL5, funcH, metricLf_r2, {**plotHf, 'xtitle_bot':1, 'h':1.8, 'txt_rot':0, 'ytitle':0}, adjHf)
+
+    # fig_f1 = plot_fn(vt_f1, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'xtitle_bot':False}, adjH)
+
+    fig_fx = plot_fn(vt_f1, graphL, funcH, metricLx, {'w':2.7, 'h':2.3, 'xtitle_bot':1}, adjHx)
     
     fig_p1.savefig('chart-ripples-pkg1.pdf', bbox_inches='tight')
     fig_p2.savefig('chart-ripples-pkg2.pdf', bbox_inches='tight')
 
-    fig_f1a.savefig('chart-ripples-fn1.pdf', bbox_inches='tight')
-    fig_f2a.savefig('chart-ripples-fn2.pdf', bbox_inches='tight')
-    fig_f3a.savefig('chart-ripples-fn3.pdf', bbox_inches='tight')
-    fig_f4a.savefig('chart-ripples-fn4.pdf', bbox_inches='tight')
-    fig_f5a.savefig('chart-ripples-fn5.pdf', bbox_inches='tight')
+    fig_f1a.savefig('chart-ripples-fn1a.pdf', bbox_inches='tight')
+    fig_f1b.savefig('chart-ripples-fn1b.pdf', bbox_inches='tight')
+    
+    fig_f2a.savefig('chart-ripples-fn2a.pdf', bbox_inches='tight')
+    fig_f2b.savefig('chart-ripples-fn2b.pdf', bbox_inches='tight')
+    
+    fig_f3a.savefig('chart-ripples-fn3a.pdf', bbox_inches='tight')
+    fig_f3b.savefig('chart-ripples-fn3b.pdf', bbox_inches='tight')
+
+    fig_f4a.savefig('chart-ripples-fn4a.pdf', bbox_inches='tight')
+    fig_f4b.savefig('chart-ripples-fn4b.pdf', bbox_inches='tight')
+
+    fig_f5a.savefig('chart-ripples-fn5a.pdf', bbox_inches='tight')
+    fig_f5b.savefig('chart-ripples-fn5b.pdf', bbox_inches='tight')
 
     
 
