@@ -1,21 +1,24 @@
 -*-Mode: markdown;-*-
 -----------------------------------------------------------------------------
 
-Hardware Event Count:CYCLE_ACTIVITY.STALLS_L1D_MISS
+- Distributed memory (cost, power)
 
-all mem stalls: CYCLE_ACTIVITY.STALLS_MEM_ANY + EXE_ACTIVITY.BOUND_ON_STORES
-
-L1 stalls: (CYCLE_ACTIVITY.STALLS_MEM_ANY - CYCLE_ACTIVITY.STALLS_L1D_MISS)
-L2 stalls: (CYCLE_ACTIVITY.STALLS_L1D_MISS - CYCLE_ACTIVITY.STALLS_L2_MISS)
-L3 stalls: (CYCLE_ACTIVITY.STALLS_L2_MISS - CYCLE_ACTIVITY.STALLS_L3_MISS)
-
+- New Optane:
+  Barlow Pass (Ice Lake), new instructions
+  Apache Pass (Cascade Lake)
+  
+- Intel GPUs
+  
 
 - GUPS results
   random access bandwidth, local/remote
 
+
 - Grappolo: DRAM allocs were done by single thread. Use guarded, round-robin execution to ensure correct first-touch.
 
+
 - Fig 4: reorder columns and labels?
+
 
 - Ripples: tested two variants but had one more idea
   do we hit a bandwidth limitation?
@@ -23,11 +26,18 @@ L3 stalls: (CYCLE_ACTIVITY.STALLS_L2_MISS - CYCLE_ACTIVITY.STALLS_L3_MISS)
   
 
 - One more month. Any more experiments?
-
   libpmem, streaming
   
 
 memkind NUMA: is it inflexible? ignores numactl?
+
+
+all mem stalls: CYCLE_ACTIVITY.STALLS_MEM_ANY + EXE_ACTIVITY.BOUND_ON_STORES
+L1 stalls:      CYCLE_ACTIVITY.STALLS_MEM_ANY - CYCLE_ACTIVITY.STALLS_L1D_MISS
+L2 stalls:      CYCLE_ACTIVITY.STALLS_L1D_MISS - CYCLE_ACTIVITY.STALLS_L2_MISS
+L3 stalls:      CYCLE_ACTIVITY.STALLS_L2_MISS - CYCLE_ACTIVITY.STALLS_L3_MISS
+mem stalls:     CYCLE_ACTIVITY.STALLS_L3_MISS
+store stalls:   EXE_ACTIVITY.BOUND_ON_STORES
 
 
 

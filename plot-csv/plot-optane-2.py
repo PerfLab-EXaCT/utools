@@ -173,14 +173,6 @@ slash	64	kdax3	35.39	40.34433134
 slash	128	kdax3	nan	nan
 slash	192	kdax3	26.61	38.77803595
 
-slash	2	kdaxX	nan	nan
-slash	4	kdaxX	nan	nan
-slash	8	kdaxX	nan	nan
-slash	16	kdaxX	nan	nan
-slash	32	kdaxX	37.79	40.4645827
-slash	64	kdaxX	34.47	38.49604419
-slash	128	kdaxX	nan	nan
-slash	192	kdaxX	25.45	41.54662348
 
 twitter	2	dram	468.68	nan
 twitter	4	dram	235.69	nan
@@ -226,15 +218,6 @@ twitter	32	kdax3	66.07	71.32162039
 twitter	64	kdax3	59.45	63.05750133
 twitter	128	kdax3	nan	nan
 twitter	192	kdax3	37.97	50.44523449
-
-twitter	2	kdaxX	nan	nan
-twitter	4	kdaxX	nan	nan
-twitter	8	kdaxX	nan	nan
-twitter	16	kdaxX	nan	nan
-twitter	32	kdaxX	64.46	69.03614913
-twitter	64	kdaxX	58.11	65.7562004
-twitter	128	kdaxX	nan	nan
-twitter	192	kdaxX	37.14	55.71388362
 
 
 talk	2	dram	606.44	nan
@@ -282,15 +265,6 @@ talk	64	kdax3	70.61	74.92748809
 talk	128	kdax3	nan	nan
 talk	192	kdax3	84.81	98.67837559
 
-talk	2	kdaxX	nan	nan
-talk	4	kdaxX	nan	nan
-talk	8	kdaxX	nan	nan
-talk	16	kdaxX	nan	nan
-talk	32	kdaxX	73.46	73.77388803
-talk	64	kdaxX	69.65	75.43769374
-talk	128	kdaxX	nan	nan
-talk	192	kdaxX	88.87	104.2051243
-
 
 pokec	2	dram	22531.59	nan
 pokec	4	dram	10796.75	nan
@@ -337,15 +311,6 @@ pokec	64	kdax3	2338.70	2313.266827
 pokec	128	kdax3	nan	nan
 pokec	192	kdax3	3013.94	3153.660593
 
-pokec	2	kdaxX	nan	nan
-pokec	4	kdaxX	nan	nan
-pokec	8	kdaxX	nan	nan
-pokec	16	kdaxX	nan	nan
-pokec	32	kdaxX	2480.16	2557.437547
-pokec	64	kdaxX	2711.26	2696.422974
-pokec	128	kdaxX	nan	nan
-pokec	192	kdaxX	6173.22	6303.312064
-
 
 topcats	2	mem	19722.79	nan
 topcats	4	mem	9400.69	nan
@@ -382,26 +347,54 @@ topcats	32	kdax3	2842.89	2894.704997
 topcats	64	kdax3	2778.72	2718.955827
 topcats	128	kdax3	nan	nan
 topcats	192	kdax3	3400.19	3375.656995
-
-topcats	2	kdaxX	nan	nan
-topcats	4	kdaxX	nan	nan
-topcats	8	kdaxX	nan	nan
-topcats	16	kdaxX	nan	nan
-topcats	32	kdaxX	2358.83	2369.970634
-topcats	64	kdaxX	4986.54	5099.429601
-topcats	128	kdaxX	nan	nan
-topcats	192	kdaxX	6396.29	6483.311098
 """
 
-# Degenerate.
-# topcats	2	dram	27373.45	nan
-# topcats	4	dram	13190.00	nan
-# topcats	8	dram	6458.86	nan
-# topcats	16	dram	3839.89	nan
-# topcats	32	dram	3505.02	nan
-# topcats	64	dram	9295.31	nan
-# topcats	128	dram	9398.76	nan
-# topcats	192	dram	10236.10	nan
+# kdax4/X
+# slash	2	kdaxX	nan	nan
+# slash	4	kdaxX	nan	nan
+# slash	8	kdaxX	nan	nan
+# slash	16	kdaxX	nan	nan
+# slash	32	kdaxX	37.79	40.4645827
+# slash	64	kdaxX	34.47	38.49604419
+# slash	128	kdaxX	nan	nan
+# slash	192	kdaxX	25.45	41.54662348
+
+# twitter	2	kdaxX	nan	nan
+# twitter	4	kdaxX	nan	nan
+# twitter	8	kdaxX	nan	nan
+# twitter	16	kdaxX	nan	nan
+# twitter	32	kdaxX	64.46	69.03614913
+# twitter	64	kdaxX	58.11	65.7562004
+# twitter	128	kdaxX	nan	nan
+# twitter	192	kdaxX	37.14	55.71388362
+
+# talk	2	kdaxX	nan	nan
+# talk	4	kdaxX	nan	nan
+# talk	8	kdaxX	nan	nan
+# talk	16	kdaxX	nan	nan
+# talk	32	kdaxX	73.46	73.77388803
+# talk	64	kdaxX	69.65	75.43769374
+# talk	128	kdaxX	nan	nan
+# talk	192	kdaxX	88.87	104.2051243
+
+# pokec	2	kdaxX	nan	nan
+# pokec	4	kdaxX	nan	nan
+# pokec	8	kdaxX	nan	nan
+# pokec	16	kdaxX	nan	nan
+# pokec	32	kdaxX	2480.16	2557.437547
+# pokec	64	kdaxX	2711.26	2696.422974
+# pokec	128	kdaxX	nan	nan
+# pokec	192	kdaxX	6173.22	6303.312064
+
+# topcats	2	kdaxX	nan	nan
+# topcats	4	kdaxX	nan	nan
+# topcats	8	kdaxX	nan	nan
+# topcats	16	kdaxX	nan	nan
+# topcats	32	kdaxX	2358.83	2369.970634
+# topcats	64	kdaxX	4986.54	5099.429601
+# topcats	128	kdaxX	nan	nan
+# topcats	192	kdaxX	6396.29	6483.311098
+
 
 #-------------------------------------------------------
 #
