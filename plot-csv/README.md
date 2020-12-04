@@ -136,7 +136,7 @@ myL=(
 # vtune -report hw-events
 
 for path in "${myL[@]}" ; do
-  report='hotspots'
+  report=hotspots # hw-events
   path=${path%/*} # strip trailing /
   path_new="${path//-vtune/}" ;
   out1="${path_new}-${report}-fn.csv"
