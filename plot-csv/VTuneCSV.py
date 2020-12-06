@@ -41,7 +41,7 @@ class VTuneCSV:
 
     <csv_pathL>: List of paths to CSV data files
 
-    <group_by>: How to create the columns for each DataFrame
+    <group_by>: How to create the columns (metrics) for each DataFrame.
       'metric': For each CSV-file f: [ indexL x f[columnL] ]
       'csv':    For each column c:   [ indexL x CSV-file[c] ]
 
@@ -58,14 +58,16 @@ class VTuneCSV:
                 'makeCol_pctOfColTotal(df, col-source)' (below).
     """
 
-    NM = "" #VTuneCSV.__name__
-
+    #------------------------
+    
     dataH = None
     dataL = None
     group_by = None
-
     index_name = None # rows are labeled by this column
 
+    #------------------------
+
+    NM = "" #VTuneCSV.__name__
     COL_SEP = '/'
 
     metric_id = 'Function'
@@ -75,6 +77,8 @@ class VTuneCSV:
                     'Start Address' ]
     metric_mn = '[mean]'
     metric_sm = '[sum]'
+
+    #-----------------------------------------------------------------------
 
     def __init__ (self,
                   csv_pathL,
@@ -109,20 +113,26 @@ class VTuneCSV:
         #-------------------------------------------------------
 
         if (self.group_by == 'csv'):
-            for key, dfrm in self.dataH.items():
-                # col_srt = sorted(dfrm.columns, key = lambda x : my_sort_key(x))
-                # self.dataH[key] = dfrm[col_srt]
-                pass                
-                #dfrm.sort_index(axis=1, inplace = True)
+            #for key, dfrm in self.dataH.items():
+            #    # col_srt = sorted(dfrm.columns, key = lambda x : my_sort_key(x))
+            #    # self.dataH[key] = dfrm[col_srt]
+            #    pass                
+            #    #dfrm.sort_index(axis=1, inplace = True)
 
             self.dataL = list(self.dataH.items())
 
         elif (self.group_by == 'metric'):
-            self.dataL = sorted(self.dataH.items(),
-                                key = lambda kv : my_sort_keyval(kv))
+            #self.dataL = sorted(self.dataH.items(),
+            #                    key = lambda kv : my_sort_keyval(kv))
+
+            self.dataL = list(self.dataH.items())
+
         else:
             sys.exit("Bad group_by! %s" % self.group_by)
 
+
+
+    #-----------------------------------------------------------------------
 
     def __str__(self):
         msg = ""
@@ -155,6 +165,7 @@ class VTuneCSV:
             print("  '%s'" % x)
 
 
+    #-----------------------------------------------------------------------
     
     def add_csv(self, csv_fnm, indexL, columnL, makeColL):
         if (not os.path.exists(csv_fnm)):
@@ -309,7 +320,23 @@ class VTuneCSV:
             sys.exit("Bad group_by! %s" % self.group_by)
 
         return dfrm
-   
+
+    #-----------------------------------------------------------------------
+
+    def merge(self, other):
+        """
+        merge in-place.
+        """
+
+        assert(self.group_by == other.group_by)
+        assert(self.index_name == other.index_name)
+
+        self.dataH.update(other.dataH)
+        self.dataL.extend(other.dataL)
+
+        return self
+
+    #-----------------------------------------------------------------------
 
     def remove_empty_cols(self, dfrm):
         empties = (dfrm.iloc[:,:].sum() != 0)

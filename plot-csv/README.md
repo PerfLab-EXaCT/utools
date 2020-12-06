@@ -1,7 +1,31 @@
 -*-Mode: markdown;-*-
 -----------------------------------------------------------------------------
 
+mem: similar times, slightly more cost with kdax, which makes sense. 
+
+---
+
+Intel questions:
+  - mlc random latency
+  - bw and latency histograms as textual reports?
+  - new hypothesis
+
+  - cycles vs pipeline stalls?
+  
+
+
+vtune: pmem dimms
+
+EDP: 
+
+Near memory cache = L4 miss rate as 
+
+
 - Distributed memory (cost, power)
+
+kdax supports numactl...
+
+- Optane: Power, mem mode?
 
 - New Optane:
   Barlow Pass (Ice Lake), new instructions
