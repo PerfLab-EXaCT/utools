@@ -27,6 +27,9 @@ import seaborn
 
 import VTuneCSV as vtcsv
 
+from dataclasses import dataclass
+
+
 #****************************************************************************
 
 # FIXME:
@@ -50,6 +53,16 @@ Fixed_cmap_w = 2
 
 Do_view = 0 # resets 'subplots_adjust'
 Do_rows = 1
+
+
+#****************************************************************************
+
+@dataclass
+class PlotData:
+    metric: str
+    graph_grp: tuple
+    dfrm: pandas.DataFrame()
+
 
 #****************************************************************************
 #
@@ -738,7 +751,41 @@ def plot_cfg(plotH, graph_grpL, metricL, ytitle):
     if (not ('xtitle_top' in plotH)):
         plotH['xtitle_bot'] = True
 
+
+
+def plotL_selectData(vt, metricL, dfrm_xformF, graph_grpL):
+
+    dataL = []
     
+    grp_per_metric = len(graph_grpL)
+    
+    num_metric = len(metricL)
+    for i_m in range(num_metric):
+
+        for i_g in range(grp_per_metric):
+
+            graph_grp = graph_grpL[i_g]
+            #print(graph_grp)
+
+            metricPair = metricL[i_m]
+            metric0 = metricPair[0]
+
+            # find DataFrame for 'metricPair'
+            try:
+                dfrm = vt.dataH[metric0]
+            except KeyError:
+                vtcsv.MSG.warnx("Skipping metric: '{}'".format(metric0))
+                continue
+
+            # select columns for 'graph_grp'
+            dfrm = select_dfrm_col(dfrm, graph_grp)
+            #print(dfrm)
+
+            dfrm = dfrm_xformF(dfrm, graph_grp, metric0)
+
+            dataL.append(PlotData(metric0, graph_grp, dfrm))
+
+
 
 def plotL_mk(vt, metricL, w, h, graph_grpL):
     num_metric = len(metricL)
