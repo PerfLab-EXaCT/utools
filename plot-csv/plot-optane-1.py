@@ -149,8 +149,8 @@ def main():
     ]
 
 
-    global metricLf_r1
-    metricLf_r1 = [ # metricL1.copy()
+    global metricLf_r
+    metricLf_r = [ # metricL1.copy()
         #------------------------
         # hotspots
         #------------------------
@@ -327,10 +327,10 @@ def main_grappolo(makeColL1, makeColL2):
     #-------------------------------------------------------
 
     vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv', makeColL = makeColL1)
-    vt_f1 = vtcsv.VTuneCSV(pathL_f1, group_by = 'csv', makeColL = makeColL1)
-    vt_f2 = vtcsv.VTuneCSV(pathL_f2, group_by = 'csv', makeColL = makeColL2)
+    vt_f = vtcsv.VTuneCSV(pathL_f1, group_by = 'csv', makeColL = makeColL1)
+    vt_f1 = vtcsv.VTuneCSV(pathL_f2, group_by = 'csv', makeColL = makeColL2)
 
-    vt_f1.merge(vt_f2)
+    vt_f.merge(vt_f1)
     
 
     adjHx = { 'left':0.05, 'right':0.99, 'bottom':0.10, 'top':0.75,
@@ -348,14 +348,14 @@ def main_grappolo(makeColL1, makeColL2):
     adjHf = { 'left':0.15, 'right':0.98, 'bottom':0.15, 'top':0.85,
               'wspace':0.13, 'hspace':0.0 } # 'ytitle'
 
-    fig_f1 = plot_fn(vt_f1, graphL1, funcH, metricLf_g, {**plotHf, 'title':1}, adjHf)
-    fig_f2 = plot_fn(vt_f1, graphL2, funcH, metricLf_g, {**plotHf, 'xtitle_bot':1}, adjHf)
-    fig_f3 = plot_fn(vt_f1, graphL3, funcH, metricLf_g, {**plotHf, 'h':1.4, 'txt_rot':0}, adjHf)
-    fig_f4 = plot_fn(vt_f1, graphL4, funcH, metricLf_g, {**plotHf, 'h':1.4, 'xtitle_bot':1, 'txt_rot':0}, adjHf)
+    fig_f1 = plot_fn(vt_f, graphL1, funcH, metricLf_g, {**plotHf, 'title':1}, adjHf)
+    fig_f2 = plot_fn(vt_f, graphL2, funcH, metricLf_g, {**plotHf, 'xtitle_bot':1}, adjHf)
+    fig_f3 = plot_fn(vt_f, graphL3, funcH, metricLf_g, {**plotHf, 'h':1.4, 'txt_rot':0}, adjHf)
+    fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf_g, {**plotHf, 'h':1.4, 'xtitle_bot':1, 'txt_rot':0}, adjHf)
 
-    fig_fx = plot_fn(vt_f1, graphL, funcH, metricLx, {'w':3.2, 'h':2.7, 'xtitle_bot':1}, adjHx)
+    fig_fx = plot_fn(vt_f, graphL, funcH, metricLx, {'w':3.2, 'h':2.7, 'xtitle_bot':1}, adjHx)
 
-    #fig_f1 = plot_fn(vt_f1, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'xtitle_bot':False}, adjH)
+    #fig_f1 = plot_fn(vt_f, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'xtitle_bot':False}, adjH)
 
     fig_p1.savefig('chart-grappolo-pkg1.pdf', bbox_inches='tight')
     fig_p2.savefig('chart-grappolo-pkg2.pdf', bbox_inches='tight')
@@ -531,10 +531,10 @@ def main_ripples(makeColL1, makeColL2):
     #-------------------------------------------------------
 
     vt_p = vtcsv.VTuneCSV(pathL_p, group_by = 'csv', makeColL = makeColL1)
-    vt_f1 = vtcsv.VTuneCSV(pathL_f1, group_by = 'csv', makeColL = makeColL1)
-    vt_f2 = vtcsv.VTuneCSV(pathL_f2, group_by = 'csv', makeColL = makeColL2)
+    vt_f = vtcsv.VTuneCSV(pathL_f1, group_by = 'csv', makeColL = makeColL1)
+    vt_f1 = vtcsv.VTuneCSV(pathL_f2, group_by = 'csv', makeColL = makeColL2)
 
-    vt_f1.merge(vt_f2)
+    vt_f.merge(vt_f1)
     
     adjHx = { 'left':0.05, 'right':0.99, 'bottom':0.15, 'top':0.75,
               'wspace':0.15, 'hspace':0.0 }
@@ -552,15 +552,15 @@ def main_ripples(makeColL1, makeColL2):
     adjHf = { 'left':0.15, 'right':0.98, 'bottom':0.15, 'top':0.90,
               'wspace':0.13, 'hspace':0.0 } # 'ytitle'
 
-    fig_f1 = plot_fn(vt_f1, graphL1, funcH, metricLf_r1, {**plotHf, 'title':1}, adjHf)
-    fig_f2 = plot_fn(vt_f1, graphL2, funcH, metricLf_r1, {**plotHf, 'title':1}, adjHf)
-    fig_f3 = plot_fn(vt_f1, graphL3, funcH, metricLf_r1, {**plotHf, 'title':1}, adjHf)
-    fig_f4 = plot_fn(vt_f1, graphL4, funcH, metricLf_r1, {**plotHf, 'xtitle_bot':1}, adjHf)
-    fig_f5 = plot_fn(vt_f1, graphL5, funcH, metricLf_r1, {**plotHf, 'xtitle_bot':1, 'h':1.8, 'txt_rot':0}, adjHf)
+    fig_f1 = plot_fn(vt_f, graphL1, funcH, metricLf_r, {**plotHf, 'title':1}, adjHf)
+    fig_f2 = plot_fn(vt_f, graphL2, funcH, metricLf_r, {**plotHf, 'title':1}, adjHf)
+    fig_f3 = plot_fn(vt_f, graphL3, funcH, metricLf_r, {**plotHf, 'title':1}, adjHf)
+    fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf_r, {**plotHf, 'xtitle_bot':1}, adjHf)
+    fig_f5 = plot_fn(vt_f, graphL5, funcH, metricLf_r, {**plotHf, 'xtitle_bot':1, 'h':1.8, 'txt_rot':0}, adjHf)
 
-    # fig_f1 = plot_fn(vt_f1, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'xtitle_bot':False}, adjH)
+    # fig_f1 = plot_fn(vt_f, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'xtitle_bot':False}, adjH)
 
-    fig_fx = plot_fn(vt_f1, graphL, funcH, metricLx, {'w':2.7, 'h':2.3, 'xtitle_bot':1}, adjHx)
+    fig_fx = plot_fn(vt_f, graphL, funcH, metricLx, {'w':2.7, 'h':2.3, 'xtitle_bot':1}, adjHx)
     
     fig_p1.savefig('chart-ripples-pkg1.pdf', bbox_inches='tight')
     fig_p2.savefig('chart-ripples-pkg2.pdf', bbox_inches='tight')
@@ -591,6 +591,9 @@ def plot_pkg(vt, graph_grpL, metricL, plotH, adjustH):
 def dfrm_pkg_xform(graph_grpL):
 
     def dfrm_pkg_xform1(dfrm, graph_grp, metric):
+        # 'dfrm': frame with down-selected columns
+        # 'metric' is *original* metric name
+        
         # 1. Reorder/rename rows
         dfrm.rename(columns = (lambda x: rename_col(x, graph_grpL)), inplace=True)
 
@@ -637,6 +640,7 @@ def dfrm_fn_xform(vt, functionH, graph_grpL):
 
     
     def dfrm_fn_xform1(dfrm, graph_grp, metric):
+        # 'dfrm': frame with down-selected columns
         # 'metric' is *original* metric name
 
         # 1. Rename columns/rows
