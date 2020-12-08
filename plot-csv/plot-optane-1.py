@@ -614,6 +614,12 @@ def plot_fn(vt, graph_grpL, functionH, metricL, plotH, adjustH):
     w = plotH['w']
     h = plotH['h']
 
+    # TODO:
+    # select_dfrmL(): select all data frames and apply transforms
+    # plotL_mk():
+    # plotL_do():
+    # plotL_adj():
+
     fig, axesL = plotL_mk(vt, metricL, w, h, graph_grpL)
     plotL_do(vt, fig, axesL, metricL, dfrm_fn_xform(vt, functionH, graph_grpL), graph_grpL, plotH)
     plotL_adj(fig, adjustH)
@@ -776,15 +782,16 @@ def plotL_mk_widths(vt, metricL, graph_grpL):
             graph_grp = graph_grpL[i_g]
 
             metricPair = metricL[i_m]
+            metric0 = metricPair[0]
 
             g_title_w = 0
             #g_title_w = 2 if (i_g == 0) else 0
 
             # find DataFrame for 'metricPair'
             try:
-                dfrm = vt.dataH[metricPair[0]]
+                dfrm = vt.dataH[metric0]
             except KeyError:
-                vtcsv.MSG.warnx(("Skipping metric: '%s'" % metricPair[0]))
+                vtcsv.MSG.warnx("Skipping metric: '{}'".format(metric0))
                 widthL.append(1)
                 continue
 
@@ -820,7 +827,7 @@ def plotL_do(vt, fig, axesL, metricL, dfrm_xformF, graph_grpL, plotH):
             try:
                 dfrm = vt.dataH[metric0]
             except KeyError:
-                vtcsv.MSG.warnx(("Skipping metric: '%s'" % metric0))
+                vtcsv.MSG.warnx("Skipping metric: '{}'".format(metric0))
                 continue
 
             # select columns for 'graph_grp'
