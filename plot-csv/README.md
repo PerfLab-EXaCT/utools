@@ -7,14 +7,11 @@ mem: similar times, slightly more cost with kdax, which makes sense.
 
 Intel questions:
   - mlc random latency
+  - near memory cache miss rate: l4_hit*
   - bw and latency histograms as textual reports?
   - new hypothesis
 
   - cycles vs pipeline stalls?
-
-memkind will overwrite the process-wide memory policy set through numactl
-The interleaving functionality for KMEM-DAX wasn’t considered a priority setting when it was developed. Nevertheless, we see this to not be the case lately and the developers may include the interleave variant in future versions of KMEM-DAX
-
 
 vtune: pmem dimms
 

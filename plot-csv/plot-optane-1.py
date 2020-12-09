@@ -594,6 +594,9 @@ def plot_pkg(vt, graph_grpL, metricL, plotH, adjustH):
     w = plotH['w']
     h = plotH['h']
 
+    dataL = plotL_selectData(vt, metricL, graph_grpL,
+                             dfrm_pkg_xform(graph_grpL))
+    
     fig, axesL = plotL_mk(vt, metricL, w, h, graph_grpL)
     plotL_do(vt, fig, axesL, metricL, dfrm_pkg_xform(graph_grpL), graph_grpL, plotH)
     plotL_adj(fig, adjustH)
@@ -633,6 +636,9 @@ def plot_fn(vt, graph_grpL, functionH, metricL, plotH, adjustH):
     # plotL_do():
     # plotL_adj():
 
+    dataL = plotL_selectData(vt, metricL, graph_grpL,
+                             dfrm_fn_xform(vt, functionH, graph_grpL))
+    
     fig, axesL = plotL_mk(vt, metricL, w, h, graph_grpL)
     plotL_do(vt, fig, axesL, metricL, dfrm_fn_xform(vt, functionH, graph_grpL), graph_grpL, plotH)
     plotL_adj(fig, adjustH)
@@ -753,8 +759,10 @@ def plot_cfg(plotH, graph_grpL, metricL, ytitle):
 
 
 
-def plotL_selectData(vt, metricL, dfrm_xformF, graph_grpL):
+def plotL_selectData(vt, metricL, graph_grpL, dfrm_xformF):
 
+    # TODO: choose whether to have "metrics > graph-groups" or "graph > metric groups". currently, support only the first.
+    
     dataL = []
     
     grp_per_metric = len(graph_grpL)
@@ -784,6 +792,7 @@ def plotL_selectData(vt, metricL, dfrm_xformF, graph_grpL):
             dfrm = dfrm_xformF(dfrm, graph_grp, metric0)
 
             dataL.append(PlotData(metric0, graph_grp, dfrm))
+
 
 
 

@@ -9516,6 +9516,7 @@ fig3.subplots_adjust(**adjustH2)
 
 fig1.savefig('chart-teaser.pdf', bbox_inches='tight')
 fig2.savefig('chart-grappolo-sum.pdf', bbox_inches='tight')
+#fig2x.savefig('chart-2x.pdf', bbox_inches='tight')
 fig3.savefig('chart-ripples-scaling.pdf', bbox_inches='tight')
 
 #seaborn.plt.show()
