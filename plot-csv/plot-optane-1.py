@@ -597,10 +597,6 @@ def plot_pkg(vt, graph_grpL, metricL, plotH, adjustH):
                              dfrm_pkg_xform(graph_grpL))
     fig, axesL = plotL_do(dataL, plotH)
 
-
-    # fig, axesL = plotL_mkFig(dataL, plotH)
-    # # fig, axesL = plotL_mkX(vt, metricL, w, h, graph_grpL)
-    # plotL_doX(vt, fig, axesL, metricL, dfrm_pkg_xform(graph_grpL), graph_grpL, plotH)
     plotL_adj(fig, adjustH)
 
     return fig
