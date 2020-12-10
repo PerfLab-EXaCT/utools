@@ -597,9 +597,9 @@ def plot_pkg(vt, graph_grpL, metricL, plotH, adjustH):
 
     dataL = plotL_selectData(vt, metricL, graph_grpL,
                              dfrm_pkg_xform(graph_grpL))
-    #fig, axesL = plotL_mkFig(dataL, plotH)
+    fig, axesL = plotL_mkFig(dataL, plotH)
     
-    fig, axesL = plotL_mkX(vt, metricL, w, h, graph_grpL)
+    #fig, axesL = plotL_mkX(vt, metricL, w, h, graph_grpL)
     plotL_doX(vt, fig, axesL, metricL, dfrm_pkg_xform(graph_grpL), graph_grpL, plotH)
     plotL_adj(fig, adjustH)
 
@@ -635,9 +635,9 @@ def plot_fn(vt, graph_grpL, functionH, metricL, plotH, adjustH):
 
     dataL = plotL_selectData(vt, metricL, graph_grpL,
                              dfrm_fn_xform(vt, functionH, graph_grpL))
-    #fig, axesL = plotL_mkFig(dataL, plotH)
+    fig, axesL = plotL_mkFig(dataL, plotH)
     
-    fig, axesL = plotL_mkX(vt, metricL, w, h, graph_grpL)
+    #fig, axesL = plotL_mkX(vt, metricL, w, h, graph_grpL)
     plotL_doX(vt, fig, axesL, metricL, dfrm_fn_xform(vt, functionH, graph_grpL), graph_grpL, plotH)
     
     plotL_adj(fig, adjustH)
@@ -792,6 +792,8 @@ def plotL_selectData(vt, metricL, graph_grpL, dfrm_xformF):
             dfrm = dfrm_xformF(dfrm, graph_grp, metric0)
 
             dataL.append(PlotData(metric0, graph_grp, dfrm))
+
+    return dataL
 
 
 def plotL_do(dataL, plotH):
