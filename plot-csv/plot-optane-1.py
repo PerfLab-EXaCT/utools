@@ -60,8 +60,8 @@ Do_rows = 1
 @dataclass
 class PlotData:
     is_group_beg: bool
-    metric: tuple #str
-    graph_grp: tuple
+    metric: tuple #str   # group_nm
+    graph_grp: tuple     # col_grp_nm
     dfrm: pandas.DataFrame()
 
 
@@ -747,7 +747,6 @@ def plot_cfg(plotH, graph_grpL, metricL, ytitle):
         plotH['xtitle_bot'] = True
 
 
-#----------------------------------------
 
 def plotL_selectData(vt, metricL, graph_grpL, dfrm_xformF):
 
@@ -817,8 +816,6 @@ def plotL_do(dataL, plotH):
         # axes1.add_patch(patches.Rectangle(xy=bbox[0], width=bbox_w, height=bbox_h, edgecolor='red', linewidth=2.0, fill=True, zorder=100))
 
 
-    #...
-    
     return fig, axesL
 
 
@@ -856,120 +853,6 @@ def plotL_mkFig(dataL, plotH):
         axesL = numpy.array([axesL])
 
     return (fig, axesL)
-
-
-
-#----------------------------------------
-
-# # FIXME: DELETE
-# def plotL_mkX(vt, metricL, w, h, graph_grpL):
-#     num_metric = len(metricL)
-
-#     grp_per_metric = len(graph_grpL)
-
-#     num_axes = num_metric * grp_per_metric
-#     #print("axes:", num_axes)
-
-#     # width_ratios are proportional to 'select_dfrm_col'
-#     widthL = plotL_mk_widths(vt, metricL, graph_grpL)
-#     #print("widthL:", widthL)
-
-#     if (Do_rows):
-#         fig, axesL = pyplt.subplots(nrows=1, ncols=(num_axes),
-#                                     figsize=(w * num_axes, h),
-#                                     #squeeze=False,
-#                                     gridspec_kw={'width_ratios': widthL})
-#     else:
-#         # FIXME: ncol = num_groups
-#         fig, axesL = pyplt.subplots(nrows=(num_axes), ncols=1,
-#                                     figsize=(w, h * num_axes),
-#                                     #squeeze=False,
-#                                     gridspec_kw={'width_ratios': widthL})
-
-#     if (num_axes == 1): # squeeze=True
-#         axesL = numpy.array([axesL])
-
-#     return (fig, axesL)
-
-
-# FIXME: DELETE
-# def plotL_mk_widths(vt, metricL, graph_grpL):
-#     widthL = []
-
-#     grp_per_metric = len(graph_grpL)
-#     #print(grp_per_metric)
-
-#     num_metric = len(metricL)
-#     for i_m in range(num_metric):
-#         for i_g in range(grp_per_metric):
-#             graph_grp = graph_grpL[i_g]
-
-#             metricPair = metricL[i_m]
-#             metric0 = metricPair[0]
-
-#             g_title_w = 0
-#             #g_title_w = 2 if (i_g == 0) else 0
-
-#             # find DataFrame for 'metricPair'
-#             try:
-#                 dfrm = vt.dataH[metric0]
-#             except KeyError:
-#                 vtcsv.MSG.warnx("Skipping metric: '{}'".format(metric0))
-#                 widthL.append(1)
-#                 continue
-
-#             n_col = find_fig_width(dfrm, graph_grp)
-#             widthL.append(g_title_w + n_col + Fixed_cmap_w)
-
-#     return widthL
-
-
-# FIXME: DELETE
-def plotL_doX(vt, fig, axesL, metricL, dfrm_xformF, graph_grpL, plotH):
-
-    grp_per_metric = len(graph_grpL)
-    
-    num_metric = len(metricL)
-    for i_m in range(num_metric):
-
-        for i_g in range(grp_per_metric):
-
-            graph_grp = graph_grpL[i_g]
-            #print(graph_grp)
-        
-            axes_i = (i_m * grp_per_metric) + i_g
-
-            axes = axesL[axes_i]
-
-            metricPair = metricL[i_m]
-            metric0 = metricPair[0]
-
-            do_title = (plotH['title'] and i_g == 0)
-            ytitle = plotH['ytitle'] if (i_m == 0 and i_g == 0) else None
-
-            # find DataFrame for 'metricPair'
-            try:
-                dfrm = vt.dataH[metric0]
-            except KeyError:
-                vtcsv.MSG.warnx("Skipping metric: '{}'".format(metric0))
-                continue
-
-            # select columns for 'graph_grp'
-            dfrm = select_dfrm_col(dfrm, graph_grp)
-            #print(dfrm)
-
-            dfrm = dfrm_xformF(dfrm, graph_grp, metric0)
-
-            axes.margins(x=0.00, y=0.00)
-            axes1 = plot(dfrm, axes, metricPair, do_title, ytitle, graph_grp, plotH)
-
-            # # FIXME:
-            # #print(axes1.get_tightbbox(fig.canvas.get_renderer()))
-            # bbox = axes1.bbox.get_points()
-            # #print(bbox)
-            # bbox_w = bbox[1][0] - bbox[0][0]
-            # bbox_h = bbox[1][1] - bbox[0][1]
-            # axes1.add_patch(patches.Rectangle(xy=bbox[0], width=bbox_w, height=bbox_h, edgecolor='red', linewidth=2.0, fill=True, zorder=100))
 
 
 def plotL_adj(fig, adjustH):
@@ -1093,12 +976,6 @@ def plot(dfrm, axes, metricPair, do_title, ytitle, x_groupL, plotH):
     return axes
 
 #****************************************************************************
-
-# FIXME: DELETE
-# def find_fig_width(dfrm, graphL):
-#     matchL = find_matches(dfrm.columns, graphL)
-#     return len(matchL)
-
 
 def select_dfrm_col(dfrm, graphL):
     matchL = find_matches(dfrm.columns, graphL)
