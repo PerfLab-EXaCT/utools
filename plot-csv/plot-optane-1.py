@@ -592,14 +592,14 @@ def plot_pkg(vt, graph_grpL, metricL, plotH, adjustH):
 
     plot_cfg(plotH, graph_grpL, metricL, 'Socket')
 
-    w = plotH['w']
-    h = plotH['h']
+    # w = plotH['w']
+    # h = plotH['h']
 
     dataL = plotL_selectData(vt, metricL, graph_grpL,
                              dfrm_pkg_xform(graph_grpL))
     fig, axesL = plotL_mkFig(dataL, plotH)
     
-    #fig, axesL = plotL_mkX(vt, metricL, w, h, graph_grpL)
+    # fig, axesL = plotL_mkX(vt, metricL, w, h, graph_grpL)
     plotL_doX(vt, fig, axesL, metricL, dfrm_pkg_xform(graph_grpL), graph_grpL, plotH)
     plotL_adj(fig, adjustH)
 
@@ -630,14 +630,14 @@ def plot_fn(vt, graph_grpL, functionH, metricL, plotH, adjustH):
 
     plot_cfg(plotH, graph_grpL, metricL, 'Functions')
     
-    w = plotH['w']
-    h = plotH['h']
+    # w = plotH['w']
+    # h = plotH['h']
 
     dataL = plotL_selectData(vt, metricL, graph_grpL,
                              dfrm_fn_xform(vt, functionH, graph_grpL))
     fig, axesL = plotL_mkFig(dataL, plotH)
     
-    #fig, axesL = plotL_mkX(vt, metricL, w, h, graph_grpL)
+    # fig, axesL = plotL_mkX(vt, metricL, w, h, graph_grpL)
     plotL_doX(vt, fig, axesL, metricL, dfrm_fn_xform(vt, functionH, graph_grpL), graph_grpL, plotH)
     
     plotL_adj(fig, adjustH)
@@ -844,67 +844,67 @@ def plotL_mkFig(dataL, plotH):
 
 #----------------------------------------
 
+# # FIXME: DELETE
+# def plotL_mkX(vt, metricL, w, h, graph_grpL):
+#     num_metric = len(metricL)
+
+#     grp_per_metric = len(graph_grpL)
+
+#     num_axes = num_metric * grp_per_metric
+#     #print("axes:", num_axes)
+
+#     # width_ratios are proportional to 'select_dfrm_col'
+#     widthL = plotL_mk_widths(vt, metricL, graph_grpL)
+#     #print("widthL:", widthL)
+
+#     if (Do_rows):
+#         fig, axesL = pyplt.subplots(nrows=1, ncols=(num_axes),
+#                                     figsize=(w * num_axes, h),
+#                                     #squeeze=False,
+#                                     gridspec_kw={'width_ratios': widthL})
+#     else:
+#         # FIXME: ncol = num_groups
+#         fig, axesL = pyplt.subplots(nrows=(num_axes), ncols=1,
+#                                     figsize=(w, h * num_axes),
+#                                     #squeeze=False,
+#                                     gridspec_kw={'width_ratios': widthL})
+
+#     if (num_axes == 1): # squeeze=True
+#         axesL = numpy.array([axesL])
+
+#     return (fig, axesL)
+
+
 # FIXME: DELETE
-def plotL_mkX(vt, metricL, w, h, graph_grpL):
-    num_metric = len(metricL)
+# def plotL_mk_widths(vt, metricL, graph_grpL):
+#     widthL = []
 
-    grp_per_metric = len(graph_grpL)
+#     grp_per_metric = len(graph_grpL)
+#     #print(grp_per_metric)
 
-    num_axes = num_metric * grp_per_metric
-    #print("axes:", num_axes)
+#     num_metric = len(metricL)
+#     for i_m in range(num_metric):
+#         for i_g in range(grp_per_metric):
+#             graph_grp = graph_grpL[i_g]
 
-    # width_ratios are proportional to 'select_dfrm_col'
-    widthL = plotL_mk_widths(vt, metricL, graph_grpL)
-    #print("widthL:", widthL)
+#             metricPair = metricL[i_m]
+#             metric0 = metricPair[0]
 
-    if (Do_rows):
-        fig, axesL = pyplt.subplots(nrows=1, ncols=(num_axes),
-                                    figsize=(w * num_axes, h),
-                                    #squeeze=False,
-                                    gridspec_kw={'width_ratios': widthL})
-    else:
-        # FIXME: ncol = num_groups
-        fig, axesL = pyplt.subplots(nrows=(num_axes), ncols=1,
-                                    figsize=(w, h * num_axes),
-                                    #squeeze=False,
-                                    gridspec_kw={'width_ratios': widthL})
+#             g_title_w = 0
+#             #g_title_w = 2 if (i_g == 0) else 0
 
-    if (num_axes == 1): # squeeze=True
-        axesL = numpy.array([axesL])
+#             # find DataFrame for 'metricPair'
+#             try:
+#                 dfrm = vt.dataH[metric0]
+#             except KeyError:
+#                 vtcsv.MSG.warnx("Skipping metric: '{}'".format(metric0))
+#                 widthL.append(1)
+#                 continue
 
-    return (fig, axesL)
+#             n_col = find_fig_width(dfrm, graph_grp)
+#             widthL.append(g_title_w + n_col + Fixed_cmap_w)
 
-
-# FIXME: DELETE
-def plotL_mk_widths(vt, metricL, graph_grpL):
-    widthL = []
-
-    grp_per_metric = len(graph_grpL)
-    #print(grp_per_metric)
-
-    num_metric = len(metricL)
-    for i_m in range(num_metric):
-        for i_g in range(grp_per_metric):
-            graph_grp = graph_grpL[i_g]
-
-            metricPair = metricL[i_m]
-            metric0 = metricPair[0]
-
-            g_title_w = 0
-            #g_title_w = 2 if (i_g == 0) else 0
-
-            # find DataFrame for 'metricPair'
-            try:
-                dfrm = vt.dataH[metric0]
-            except KeyError:
-                vtcsv.MSG.warnx("Skipping metric: '{}'".format(metric0))
-                widthL.append(1)
-                continue
-
-            n_col = find_fig_width(dfrm, graph_grp)
-            widthL.append(g_title_w + n_col + Fixed_cmap_w)
-
-    return widthL
+#     return widthL
 
 
 # FIXME: DELETE
@@ -1078,9 +1078,9 @@ def plot(dfrm, axes, metricPair, do_title, ytitle, x_groupL, plotH):
 #****************************************************************************
 
 # FIXME: DELETE
-def find_fig_width(dfrm, graphL):
-    matchL = find_matches(dfrm.columns, graphL)
-    return len(matchL)
+# def find_fig_width(dfrm, graphL):
+#     matchL = find_matches(dfrm.columns, graphL)
+#     return len(matchL)
 
 
 def select_dfrm_col(dfrm, graphL):
