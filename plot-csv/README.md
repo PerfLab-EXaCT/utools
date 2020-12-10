@@ -12,6 +12,8 @@ Intel questions:
   - new hypothesis
 
   - cycles vs pipeline stalls?
+  
+  MEMKIND_DAX_KMEM_INTERLEAVE
 
 vtune: pmem dimms
 
