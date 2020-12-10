@@ -59,6 +59,7 @@ Do_rows = 1
 
 @dataclass
 class PlotData:
+    is_group_beg: bool
     metric: str
     graph_grp: tuple
     dfrm: pandas.DataFrame()
@@ -772,11 +773,13 @@ def plotL_selectData(vt, metricL, graph_grpL, dfrm_xformF):
 
         for i_g in range(grp_per_metric):
 
-            graph_grp = graph_grpL[i_g]
-            #print(graph_grp)
+            is_grp_beg = (i_g == 0)
 
             metricPair = metricL[i_m]
             metric0 = metricPair[0]
+
+            graph_grp = graph_grpL[i_g]
+            #print(graph_grp)
 
             # find DataFrame for 'metricPair'
             try:
@@ -790,8 +793,8 @@ def plotL_selectData(vt, metricL, graph_grpL, dfrm_xformF):
             #print(dfrm)
 
             dfrm = dfrm_xformF(dfrm, graph_grp, metric0)
-
-            dataL.append(PlotData(metric0, graph_grp, dfrm))
+            
+            dataL.append(PlotData(is_grp_beg, metric0, graph_grp, dfrm))
 
     return dataL
 
@@ -799,6 +802,31 @@ def plotL_selectData(vt, metricL, graph_grpL, dfrm_xformF):
 def plotL_do(dataL, plotH):
 
     fig, axesL = plotL_mkFig(dataL)
+
+    for i_data in range(len(dataL)):
+
+        data = dataL[i_data]
+        axes = axesL[i_data]
+
+        is_grp_beg = data.is_group_beg
+        metric = data.metric
+        graph_grp = data.graph_grp
+        dfrm = data.dfrm
+
+        do_title = (plotH['title'] and is_grp_beg)
+        ytitle = plotH['ytitle'] if (i_data == 0) else None
+
+        axes.margins(x=0.00, y=0.00)
+        axes1 = plot(dfrm, axes, (metric, metric,), do_title, ytitle, graph_grp, plotH)
+
+        # # FIXME:
+        # #print(axes1.get_tightbbox(fig.canvas.get_renderer()))
+        # bbox = axes1.bbox.get_points()
+        # #print(bbox)
+        # bbox_w = bbox[1][0] - bbox[0][0]
+        # bbox_h = bbox[1][1] - bbox[0][1]
+        # axes1.add_patch(patches.Rectangle(xy=bbox[0], width=bbox_w, height=bbox_h, edgecolor='red', linewidth=2.0, fill=True, zorder=100))
+
 
     #...
     
