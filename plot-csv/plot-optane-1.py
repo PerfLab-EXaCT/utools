@@ -591,10 +591,10 @@ def main_ripples(makeColL1, makeColL2):
 
 def plot_pkg(vt, graph_grpL, metricL, plotH, adjustH):
 
-    plot_cfg(plotH, graph_grpL, metricL, 'Socket')
-
     dataL = plotL_selectData(vt, metricL, graph_grpL,
                              dfrm_pkg_xform(graph_grpL))
+
+    plot_cfg(plotH, graph_grpL, metricL, 'Socket')
     fig, axesL = plotL_do(dataL, plotH)
 
     plotL_adj(fig, adjustH)
@@ -624,10 +624,10 @@ def dfrm_pkg_xform(graph_grpL):
 
 def plot_fn(vt, graph_grpL, functionH, metricL, plotH, adjustH):
 
-    plot_cfg(plotH, graph_grpL, metricL, 'Functions')
-    
     dataL = plotL_selectData(vt, metricL, graph_grpL,
                              dfrm_fn_xform(vt, functionH, graph_grpL))
+
+    plot_cfg(plotH, graph_grpL, metricL, 'Functions')
     fig, axesL = plotL_do(dataL, plotH)
     
     plotL_adj(fig, adjustH)
@@ -735,8 +735,8 @@ def plot_cfg(plotH, graph_grpL, metricL, ytitle):
             plotH['ytitle'] = g_pair[1] if (isinstance(g_pair, tuple)) else g_pair
         # If one metric
         elif (len(metricL) == 1):
-            m_pair = metricL[0]
-            plotH['ytitle'] = m_pair[1] if (len(m_pair) > 1) else m_pair[0]
+            metricTpl = metricL[0]
+            plotH['ytitle'] = metricTpl[1] if (len(metricTpl) > 1) else metricTpl[0]
         else:
             plotH['ytitle'] = ytitle
 
@@ -750,7 +750,10 @@ def plot_cfg(plotH, graph_grpL, metricL, ytitle):
 
 def plotL_selectData(vt, metricL, graph_grpL, dfrm_xformF):
 
-    # TODO: choose whether to have "metrics > graph-groups" or "graph > metric groups". currently, support only the first.
+    # TODO
+    #   graph > metric-groups,  if one graph group of length 1 (TODO)
+    #   
+    #   metrics > graph-groups, otherwise (CURRENT)
     
     dataL = []
     
@@ -763,9 +766,9 @@ def plotL_selectData(vt, metricL, graph_grpL, dfrm_xformF):
 
             is_grp_beg = (i_g == 0)
 
-            metricPair = metricL[i_m]
-            metric_full = metricPair[0]
-            metric_nm = metricPair[1] if (len(metricPair) > 1) else metric_full
+            metricTpl = metricL[i_m]
+            metric_full = metricTpl[0]
+            metric_nm = metricTpl[1] if (len(metricTpl) > 1) else metric_full
 
             graph_grp = graph_grpL[i_g]
             #print(graph_grp)
