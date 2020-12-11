@@ -60,7 +60,7 @@ Do_rows = 1
 @dataclass
 class PlotData:
     is_group_beg: bool
-    metric: tuple #str   # group_nm
+    metric: str          # group_nm
     graph_grp: tuple     # col_grp_nm
     dfrm: pandas.DataFrame()
 
@@ -606,7 +606,7 @@ def dfrm_pkg_xform(graph_grpL):
 
     def dfrm_pkg_xform1(dfrm, graph_grp, metric):
         # 'dfrm': frame with down-selected columns
-        # 'metric' is *original* metric name
+        # 'metric' is *original/full* metric name
         
         # 1. Reorder/rename rows
         dfrm.rename(columns = (lambda x: rename_col(x, graph_grpL)), inplace=True)
@@ -655,7 +655,7 @@ def dfrm_fn_xform(vt, functionH, graph_grpL):
     
     def dfrm_fn_xform1(dfrm, graph_grp, metric):
         # 'dfrm': frame with down-selected columns
-        # 'metric' is *original* metric name
+        # 'metric' is *original/full* metric name
 
         # 1. Rename columns/rows
         dfrm = dfrm.rename(columns = (lambda x: rename_col(x, graph_grpL)))
@@ -764,25 +764,26 @@ def plotL_selectData(vt, metricL, graph_grpL, dfrm_xformF):
             is_grp_beg = (i_g == 0)
 
             metricPair = metricL[i_m]
-            metric0 = metricPair[0]
+            metric_full = metricPair[0]
+            metric_nm = metricPair[1] if (len(metricPair) > 1) else metric_full
 
             graph_grp = graph_grpL[i_g]
             #print(graph_grp)
 
-            # find DataFrame for 'metricPair'
+            # find DataFrame for 'metric_full'
             try:
-                dfrm = vt.dataH[metric0]
+                dfrm = vt.dataH[metric_full]
             except KeyError:
-                vtcsv.MSG.warnx("Skipping metric: '{}'".format(metric0))
+                vtcsv.MSG.warnx("Skipping metric: '{}'".format(metric_full))
                 continue
 
             # select columns for 'graph_grp'
             dfrm = select_dfrm_col(dfrm, graph_grp)
             #print(dfrm)
 
-            dfrm = dfrm_xformF(dfrm, graph_grp, metric0)
+            dfrm = dfrm_xformF(dfrm, graph_grp, metric_full)
             
-            dataL.append(PlotData(is_grp_beg, metricPair, graph_grp, dfrm))
+            dataL.append(PlotData(is_grp_beg, metric_nm, graph_grp, dfrm))
 
     return dataL
 
@@ -797,7 +798,7 @@ def plotL_do(dataL, plotH):
         axes = axesL[i_data]
 
         is_grp_beg = data.is_group_beg
-        metricPair = data.metric
+        metric = data.metric
         graph_grp = data.graph_grp
         dfrm = data.dfrm
 
@@ -805,7 +806,7 @@ def plotL_do(dataL, plotH):
         ytitle = plotH['ytitle'] if (i_data == 0) else None
 
         axes.margins(x=0.00, y=0.00)
-        axes1 = plot(dfrm, axes, metricPair, do_title, ytitle, graph_grp, plotH)
+        axes1 = plot(dfrm, axes, metric, do_title, ytitle, graph_grp, plotH)
 
         # # FIXME:
         # #print(axes1.get_tightbbox(fig.canvas.get_renderer()))
@@ -864,7 +865,7 @@ def plotL_adj(fig, adjustH):
         fig.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
 
 
-def plot(dfrm, axes, metricPair, do_title, ytitle, x_groupL, plotH):
+def plot(dfrm, axes, metric, do_title, ytitle, x_groupL, plotH):
 
     n_col = len(dfrm.columns)
     
@@ -927,7 +928,7 @@ def plot(dfrm, axes, metricPair, do_title, ytitle, x_groupL, plotH):
         axes.set_ylabel(ytitle, fontsize=Txt_sz_ytitle)
 
     if (do_title):
-        title_txt = metricPair[1] if (len(metricPair) > 1) else metricPair[0]
+        title_txt = metric
 
         if (title_txt != ytitle):
             #x_pos = -0.4 if (do_ytitle) else -0.08
