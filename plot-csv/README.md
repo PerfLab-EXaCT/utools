@@ -49,21 +49,7 @@ kdax supports numactl...
   do we hit a bandwidth limitation?
   kdax2
   
-
-- One more month. Any more experiments?
-  libpmem, streaming
   
-
-memkind NUMA: is it inflexible? ignores numactl?
-
-
-all mem stalls: CYCLE_ACTIVITY.STALLS_MEM_ANY + EXE_ACTIVITY.BOUND_ON_STORES
-L1 stalls:      CYCLE_ACTIVITY.STALLS_MEM_ANY - CYCLE_ACTIVITY.STALLS_L1D_MISS
-L2 stalls:      CYCLE_ACTIVITY.STALLS_L1D_MISS - CYCLE_ACTIVITY.STALLS_L2_MISS
-L3 stalls:      CYCLE_ACTIVITY.STALLS_L2_MISS - CYCLE_ACTIVITY.STALLS_L3_MISS
-mem stalls:     CYCLE_ACTIVITY.STALLS_L3_MISS
-store stalls:   EXE_ACTIVITY.BOUND_ON_STORES
-
 
 
 Using
