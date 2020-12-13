@@ -722,8 +722,11 @@ def plotL_selectNcfg(vt, ytitle, metricL, graph_grpL, plotH, dfrm_xformF):
 
     dataL = []
 
+    n_metric = len(metricL)
+    n_graph_grp = len(graph_grpL)
+
     # if one graph group of length 1, orders is graph then metrics
-    do_graph_metric = (len(graph_grpL) == 1) and (len(graph_grpL[0]) == 1)
+    do_graph_metric = (n_graph_grp == 1) and (len(graph_grpL[0]) == 1)
 
     #-------------------------------------------------------
     # for each graph, show metrics
@@ -735,6 +738,14 @@ def plotL_selectNcfg(vt, ytitle, metricL, graph_grpL, plotH, dfrm_xformF):
 
         grph_nm = grph_pr[1] if (isinstance(grph_pr, tuple)) else grph_pr
 
+        for i_m in range(n_metric):
+            metric_pr = metricL[i_m]
+            m_nm_full = metric_pr[0]
+            m_nm = metric_pr[1] if (len(metric_pr) > 1) else m_nm_full
+
+            # ...
+
+
         if (not ('ytitle' in plotH)):
             plotH['ytitle'] = grph_nm
 
@@ -744,45 +755,41 @@ def plotL_selectNcfg(vt, ytitle, metricL, graph_grpL, plotH, dfrm_xformF):
     #-------------------------------------------------------
     if True: # else: TODO
 
-        num_metric = len(metricL)
-        grp_per_metric = len(graph_grpL)
-
         metric_nm0 = None
         
-        for i_m in range(num_metric):
-            for i_g in range(grp_per_metric):
+        for i_m in range(n_metric):
+            for i_g in range(n_graph_grp):
 
                 is_grp_beg = (i_g == 0)
                  
                 metric_pr = metricL[i_m]
-                metric_full = metric_pr[0]
-                metric_nm = metric_pr[1] if (len(metric_pr) > 1) else metric_full
-
-                if (i_m == 0): metric_nm0 = metric_nm
+                m_nm_full = metric_pr[0]
+                m_nm = metric_pr[1] if (len(metric_pr) > 1) else m_nm_full
+                if (i_m == 0): metric_nm0 = m_nm
 
                 grph_grp = graph_grpL[i_g] # graphL
                 #print(grph_grp)
 
                 #--------------------------
-                # find DataFrame for 'metric_full'
+                # find DataFrame for 'm_nm_full'
                 try:
-                    dfrm = vt.dataH[metric_full]
+                    dfrm = vt.dataH[m_nm_full]
                 except KeyError:
-                    vtcsv.MSG.warnx("Skipping metric: '{}'".format(metric_full))
+                    vtcsv.MSG.warnx("Skipping metric: '{}'".format(m_nm_full))
                     continue
 
                 # select columns for 'grph_grp'
                 dfrm = select_dfrm_col(dfrm, grph_grp)
                 #print(dfrm)
 
-                dfrm = dfrm_xformF(dfrm, grph_grp, metric_full)
+                dfrm = dfrm_xformF(dfrm, grph_grp, m_nm_full)
                 #--------------------------
 
-                dataL.append(PlotData(is_grp_beg, metric_nm, grph_grp, dfrm))
+                dataL.append(PlotData(is_grp_beg, m_nm, grph_grp, dfrm))
 
 
         if (not ('ytitle' in plotH)):
-            if (num_metric == 1):
+            if (n_metric == 1):
                 plotH['ytitle'] = metric_nm0
             else:
                 plotH['ytitle'] = ytitle
@@ -794,18 +801,6 @@ def plotL_selectNcfg(vt, ytitle, metricL, graph_grpL, plotH, dfrm_xformF):
 
     if (not ('title' in plotH)):
         plotH['title'] = True
-
-    # if (not ('ytitle' in plotH)):
-    #     # If one graph group of length 1...
-    #     if (do_graph_metric):
-    #         grph_pr = graph_grpL[0][0]
-    #         plotH['ytitle'] = grph_pr[1] if (isinstance(grph_pr, tuple)) else grph_pr
-    #     # If one metric
-    #     elif (len(metricL) == 1):
-    #         metric_pr = metricL[0]
-    #         plotH['ytitle'] = metric_pr[1] if (len(metric_pr) > 1) else metric_pr[0]
-    #     else:
-    #         plotH['ytitle'] = ytitle
 
     if (not ('xtitle_top' in plotH)):
         plotH['xtitle_top'] = True
