@@ -591,12 +591,9 @@ def main_ripples(makeColL1, makeColL2):
 
 def plot_pkg(vt, graph_grpL, metricL, plotH, adjustH):
 
-    dataL = plotL_selectData(vt, metricL, graph_grpL,
+    dataL = plotL_selectNcfg(vt, 'Socket', metricL, graph_grpL, plotH,
                              dfrm_pkg_xform(graph_grpL))
-
-    plot_cfg(plotH, graph_grpL, metricL, 'Socket')
     fig, axesL = plotL_do(dataL, plotH)
-
     plotL_adj(fig, adjustH)
 
     return fig
@@ -624,12 +621,9 @@ def dfrm_pkg_xform(graph_grpL):
 
 def plot_fn(vt, graph_grpL, functionH, metricL, plotH, adjustH):
 
-    dataL = plotL_selectData(vt, metricL, graph_grpL,
+    dataL = plotL_selectNcfg(vt, 'Functions', metricL, graph_grpL, plotH,
                              dfrm_fn_xform(vt, functionH, graph_grpL))
-
-    plot_cfg(plotH, graph_grpL, metricL, 'Functions')
     fig, axesL = plotL_do(dataL, plotH)
-    
     plotL_adj(fig, adjustH)
 
     return fig
@@ -746,14 +740,18 @@ def plot_cfg(plotH, graph_grpL, metricL, ytitle):
     if (not ('xtitle_top' in plotH)):
         plotH['xtitle_bot'] = True
 
+    return plotH
 
 
-def plotL_selectData(vt, metricL, graph_grpL, dfrm_xformF):
+
+def plotL_selectNcfg(vt, ytitle, metricL, graph_grpL, plotH, dfrm_xformF):
 
     # TODO
     #   graph > metric-groups,  if one graph group of length 1 (TODO)
     #   
     #   metrics > graph-groups, otherwise (CURRENT)
+
+    plot_cfg(plotH, graph_grpL, metricL, ytitle)
     
     dataL = []
     
