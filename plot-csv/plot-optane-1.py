@@ -717,32 +717,6 @@ def dfrm_fn_xform(vt, functionH, graph_grpL):
     
 #****************************************************************************
 
-def plot_cfg(plotH, graph_grpL, metricL, ytitle):
-
-    if (not ('title' in plotH)):
-        plotH['title'] = True
-
-    if (not ('ytitle' in plotH)):
-        # If one graph group of length 1...
-        if ((len(graph_grpL) == 1) and (len(graph_grpL[0]) == 1)):
-            g_pair = graph_grpL[0][0]
-            plotH['ytitle'] = g_pair[1] if (isinstance(g_pair, tuple)) else g_pair
-        # If one metric
-        elif (len(metricL) == 1):
-            metricTpl = metricL[0]
-            plotH['ytitle'] = metricTpl[1] if (len(metricTpl) > 1) else metricTpl[0]
-        else:
-            plotH['ytitle'] = ytitle
-
-    if (not ('xtitle_top' in plotH)):
-        plotH['xtitle_top'] = True
-
-    if (not ('xtitle_top' in plotH)):
-        plotH['xtitle_bot'] = True
-
-    return plotH
-
-
 
 def plotL_selectNcfg(vt, ytitle, metricL, graph_grpL, plotH, dfrm_xformF):
 
@@ -751,8 +725,6 @@ def plotL_selectNcfg(vt, ytitle, metricL, graph_grpL, plotH, dfrm_xformF):
     #   
     #   metrics > graph-groups, otherwise (CURRENT)
 
-    plot_cfg(plotH, graph_grpL, metricL, ytitle)
-    
     dataL = []
     
     grp_per_metric = len(graph_grpL)
@@ -786,6 +758,31 @@ def plotL_selectNcfg(vt, ytitle, metricL, graph_grpL, plotH, dfrm_xformF):
             
             dataL.append(PlotData(is_grp_beg, metric_nm, graph_grp, dfrm))
 
+
+    #-------------------------------------------------------
+
+    if (not ('title' in plotH)):
+        plotH['title'] = True
+
+    if (not ('ytitle' in plotH)):
+        # If one graph group of length 1...
+        if ((len(graph_grpL) == 1) and (len(graph_grpL[0]) == 1)):
+            g_pair = graph_grpL[0][0]
+            plotH['ytitle'] = g_pair[1] if (isinstance(g_pair, tuple)) else g_pair
+        # If one metric
+        elif (len(metricL) == 1):
+            metricTpl = metricL[0]
+            plotH['ytitle'] = metricTpl[1] if (len(metricTpl) > 1) else metricTpl[0]
+        else:
+            plotH['ytitle'] = ytitle
+
+    if (not ('xtitle_top' in plotH)):
+        plotH['xtitle_top'] = True
+
+    if (not ('xtitle_top' in plotH)):
+        plotH['xtitle_bot'] = True
+
+            
     return dataL
 
 
