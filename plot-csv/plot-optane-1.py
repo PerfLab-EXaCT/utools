@@ -720,61 +720,92 @@ def dfrm_fn_xform(vt, functionH, graph_grpL):
 
 def plotL_selectNcfg(vt, ytitle, metricL, graph_grpL, plotH, dfrm_xformF):
 
-    # TODO
-    #   graph > metric-groups,  if one graph group of length 1 (TODO)
-    #   
-    #   metrics > graph-groups, otherwise (CURRENT)
-
     dataL = []
-    
-    grp_per_metric = len(graph_grpL)
-    
-    num_metric = len(metricL)
-    for i_m in range(num_metric):
 
-        for i_g in range(grp_per_metric):
+    # if one graph group of length 1, orders is graph then metrics
+    do_graph_metric = (len(graph_grpL) == 1) and (len(graph_grpL[0]) == 1)
 
-            is_grp_beg = (i_g == 0)
+    #-------------------------------------------------------
+    # for each graph, show metrics
+    #-------------------------------------------------------
+    if (do_graph_metric):
 
-            metricTpl = metricL[i_m]
-            metric_full = metricTpl[0]
-            metric_nm = metricTpl[1] if (len(metricTpl) > 1) else metric_full
+        grph_grp0 = graph_grpL[0]
+        grph_pr = grph_grp0[0]
 
-            graph_grp = graph_grpL[i_g]
-            #print(graph_grp)
+        grph_nm = grph_pr[1] if (isinstance(grph_pr, tuple)) else grph_pr
 
-            # find DataFrame for 'metric_full'
-            try:
-                dfrm = vt.dataH[metric_full]
-            except KeyError:
-                vtcsv.MSG.warnx("Skipping metric: '{}'".format(metric_full))
-                continue
-
-            # select columns for 'graph_grp'
-            dfrm = select_dfrm_col(dfrm, graph_grp)
-            #print(dfrm)
-
-            dfrm = dfrm_xformF(dfrm, graph_grp, metric_full)
-            
-            dataL.append(PlotData(is_grp_beg, metric_nm, graph_grp, dfrm))
+        if (not ('ytitle' in plotH)):
+            plotH['ytitle'] = grph_nm
 
 
+    #-------------------------------------------------------
+    # for each metric, show graphs
+    #-------------------------------------------------------
+    if True: # else: TODO
+
+        num_metric = len(metricL)
+        grp_per_metric = len(graph_grpL)
+
+        metric_nm0 = None
+        
+        for i_m in range(num_metric):
+            for i_g in range(grp_per_metric):
+
+                is_grp_beg = (i_g == 0)
+                 
+                metric_pr = metricL[i_m]
+                metric_full = metric_pr[0]
+                metric_nm = metric_pr[1] if (len(metric_pr) > 1) else metric_full
+
+                if (i_m == 0): metric_nm0 = metric_nm
+
+                grph_grp = graph_grpL[i_g] # graphL
+                #print(grph_grp)
+
+                #--------------------------
+                # find DataFrame for 'metric_full'
+                try:
+                    dfrm = vt.dataH[metric_full]
+                except KeyError:
+                    vtcsv.MSG.warnx("Skipping metric: '{}'".format(metric_full))
+                    continue
+
+                # select columns for 'grph_grp'
+                dfrm = select_dfrm_col(dfrm, grph_grp)
+                #print(dfrm)
+
+                dfrm = dfrm_xformF(dfrm, grph_grp, metric_full)
+                #--------------------------
+
+                dataL.append(PlotData(is_grp_beg, metric_nm, grph_grp, dfrm))
+
+
+        if (not ('ytitle' in plotH)):
+            if (num_metric == 1):
+                plotH['ytitle'] = metric_nm0
+            else:
+                plotH['ytitle'] = ytitle
+
+                
+    #-------------------------------------------------------
+    # Configure plot options
     #-------------------------------------------------------
 
     if (not ('title' in plotH)):
         plotH['title'] = True
 
-    if (not ('ytitle' in plotH)):
-        # If one graph group of length 1...
-        if ((len(graph_grpL) == 1) and (len(graph_grpL[0]) == 1)):
-            g_pair = graph_grpL[0][0]
-            plotH['ytitle'] = g_pair[1] if (isinstance(g_pair, tuple)) else g_pair
-        # If one metric
-        elif (len(metricL) == 1):
-            metricTpl = metricL[0]
-            plotH['ytitle'] = metricTpl[1] if (len(metricTpl) > 1) else metricTpl[0]
-        else:
-            plotH['ytitle'] = ytitle
+    # if (not ('ytitle' in plotH)):
+    #     # If one graph group of length 1...
+    #     if (do_graph_metric):
+    #         grph_pr = graph_grpL[0][0]
+    #         plotH['ytitle'] = grph_pr[1] if (isinstance(grph_pr, tuple)) else grph_pr
+    #     # If one metric
+    #     elif (len(metricL) == 1):
+    #         metric_pr = metricL[0]
+    #         plotH['ytitle'] = metric_pr[1] if (len(metric_pr) > 1) else metric_pr[0]
+    #     else:
+    #         plotH['ytitle'] = ytitle
 
     if (not ('xtitle_top' in plotH)):
         plotH['xtitle_top'] = True
