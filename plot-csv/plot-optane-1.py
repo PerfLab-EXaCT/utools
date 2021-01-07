@@ -739,9 +739,9 @@ def plotL_selectNcfg(vt, ytitle, metricL, graph_grpL, plotH, dfrm_xformF):
         grph_nm = grph_pr[1] if (isinstance(grph_pr, tuple)) else grph_pr
 
         for i_m in range(n_metric):
-            metric_pr = metricL[i_m]
-            m_nm_full = metric_pr[0]
-            m_nm = metric_pr[1] if (len(metric_pr) > 1) else m_nm_full
+            metric_pair = metricL[i_m]
+            m_nm_full = metric_pair[0]
+            m_nm = metric_pair[1] if (len(metric_pair) > 1) else m_nm_full
 
             # ...
 
@@ -762,9 +762,9 @@ def plotL_selectNcfg(vt, ytitle, metricL, graph_grpL, plotH, dfrm_xformF):
 
                 is_grp_beg = (i_g == 0)
                  
-                metric_pr = metricL[i_m]
-                m_nm_full = metric_pr[0]
-                m_nm = metric_pr[1] if (len(metric_pr) > 1) else m_nm_full
+                metric_pair = metricL[i_m]
+                m_nm_full = metric_pair[0]
+                m_nm = metric_pair[1] if (len(metric_pair) > 1) else m_nm_full
                 if (i_m == 0): metric_nm0 = m_nm
 
                 grph_grp = graph_grpL[i_g] # graphL
