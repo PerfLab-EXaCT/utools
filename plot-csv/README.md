@@ -1,26 +1,30 @@
 -*-Mode: markdown;-*-
 -----------------------------------------------------------------------------
 
-mem: similar times, slightly more cost with kdax, which makes sense. 
+Grappolo
+
+1a. mem vs. dram: 
+  with smaller graphs:
+  - mem mode is certainly more that 10\% overhead
+  - seems that overhead decreases with as threads increases (?)
+  
+  1b. larger graphs [[???]]
+  
+1c. kdax performance now looks quite good!
+  
+
+2. for mem mode, validate: Near memory cache = L4 miss rate (only as a total)
+
+3. ./mlc –idle_latency -r  # use to validate ripples
+
+4. MEMKIND_DAX_KMEM_INTERLEAVE
+
+Intel questions: bw and latency histograms as textual reports?
+
+- GUPS results: random access bandwidth, local/remote
+
 
 ---
-
-Intel questions:
-  - mlc random latency
-  - near memory cache miss rate: l4_hit*
-  - bw and latency histograms as textual reports?
-  - new hypothesis
-
-  - cycles vs pipeline stalls?
-  
-  MEMKIND_DAX_KMEM_INTERLEAVE
-
-vtune: pmem dimms
-
-EDP: 
-
-Near memory cache = L4 miss rate as 
-
 
 - Distributed memory (cost, power)
 
@@ -33,10 +37,6 @@ kdax supports numactl...
   Apache Pass (Cascade Lake)
   
 - Intel GPUs
-  
-
-- GUPS results
-  random access bandwidth, local/remote
 
 
 - Grappolo: DRAM allocs were done by single thread. Use guarded, round-robin execution to ensure correct first-touch.
