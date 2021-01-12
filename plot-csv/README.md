@@ -11,24 +11,21 @@ Grappolo
   1b. larger graphs [[???]]
   
 1c. kdax performance now looks quite good!
-  
 
-2. for mem mode, validate: Near memory cache = L4 miss rate (only as a total)
+1d. for mem mode, validate: Near memory cache = L4 miss rate (only as a total)
 
-3. ./mlc –idle_latency -r  # use to validate ripples
+3. ./mlc -idle_latency -r  # use to validate ripples
 
-4. MEMKIND_DAX_KMEM_INTERLEAVE
+4. GUPS: (random access bandwidth, local/remote)
+  dram: uses numactl --interleave ???
+
+5. new: MEMKIND_DAX_KMEM_INTERLEAVE, kdax supports numactl...
 
 Intel questions: bw and latency histograms as textual reports?
-
-- GUPS results: random access bandwidth, local/remote
-
 
 ---
 
 - Distributed memory (cost, power)
-
-kdax supports numactl...
 
 - Optane: Power, mem mode?
 
@@ -37,7 +34,6 @@ kdax supports numactl...
   Apache Pass (Cascade Lake)
   
 - Intel GPUs
-
 
 - Grappolo: DRAM allocs were done by single thread. Use guarded, round-robin execution to ensure correct first-touch.
 
