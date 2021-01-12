@@ -146,11 +146,11 @@ friendster     64     kdax  1756.448787     nan
 friendster    128     kdax  1229.417182     nan
 friendster    192     kdax  835.125813    674.307471
 
-friendster	16	pdax	5328.551361	nan
-friendster	32	pdax	2973.819253	nan
-friendster	64	pdax	1890.541188	nan
-friendster	128	pdax	1013.603767	nan
-friendster	192	pdax	692.835406	878.044
+friendster	16	pdax	6208.110773	nan
+friendster	32	pdax	3315.598536	nan
+friendster	64	pdax	1753.159035	nan
+friendster	128	pdax	1254.869725	nan
+friendster	192	pdax	862.197138	878.044
 
 
 moliere2016	16	dram	1740.89824	nan
@@ -171,11 +171,11 @@ moliere2016    64     kdax   1008.314671   nan
 moliere2016   128     kdax   996.192363   nan
 moliere2016   192     kdax   1018.043756   987.575947
 
-moliere2016	16	pdax	2746.567095	nan
-moliere2016	32	pdax	1923.814033	nan
-moliere2016	64	pdax	937.912878	nan
-moliere2016	128	pdax	1066.13159	nan
-moliere2016	192	pdax	980.399573	1394.221
+moliere2016	16	pdax	1688.480594	nan
+moliere2016	32	pdax	1243.435306	nan
+moliere2016	64	pdax	1014.946138	nan
+moliere2016	128	pdax	1010.317629	nan
+moliere2016	192	pdax	1035.451193	1394.221
 
 
 clueweb12     192     dram      nan            nan
