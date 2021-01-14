@@ -94,13 +94,9 @@ clueweb12     192     dram      nan            nan
 
 clueweb12	16	mem	8716.411615	nan
 clueweb12	32	mem	8369.202979	nan
-clueweb12	64	mem	7840.547334	nan
-clueweb12	128	mem	7290.844594	nan
-<<<<<<< HEAD
-clueweb12	192	mem	7944.834907	nan
-=======
+clueweb12	64	mem	6421.767673	nan
+clueweb12	128	mem	6171.596182	nan
 clueweb12	192	mem	5946.314627	4391.67807
->>>>>>> f53472990189a2ec99e5d1f9d3d0acf2663b046d
 
 clueweb12      16     kdax  9669.421129     nan
 clueweb12      32     kdax  7572.09087     nan
