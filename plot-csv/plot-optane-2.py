@@ -44,50 +44,50 @@ friendster	16	dram	6108.146365	nan
 friendster	32	dram	3291.561375	nan
 friendster	64	dram	1737.327125	nan
 friendster	128	dram	1206.608416	nan
-friendster	192	dram	815.121272	669.594645
+friendster	192	dram	815.121272	nan
 
 friendster	16	mem	9049.91349	nan
 friendster	32	mem	4712.569829	nan
 friendster	64	mem	2395.902007	nan
 friendster	128	mem	1472.592003	nan
-friendster	192	mem	1001.308132	698.334183
+friendster	192	mem	1001.308132	nan
 
 friendster     16     kdax  6262.133789     nan
 friendster     32     kdax  3339.329952     nan
 friendster     64     kdax  1756.448787     nan
 friendster    128     kdax  1229.417182     nan
-friendster    192     kdax  835.125813    674.307471
+friendster    192     kdax  835.125813    nan
 
 friendster	16	pdax	6208.110773	nan
 friendster	32	pdax	3315.598536	nan
 friendster	64	pdax	1753.159035	nan
 friendster	128	pdax	1254.869725	nan
-friendster	192	pdax	862.197138	878.044
+friendster	192	pdax	862.197138	nan
 
 
 moliere2016	16	dram	1740.89824	nan
 moliere2016	32	dram	1268.565434	nan
 moliere2016	64	dram	1040.750488	nan
 moliere2016	128	dram	1053.145704	nan
-moliere2016	192	dram	1087.043682	1000.8756
+moliere2016	192	dram	1087.043682	nan
 
 moliere2016	16	mem	2283.23591	nan
 moliere2016	32	mem	1509.721751	nan
 moliere2016	64	mem	1213.933818	nan
 moliere2016	128	mem	1172.088261	nan
-moliere2016	192	mem	1184.648746	1104.891963
+moliere2016	192	mem	1184.648746	nan
 
 moliere2016    16     kdax   1676.856578   nan
 moliere2016    32     kdax   1227.871906   nan
 moliere2016    64     kdax   1008.314671   nan
 moliere2016   128     kdax   996.192363   nan
-moliere2016   192     kdax   1018.043756   987.575947
+moliere2016   192     kdax   1018.043756   nan
 
 moliere2016	16	pdax	1688.480594	nan
 moliere2016	32	pdax	1243.435306	nan
 moliere2016	64	pdax	1014.946138	nan
 moliere2016	128	pdax	1010.317629	nan
-moliere2016	192	pdax	1035.451193	1394.221
+moliere2016	192	pdax	1035.451193	nan
 
 
 clueweb12     192     dram      nan            nan
@@ -96,13 +96,13 @@ clueweb12	16	mem	8716.411615	nan
 clueweb12	32	mem	8369.202979	nan
 clueweb12	64	mem	7840.547334	nan
 clueweb12	128	mem	7290.844594	nan
-clueweb12	192	mem	7944.834907	4391.67807
+clueweb12	192	mem	7944.834907	nan
 
 clueweb12      16     kdax  9669.421129     nan
 clueweb12      32     kdax  7572.09087     nan
 clueweb12      64     kdax  6840.693432     nan
 clueweb12     128     kdax  5814.080951     nan
-clueweb12     192     kdax  5159.313038     5667.603504
+clueweb12     192     kdax  5159.313038     nan
 
 clueweb12     192     pdax      nan            nan
 
@@ -113,13 +113,13 @@ uk2014	        16	mem	2480.133789	nan
 uk2014	        32	mem	1507.191533	nan
 uk2014	        64	mem	1030.207204	nan
 uk2014	        128	mem	820.76091	nan
-uk2014	        192	mem	730.57113	698.740065
+uk2014	        192	mem	730.57113	nan
 
 uk2014         16     kdax     2053.882734     nan
 uk2014         32     kdax     1759.597141     nan
 uk2014         64     kdax     942.007022     nan
 uk2014        128     kdax     676.873518     nan
-uk2014        192     kdax     665.310788      877.898523
+uk2014        192     kdax     665.310788     nan
 
 uk2014        192     pdax      nan            nan
 """
