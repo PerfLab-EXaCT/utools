@@ -88,16 +88,19 @@ def main():
 
     makeColL_g1 = [
         ('CPU Time', 'CPU Time (s)', makeCol_wallclock(192) ),
-        ('Memory Bound:L2 Bound(%)', 'L2/1 Bound (%)', makeCol_Sum('Memory Bound:L1 Bound(%)') ),
+        ('Memory Bound:L2 Bound(%)', 'L2/1 Bound (%)', vtcsv.makeCol_Sum('Memory Bound:L1 Bound(%)') ),
         ('Stores',   'Stores (%)',   vtcsv.makeCol_pctOfOther('Loads') ),
     ]
 
     makeColL_g2 = [
-        ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_MEM_ANY', 'All Mem Stalls', makeCol_Sum('Hardware Event Count:EXE_ACTIVITY.BOUND_ON_STORES') ),
-        ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L2_MISS', 'L3 Stalls', makeCol_Diff('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L3_MISS') ),
-        ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L1D_MISS', 'L2 Stalls', makeCol_Diff('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L2_MISS') ),
-        ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_MEM_ANY', 'L1 Stalls', makeCol_Diff('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L1D_MISS') ),
-        ('L2 Stalls', 'L2/L1 Stalls', makeCol_Sum('L1 Stalls') ),
+        ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_MEM_ANY', 'All Mem Stalls', vtcsv.makeCol_Sum('Hardware Event Count:EXE_ACTIVITY.BOUND_ON_STORES') ),
+        ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L2_MISS', 'L3 Stalls', vtcsv.makeCol_Diff('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L3_MISS') ),
+        ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L1D_MISS', 'L2 Stalls', vtcsv.makeCol_Diff('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L2_MISS') ), # ???
+        ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_MEM_ANY', 'L1 Stalls', vtcsv.makeCol_Diff('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L1D_MISS') ),
+        ('L2 Stalls', 'L2/L1 Stalls', vtcsv.makeCol_Sum('L1 Stalls') ),
+
+        ('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_DRAM_PS', 'RDRAM+PMM', vtcsv.makeCol_Sum(['Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', 'Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_PMM_PS']) ),
+
     ]
     
     makeColL_r1 = [
@@ -137,7 +140,7 @@ def main():
         #------------------------
         (makeColL_g1[0][1] ,),  # ('CPU Time'),
         #
-        ('Average Latency (cycles)',    'Latency (cycles)'),
+        #('Average Latency (cycles)',    'Latency (cycles)'),
         ##
         #('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
         #('Memory Bound:Persistent Memory Bound(%)', 'Pmem Bound (%)'),
@@ -154,6 +157,7 @@ def main():
         # hw-events
         #------------------------
         #(makeColL_g2[0][1] ,), # ('All Mem Stalls'),
+        (makeColL_g2[5][1] ,), # ('RDRAM+PMM'),
         ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L3_MISS', 'Mem Stalls'),
         (makeColL_g2[1][1] ,), # ('L3 Stalls'),
         #(makeColL_g2[2][1] ,), # ('L2 Stalls'),
@@ -171,7 +175,7 @@ def main():
 
         (makeColL_r1[0][1] ,),  #('CPU Time'),
         #
-        ('Average Latency (cycles)',    'Latency (cycles)'),
+        #('Average Latency (cycles)',    'Latency (cycles)'),
         ##
         ##('Memory Bound(%)',),
         #('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
@@ -192,6 +196,7 @@ def main():
         # hw-events
         #------------------------
         #(makeColL_g2[0][1] ,), # ('All Mem Stalls'),
+        (makeColL_g2[5][1] ,), # ('RDRAM+PMM'),
         ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L3_MISS', 'Mem Stalls'),
         (makeColL_g2[1][1] ,), # ('L3 Stalls'),
         #(makeColL_g2[2][1] ,), # ('L2 Stalls'),
@@ -1053,27 +1058,6 @@ def makeCol_wallclock(n_threads):
         dfrm_dst = dfrm[col_src] / n_threads
         return dfrm_dst
         
-    return mk_fn
-
-
-def makeCol_Sum(col_src2): # could be a list of source columns
-
-    def mk_fn(dfrm, col_src):
-        dfrm_dst = dfrm[col_src] + dfrm[col_src2]
-        return dfrm_dst
-
-    return mk_fn
-
-
-def makeCol_Diff(col_src2, is_pos = True): # could be a list of source columns
-
-    def mk_fn(dfrm, col_src):
-        dfrm_dst = dfrm[col_src] - dfrm[col_src2]
-        if (is_pos):
-            dfrm_dst = dfrm_dst.apply(lambda x: max(x, 0))
-
-        return dfrm_dst
-
     return mk_fn
 
 

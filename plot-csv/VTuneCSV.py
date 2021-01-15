@@ -487,6 +487,34 @@ def makeCol_pctOfOther(col_src2): # could be a list of source columns
     return mk_fn
 
 
+def makeCol_Sum(col_src2): # col_src2 may be a list of source columns
+
+    def mk_fn(dfrm, col_src):
+
+        if (isinstance(col_src2, list)):
+            col_src2_sum = dfrm[col_src2].sum(axis=1)
+        else:
+            col_src2_sum = dfrm[col_src2]
+            
+        dfrm_dst = dfrm[col_src] + col_src2_sum
+        
+        return dfrm_dst
+
+    return mk_fn
+
+
+def makeCol_Diff(col_src2, is_pos = True): # could be a list of source columns
+
+    def mk_fn(dfrm, col_src):
+        dfrm_dst = dfrm[col_src] - dfrm[col_src2]
+        if (is_pos):
+            dfrm_dst = dfrm_dst.apply(lambda x: max(x, 0))
+
+        return dfrm_dst
+
+    return mk_fn
+
+
 #****************************************************************************
 # 
 #****************************************************************************
