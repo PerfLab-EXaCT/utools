@@ -138,8 +138,9 @@ def main():
         #------------------------
         # hotspots
         #------------------------
-        (makeColL_g1[0][1] ,),  # ('CPU Time'),
-        #
+        [(makeColL_g1[0][1] ,),  # ('CPU Time'),
+         ],
+
         #('Average Latency (cycles)',    'Latency (cycles)'),
         ##
         #('Memory Bound:DRAM Bound(%)',  'DRAM Bound (%)'),
@@ -156,14 +157,17 @@ def main():
         #------------------------
         # hw-events
         #------------------------
+        [(makeColL_g2[5][1] ,), # ('RDRAM+PMM'),
+         ],
+
         #(makeColL_g2[0][1] ,), # ('All Mem Stalls'),
-        (makeColL_g2[5][1] ,), # ('RDRAM+PMM'),
-        
-        ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L3_MISS', 'Mem Stalls'),
+
+        [('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L3_MISS', 'Mem Stalls'),
         (makeColL_g2[1][1] ,), # ('L3 Stalls'),
         #(makeColL_g2[2][1] ,), # ('L2 Stalls'),
         #(makeColL_g2[3][1] ,), # ('L1 Stalls'),
         (makeColL_g2[4][1] ,), # ('L2/L1 Stalls'),
+         ]
         
         #('Hardware Event Count:EXE_ACTIVITY.BOUND_ON_STORES',  'Store Stalls'),
     ]
@@ -174,8 +178,9 @@ def main():
         #------------------------
         # hotspots
         #------------------------
+        [(makeColL_r1[0][1] ,),  #('CPU Time'),
+         ],
 
-        (makeColL_r1[0][1] ,),  #('CPU Time'),
         #
         #('Average Latency (cycles)',    'Latency (cycles)'),
         ##
@@ -194,16 +199,22 @@ def main():
         ##
         ##(makeColL_r1[2][1] ,),  #('Stores (%)',),
 
+
         #------------------------
         # hw-events
         #------------------------
+        [(makeColL_g2[5][1] ,), # ('RDRAM+PMM'),
+         ],
+        
         #(makeColL_g2[0][1] ,), # ('All Mem Stalls'),
-        (makeColL_g2[5][1] ,), # ('RDRAM+PMM'),
-        ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L3_MISS', 'Mem Stalls'),
+
+        [('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L3_MISS', 'Mem Stalls'),
         (makeColL_g2[1][1] ,), # ('L3 Stalls'),
         #(makeColL_g2[2][1] ,), # ('L2 Stalls'),
         #(makeColL_g2[3][1] ,), # ('L1 Stalls'),
         (makeColL_g2[4][1] ,), # ('L2/L1 Stalls'),
+         ]
+        
         #('Hardware Event Count:EXE_ACTIVITY.BOUND_ON_STORES',  'Store Stalls'),
     ]
 
@@ -748,16 +759,14 @@ def plotL_selectNcfg(vt, ytitle, metricL, graph_grpL, plotH, dfrm_xformF):
 
         grph_nm = grph_pr[1] if (isinstance(grph_pr, tuple)) else grph_pr
 
-        #for metric_grp in metricL: # GOOD
-        for i_m in range(len(metricL)): # TEST
-                metric_grp = metricL    # TEST
+        for metric_grp in metricL:
 
-            #dfrm_grp = None # GOOD
+            dfrm_grp = None
 
-            #n_metric = len(metric_grp) # GOOD
-            #for i_m in range(n_metric):
+            n_metric = len(metric_grp)
+            for i_m in range(n_metric):
                 
-                #is_m_grp_beg = (i_m == 0) # GOOD
+                is_m_grp_beg = (i_m == 0)
 
                 metric_pair = metric_grp[i_m]
                 m_nm_full = metric_pair[0]
