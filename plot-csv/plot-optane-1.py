@@ -60,8 +60,8 @@ Do_rows = 1
 @dataclass
 class PlotData:
     is_group_beg: bool
-    metric: str          # group_nm
-    graph_grp: tuple     # col_grp_nm
+    metric: str          # TODO: group_nm    # plot group name
+    graph_grp: tuple     # TODO: col_grp_nmL # column-group names
     dfrm: pandas.DataFrame()
 
 
@@ -774,14 +774,14 @@ def plotL_selectNcfg(vt, ytitle, metricL, graph_grpL, plotH, dfrm_xformF):
 
                 dfrm = select_data(vt, m_nm_full, grph_grp0, dfrm_xformF)
 
-                #if (is_m_grp_beg): # GOOD
+                # if (is_m_grp_beg): # TODO
                 #    dfrm_grp = dfrm
-                #else:
+                # else:
                 #    pandas.concat([dfrm_grp, dfrm], axis=1) # pandas.join()
 
                 dataL.append(PlotData(True, m_nm, grph_grp0, dfrm)) # TEST
 
-            #dataL.append(PlotData(is_grp_beg, m_nm, grph_grp0, dfrm_grp)) # GOOD
+            #dataL.append(PlotData(is_m_grp_beg, grph_grp0, metric_grp, dfrm_grp))# TODO
 
 
         if (not ('ytitle' in plotH)):
@@ -840,6 +840,9 @@ def plotL_selectNcfg(vt, ytitle, metricL, graph_grpL, plotH, dfrm_xformF):
 
 
 def plotL_do(dataL, plotH):
+    """
+    dataL: list of PlotData
+    """
 
     fig, axesL = plotL_mkFig(dataL, plotH)
 
@@ -849,8 +852,8 @@ def plotL_do(dataL, plotH):
         axes = axesL[i_data]
 
         is_grp_beg = data.is_group_beg
-        metric = data.metric
-        graph_grp = data.graph_grp
+        metric = data.metric       # TODO data.group_nm
+        graph_grp = data.graph_grp # TODO data.col_grp_nmL
         dfrm = data.dfrm
 
         do_title = (plotH['title'] and is_grp_beg)
