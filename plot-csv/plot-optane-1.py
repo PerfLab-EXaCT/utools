@@ -158,11 +158,13 @@ def main():
         #------------------------
         #(makeColL_g2[0][1] ,), # ('All Mem Stalls'),
         (makeColL_g2[5][1] ,), # ('RDRAM+PMM'),
+        
         ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L3_MISS', 'Mem Stalls'),
         (makeColL_g2[1][1] ,), # ('L3 Stalls'),
         #(makeColL_g2[2][1] ,), # ('L2 Stalls'),
         #(makeColL_g2[3][1] ,), # ('L1 Stalls'),
         (makeColL_g2[4][1] ,), # ('L2/L1 Stalls'),
+        
         #('Hardware Event Count:EXE_ACTIVITY.BOUND_ON_STORES',  'Store Stalls'),
     ]
 
@@ -722,12 +724,13 @@ def dfrm_fn_xform(vt, functionH, graph_grpL):
     
 #****************************************************************************
 
-
 def plotL_selectNcfg(vt, ytitle, metricL, graph_grpL, plotH, dfrm_xformF):
+    """
+    select-and-configure
+    """
 
     dataL = []
 
-    n_metric = len(metricL)
     n_graph_grp = len(graph_grpL)
 
     # if one graph group of length 1, orders is graph then metrics
@@ -735,6 +738,8 @@ def plotL_selectNcfg(vt, ytitle, metricL, graph_grpL, plotH, dfrm_xformF):
 
     #-------------------------------------------------------
     # for each graph, show metrics
+    #
+    # * metricL: is a list of metric groups *
     #-------------------------------------------------------
     if (do_graph_metric):
 
@@ -743,12 +748,28 @@ def plotL_selectNcfg(vt, ytitle, metricL, graph_grpL, plotH, dfrm_xformF):
 
         grph_nm = grph_pr[1] if (isinstance(grph_pr, tuple)) else grph_pr
 
-        for i_m in range(n_metric):
-            metric_pair = metricL[i_m]
-            m_nm_full = metric_pair[0]
-            m_nm = metric_pair[1] if (len(metric_pair) > 1) else m_nm_full
+        n_metric_grp = len(metricL)
+        # for metric_grp in range(n_metric_grp):
 
-            # ...
+        #     dfrm_grp = None
+            
+        #     n_metric = len(metric_grp)
+        #     for i_m in range(n_metric):
+                
+        #         is_m_grp_beg = (i_m == 0)
+
+        #         metric_pair = metric_grp[i_m]
+        #         m_nm_full = metric_pair[0]
+        #         m_nm = metric_pair[1] if (len(metric_pair) > 1) else m_nm_full
+
+        #         dfrm = select_data(vt, m_nm_full, grph_grp0, dfrm_xformF)
+
+        #         if (is_m_grp_beg):
+        #             dfrm_grp = dfrm
+        #         else:
+        #             pandas.concat([dfrm_grp, dfrm], axis=1) # pandas.join()
+
+        #     dataL.append(PlotData(is_grp_beg, m_nm, grph_grp, dfrm_grp))
 
 
         if (not ('ytitle' in plotH)):
@@ -760,13 +781,15 @@ def plotL_selectNcfg(vt, ytitle, metricL, graph_grpL, plotH, dfrm_xformF):
     #-------------------------------------------------------
     if True: # else: TODO
 
+        n_metric = len(metricL)
+        
         metric_nm0 = None
         
         for i_m in range(n_metric):
             for i_g in range(n_graph_grp):
 
                 is_grp_beg = (i_g == 0)
-                 
+                
                 metric_pair = metricL[i_m]
                 m_nm_full = metric_pair[0]
                 m_nm = metric_pair[1] if (len(metric_pair) > 1) else m_nm_full
@@ -775,20 +798,7 @@ def plotL_selectNcfg(vt, ytitle, metricL, graph_grpL, plotH, dfrm_xformF):
                 grph_grp = graph_grpL[i_g] # graphL
                 #print(grph_grp)
 
-                #--------------------------
-                # find DataFrame for 'm_nm_full'
-                try:
-                    dfrm = vt.dataH[m_nm_full]
-                except KeyError:
-                    vtcsv.MSG.warnx("Skipping metric: '{}'".format(m_nm_full))
-                    continue
-
-                # select columns for 'grph_grp'
-                dfrm = select_dfrm_col(dfrm, grph_grp)
-                #print(dfrm)
-
-                dfrm = dfrm_xformF(dfrm, grph_grp, m_nm_full)
-                #--------------------------
+                dfrm = select_data(vt, m_nm_full, grph_grp, dfrm_xformF)
 
                 dataL.append(PlotData(is_grp_beg, m_nm, grph_grp, dfrm))
 
@@ -1005,9 +1015,36 @@ def plot(dfrm, axes, metric, do_title, ytitle, x_groupL, plotH):
 
     return axes
 
+
 #****************************************************************************
 
+def select_data(vt, metric_nm_full, graphL, dfrm_xformF):
+    """
+    - graphL is a grph_grp
+    """
+
+    # find DataFrame for 'metric_nm_full'
+    try:
+        dfrm = vt.dataH[metric_nm_full]
+    except KeyError:
+        vtcsv.MSG.warnx("Skipping metric: '{}'".format(metric_nm_full))
+        return pandas.DataFrame()
+
+    # select columns for 'graphL'
+    dfrm = select_dfrm_col(dfrm, graphL) # new copy
+    #print(dfrm)
+
+    dfrm = dfrm_xformF(dfrm, graphL, metric_nm_full)
+
+    return dfrm
+
+    
 def select_dfrm_col(dfrm, graphL):
+    """
+    - graphL is a grph_grp
+    - returns a *copy*
+    """
+    
     matchL = find_matches(dfrm.columns, graphL)
     if (not matchL):
         vtcsv.MSG.warnx(("No metrics for '%s'" % graphL))
