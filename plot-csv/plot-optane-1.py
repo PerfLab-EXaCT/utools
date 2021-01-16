@@ -748,28 +748,31 @@ def plotL_selectNcfg(vt, ytitle, metricL, graph_grpL, plotH, dfrm_xformF):
 
         grph_nm = grph_pr[1] if (isinstance(grph_pr, tuple)) else grph_pr
 
-        n_metric_grp = len(metricL)
-        # for metric_grp in range(n_metric_grp):
+        #for metric_grp in metricL: # GOOD
+        for i_m in range(len(metricL)): # TEST
+                metric_grp = metricL    # TEST
 
-        #     dfrm_grp = None
-            
-        #     n_metric = len(metric_grp)
-        #     for i_m in range(n_metric):
+            #dfrm_grp = None # GOOD
+
+            #n_metric = len(metric_grp) # GOOD
+            #for i_m in range(n_metric):
                 
-        #         is_m_grp_beg = (i_m == 0)
+                #is_m_grp_beg = (i_m == 0) # GOOD
 
-        #         metric_pair = metric_grp[i_m]
-        #         m_nm_full = metric_pair[0]
-        #         m_nm = metric_pair[1] if (len(metric_pair) > 1) else m_nm_full
+                metric_pair = metric_grp[i_m]
+                m_nm_full = metric_pair[0]
+                m_nm = metric_pair[1] if (len(metric_pair) > 1) else m_nm_full
 
-        #         dfrm = select_data(vt, m_nm_full, grph_grp0, dfrm_xformF)
+                dfrm = select_data(vt, m_nm_full, grph_grp0, dfrm_xformF)
 
-        #         if (is_m_grp_beg):
-        #             dfrm_grp = dfrm
-        #         else:
-        #             pandas.concat([dfrm_grp, dfrm], axis=1) # pandas.join()
+                #if (is_m_grp_beg): # GOOD
+                #    dfrm_grp = dfrm
+                #else:
+                #    pandas.concat([dfrm_grp, dfrm], axis=1) # pandas.join()
 
-        #     dataL.append(PlotData(is_grp_beg, m_nm, grph_grp, dfrm_grp))
+                dataL.append(PlotData(True, m_nm, grph_grp0, dfrm)) # TEST
+
+            #dataL.append(PlotData(is_grp_beg, m_nm, grph_grp0, dfrm_grp)) # GOOD
 
 
         if (not ('ytitle' in plotH)):
@@ -779,7 +782,7 @@ def plotL_selectNcfg(vt, ytitle, metricL, graph_grpL, plotH, dfrm_xformF):
     #-------------------------------------------------------
     # for each metric, show graphs
     #-------------------------------------------------------
-    if True: # else: TODO
+    else:
 
         n_metric = len(metricL)
         
