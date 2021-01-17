@@ -930,10 +930,10 @@ def plot(dfrm, axes, ytitle, xtitle, col_groupL, plotH):
 
     dfrm_max = numpy.max(dfrm.to_numpy())
     #dfrm_md = numpy.median(dfrm.to_numpy())
-    if (dfrm_max > 100):
+    if (dfrm_max > 100):        
         dfrm_scale_exp = math.floor(math.log10(dfrm_max)) - 2
         dfrm_scale = math.pow(10, dfrm_scale_exp)
-        dfrm = dfrm.applymap(lambda x: x / dfrm_scale)
+        dfrm = dfrm.applymap( lambda x: round(x / dfrm_scale, 2) )
         txt_fmt = '.3g'
         #txt_sz = Txt_sz_heatmap + 1
         txt_rot = plotH['txt_rot'] if ('txt_rot' in plotH) else 10
@@ -949,6 +949,8 @@ def plot(dfrm, axes, ytitle, xtitle, col_groupL, plotH):
 
 
     # vmin, vmax
+    # fmt: cf. str.format() documentation (https://docs.python.org/3/library/string.html?highlight=string#formatspec)
+    #  '.2%': percent with 2 decimal places
     
     axes = seaborn.heatmap(dfrm, ax=axes, annot=True,
                            cbar=True,
