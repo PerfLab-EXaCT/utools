@@ -33,8 +33,7 @@ from dataclasses import dataclass
 #****************************************************************************
 
 # FIXME:
-# - when averaging function rows, should weight by cpu-time
-# - metric grouping
+# - Better weighted average for averaging function rows
 
 #****************************************************************************
 
@@ -60,7 +59,7 @@ Do_rows = 1
 @dataclass
 class PlotData:
     is_group_beg:  bool
-    metric:        str       # TODO: group_nm
+    group_nm:      str
     dfrm_col_grpL: tuple
     dfrm:          pandas.DataFrame()
 
@@ -368,7 +367,7 @@ def main_grappolo(makeColL1, makeColL2):
     adjHx = { 'left':0.05, 'right':0.99, 'bottom':0.10, 'top':0.75,
               'wspace':0.15, 'hspace':0.0 }
 
-    plotHp = {'w':2.6, 'h':1.7, 'title':1, 'xtitle_top':1, 'xtitle_bot':1}
+    plotHp = {'w':2.6, 'h':1.7, 'title':1, 'ctitle':1, 'ctitle_bot':1}
     adjHp = { 'left':0.15, 'right':0.95, 'bottom':0.15, 'top':0.85,
               'wspace':0.10, 'hspace':0.0 }
 
@@ -376,18 +375,18 @@ def main_grappolo(makeColL1, makeColL2):
     fig_p2 = plot_pkg(vt_p, graphL, [metricLp[1]], {**plotHp}, adjHp)
     fig_px = plot_pkg(vt_p, graphL, metricLx, {'w':3.0, 'h':1.8}, adjHx)
 
-    plotHf = {'w':2.3, 'h':1.5, 'title':0, 'xtitle_top':0, 'xtitle_bot':0}
+    plotHf = {'w':3.7, 'h':1.5, 'title':0, 'ctitle':0, 'ctitle_bot':0}
     adjHf = { 'left':0.15, 'right':0.98, 'bottom':0.15, 'top':0.85,
-              'wspace':0.13, 'hspace':0.0 } # 'ytitle'
+              'wspace':0.05, 'hspace':0.0 } # 'ytitle'
 
-    fig_f1 = plot_fn(vt_f, graphL1, funcH, metricLf_g, {**plotHf, 'title':1}, adjHf)
-    fig_f2 = plot_fn(vt_f, graphL2, funcH, metricLf_g, {**plotHf, 'xtitle_bot':1}, adjHf)
+    fig_f1 = plot_fn(vt_f, graphL1, funcH, metricLf_g, {**plotHf, 'ctitle':1}, adjHf)
+    fig_f2 = plot_fn(vt_f, graphL2, funcH, metricLf_g, {**plotHf, 'ctitle_bot':1}, adjHf)
     fig_f3 = plot_fn(vt_f, graphL3, funcH, metricLf_g, {**plotHf, 'h':1.4, 'txt_rot':0}, adjHf)
-    fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf_g, {**plotHf, 'h':1.4, 'xtitle_bot':1, 'txt_rot':0}, adjHf)
+    fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf_g, {**plotHf, 'h':1.4, 'ctitle_bot':1, 'txt_rot':0}, adjHf)
 
-    fig_fx = plot_fn(vt_f, graphL, funcH, metricLx, {'w':3.2, 'h':2.7, 'xtitle_bot':1}, adjHx)
+    fig_fx = plot_fn(vt_f, graphL, funcH, metricLx, {'w':3.2, 'h':2.7, 'ctitle_bot':1}, adjHx)
 
-    #fig_f1 = plot_fn(vt_f, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'xtitle_bot':False}, adjH)
+    #fig_f1 = plot_fn(vt_f, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'ctitle_bot':False}, adjH)
 
     fig_p1.savefig('chart-grappolo-pkg1.pdf', bbox_inches='tight')
     fig_p2.savefig('chart-grappolo-pkg2.pdf', bbox_inches='tight')
@@ -571,7 +570,7 @@ def main_ripples(makeColL1, makeColL2):
     adjHx = { 'left':0.05, 'right':0.99, 'bottom':0.15, 'top':0.75,
               'wspace':0.15, 'hspace':0.0 }
 
-    plotHp = {'w':2.7, 'h':1.6, 'title':1, 'xtitle_top':1, 'xtitle_bot':1}
+    plotHp = {'w':2.7, 'h':1.6, 'title':1, 'ctitle':1, 'ctitle_bot':1}
     adjHp = { 'left':0.15, 'right':0.95, 'bottom':0.15, 'top':0.85,
               'wspace':0.10, 'hspace':0.0 }
 
@@ -580,19 +579,19 @@ def main_ripples(makeColL1, makeColL2):
     fig_px = plot_pkg(vt_p, graphL, metricLx, {'w':2.6, 'h':1.6}, adjHx)
 
 
-    plotHf = {'w':2.3, 'h':2.0, 'title':0, 'xtitle_top':0, 'xtitle_bot':0}
+    plotHf = {'w':3.7, 'h':2.0, 'title':0, 'ctitle':0, 'ctitle_bot':0}
     adjHf = { 'left':0.15, 'right':0.98, 'bottom':0.15, 'top':0.90,
-              'wspace':0.13, 'hspace':0.0 } # 'ytitle'
+              'wspace':0.05, 'hspace':0.0 } # 'ytitle'
 
-    fig_f1 = plot_fn(vt_f, graphL1, funcH, metricLf_r, {**plotHf, 'title':1}, adjHf)
-    fig_f2 = plot_fn(vt_f, graphL2, funcH, metricLf_r, {**plotHf, 'title':1}, adjHf)
+    fig_f1 = plot_fn(vt_f, graphL1, funcH, metricLf_r, {**plotHf, 'ctitle':1}, adjHf)
+    fig_f2 = plot_fn(vt_f, graphL2, funcH, metricLf_r, {**plotHf, 'ctitle':1}, adjHf)
     fig_f3 = plot_fn(vt_f, graphL3, funcH, metricLf_r, {**plotHf, 'title':1}, adjHf)
-    fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf_r, {**plotHf, 'xtitle_bot':1}, adjHf)
-    fig_f5 = plot_fn(vt_f, graphL5, funcH, metricLf_r, {**plotHf, 'xtitle_bot':1, 'h':1.8, 'txt_rot':0}, adjHf)
+    fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf_r, {**plotHf, 'ctitle_bot':1}, adjHf)
+    fig_f5 = plot_fn(vt_f, graphL5, funcH, metricLf_r, {**plotHf, 'ctitle_bot':1, 'h':1.8, 'txt_rot':0}, adjHf)
 
-    # fig_f1 = plot_fn(vt_f, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'xtitle_bot':False}, adjH)
+    # fig_f1 = plot_fn(vt_f, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'ctitle_bot':False}, adjH)
 
-    fig_fx = plot_fn(vt_f, graphL, funcH, metricLx, {'w':2.7, 'h':2.3, 'xtitle_bot':1}, adjHx)
+    fig_fx = plot_fn(vt_f, graphL, funcH, metricLx, {'w':2.7, 'h':2.3, 'ctitle_bot':1}, adjHx)
     
     fig_p1.savefig('chart-ripples-pkg1.pdf', bbox_inches='tight')
     fig_p2.savefig('chart-ripples-pkg2.pdf', bbox_inches='tight')
@@ -747,6 +746,8 @@ def plotL_selectNcfg(vt, ytitle, metricL, graph_grpL, plotH, dfrm_xformF):
     # if one graph group of length 1, orders is graph then metrics
     do_graph_metric = (n_graph_grp == 1) and (len(graph_grpL[0]) == 1)
 
+    plotL_title = None
+
     #-------------------------------------------------------
     # for each graph, show metrics
     #
@@ -759,8 +760,11 @@ def plotL_selectNcfg(vt, ytitle, metricL, graph_grpL, plotH, dfrm_xformF):
 
         grph_nm = grph_pr[1] if (isinstance(grph_pr, tuple)) else grph_pr
 
+        plotL_title = grph_nm
+
         for metric_grp in metricL:
 
+            dfrm_colL = []
             dfrm_grp = None
 
             n_metric = len(metric_grp)
@@ -774,18 +778,13 @@ def plotL_selectNcfg(vt, ytitle, metricL, graph_grpL, plotH, dfrm_xformF):
 
                 dfrm = select_data(vt, m_nm_full, grph_grp0, dfrm_xformF)
 
-                # if (is_m_grp_beg): # TODO
-                #    dfrm_grp = dfrm
-                # else:
-                #    pandas.concat([dfrm_grp, dfrm], axis=1) # pandas.join()
+                dfrm_colL.append(m_nm)
+                if (is_m_grp_beg):
+                    dfrm_grp = dfrm
+                else:
+                    dfrm_grp = pandas.concat([dfrm_grp, dfrm], axis=1)
 
-                dataL.append(PlotData(True, m_nm, grph_grp0, dfrm)) # TEST
-
-            #dataL.append(PlotData(is_m_grp_beg, grph_nm, metric_grp, dfrm_grp))# TODO
-
-
-        if (not ('ytitle' in plotH)):
-            plotH['ytitle'] = grph_nm
+            dataL.append(PlotData(is_m_grp_beg, None, dfrm_colL, dfrm_grp))
 
 
     #-------------------------------------------------------
@@ -796,6 +795,11 @@ def plotL_selectNcfg(vt, ytitle, metricL, graph_grpL, plotH, dfrm_xformF):
         n_metric = len(metricL)
         
         metric_nm0 = None
+
+        if (n_metric == 1):
+            plotL_title = metric_nm0
+        else:
+            plotL_title = ytitle
         
         for i_m in range(n_metric):
             for i_g in range(n_graph_grp):
@@ -814,26 +818,26 @@ def plotL_selectNcfg(vt, ytitle, metricL, graph_grpL, plotH, dfrm_xformF):
 
                 dataL.append(PlotData(is_grp_beg, m_nm, grph_grp, dfrm))
 
-
-        if (not ('ytitle' in plotH)):
-            if (n_metric == 1):
-                plotH['ytitle'] = metric_nm0
-            else:
-                plotH['ytitle'] = ytitle
-
                 
     #-------------------------------------------------------
     # Configure plot options
     #-------------------------------------------------------
 
+    # plot list title
+    if (not ('ytitle' in plotH)):
+        plotH['ytitle'] = plotL_title
+    
+    # DataFrame group title
     if (not ('title' in plotH)):
         plotH['title'] = True
 
-    if (not ('xtitle_top' in plotH)):
-        plotH['xtitle_top'] = True
+    # DataFrame column titles (top)
+    if (not ('ctitle' in plotH)):
+        plotH['ctitle'] = True
 
-    if (not ('xtitle_top' in plotH)):
-        plotH['xtitle_bot'] = True
+    # DataFrame column titles (bottom)
+    if (not ('ctitle_bot' in plotH)):
+        plotH['ctitle_bot'] = True
 
             
     return dataL
@@ -852,23 +856,15 @@ def plotL_do(dataL, plotH):
         axes = axesL[i_data]
 
         is_grp_beg = data.is_group_beg
-        metric = data.metric                # TODO data.group_nm
+        group_nm = data.group_nm
         col_grpL = data.dfrm_col_grpL
         dfrm = data.dfrm
 
-        do_title = (plotH['title'] and is_grp_beg)
         ytitle = plotH['ytitle'] if (i_data == 0) else None
+        xtitle = group_nm if (plotH['title'] and is_grp_beg) else None
 
         axes.margins(x=0.00, y=0.00)
-        axes1 = plot(dfrm, axes, metric, do_title, ytitle, col_grpL, plotH)
-
-        # # FIXME:
-        # #print(axes1.get_tightbbox(fig.canvas.get_renderer()))
-        # bbox = axes1.bbox.get_points()
-        # #print(bbox)
-        # bbox_w = bbox[1][0] - bbox[0][0]
-        # bbox_h = bbox[1][1] - bbox[0][1]
-        # axes1.add_patch(patches.Rectangle(xy=bbox[0], width=bbox_w, height=bbox_h, edgecolor='red', linewidth=2.0, fill=True, zorder=100))
+        axes1 = plot(dfrm, axes, ytitle, xtitle, col_grpL, plotH)
 
 
     return fig, axesL
@@ -919,7 +915,7 @@ def plotL_adj(fig, adjustH):
         fig.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
 
 
-def plot(dfrm, axes, metric, do_title, ytitle, col_groupL, plotH):
+def plot(dfrm, axes, ytitle, xtitle, col_groupL, plotH):
 
     n_col = len(dfrm.columns)
     
@@ -976,23 +972,17 @@ def plot(dfrm, axes, metric, do_title, ytitle, col_groupL, plotH):
     # 
     #-------------------------------------------------------
 
-    do_ytitle = (not Do_rows) or ytitle
-    
-    if (do_ytitle):
+    if (ytitle):
         axes.set_ylabel(ytitle, fontsize=Txt_sz_ytitle)
 
-    if (do_title):
-        title_txt = metric
-
-        if (title_txt != ytitle):
-            #x_pos = -0.4 if (do_ytitle) else -0.08
-            axes.set_title(title_txt, ha='center', fontsize=Txt_sz_title) # va='center', rotation='vertical', x=x_pos, y=0.5
+    if (xtitle):
+        axes.set_title(xtitle, ha='center', fontsize=Txt_sz_title) # va='center', rotation='vertical', x=x_pos, y=0.5
 
 
     # correct x-ticks and x-labels
     axes.set_xticks(numpy.arange(0.5, n_col))
 
-    if ('xtitle_bot' in plotH and plotH['xtitle_bot']):
+    if ('ctitle_bot' in plotH and plotH['ctitle_bot']):
         # correct x-ticks and x-labels
         axes.set_xticklabels(dfrm.columns, rotation=20, ha='right')
     else:
@@ -1022,7 +1012,7 @@ def plot(dfrm, axes, metric, do_title, ytitle, col_groupL, plotH):
         axes2_ticks = [ (x/n_x) for x in list(numpy.arange(x2_beg, x_end, x2_skip)) ]
         axes2.set_xticks(axes2_ticks)
 
-        if ('xtitle_top' in plotH and plotH['xtitle_top']):
+        if ('ctitle' in plotH and plotH['ctitle']):
             axes2.set_xticklabels(nmL, rotation=0, ha='center')
         else:
             axes2.set_xticklabels([])
