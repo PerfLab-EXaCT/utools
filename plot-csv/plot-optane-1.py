@@ -59,10 +59,10 @@ Do_rows = 1
 
 @dataclass
 class PlotData:
-    is_group_beg: bool
-    metric: str          # TODO: group_nm    # plot group name
-    graph_grp: tuple     # TODO: col_grp_nmL # column-group names
-    dfrm: pandas.DataFrame()
+    is_group_beg:  bool
+    metric:        str       # TODO: group_nm
+    dfrm_col_grpL: tuple
+    dfrm:          pandas.DataFrame()
 
 
 #****************************************************************************
@@ -781,7 +781,7 @@ def plotL_selectNcfg(vt, ytitle, metricL, graph_grpL, plotH, dfrm_xformF):
 
                 dataL.append(PlotData(True, m_nm, grph_grp0, dfrm)) # TEST
 
-            #dataL.append(PlotData(is_m_grp_beg, grph_grp0, metric_grp, dfrm_grp))# TODO
+            #dataL.append(PlotData(is_m_grp_beg, grph_nm, metric_grp, dfrm_grp))# TODO
 
 
         if (not ('ytitle' in plotH)):
@@ -852,15 +852,15 @@ def plotL_do(dataL, plotH):
         axes = axesL[i_data]
 
         is_grp_beg = data.is_group_beg
-        metric = data.metric       # TODO data.group_nm
-        graph_grp = data.graph_grp # TODO data.col_grp_nmL
+        metric = data.metric                # TODO data.group_nm
+        col_grpL = data.dfrm_col_grpL
         dfrm = data.dfrm
 
         do_title = (plotH['title'] and is_grp_beg)
         ytitle = plotH['ytitle'] if (i_data == 0) else None
 
         axes.margins(x=0.00, y=0.00)
-        axes1 = plot(dfrm, axes, metric, do_title, ytitle, graph_grp, plotH)
+        axes1 = plot(dfrm, axes, metric, do_title, ytitle, col_grpL, plotH)
 
         # # FIXME:
         # #print(axes1.get_tightbbox(fig.canvas.get_renderer()))
@@ -919,7 +919,7 @@ def plotL_adj(fig, adjustH):
         fig.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
 
 
-def plot(dfrm, axes, metric, do_title, ytitle, x_groupL, plotH):
+def plot(dfrm, axes, metric, do_title, ytitle, col_groupL, plotH):
 
     n_col = len(dfrm.columns)
     
@@ -1003,15 +1003,15 @@ def plot(dfrm, axes, metric, do_title, ytitle, x_groupL, plotH):
 
 
     #-------------------------------------------------------
-    # Secondary x groups and labels (x_groupL)
+    # Secondary x groups and labels (col_groupL)
     #-------------------------------------------------------
-    if (x_groupL):
-        # if x_groupL is a list of pairs, grab second item in each pair
-        nmL = [ x[1] for x in x_groupL ] if (isinstance(x_groupL[0], tuple)) else x_groupL
+    if (col_groupL):
+        # if col_groupL is a list of pairs, grab second item in each pair
+        nmL = [ x[1] for x in col_groupL ] if (isinstance(col_groupL[0], tuple)) else col_groupL
 
         (x_beg, x_end) = axes.get_xlim()
         n_x = int(x_end) # n_col
-        n_x2 = len(x_groupL)
+        n_x2 = len(col_groupL)
         x2_skip = int(n_x / n_x2)
         x2_beg = x2_skip / 2.0 # midpoint
 
