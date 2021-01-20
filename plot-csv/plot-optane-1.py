@@ -96,9 +96,10 @@ def main():
         ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L2_MISS', 'L3 Stalls', vtcsv.makeCol_Diff('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L3_MISS') ),
         ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L1D_MISS', 'L2 Stalls', vtcsv.makeCol_Diff('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L2_MISS') ), # ???
         ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_MEM_ANY', 'L1 Stalls', vtcsv.makeCol_Diff('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L1D_MISS') ),
-        ('L2 Stalls', 'L2/L1 Stalls', vtcsv.makeCol_Sum('L1 Stalls') ),
+        ('L2 Stalls', 'L2+L1 Stalls', vtcsv.makeCol_Sum('L1 Stalls') ),
 
-        ('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_DRAM_PS', 'RDRAM+PMM', vtcsv.makeCol_Sum(['Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', 'Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_PMM_PS']) ),
+        #('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_DRAM_PS', 'rDRAM+PMM', vtcsv.makeCol_Sum(['Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', 'Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_PMM_PS']) ),
+        ('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_DRAM_PS', 'Rmt DRAM+PMM', vtcsv.makeCol_Sum('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_PMM_PS') ),
 
     ]
     
@@ -156,16 +157,17 @@ def main():
         #------------------------
         # hw-events
         #------------------------
-        [(makeColL_g2[5][1] ,), # ('RDRAM+PMM'),
+        [('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', 'Lcl PMM'),
+         (makeColL_g2[5][1] ,), # 'Rmt DRAM+PMM'
          ],
 
-        #(makeColL_g2[0][1] ,), # ('All Mem Stalls'),
+        #(makeColL_g2[0][1] ,), # 'All Mem Stalls'
 
         [('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L3_MISS', 'Mem Stalls'),
-        (makeColL_g2[1][1] ,), # ('L3 Stalls'),
-        #(makeColL_g2[2][1] ,), # ('L2 Stalls'),
-        #(makeColL_g2[3][1] ,), # ('L1 Stalls'),
-        (makeColL_g2[4][1] ,), # ('L2/L1 Stalls'),
+        (makeColL_g2[1][1] ,),  # 'L3 Stalls'
+        #(makeColL_g2[2][1] ,), # 'L2 Stalls'
+        #(makeColL_g2[3][1] ,), # 'L1 Stalls'
+        (makeColL_g2[4][1] ,),  # 'L2+L1 Stalls'
          ]
         
         #('Hardware Event Count:EXE_ACTIVITY.BOUND_ON_STORES',  'Store Stalls'),
@@ -202,16 +204,17 @@ def main():
         #------------------------
         # hw-events
         #------------------------
-        [(makeColL_g2[5][1] ,), # ('RDRAM+PMM'),
+        [('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', 'Lcl PMM'),
+         (makeColL_g2[5][1] ,), # 'Rmt DRAM+PMM'
          ],
         
-        #(makeColL_g2[0][1] ,), # ('All Mem Stalls'),
+        #(makeColL_g2[0][1] ,), # All Mem Stalls'
 
         [('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L3_MISS', 'Mem Stalls'),
-        (makeColL_g2[1][1] ,), # ('L3 Stalls'),
-        #(makeColL_g2[2][1] ,), # ('L2 Stalls'),
-        #(makeColL_g2[3][1] ,), # ('L1 Stalls'),
-        (makeColL_g2[4][1] ,), # ('L2/L1 Stalls'),
+        (makeColL_g2[1][1] ,),  # 'L3 Stalls'
+        #(makeColL_g2[2][1] ,), # 'L2 Stalls'
+        #(makeColL_g2[3][1] ,), # 'L1 Stalls'
+        (makeColL_g2[4][1] ,),  # 'L2+L1 Stalls'
          ]
         
         #('Hardware Event Count:EXE_ACTIVITY.BOUND_ON_STORES',  'Store Stalls'),
