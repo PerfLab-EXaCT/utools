@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 nodes = ["Copy", "Scale", "Add", "Triad"]
-nodes2 = ["dram", "mem", "kdax", "pdax"]
+nodes2 = ["dram", "mem", "pdax", "kdax"]
 
 data_bw = np.array([[320.05,254.59,1.85,8.21],
                    [325.93,262.57,1.22,4.20],
