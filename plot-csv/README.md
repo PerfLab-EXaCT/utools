@@ -1,53 +1,6 @@
 -*-Mode: markdown;-*-
 -----------------------------------------------------------------------------
 
-Grappolo
-
-1a. mem vs. dram: 
-  with smaller graphs:
-  - mem mode is certainly more that 10\% overhead
-  - seems that overhead decreases with as threads increases (?)
-  
-  1b. larger graphs [[???]]
-  
-1c. kdax performance now looks quite good!
-
-1d. for mem mode, validate: Near memory cache = L4 miss rate (only as a total)
-
-3. ./mlc -idle_latency -r  # use to validate ripples
-
-4. GUPS: (random access bandwidth, local/remote)
-  dram: uses numactl --interleave ???
-
-5. new: MEMKIND_DAX_KMEM_INTERLEAVE, kdax supports numactl...
-
-Intel questions: bw and latency histograms as textual reports?
-
----
-
-- Distributed memory (cost, power)
-
-- Optane: Power, mem mode?
-
-- New Optane:
-  Barlow Pass (Ice Lake), new instructions
-  Apache Pass (Cascade Lake)
-  
-- Intel GPUs
-
-- Grappolo: DRAM allocs were done by single thread. Use guarded, round-robin execution to ensure correct first-touch.
-
-
-- Fig 4: reorder columns and labels?
-
-
-- Ripples: tested two variants but had one more idea
-  do we hit a bandwidth limitation?
-  kdax2
-  
-  
-
-
 Using
 =============================================================================
 
@@ -94,48 +47,6 @@ myL=(
   grappolo-vtune-friendster-t192-mem
   grappolo-vtune-friendster-t192-kdax
   grappolo-vtune-friendster-t192-pdax
-  #
-  grappolo-vtune-moliere2016-t192-dram
-  grappolo-vtune-moliere2016-t192-mem
-  grappolo-vtune-moliere2016-t192-kdax
-  grappolo-vtune-moliere2016-t192-pdax
-  #
-  grappolo-vtune-uk2014-t192-mem
-  grappolo-vtune-uk2014-t192-kdax
-  #
-  grappolo-vtune-clueweb12-t192-mem
-  grappolo-vtune-clueweb12-t192-kdax
-)
-
-myL=(
-  soc-Slashdot0902.imm-dram.T64-vtune
-  soc-Slashdot0902.imm-mem.T64-vtune
-  soc-Slashdot0902.imm-kdax1.T64-vtune
-  soc-Slashdot0902.imm-kdax2.T64-vtune
-  soc-Slashdot0902.imm-kdax3.T64-vtune
-  #
-  soc-twitter-combined.imm-dram.T64-vtune
-  soc-twitter-combined.imm-mem.T64-vtune
-  soc-twitter-combined.imm-kdax1.T64-vtune
-  soc-twitter-combined.imm-kdax2.T64-vtune
-  soc-twitter-combined.imm-kdax3.T64-vtune
-  #
-  wiki-talk.imm-dram.T64-vtune
-  wiki-talk.imm-mem.T64-vtune
-  wiki-talk.imm-kdax1.T64-vtune
-  wiki-talk.imm-kdax2.T64-vtune
-  wiki-talk.imm-kdax3.T64-vtune
-  #
-  soc-pokec-relationships.imm-dram.T64-vtune
-  soc-pokec-relationships.imm-mem.T64-vtune
-  soc-pokec-relationships.imm-kdax1.T64-vtune
-  soc-pokec-relationships.imm-kdax2.T64-vtune
-  soc-pokec-relationships.imm-kdax3.T64-vtune
-  #
-  wiki-topcats.imm-mem.T64-vtune
-  wiki-topcats.imm-kdax1.T64-vtune
-  wiki-topcats.imm-kdax2.T64-vtune
-  wiki-topcats.imm-kdax3.T64-vtune
 )
 
 # vtune -report summary
@@ -154,19 +65,6 @@ for path in "${myL[@]}" ; do
   ${vtune_cmd} "${path}" -report-output "${out2}" -group-by=package
 done
 ```
-
-```
-dir=/files0/tallent/xxx-optane/grappolo
-#dir=/files0/tallent/xxx-optane/ripples
-for src in ${dir}/*.csv ; do
-  csv=$(basename ${src})
-  if ! diff ${src} ${csv} >& /dev/null ; then
-    echo ${csv}
-    cp ${src} ${csv}
-  fi
-done
-```
-
 
 1. Plot
 
