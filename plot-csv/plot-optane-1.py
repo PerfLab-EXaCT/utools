@@ -155,12 +155,8 @@ def main():
         ##('Memory Bound:Store Bound(%)', 'Store Bound (%)'),
 
         #------------------------
-        # hw-events
+        # stalls
         #------------------------
-        [('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', 'Lcl PMM'),
-         (makeColL_g2[5][1] ,), # 'Rmt DRAM+PMM'
-         ],
-
         #(makeColL_g2[0][1] ,), # 'All Mem Stalls'
 
         [('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L3_MISS', 'Mem Stalls'),
@@ -168,6 +164,13 @@ def main():
         #(makeColL_g2[2][1] ,), # 'L2 Stalls'
         #(makeColL_g2[3][1] ,), # 'L1 Stalls'
         (makeColL_g2[4][1] ,),  # 'L2+L1 Stalls'
+         ],
+
+        #------------------------
+        # hw-events
+        #------------------------
+        [('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', 'Lcl PMM'),
+         (makeColL_g2[5][1] ,), # 'Rmt DRAM+PMM'
          ]
         
         #('Hardware Event Count:EXE_ACTIVITY.BOUND_ON_STORES',  'Store Stalls'),
@@ -200,14 +203,9 @@ def main():
         ##
         ##(makeColL_r1[2][1] ,),  #('Stores (%)',),
 
-
         #------------------------
-        # hw-events
+        # stalls
         #------------------------
-        [('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', 'Lcl PMM'),
-         (makeColL_g2[5][1] ,), # 'Rmt DRAM+PMM'
-         ],
-        
         #(makeColL_g2[0][1] ,), # All Mem Stalls'
 
         [('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L3_MISS', 'Mem Stalls'),
@@ -215,6 +213,13 @@ def main():
         #(makeColL_g2[2][1] ,), # 'L2 Stalls'
         #(makeColL_g2[3][1] ,), # 'L1 Stalls'
         (makeColL_g2[4][1] ,),  # 'L2+L1 Stalls'
+         ],
+
+        #------------------------
+        # hw-events
+        #------------------------
+        [('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', 'Lcl PMM'),
+         (makeColL_g2[5][1] ,), # 'Rmt DRAM+PMM'
          ]
         
         #('Hardware Event Count:EXE_ACTIVITY.BOUND_ON_STORES',  'Store Stalls'),
