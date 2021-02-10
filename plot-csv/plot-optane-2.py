@@ -58,6 +58,12 @@ friendster     64     kdax  1756.448787     nan
 friendster    128     kdax  1229.417182     nan
 friendster    192     kdax  835.125813    nan
 
+friendster     16     kdax2  6115.285544     nan
+friendster     32     kdax2  3277.245072     nan
+friendster     64     kdax2  1730.002233     nan
+friendster    128     kdax2  1217.872113     nan
+friendster    192     kdax2  831.718546   nan
+
 friendster	16	pdax	6208.110773	nan
 friendster	32	pdax	3315.598536	nan
 friendster	64	pdax	1753.159035	nan
@@ -83,6 +89,12 @@ moliere2016    64     kdax   1008.314671   nan
 moliere2016   128     kdax   996.192363   nan
 moliere2016   192     kdax   1018.043756   nan
 
+moliere2016    16     kdax2  1687.235732   nan
+moliere2016    32     kdax2  1261.021346   nan
+moliere2016    64     kdax2  1025.460897   nan
+moliere2016   128     kdax2  1020.176169   nan
+moliere2016   192     kdax2  1044.276406   nan
+
 moliere2016	16	pdax	1688.480594	nan
 moliere2016	32	pdax	1243.435306	nan
 moliere2016	64	pdax	1014.946138	nan
@@ -104,6 +116,12 @@ clueweb12      64     kdax  6840.693432     nan
 clueweb12     128     kdax  5814.080951     nan
 clueweb12     192     kdax  5159.313038     nan
 
+clueweb12      16     kdax2  8527.07952     nan
+clueweb12      32     kdax2  7252.276714    nan
+clueweb12      64     kdax2  6873.644474    nan
+clueweb12     128     kdax2  5273.949972    nan
+clueweb12     192     kdax2  5201.659599    nan
+
 clueweb12     192     pdax      nan            nan
 
 
@@ -115,11 +133,17 @@ uk2014	        64	mem	1030.207204	nan
 uk2014	        128	mem	820.76091	nan
 uk2014	        192	mem	730.57113	nan
 
-uk2014         16     kdax     2053.882734     nan
-uk2014         32     kdax     1759.597141     nan
+uk2014         16     kdax     2053.882734    nan
+uk2014         32     kdax     1759.597141    nan
 uk2014         64     kdax     942.007022     nan
 uk2014        128     kdax     676.873518     nan
 uk2014        192     kdax     665.310788     nan
+
+uk2014         16     kdax2    2045.68806    nan
+uk2014         32     kdax2    1343.271699   nan
+uk2014         64     kdax2    954.808604    nan
+uk2014        128     kdax2    711.649813    nan
+uk2014        192     kdax2    650.512289    nan
 
 uk2014        192     pdax      nan            nan
 """
