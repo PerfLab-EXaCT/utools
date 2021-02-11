@@ -96,9 +96,9 @@ def main():
         ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L2_MISS', 'L3 Stalls', vtcsv.makeCol_Diff('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L3_MISS') ),
         ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L1D_MISS', 'L2 Stalls', vtcsv.makeCol_Diff('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L2_MISS') ), # ???
         ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_MEM_ANY', 'L1 Stalls', vtcsv.makeCol_Diff('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L1D_MISS') ),
-        ('L2 Stalls', 'L2+L1 Stalls', vtcsv.makeCol_Sum('L1 Stalls') ),
+        ('L3 Stalls', 'L3...L1 Stalls', vtcsv.makeCol_Sum(['L1 Stalls', 'L2 Stalls']) ),
 
-        #('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_DRAM_PS', 'rDRAM+PMM', vtcsv.makeCol_Sum(['Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', 'Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_PMM_PS']) ),
+        ('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.LOCAL_DRAM_PS', 'Lcl DRAM+PMM', vtcsv.makeCol_Sum('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS') ),
         ('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_DRAM_PS', 'Rmt DRAM+PMM', vtcsv.makeCol_Sum('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_PMM_PS') ),
 
     ]
@@ -160,17 +160,19 @@ def main():
         #(makeColL_g2[0][1] ,), # 'All Mem Stalls'
 
         [('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L3_MISS', 'Mem Stalls'),
-        (makeColL_g2[1][1] ,),  # 'L3 Stalls'
+        #(makeColL_g2[1][1] ,),  # 'L3 Stalls'
         #(makeColL_g2[2][1] ,), # 'L2 Stalls'
         #(makeColL_g2[3][1] ,), # 'L1 Stalls'
-        (makeColL_g2[4][1] ,),  # 'L2+L1 Stalls'
+        (makeColL_g2[4][1] ,),  # 'L3...L1 Stalls'
          ],
 
         #------------------------
         # hw-events
         #------------------------
-        [('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', 'Lcl PMM'),
-         (makeColL_g2[5][1] ,), # 'Rmt DRAM+PMM'
+        [('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.LOCAL_DRAM_PS', 'Lcl DRAM'),
+         ('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', 'Lcl PMM'),
+         #(makeColL_g2[5][1] ,), # 'Lcl DRAM+PMM'
+         (makeColL_g2[6][1] ,), # 'Rmt DRAM+PMM'
          ]
         
         #('Hardware Event Count:EXE_ACTIVITY.BOUND_ON_STORES',  'Store Stalls'),
@@ -209,17 +211,19 @@ def main():
         #(makeColL_g2[0][1] ,), # All Mem Stalls'
 
         [('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L3_MISS', 'Mem Stalls'),
-        (makeColL_g2[1][1] ,),  # 'L3 Stalls'
+        #(makeColL_g2[1][1] ,), # 'L3 Stalls'
         #(makeColL_g2[2][1] ,), # 'L2 Stalls'
         #(makeColL_g2[3][1] ,), # 'L1 Stalls'
-        (makeColL_g2[4][1] ,),  # 'L2+L1 Stalls'
+        (makeColL_g2[4][1] ,),  # 'L3...L1 Stalls'
          ],
 
         #------------------------
         # hw-events
         #------------------------
-        [('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', 'Lcl PMM'),
-         (makeColL_g2[5][1] ,), # 'Rmt DRAM+PMM'
+        [('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.LOCAL_DRAM_PS', 'Lcl DRAM'),
+         ('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', 'Lcl PMM'),
+         #(makeColL_g2[5][1] ,), # 'Lcl DRAM+PMM'
+         (makeColL_g2[6][1] ,), # 'Rmt DRAM+PMM'
          ]
         
         #('Hardware Event Count:EXE_ACTIVITY.BOUND_ON_STORES',  'Store Stalls'),
@@ -383,7 +387,7 @@ def main_grappolo(makeColL1, makeColL2):
     fig_p2 = plot_pkg(vt_p, graphL, [metricLp[1]], {**plotHp}, adjHp)
     fig_px = plot_pkg(vt_p, graphL, metricLx, {'w':3.0, 'h':1.8}, adjHx)
 
-    plotHf = {'w':3.7, 'h':1.5, 'title':0, 'ctitle':0, 'ctitle_bot':0}
+    plotHf = {'w':4.0, 'h':1.5, 'title':0, 'ctitle':0, 'ctitle_bot':0}
     adjHf = { 'left':0.15, 'right':0.98, 'bottom':0.15, 'top':0.85,
               'wspace':0.05, 'hspace':0.0 } # 'ytitle'
 
@@ -587,7 +591,7 @@ def main_ripples(makeColL1, makeColL2):
     fig_px = plot_pkg(vt_p, graphL, metricLx, {'w':2.6, 'h':1.6}, adjHx)
 
 
-    plotHf = {'w':3.7, 'h':2.0, 'title':0, 'ctitle':0, 'ctitle_bot':0}
+    plotHf = {'w':4.0, 'h':2.0, 'title':0, 'ctitle':0, 'ctitle_bot':0}
     adjHf = { 'left':0.15, 'right':0.98, 'bottom':0.15, 'top':0.90,
               'wspace':0.05, 'hspace':0.0 } # 'ytitle'
 
