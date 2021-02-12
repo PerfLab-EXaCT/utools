@@ -101,6 +101,7 @@ def main():
         ('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.LOCAL_DRAM_PS', 'Lcl DRAM+PMM', vtcsv.makeCol_Sum('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS') ),
         ('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_DRAM_PS', 'Rmt DRAM+PMM', vtcsv.makeCol_Sum('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_PMM_PS') ),
 
+        ('Hardware Event Count:OCR.ALL_READS.L3_MISS_LOCAL_DRAM.ANY_SNOOP', 'L3 Snoops', vtcsv.makeCol_Sum('Hardware Event Count:OCR.ALL_READS.L3_MISS_REMOTE_HOP1_DRAM.ANY_SNOOP') ),
     ]
     
     makeColL_r1 = [
@@ -112,7 +113,8 @@ def main():
     ]
 
     makeColL_r2 = makeColL_g2.copy()
-
+    makeColL_r2.pop() # remove 'L3 Snoops'
+    
     #-------------------------------------------------------
     # Metrics: Locally map old -> new names
     #-------------------------------------------------------
@@ -172,7 +174,9 @@ def main():
         [('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.LOCAL_DRAM_PS', 'Lcl DRAM'),
          ('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', 'Lcl PMM'),
          #(makeColL_g2[5][1] ,), # 'Lcl DRAM+PMM'
+         #('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_DRAM_PS', 'Rmt DRAM'),
          (makeColL_g2[6][1] ,), # 'Rmt DRAM+PMM'
+         (makeColL_g2[7][1] ,), # 'L3 Snoops'
          ]
         
         #('Hardware Event Count:EXE_ACTIVITY.BOUND_ON_STORES',  'Store Stalls'),
