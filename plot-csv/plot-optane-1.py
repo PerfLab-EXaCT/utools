@@ -69,6 +69,10 @@ class PlotData:
 #****************************************************************************
 
 def main():
+
+    #seaborn.set_style({'font.family': 'serif'})
+    #seaborn.set(font='Times New Roman') # Cambria not available
+
     #-------------------------------------------------------
     # 
     #-------------------------------------------------------
@@ -98,10 +102,12 @@ def main():
         ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_MEM_ANY', 'L1 Stalls', vtcsv.makeCol_Diff('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L1D_MISS') ),
         ('L3 Stalls', 'L3...L1 Stalls', vtcsv.makeCol_Sum(['L1 Stalls', 'L2 Stalls']) ),
 
-        ('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.LOCAL_DRAM_PS', 'Lcl DRAM+PMM', vtcsv.makeCol_Sum('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS') ),
-        ('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_DRAM_PS', 'Rmt DRAM+PMM', vtcsv.makeCol_Sum('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_PMM_PS') ),
+        ('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.LOCAL_DRAM_PS', '$l$DRAM+PMM', vtcsv.makeCol_Sum('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS') ),
+        ('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_DRAM_PS', '$r$DRAM+PMM', vtcsv.makeCol_Sum('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_PMM_PS') ),
 
-        ('Hardware Event Count:OCR.ALL_READS.L3_MISS_LOCAL_DRAM.ANY_SNOOP', 'L3 Snoops', vtcsv.makeCol_Sum('Hardware Event Count:OCR.ALL_READS.L3_MISS_REMOTE_HOP1_DRAM.ANY_SNOOP') ),
+        ('Hardware Event Count:MEM_LOAD_RETIRED.L1_HIT_PS', 'L1...L3 Hits', vtcsv.makeCol_Sum(['Hardware Event Count:MEM_LOAD_RETIRED.L2_HIT_PS', 'Hardware Event Count:MEM_LOAD_RETIRED.L3_HIT_PS']) ),
+
+        ('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', '* DRAM+PMM', vtcsv.makeCol_Sum(['Hardware Event Count:OCR.ALL_READS.L3_MISS_LOCAL_DRAM.ANY_SNOOP', 'Hardware Event Count:OCR.ALL_READS.L3_MISS_REMOTE_HOP1_DRAM.ANY_SNOOP', 'Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_PMM_PS']) ),
     ]
     
     makeColL_r1 = [
@@ -113,7 +119,7 @@ def main():
     ]
 
     makeColL_r2 = makeColL_g2.copy()
-    makeColL_r2.pop() # remove 'L3 Snoops'
+    makeColL_r2.pop() # remove '* DRAM+PMM'
     
     #-------------------------------------------------------
     # Metrics: Locally map old -> new names
@@ -162,21 +168,29 @@ def main():
         #(makeColL_g2[0][1] ,), # 'All Mem Stalls'
 
         [('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L3_MISS', 'Mem Stalls'),
-        #(makeColL_g2[1][1] ,),  # 'L3 Stalls'
-        #(makeColL_g2[2][1] ,), # 'L2 Stalls'
-        #(makeColL_g2[3][1] ,), # 'L1 Stalls'
-        (makeColL_g2[4][1] ,),  # 'L3...L1 Stalls'
+         #(makeColL_g2[1][1] ,), # 'L3 Stalls'
+         #(makeColL_g2[2][1] ,), # 'L2 Stalls'
+         #(makeColL_g2[3][1] ,), # 'L1 Stalls'
+         (makeColL_g2[4][1] ,),  # 'L3...L1 Stalls'
+         #(makeColL_g2[7][1] ,),  # 'L1...L3 Hits'
+         ('Hardware Event Count:OFFCORE_REQUESTS_OUTSTANDING.CYCLES_WITH_DEMAND_RFO',  'RFO Cycles'),
          ],
 
         #------------------------
         # hw-events
         #------------------------
-        [('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.LOCAL_DRAM_PS', 'Lcl DRAM'),
-         ('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', 'Lcl PMM'),
-         #(makeColL_g2[5][1] ,), # 'Lcl DRAM+PMM'
+        [('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.LOCAL_DRAM_PS', '$l$DRAM'),
+         ('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', '$l$PMM'),
+         #(makeColL_g2[5][1] ,), # '$l$DRAM+PMM'
          #('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_DRAM_PS', 'Rmt DRAM'),
-         (makeColL_g2[6][1] ,), # 'Rmt DRAM+PMM'
-         (makeColL_g2[7][1] ,), # 'L3 Snoops'
+         (makeColL_g2[6][1] ,), # '$r$DRAM+PMM'
+
+         (makeColL_g2[8][1] ,),  # '* DRAM+PMM'
+         
+         #('Hardware Event Count:MEM_LOAD_RETIRED.L1_HIT_PS',  'L1 Hit'),
+         #('Hardware Event Count:MEM_LOAD_RETIRED.L2_HIT_PS',  'L2 Hit'),
+         #('Hardware Event Count:MEM_LOAD_RETIRED.L3_HIT_PS',  'L3 Hit'),
+         #('Hardware Event Count:MEM_LOAD_RETIRED.L3_MISS_PS', 'L3 Miss'),
          ]
         
         #('Hardware Event Count:EXE_ACTIVITY.BOUND_ON_STORES',  'Store Stalls'),
@@ -224,10 +238,10 @@ def main():
         #------------------------
         # hw-events
         #------------------------
-        [('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.LOCAL_DRAM_PS', 'Lcl DRAM'),
-         ('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', 'Lcl PMM'),
-         #(makeColL_g2[5][1] ,), # 'Lcl DRAM+PMM'
-         (makeColL_g2[6][1] ,), # 'Rmt DRAM+PMM'
+        [('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.LOCAL_DRAM_PS', '$l$DRAM'),
+         ('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', '$l$PMM'),
+         #(makeColL_g2[5][1] ,), # '$l$DRAM+PMM'
+         (makeColL_g2[6][1] ,), # '$r$DRAM+PMM'
          ]
         
         #('Hardware Event Count:EXE_ACTIVITY.BOUND_ON_STORES',  'Store Stalls'),
@@ -391,7 +405,7 @@ def main_grappolo(makeColL1, makeColL2):
     fig_p2 = plot_pkg(vt_p, graphL, [metricLp[1]], {**plotHp}, adjHp)
     fig_px = plot_pkg(vt_p, graphL, metricLx, {'w':3.0, 'h':1.8}, adjHx)
 
-    plotHf = {'w':4.0, 'h':1.5, 'title':0, 'ctitle':0, 'ctitle_bot':0}
+    plotHf = {'w':4.5, 'h':1.5, 'title':0, 'ctitle':0, 'ctitle_bot':0}
     adjHf = { 'left':0.15, 'right':0.98, 'bottom':0.15, 'top':0.85,
               'wspace':0.05, 'hspace':0.0 } # 'ytitle'
 
@@ -967,7 +981,7 @@ def plot(dfrm, axes, ytitle, xtitle, col_groupL, plotH):
     # vmin, vmax
     # fmt: cf. str.format() documentation (https://docs.python.org/3/library/string.html?highlight=string#formatspec)
     #  '.2%': percent with 2 decimal places
-    
+
     axes = seaborn.heatmap(dfrm, ax=axes, annot=True,
                            cbar=True,
                            cmap='RdBu_r',# coolwarm
