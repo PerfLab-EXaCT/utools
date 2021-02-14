@@ -102,12 +102,12 @@ def main():
         ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_MEM_ANY', 'L1 Stalls', vtcsv.makeCol_Diff('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L1D_MISS') ),
         ('L3 Stalls', 'L3...L1 Stalls', vtcsv.makeCol_Sum(['L1 Stalls', 'L2 Stalls']) ),
 
-        ('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.LOCAL_DRAM_PS', '$l$DRAM+PMM', vtcsv.makeCol_Sum('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS') ),
-        ('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_DRAM_PS', '$r$DRAM+PMM', vtcsv.makeCol_Sum('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_PMM_PS') ),
+        ('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.LOCAL_DRAM_PS', '$L$DRAM+PMM', vtcsv.makeCol_Sum('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS') ),
+        ('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_DRAM_PS', '$R$DRAM+PMM', vtcsv.makeCol_Sum('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_PMM_PS') ),
 
         ('Hardware Event Count:MEM_LOAD_RETIRED.L1_HIT_PS', 'L1...L3 Hits', vtcsv.makeCol_Sum(['Hardware Event Count:MEM_LOAD_RETIRED.L2_HIT_PS', 'Hardware Event Count:MEM_LOAD_RETIRED.L3_HIT_PS']) ),
 
-        ('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', '* DRAM+PMM', vtcsv.makeCol_Sum(['Hardware Event Count:OCR.ALL_READS.L3_MISS_LOCAL_DRAM.ANY_SNOOP', 'Hardware Event Count:OCR.ALL_READS.L3_MISS_REMOTE_HOP1_DRAM.ANY_SNOOP', 'Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_PMM_PS']) ),
+        ('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', 'DRAM+PMM', vtcsv.makeCol_Sum(['Hardware Event Count:OCR.ALL_READS.L3_MISS_LOCAL_DRAM.ANY_SNOOP', 'Hardware Event Count:OCR.ALL_READS.L3_MISS_REMOTE_HOP1_DRAM.ANY_SNOOP', 'Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_PMM_PS']) ),
     ]
     
     makeColL_r1 = [
@@ -119,7 +119,7 @@ def main():
     ]
 
     makeColL_r2 = makeColL_g2.copy()
-    makeColL_r2.pop() # remove '* DRAM+PMM'
+    makeColL_r2.pop() # remove 'DRAM+PMM'
     
     #-------------------------------------------------------
     # Metrics: Locally map old -> new names
@@ -179,13 +179,13 @@ def main():
         #------------------------
         # hw-events
         #------------------------
-        [('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.LOCAL_DRAM_PS', '$l$DRAM'),
-         ('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', '$l$PMM'),
-         #(makeColL_g2[5][1] ,), # '$l$DRAM+PMM'
+        [('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.LOCAL_DRAM_PS', '$L$DRAM'),
+         ('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', '$L$PMM'),
+         #(makeColL_g2[5][1] ,), # '$L$DRAM+PMM'
          #('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_DRAM_PS', 'Rmt DRAM'),
-         (makeColL_g2[6][1] ,), # '$r$DRAM+PMM'
+         (makeColL_g2[6][1] ,), # '$R$DRAM+PMM'
 
-         (makeColL_g2[8][1] ,),  # '* DRAM+PMM'
+         #(makeColL_g2[8][1] ,),  # 'DRAM+PMM'
          
          #('Hardware Event Count:MEM_LOAD_RETIRED.L1_HIT_PS',  'L1 Hit'),
          #('Hardware Event Count:MEM_LOAD_RETIRED.L2_HIT_PS',  'L2 Hit'),
@@ -238,10 +238,10 @@ def main():
         #------------------------
         # hw-events
         #------------------------
-        [('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.LOCAL_DRAM_PS', '$l$DRAM'),
-         ('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', '$l$PMM'),
-         #(makeColL_g2[5][1] ,), # '$l$DRAM+PMM'
-         (makeColL_g2[6][1] ,), # '$r$DRAM+PMM'
+        [('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.LOCAL_DRAM_PS', '$L$DRAM'),
+         ('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', '$L$PMM'),
+         #(makeColL_g2[5][1] ,), # '$L$DRAM+PMM'
+         (makeColL_g2[6][1] ,), # '$R$DRAM+PMM'
          ]
         
         #('Hardware Event Count:EXE_ACTIVITY.BOUND_ON_STORES',  'Store Stalls'),
