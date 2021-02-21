@@ -229,10 +229,11 @@ def main():
         #(makeColL_g2[0][1] ,), # All Mem Stalls'
 
         [('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L3_MISS', 'Mem Stalls'),
-        #(makeColL_g2[1][1] ,), # 'L3 Stalls'
-        #(makeColL_g2[2][1] ,), # 'L2 Stalls'
-        #(makeColL_g2[3][1] ,), # 'L1 Stalls'
-        (makeColL_g2[4][1] ,),  # 'L3...L1 Stalls'
+         #(makeColL_g2[1][1] ,), # 'L3 Stalls'
+         #(makeColL_g2[2][1] ,), # 'L2 Stalls'
+         #(makeColL_g2[3][1] ,), # 'L1 Stalls'
+         (makeColL_g2[4][1] ,),  # 'L3...L1 Stalls'
+         ('Hardware Event Count:OFFCORE_REQUESTS_OUTSTANDING.CYCLES_WITH_DEMAND_RFO',  'RFO Cycles'),
          ],
 
         #------------------------
