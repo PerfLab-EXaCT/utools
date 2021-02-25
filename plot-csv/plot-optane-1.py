@@ -241,8 +241,10 @@ def main():
         #------------------------
         [('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.LOCAL_DRAM_PS', '$L$DRAM Ld'),
          ('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', '$L$PMM Ld'),
+         ('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_PMM_PS', '$R$PMM Ld'),
+         #('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', '$L$PMM Ld'),
          #(makeColL_g2[5][1] ,), # '$L$DRAM+PMM Ld'
-         (makeColL_g2[6][1] ,), # '$R$DRAM+PMM Ld'
+         #(makeColL_g2[6][1] ,), # '$R$DRAM+PMM Ld'
          ]
         
         #('Hardware Event Count:EXE_ACTIVITY.BOUND_ON_STORES',  'Store Stalls'),
