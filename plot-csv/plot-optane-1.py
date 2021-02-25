@@ -458,7 +458,8 @@ def main_ripples(makeColL1, makeColL2):
     graph_sfx = ['.imm-dram.T64',
                  '.imm-mem.T64',
                  '.imm-kdax1.T64',
-                 '.imm-kdax2.T64']
+                 '.imm-kdax2.T64',
+                 '.imm-kdax3.T64']
 
     # 'topcats' has no dram
     mykeep = lambda x: not ('topcats' in x and 'dram' in x)
@@ -610,7 +611,7 @@ def main_ripples(makeColL1, makeColL2):
     fig_px = plot_pkg(vt_p, graphL, metricLx, {'w':2.6, 'h':1.6}, adjHx)
 
 
-    plotHf = {'w':4.0, 'h':2.0, 'title':0, 'ctitle':0, 'ctitle_bot':0}
+    plotHf = {'w':4.9, 'h':2.0, 'title':0, 'ctitle':0, 'ctitle_bot':0}
     adjHf = { 'left':0.15, 'right':0.98, 'bottom':0.15, 'top':0.90,
               'wspace':0.05, 'hspace':0.0 } # 'ytitle'
 
