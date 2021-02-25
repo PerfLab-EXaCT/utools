@@ -239,12 +239,14 @@ def main():
         #------------------------
         # hw-events
         #------------------------
-        [('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.LOCAL_DRAM_PS', '$L$DRAM Ld'),
-         ('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', '$L$PMM Ld'),
-         ('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_PMM_PS', '$R$PMM Ld'),
-         #('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS', '$L$PMM Ld'),
-         #(makeColL_g2[5][1] ,), # '$L$DRAM+PMM Ld'
-         #(makeColL_g2[6][1] ,), # '$R$DRAM+PMM Ld'
+        [#('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.LOCAL_DRAM_PS',  '$L$DRAM Ld'),
+         #('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS',           '$L$PMM Ld'),
+
+         #('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_DRAM_PS', '$R$DRAM Ld'),
+         #('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_PMM_PS',  '$R$PMM Ld'),
+
+         (makeColL_g2[5][1] ,), # '$L$DRAM+PMM Ld'
+         (makeColL_g2[6][1] ,), # '$R$DRAM+PMM Ld'
          ]
         
         #('Hardware Event Count:EXE_ACTIVITY.BOUND_ON_STORES',  'Store Stalls'),
@@ -459,8 +461,8 @@ def main_ripples(makeColL1, makeColL2):
 
     graph_sfx = ['.imm-dram.T64',
                  '.imm-mem.T64',
-                 '.imm-kdax1.T64',
                  '.imm-kdax2.T64',
+                 '.imm-kdax1.T64',
                  '.imm-kdax3.T64']
 
     # 'topcats' has no dram
@@ -613,7 +615,7 @@ def main_ripples(makeColL1, makeColL2):
     fig_px = plot_pkg(vt_p, graphL, metricLx, {'w':2.6, 'h':1.6}, adjHx)
 
 
-    plotHf = {'w':4.9, 'h':2.0, 'title':0, 'ctitle':0, 'ctitle_bot':0}
+    plotHf = {'w':5.3, 'h':2.0, 'title':0, 'ctitle':0, 'ctitle_bot':0}
     adjHf = { 'left':0.15, 'right':0.98, 'bottom':0.15, 'top':0.90,
               'wspace':0.05, 'hspace':0.0 } # 'ytitle'
 
