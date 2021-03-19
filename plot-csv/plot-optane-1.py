@@ -326,7 +326,7 @@ def main_grappolo(makeColL1, makeColL2):
 
     graphL_0 = [ x[0] for x in graphL_big ]
 
-    graph_sfx = ['-t192-mem', '-t192-kdax']
+    graph_sfx = ['-t192-mem', '-t192-mem2', '-t192-kdax']
 
     pathL_Bp = [
         [ (path_pfx + grph + sfx + '-hotspots-pkg.csv') for sfx in graph_sfx ]
