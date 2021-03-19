@@ -152,6 +152,60 @@ uk2014        128     kdax2     676.873518     nan
 uk2014        192     kdax2     665.310788     nan
 """
 
+# prmem enables prefetch options in memory mode
+
+"""
+friendster     16     prmem  6334.30156     nan
+friendster     32     prmem  3422.950919     nan
+friendster     64     prmem  1808.205431     nan
+friendster    128     prmem  1331.800894     nan
+friendster    192     prmem  910.551906   nan
+
+moliere2016    16     prmem   1733.342295   nan
+moliere2016    32     prmem   1267.900822   nan
+moliere2016    64     prmem   1049.214647   nan
+moliere2016   128     prmem   1033.591182  nan
+moliere2016   192     prmem   1066.428858   nan
+
+clueweb12      16     prmem  8883.298213     nan
+clueweb12      32     prmem  6093.823997    nan
+clueweb12      64     prmem  4928.782831     nan
+clueweb12     128     prmem  4630.196742     nan
+clueweb12     192     prmem  4485.642789     nan
+
+uk2014         16     prmem     2139.020451    nan
+uk2014         32     prmem     1313.469828    nan
+uk2014         64     prmem     998.098469    nan
+uk2014        128     prmem     785.121212     nan
+uk2014        192     prmem     639.85604     nan
+"""
+# prkdax enables prefetch options in kdax mode
+
+"""
+friendster     16     prkdax  6315.315139     nan
+friendster     32     prkdax  3405.996753     nan
+friendster     64     prkdax  1795.703769     nan
+friendster    128     prkdax  1280.399464     nan
+friendster    192     prkdax  871.777816  nan
+
+moliere2016    16     prkdax   1752.35533   nan
+moliere2016    32     prkdax  1295.938841   nan
+moliere2016    64     prkdax   1065.963009   nan
+moliere2016   128     prkdax   1056.69766  nan
+moliere2016   192     prkdax   1089.281308   nan
+
+clueweb12      16     prkdax  9422.80935     nan
+clueweb12      32     prkdax 7650.283013    nan
+clueweb12      64     prkdax  5774.39356     nan
+clueweb12     128     prkdax  5347.667624     nan
+clueweb12     192     prkdax  5311.055422     nan
+
+uk2014         16     prkdax    2056.676445    nan
+uk2014         32     prkdax     1236.632777    nan
+uk2014         64     prkdax     902.916839    nan
+uk2014        128     prkdax     693.824208     nan
+uk2014        192     prkdax     573.446422    nan
+"""
 
 
 # OMP_PLACES="", OMP_BIND=""
