@@ -1,0 +1,5 @@
+Package,CPU Time,Memory Bound(%),Memory Bound:L1 Bound(%),Memory Bound:L2 Bound(%),Memory Bound:L3 Bound(%),Memory Bound:DRAM Bound(%),Memory Bound:Store Bound(%),Loads,Stores,LLC Miss Count,LLC Miss Count:Local DRAM Access Count,LLC Miss Count:Remote DRAM Access Count,LLC Miss Count:Local Persistent Memory Access Count,LLC Miss Count:Remote Persistent Memory Access Count,LLC Miss Count:Remote Cache Access Count,Average Latency (cycles)
+package_2,7291.328208,54.4,7.0,5.3,7.3,49.1,0.0,3526617795360,883610507520,32498274720,13632954240,15457081920,0,0,48003360,16.085705
+package_1,6185.293065,52.9,6.2,3.3,6.6,52.6,0.0,2614974446880,697652928960,26065824480,8256577920,14737031520,0,0,1968137760,17.224487
+package_0,5631.451791,52.1,7.0,1.8,6.9,50.6,1.4,2521995657600,680468413440,23713659840,10128708960,9888692160,0,0,48003360,16.966906
+package_3,508.263118,4.8,13.1,0.0,0.0,0.1,0.0,794039820480,91490744640,0,0,0,0,0,0,7.570665
