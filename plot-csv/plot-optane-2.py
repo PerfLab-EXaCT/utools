@@ -203,6 +203,21 @@ uk2014        192     kdax2     665.310788     nan
 
 
 
+# prdram enables prefetch options in dram mode
+
+"""
+friendster     16     prdram  8900.193947    nan
+friendster     32     prdram  4612.699978     nan
+friendster     64     prdram  2586.44825     nan
+friendster    128     prdram  2705.212855     nan
+friendster    192     prdram  1866.698581 nan
+
+moliere2016    16     prdram  2196.201571   nan
+moliere2016    32     prdram  1627.857007   nan
+moliere2016    64     prdram  1353.701563   nan
+moliere2016   128     prdram  1384.624448  nan
+moliere2016   192     prdram  1487.071147   nan
+"""
 
 # OMP_PLACES="", OMP_BIND=""
 time_str_grappolo_OLD = """
