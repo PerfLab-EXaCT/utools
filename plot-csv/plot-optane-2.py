@@ -36,7 +36,8 @@ title_txt_sz = 13
 # 
 #-------------------------------------------------------
 
-# OMP_PLACES="cores", OMP_BIND="spread"
+# OMP_PLACES="cores", OMP_BIND="spread"; mem2/kdax2 enables prefetchnta
+
 time_str_grappolo = """
 graph        threads  mode   time          vtune
 
@@ -52,11 +53,23 @@ friendster	64	mem	2395.902007	nan
 friendster	128	mem	1472.592003	nan
 friendster	192	mem	1001.308132	nan
 
+friendster     16     mem2  6334.30156     nan
+friendster     32     mem2  3422.950919     nan
+friendster     64     mem2  1808.205431     nan
+friendster    128     mem2  1331.800894     nan
+friendster    192     mem2  910.551906   nan
+
 friendster     16     kdax   6115.285544     nan
 friendster     32     kdax   3277.245072     nan
 friendster     64     kdax   1730.002233     nan
 friendster    128     kdax   1217.872113     nan
 friendster    192     kdax   831.718546   nan
+
+friendster     16     kdax2  6315.315139     nan
+friendster     32     kdax2  3405.996753     nan
+friendster     64     kdax2  1795.703769     nan
+friendster    128     kdax2  1280.399464     nan
+friendster    192     kdax2  871.777816  nan
 
 friendster	16	pdax	6208.110773	nan
 friendster	32	pdax	3315.598536	nan
@@ -77,11 +90,23 @@ moliere2016	64	mem	1213.933818	nan
 moliere2016	128	mem	1172.088261	nan
 moliere2016	192	mem	1184.648746	nan
 
+moliere2016    16     mem2   1733.342295   nan
+moliere2016    32     mem2   1267.900822   nan
+moliere2016    64     mem2   1049.214647   nan
+moliere2016   128     mem2   1033.591182  nan
+moliere2016   192     mem2   1066.428858   nan
+
 moliere2016    16     kdax   1687.235732   nan
 moliere2016    32     kdax   1261.021346   nan
 moliere2016    64     kdax   1025.460897   nan
 moliere2016   128     kdax   1020.176169   nan
 moliere2016   192     kdax   1044.276406   nan
+
+moliere2016    16     kdax2   1752.35533   nan
+moliere2016    32     kdax2  1295.938841   nan
+moliere2016    64     kdax2   1065.963009   nan
+moliere2016   128     kdax2   1056.69766  nan
+moliere2016   192     kdax2   1089.281308   nan
 
 moliere2016	16	pdax	1688.480594	nan
 moliere2016	32	pdax	1243.435306	nan
@@ -98,11 +123,23 @@ clueweb12	64	mem	6421.767673	nan
 clueweb12	128	mem	6171.596182	nan
 clueweb12	192	mem	5946.314627	4391.67807
 
+clueweb12      16     mem2  8883.298213     nan
+clueweb12      32     mem2  6093.823997    nan
+clueweb12      64     mem2  4928.782831     nan
+clueweb12     128     mem2  4630.196742     nan
+clueweb12     192     mem2  4485.642789     nan
+
 clueweb12      16     kdax   8527.07952     nan
 clueweb12      32     kdax   7252.276714    nan
 clueweb12      64     kdax   6873.644474    nan
 clueweb12     128     kdax   5273.949972    nan
 clueweb12     192     kdax   5201.659599    nan
+
+clueweb12      16     kdax2  9422.80935     nan
+clueweb12      32     kdax2 7650.283013    nan
+clueweb12      64     kdax2  5774.39356     nan
+clueweb12     128     kdax2  5347.667624     nan
+clueweb12     192     kdax2  5311.055422     nan
 
 clueweb12     192     pdax      nan            nan
 
@@ -115,17 +152,29 @@ uk2014	        64	mem	1030.207204	nan
 uk2014	        128	mem	820.76091	nan
 uk2014	        192	mem	730.57113	nan
 
+uk2014         16     mem2     2139.020451    nan
+uk2014         32     mem2     1313.469828    nan
+uk2014         64     mem2     998.098469    nan
+uk2014        128     mem2     785.121212     nan
+uk2014        192     mem2     639.85604     nan
+
 uk2014         16     kdax     2045.68806    nan
 uk2014         32     kdax     1343.271699   nan
 uk2014         64     kdax     954.808604    nan
 uk2014        128     kdax     711.649813    nan
 uk2014        192     kdax     650.512289    nan
 
+uk2014         16     kdax2    2056.676445    nan
+uk2014         32     kdax2     1236.632777    nan
+uk2014         64     kdax2     902.916839    nan
+uk2014        128     kdax2     693.824208     nan
+uk2014        192     kdax2     573.446422    nan
+
 uk2014        192     pdax      nan            nan
 """
 
 
-# kdax2 uses memkind-interleave
+# This kdax2 uses memkind-interleave
 """
 friendster     16     kdax2  6262.133789     nan
 friendster     32     kdax2  3339.329952     nan
@@ -152,60 +201,7 @@ uk2014        128     kdax2     676.873518     nan
 uk2014        192     kdax2     665.310788     nan
 """
 
-# prmem enables prefetch options in memory mode
 
-"""
-friendster     16     prmem  6334.30156     nan
-friendster     32     prmem  3422.950919     nan
-friendster     64     prmem  1808.205431     nan
-friendster    128     prmem  1331.800894     nan
-friendster    192     prmem  910.551906   nan
-
-moliere2016    16     prmem   1733.342295   nan
-moliere2016    32     prmem   1267.900822   nan
-moliere2016    64     prmem   1049.214647   nan
-moliere2016   128     prmem   1033.591182  nan
-moliere2016   192     prmem   1066.428858   nan
-
-clueweb12      16     prmem  8883.298213     nan
-clueweb12      32     prmem  6093.823997    nan
-clueweb12      64     prmem  4928.782831     nan
-clueweb12     128     prmem  4630.196742     nan
-clueweb12     192     prmem  4485.642789     nan
-
-uk2014         16     prmem     2139.020451    nan
-uk2014         32     prmem     1313.469828    nan
-uk2014         64     prmem     998.098469    nan
-uk2014        128     prmem     785.121212     nan
-uk2014        192     prmem     639.85604     nan
-"""
-# prkdax enables prefetch options in kdax mode
-
-"""
-friendster     16     prkdax  6315.315139     nan
-friendster     32     prkdax  3405.996753     nan
-friendster     64     prkdax  1795.703769     nan
-friendster    128     prkdax  1280.399464     nan
-friendster    192     prkdax  871.777816  nan
-
-moliere2016    16     prkdax   1752.35533   nan
-moliere2016    32     prkdax  1295.938841   nan
-moliere2016    64     prkdax   1065.963009   nan
-moliere2016   128     prkdax   1056.69766  nan
-moliere2016   192     prkdax   1089.281308   nan
-
-clueweb12      16     prkdax  9422.80935     nan
-clueweb12      32     prkdax 7650.283013    nan
-clueweb12      64     prkdax  5774.39356     nan
-clueweb12     128     prkdax  5347.667624     nan
-clueweb12     192     prkdax  5311.055422     nan
-
-uk2014         16     prkdax    2056.676445    nan
-uk2014         32     prkdax     1236.632777    nan
-uk2014         64     prkdax     902.916839    nan
-uk2014        128     prkdax     693.824208     nan
-uk2014        192     prkdax     573.446422    nan
-"""
 
 
 # OMP_PLACES="", OMP_BIND=""
@@ -8420,10 +8416,10 @@ def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = False):
 
 fig1, axes1L = pyplt.subplots(nrows=2, ncols=3, figsize=(9, 4.0))
 
-fig2, axes2A = pyplt.subplots(nrows=2, ncols=4, figsize=(14, 5.5),
-                              gridspec_kw={'height_ratios': [4.0, 3.5]})
+fig2, axes2L = pyplt.subplots(nrows=1, ncols=4, figsize=(14, 2.5))
 
-fig2x, axes2xL = pyplt.subplots(nrows=1, ncols=4, figsize=(14, 2.5))
+fig2x, axes2xA = pyplt.subplots(nrows=2, ncols=4, figsize=(14, 5.5),
+                                gridspec_kw={'height_ratios': [4.0, 3.5]})
 
 fig3, axes3L = pyplt.subplots(nrows=1, ncols=5, figsize=(14, 2.5))
 
@@ -8507,7 +8503,7 @@ lat_data_nmL = ['dram', 'mem', 'kdax', 'pdax' ]
 
 # TODO: Make pairs of (data_str, data_nm)
 
-plot_scaling(time_dfrm_grp, nm, axes2A[0,nm_j], col_src, plt_sty1, mrk_sty1, ln_sty1, nm_j)
+plot_scaling(time_dfrm_grp, nm, axes2L[nm_j], col_src, plt_sty1, mrk_sty1, ln_sty1, nm_j)
 
 bw_data_strL = [ friendster_t192_dramBw_dram_str,
 
@@ -8526,7 +8522,7 @@ lat_data_strL = [ friendster_t192_latency_dram_str,
                   friendster_t192_latency_kdax_str,
                   friendster_t192_latency_pdax_str ]
 
-plot_bw_lat(axes2xL[nm_j], axes2A[1,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty2, nm_j)
+plot_bw_lat(axes2xA[0,nm_j], axes2xA[1,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty2, nm_j)
 
 
 #-------------------------------------------------------
@@ -8536,7 +8532,7 @@ plot_bw_lat(axes2xL[nm_j], axes2A[1,nm_j], bw_data_strL, lat_data_strL, nm, bw_d
 nm = 'moliere2016'
 nm_j = 1
 
-plot_scaling(time_dfrm_grp, nm, axes2A[0,nm_j], col_src, plt_sty1, mrk_sty1, ln_sty1, nm_j)
+plot_scaling(time_dfrm_grp, nm, axes2L[nm_j], col_src, plt_sty1, mrk_sty1, ln_sty1, nm_j)
 
 bw_data_strL = [ moliere2016_t192_dramBw_dram_str,
 
@@ -8554,7 +8550,7 @@ lat_data_strL = [ moliere2016_t192_latency_dram_str,
                   moliere2016_t192_latency_kdax_str,
                   moliere2016_t192_latency_pdax_str ]
 
-plot_bw_lat(axes2xL[nm_j], axes2A[1,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty2, nm_j)
+plot_bw_lat(axes2xA[0,nm_j], axes2xA[1,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty2, nm_j)
 
 #-------------------------------------------------------
 # 
@@ -8567,7 +8563,7 @@ bw_data_nmL =  ['mem', 'kdax', 'kdax'] # 'mem',
 lat_data_nmL =  ['mem', 'kdax']
 
 
-plot_scaling(time_dfrm_grp, nm, axes2A[0,nm_j], col_src, plt_sty1, mrk_sty1, ln_sty1, nm_j)
+plot_scaling(time_dfrm_grp, nm, axes2L[nm_j], col_src, plt_sty1, mrk_sty1, ln_sty1, nm_j)
 
 bw_data_strL = [ clueweb12_t192_dramBw_mem_str,
                  #clueweb12_t192_pmemBw_mem_str,
@@ -8578,7 +8574,7 @@ bw_data_strL = [ clueweb12_t192_dramBw_mem_str,
 lat_data_strL = [ clueweb12_t192_latency_mem_str,
                   clueweb12_t192_latency_kdax_str ]
 
-plot_bw_lat(axes2xL[nm_j], axes2A[1,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty2, nm_j)
+plot_bw_lat(axes2xA[0,nm_j], axes2xA[1,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty2, nm_j)
 
 #-------------------------------------------------------
 # 
@@ -8588,7 +8584,7 @@ nm = 'uk2014'
 nm_j = 3
 
 
-plot_scaling(time_dfrm_grp, nm, axes2A[0,nm_j], col_src, plt_sty1, mrk_sty1, ln_sty1, nm_j)
+plot_scaling(time_dfrm_grp, nm, axes2L[nm_j], col_src, plt_sty1, mrk_sty1, ln_sty1, nm_j)
 
 bw_data_strL = [ uk2014_t192_dramBw_mem_str,
                  #uk2014_t192_pmemBw_mem_str,
@@ -8601,7 +8597,7 @@ lat_data_strL = [ uk2014_t192_latency_mem_str,
                   uk2014_t192_latency_kdax_str ]
 
 
-plot_bw_lat(axes2xL[nm_j], axes2A[1,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty2, nm_j)
+plot_bw_lat(axes2xA[0,nm_j], axes2xA[1,nm_j], bw_data_strL, lat_data_strL, nm, bw_data_nmL, lat_data_nmL, plt_sty2, nm_j)
 
 
 #----------------------------------------------------------------------------
@@ -8629,7 +8625,7 @@ fig2.subplots_adjust(**adjustH2)
 fig3.subplots_adjust(**adjustH2)
 
 fig1.savefig('chart-teaser.pdf', bbox_inches='tight')
-fig2.savefig('chart-grappolo-sum.pdf', bbox_inches='tight')
+fig2.savefig('chart-grappolo-scaling.pdf', bbox_inches='tight')
 #fig2x.savefig('chart-2x.pdf', bbox_inches='tight')
 fig3.savefig('chart-ripples-scaling.pdf', bbox_inches='tight')
 
