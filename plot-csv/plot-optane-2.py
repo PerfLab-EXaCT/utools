@@ -36,8 +36,9 @@ title_txt_sz = 13
 # 
 #-------------------------------------------------------
 
-# OMP_PLACES="cores", OMP_BIND="spread"; mem2/kdax2 enables prefetchnta
+# Application variant *2  uses prefetchnta
 
+# OMP_PLACES="cores", OMP_BIND="spread"
 time_str_grappolo = """
 graph        threads  mode   time          vtune
 
@@ -46,6 +47,12 @@ friendster	32	dram	3291.561375	nan
 friendster	64	dram	1737.327125	nan
 friendster	128	dram	1206.608416	nan
 friendster	192	dram	815.121272	nan
+
+friendster     16     dram2  8900.193947    nan
+friendster     32     dram2  4612.699978     nan
+friendster     64     dram2  2586.44825     nan
+friendster    128     dram2  2705.212855     nan
+friendster    192     dram2  1866.698581 nan
 
 friendster	16	mem	9049.91349	nan
 friendster	32	mem	4712.569829	nan
@@ -83,6 +90,12 @@ moliere2016	32	dram	1268.565434	nan
 moliere2016	64	dram	1040.750488	nan
 moliere2016	128	dram	1053.145704	nan
 moliere2016	192	dram	1087.043682	nan
+
+moliere2016    16     dram2  2196.201571   nan
+moliere2016    32     dram2  1627.857007   nan
+moliere2016    64     dram2  1353.701563   nan
+moliere2016   128     dram2  1384.624448  nan
+moliere2016   192     dram2  1487.071147   nan
 
 moliere2016	16	mem	2283.23591	nan
 moliere2016	32	mem	1509.721751	nan
@@ -174,50 +187,34 @@ uk2014        192     pdax      nan            nan
 """
 
 
-# This kdax2 uses memkind-interleave
+# kdax1a is default kdax with memkind-interleave
 """
-friendster     16     kdax2  6262.133789     nan
-friendster     32     kdax2  3339.329952     nan
-friendster     64     kdax2  1756.448787     nan
-friendster    128     kdax2  1229.417182     nan
-friendster    192     kdax2  835.125813    nan
+friendster     16     kdax1a  6262.133789     nan
+friendster     32     kdax1a  3339.329952     nan
+friendster     64     kdax1a  1756.448787     nan
+friendster    128     kdax1a  1229.417182     nan
+friendster    192     kdax1a  835.125813    nan
 
-moliere2016    16     kdax2   1676.856578   nan
-moliere2016    32     kdax2   1227.871906   nan
-moliere2016    64     kdax2   1008.314671   nan
-moliere2016   128     kdax2   996.192363   nan
-moliere2016   192     kdax2   1018.043756   nan
+moliere2016    16     kdax1a   1676.856578   nan
+moliere2016    32     kdax1a   1227.871906   nan
+moliere2016    64     kdax1a   1008.314671   nan
+moliere2016   128     kdax1a   996.192363   nan
+moliere2016   192     kdax1a   1018.043756   nan
 
-clueweb12      16     kdax2  9669.421129     nan
-clueweb12      32     kdax2  7572.09087     nan
-clueweb12      64     kdax2  6840.693432     nan
-clueweb12     128     kdax2  5814.080951     nan
-clueweb12     192     kdax2  5159.313038     nan
+clueweb12      16     kdax1a  9669.421129     nan
+clueweb12      32     kdax1a  7572.09087     nan
+clueweb12      64     kdax1a  6840.693432     nan
+clueweb12     128     kdax1a  5814.080951     nan
+clueweb12     192     kdax1a  5159.313038     nan
 
-uk2014         16     kdax2     2053.882734    nan
-uk2014         32     kdax2     1759.597141    nan
-uk2014         64     kdax2     942.007022     nan
-uk2014        128     kdax2     676.873518     nan
-uk2014        192     kdax2     665.310788     nan
+uk2014         16     kdax1a     2053.882734    nan
+uk2014         32     kdax1a     1759.597141    nan
+uk2014         64     kdax1a     942.007022     nan
+uk2014        128     kdax1a     676.873518     nan
+uk2014        192     kdax1a     665.310788     nan
 """
 
 
-
-# prdram enables prefetch options in dram mode
-
-"""
-friendster     16     prdram  8900.193947    nan
-friendster     32     prdram  4612.699978     nan
-friendster     64     prdram  2586.44825     nan
-friendster    128     prdram  2705.212855     nan
-friendster    192     prdram  1866.698581 nan
-
-moliere2016    16     prdram  2196.201571   nan
-moliere2016    32     prdram  1627.857007   nan
-moliere2016    64     prdram  1353.701563   nan
-moliere2016   128     prdram  1384.624448  nan
-moliere2016   192     prdram  1487.071147   nan
-"""
 
 # OMP_PLACES="", OMP_BIND=""
 time_str_grappolo_OLD = """

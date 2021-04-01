@@ -11,6 +11,8 @@ import os
 import sys
 #import argparse # https://docs.python.org/3/library/argparse.html
 
+import copy
+
 import re
 import collections
 
@@ -118,7 +120,7 @@ def main():
         #('Stores',   'Stores (%)',   vtcsv.makeCol_pctOfOther('Loads') ),
     ]
 
-    makeColL_r2 = makeColL_g2.copy()
+    makeColL_r2 = copy.deepcopy(makeColL_g2)
     makeColL_r2.pop() # remove 'DRAM+PMM'
     
     #-------------------------------------------------------
@@ -195,6 +197,13 @@ def main():
         
         #('Hardware Event Count:EXE_ACTIVITY.BOUND_ON_STORES',  'Store Stalls'),
     ]
+
+    global metricLf_g2
+    metricLf_g2 = copy.deepcopy(metricLf_g)
+    grp0 = metricLf_g2[-1] # end group
+    m0 = grp0.pop() # remove end metric
+    m1 = grp0.pop() # remove end metric+1
+    grp0.append(m0) # recover end metric
 
 
     global metricLf_r
@@ -297,7 +306,7 @@ def main_grappolo(makeColL1, makeColL2):
     graphL_med = [graphL1[0][0],  # 'friendster'
                   graphL2[0][0] ] # 'moliere2016'
 
-    graph_sfx = ['-t192-dram', '-t192-mem', '-t192-kdax', '-t192-pdax']
+    graph_sfx = ['-t192-dram', '-t192-mem', '-t192-kdax', '-t192-pdax'] # '-t192-mem2',
 
     pathL_Mp = [
         [ (path_pfx + grph + sfx + '-hotspots-pkg.csv') for sfx in graph_sfx ]
@@ -326,7 +335,7 @@ def main_grappolo(makeColL1, makeColL2):
 
     graphL_0 = [ x[0] for x in graphL_big ]
 
-    graph_sfx = ['-t192-mem', '-t192-mem2', '-t192-kdax']
+    graph_sfx = ['-t192-mem', '-t192-mem2', '-t192-kdax', '-t192-kdax2']
 
     pathL_Bp = [
         [ (path_pfx + grph + sfx + '-hotspots-pkg.csv') for sfx in graph_sfx ]
@@ -414,9 +423,9 @@ def main_grappolo(makeColL1, makeColL2):
     adjHf = { 'left':0.15, 'right':0.98, 'bottom':0.15, 'top':0.85,
               'wspace':0.05, 'hspace':0.0 } # 'ytitle'
 
-    fig_f1 = plot_fn(vt_f, graphL1, funcH, metricLf_g, {**plotHf, 'ctitle':1}, adjHf)
-    fig_f2 = plot_fn(vt_f, graphL2, funcH, metricLf_g, {**plotHf, 'ctitle_bot':1}, adjHf)
-    fig_f3 = plot_fn(vt_f, graphL3, funcH, metricLf_g, {**plotHf, 'h':1.4, 'txt_rot':0}, adjHf)
+    fig_f1 = plot_fn(vt_f, graphL1, funcH, metricLf_g2, {**plotHf, 'ctitle':1}, adjHf)
+    fig_f2 = plot_fn(vt_f, graphL2, funcH, metricLf_g2, {**plotHf, 'ctitle_bot':1}, adjHf)
+    fig_f3 = plot_fn(vt_f, graphL3, funcH, metricLf_g, {**plotHf, 'ctitle':1, 'h':1.4, 'txt_rot':0}, adjHf)
     fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf_g, {**plotHf, 'h':1.4, 'ctitle_bot':1, 'txt_rot':0}, adjHf)
 
     fig_fx = plot_fn(vt_f, graphL, funcH, metricLx, {'w':3.2, 'h':2.7, 'ctitle_bot':1}, adjHx)
