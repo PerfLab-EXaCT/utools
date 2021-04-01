@@ -306,7 +306,7 @@ def main_grappolo(makeColL1, makeColL2):
     graphL_med = [graphL1[0][0],  # 'friendster'
                   graphL2[0][0] ] # 'moliere2016'
 
-    graph_sfx = ['-t192-dram', '-t192-mem', '-t192-kdax', '-t192-pdax'] # '-t192-mem2',
+    graph_sfx = ['-t192-dram', '-t192-dram2', '-t192-mem', '-t192-kdax'] # '-t192-mem2', '-t192-pdax'
 
     pathL_Mp = [
         [ (path_pfx + grph + sfx + '-hotspots-pkg.csv') for sfx in graph_sfx ]

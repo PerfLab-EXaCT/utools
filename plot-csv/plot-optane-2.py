@@ -78,12 +78,6 @@ friendster     64     kdax2  1795.703769     nan
 friendster    128     kdax2  1280.399464     nan
 friendster    192     kdax2  871.777816  nan
 
-friendster	16	pdax	6208.110773	nan
-friendster	32	pdax	3315.598536	nan
-friendster	64	pdax	1753.159035	nan
-friendster	128	pdax	1254.869725	nan
-friendster	192	pdax	862.197138	nan
-
 
 moliere2016	16	dram	1740.89824	nan
 moliere2016	32	dram	1268.565434	nan
@@ -121,12 +115,6 @@ moliere2016    64     kdax2   1065.963009   nan
 moliere2016   128     kdax2   1056.69766  nan
 moliere2016   192     kdax2   1089.281308   nan
 
-moliere2016	16	pdax	1688.480594	nan
-moliere2016	32	pdax	1243.435306	nan
-moliere2016	64	pdax	1014.946138	nan
-moliere2016	128	pdax	1010.317629	nan
-moliere2016	192	pdax	1035.451193	nan
-
 
 clueweb12     192     dram      nan            nan
 
@@ -154,7 +142,6 @@ clueweb12      64     kdax2  5774.39356     nan
 clueweb12     128     kdax2  5347.667624     nan
 clueweb12     192     kdax2  5311.055422     nan
 
-clueweb12     192     pdax      nan            nan
 
 
 uk2014        192     dram      nan                 nan
@@ -182,6 +169,24 @@ uk2014         32     kdax2     1236.632777    nan
 uk2014         64     kdax2     902.916839    nan
 uk2014        128     kdax2     693.824208     nan
 uk2014        192     kdax2     573.446422    nan
+"""
+
+
+# pdax is deprecated because others are more interesting
+"""
+friendster	16	pdax	6208.110773	nan
+friendster	32	pdax	3315.598536	nan
+friendster	64	pdax	1753.159035	nan
+friendster	128	pdax	1254.869725	nan
+friendster	192	pdax	862.197138	nan
+
+moliere2016	16	pdax	1688.480594	nan
+moliere2016	32	pdax	1243.435306	nan
+moliere2016	64	pdax	1014.946138	nan
+moliere2016	128	pdax	1010.317629	nan
+moliere2016	192	pdax	1035.451193	nan
+
+clueweb12     192     pdax      nan            nan
 
 uk2014        192     pdax      nan            nan
 """
