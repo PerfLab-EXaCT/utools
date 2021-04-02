@@ -11,6 +11,7 @@ import math
 
 import matplotlib.pyplot as pyplt
 import matplotlib
+#import locale
 
 import seaborn
 
@@ -8188,10 +8189,12 @@ def plot_scaling(dfrm, graph_nm, axes, y_metric, plt_sty, mrk_sty, ln_sty, nm_j)
     ax.set_xscale('log', base=2)
 
     ax.set_yscale('log', base=2)
+    #sayan ax.set_yscale('log')
+    
     #ax.set_ylim(0, y_hi)
-
-    #ax.yaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter(useMathText=True, useOffset=False))
-    #ax.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
+    
+    #sayan ax.yaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter(useMathText=False, useOffset=False))
+    #sayan ax.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
 
     # Adjust exponent of scientific formatter: Only works for x position!
     #ax.yaxis.get_offset_text().set_position((0.0,0.0)) # adjust exponent
@@ -8641,6 +8644,9 @@ adjustH2 = { 'left':0.05, 'right':0.99, 'bottom':0.03, 'top':0.97,
 fig1.subplots_adjust(**adjustH1)
 fig2.subplots_adjust(**adjustH2)
 fig3.subplots_adjust(**adjustH2)
+
+#sayan fig2.tight_layout()
+#sayan fig3.tight_layout()
 
 fig1.savefig('chart-teaser.pdf', bbox_inches='tight')
 fig2.savefig('chart-grappolo-scaling.pdf', bbox_inches='tight')
