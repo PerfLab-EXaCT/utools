@@ -8188,6 +8188,7 @@ def plot_scaling(dfrm, graph_nm, axes, y_metric, plt_sty, mrk_sty, ln_sty, nm_j)
     ax.set_xscale('log', base=2)
 
     ax.set_yscale('log', base=2)
+    #ax.set_ylim(0, y_hi)
 
     #ax.yaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter(useMathText=True, useOffset=False))
     #ax.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
