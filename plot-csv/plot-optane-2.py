@@ -11,6 +11,7 @@ import math
 
 import matplotlib.pyplot as pyplt
 import matplotlib
+import locale 
 
 import seaborn
 
@@ -8187,10 +8188,11 @@ def plot_scaling(dfrm, graph_nm, axes, y_metric, plt_sty, mrk_sty, ln_sty, nm_j)
 
     ax.set_xscale('log', base=2)
 
-    ax.set_yscale('log', base=2)
-
-    #ax.yaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter(useMathText=True, useOffset=False))
-    #ax.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
+    #ax.set_yscale('log', base=2)
+    ax.set_yscale('log')
+    
+    ax.yaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter(useMathText=False, useOffset=False))
+    ax.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
 
     # Adjust exponent of scientific formatter: Only works for x position!
     #ax.yaxis.get_offset_text().set_position((0.0,0.0)) # adjust exponent
@@ -8212,8 +8214,6 @@ def plot_scaling(dfrm, graph_nm, axes, y_metric, plt_sty, mrk_sty, ln_sty, nm_j)
     ax.set_xlabel('')
 
     return ax
-
-
 
 def plot_bw_lat(ax_bw, ax_lat, bw_data_strL, lat_data_strL, graph,
                 bw_data_nmL, lat_data_nmL, plt_sty, nm_j):
@@ -8640,6 +8640,9 @@ adjustH2 = { 'left':0.05, 'right':0.99, 'bottom':0.03, 'top':0.97,
 fig1.subplots_adjust(**adjustH1)
 fig2.subplots_adjust(**adjustH2)
 fig3.subplots_adjust(**adjustH2)
+
+fig2.tight_layout()
+fig3.tight_layout()
 
 fig1.savefig('chart-teaser.pdf', bbox_inches='tight')
 fig2.savefig('chart-grappolo-scaling.pdf', bbox_inches='tight')
