@@ -332,14 +332,14 @@ slash	64	mem	59.48	nan
 slash	128	mem	53.11	nan
 slash	192	mem	35.44	nan
 
-slash	2	kdax1	nan	nan
-slash	4	kdax1	nan	nan
-slash	8	kdax1	nan	nan
-slash	16	kdax1	nan	nan
-slash	32	kdax1	64.10	nan
-slash	64	kdax1	66.03	nan
-slash	128	kdax1	nan	nan
-slash	192	kdax1	46.58	nan
+slash	2	kdax	nan	nan
+slash	4	kdax	nan	nan
+slash	8	kdax	nan	nan
+slash	16	kdax	nan	nan
+slash	32	kdax	64.10	nan
+slash	64	kdax	66.03	nan
+slash	128	kdax	nan	nan
+slash	192	kdax	46.58	nan
 
 slash	2	kdax2	nan	nan
 slash	4	kdax2	nan	nan
@@ -378,14 +378,14 @@ twitter	64	mem	118.32	nan
 twitter	128	mem	108.72	nan
 twitter	192	mem	50.23	nan
 
-twitter	2	kdax1	nan	nan
-twitter	4	kdax1	nan	nan
-twitter	8	kdax1	nan	nan
-twitter	16	kdax1	nan	nan
-twitter	32	kdax1	141.27	nan
-twitter	64	kdax1	125.70	nan
-twitter	128	kdax1	nan	nan
-twitter	192	kdax1	71.81	nan
+twitter	2	kdax	nan	nan
+twitter	4	kdax	nan	nan
+twitter	8	kdax	nan	nan
+twitter	16	kdax	nan	nan
+twitter	32	kdax	141.27	nan
+twitter	64	kdax	125.70	nan
+twitter	128	kdax	nan	nan
+twitter	192	kdax	71.81	nan
 
 twitter	2	kdax2	nan	nan
 twitter	4	kdax2	nan	nan
@@ -424,14 +424,14 @@ talk	64	mem	83.60	nan
 talk	128	mem	70.46	nan
 talk	192	mem	53.20	nan
 
-talk	2	kdax1	nan	nan
-talk	4	kdax1	nan	nan
-talk	8	kdax1	nan	nan
-talk	16	kdax1	nan	nan
-talk	32	kdax1	101.20	nan
-talk	64	kdax1	101.98	nan
-talk	128	kdax1	nan	nan
-talk	192	kdax1	123.27	nan
+talk	2	kdax	nan	nan
+talk	4	kdax	nan	nan
+talk	8	kdax	nan	nan
+talk	16	kdax	nan	nan
+talk	32	kdax	101.20	nan
+talk	64	kdax	101.98	nan
+talk	128	kdax	nan	nan
+talk	192	kdax	123.27	nan
 
 talk	2	kdax2	nan	nan
 talk	4	kdax2	nan	nan
@@ -470,14 +470,14 @@ pokec	64	mem	939.25	        nan
 pokec	128	mem	718.31	        nan
 pokec	192	mem	771.15	        nan
 
-pokec	2	kdax1	nan	nan
-pokec	4	kdax1	nan	nan
-pokec	8	kdax1	nan	nan
-pokec	16	kdax1	nan	nan
-pokec	32	kdax1	2450.37	nan
-pokec	64	kdax1	1639.97	nan
-pokec	128	kdax1	nan	nan
-pokec	192	kdax1	1974.83	nan
+pokec	2	kdax	nan	nan
+pokec	4	kdax	nan	nan
+pokec	8	kdax	nan	nan
+pokec	16	kdax	nan	nan
+pokec	32	kdax	2450.37	nan
+pokec	64	kdax	1639.97	nan
+pokec	128	kdax	nan	nan
+pokec	192	kdax	1974.83	nan
 
 pokec	2	kdax2	nan	nan
 pokec	4	kdax2	nan	nan
@@ -507,14 +507,14 @@ topcats	64	mem	1041.00	nan
 topcats	128	mem	880.35	nan
 topcats	192	mem	867.02	nan
 
-topcats	2	kdax1	nan	nan
-topcats	4	kdax1	nan	nan
-topcats	8	kdax1	nan	nan
-topcats	16	kdax1	nan	nan
-topcats	32	kdax1	2298.37	nan
-topcats	64	kdax1	1891.35	nan
-topcats	128	kdax1	nan	nan
-topcats	192	kdax1	2368.92	nan
+topcats	2	kdax	nan	nan
+topcats	4	kdax	nan	nan
+topcats	8	kdax	nan	nan
+topcats	16	kdax	nan	nan
+topcats	32	kdax	2298.37	nan
+topcats	64	kdax	1891.35	nan
+topcats	128	kdax	nan	nan
+topcats	192	kdax	2368.92	nan
 
 topcats	2	kdax2	nan	nan
 topcats	4	kdax2	nan	nan

@@ -102,7 +102,7 @@ def main():
         ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L2_MISS', 'L3 Stalls', vtcsv.makeCol_Diff('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L3_MISS') ),
         ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L1D_MISS', 'L2 Stalls', vtcsv.makeCol_Diff('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L2_MISS') ), # ???
         ('Hardware Event Count:CYCLE_ACTIVITY.STALLS_MEM_ANY', 'L1 Stalls', vtcsv.makeCol_Diff('Hardware Event Count:CYCLE_ACTIVITY.STALLS_L1D_MISS') ),
-        ('L3 Stalls', 'L3...L1 Stalls', vtcsv.makeCol_Sum(['L1 Stalls', 'L2 Stalls']) ),
+        ('L3 Stalls', 'Cache Stalls', vtcsv.makeCol_Sum(['L1 Stalls', 'L2 Stalls']) ), # L3...L1
 
         ('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.LOCAL_DRAM_PS', '$L$DRAM+PMM Ld', vtcsv.makeCol_Sum('Hardware Event Count:MEM_LOAD_RETIRED.LOCAL_PMM_PS') ),
         ('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_DRAM_PS', '$R$DRAM+PMM Ld', vtcsv.makeCol_Sum('Hardware Event Count:MEM_LOAD_L3_MISS_RETIRED.REMOTE_PMM_PS') ),
@@ -173,7 +173,7 @@ def main():
          #(makeColL_g2[1][1] ,), # 'L3 Stalls'
          #(makeColL_g2[2][1] ,), # 'L2 Stalls'
          #(makeColL_g2[3][1] ,), # 'L1 Stalls'
-         (makeColL_g2[4][1] ,),  # 'L3...L1 Stalls'
+         (makeColL_g2[4][1] ,),  # 'Cache Stalls'
          #(makeColL_g2[7][1] ,),  # 'L1...L3 Hits'
          ('Hardware Event Count:OFFCORE_REQUESTS_OUTSTANDING.CYCLES_WITH_DEMAND_RFO',  'RFO Cycles'),
          ],
@@ -241,7 +241,7 @@ def main():
          #(makeColL_g2[1][1] ,), # 'L3 Stalls'
          #(makeColL_g2[2][1] ,), # 'L2 Stalls'
          #(makeColL_g2[3][1] ,), # 'L1 Stalls'
-         (makeColL_g2[4][1] ,),  # 'L3...L1 Stalls'
+         (makeColL_g2[4][1] ,),  # 'Cache Stalls'
          ('Hardware Event Count:OFFCORE_REQUESTS_OUTSTANDING.CYCLES_WITH_DEMAND_RFO',  'RFO Cycles'),
          ],
 
@@ -471,7 +471,7 @@ def main_ripples(makeColL1, makeColL2):
     graph_sfx = ['.imm-dram.T64',
                  '.imm-mem.T64',
                  '.imm-kdax2.T64',
-                 '.imm-kdax1.T64',
+                 '.imm-kdax.T64',
                  '.imm-kdax3.T64']
 
     # 'topcats' has no dram
@@ -975,7 +975,7 @@ def plot(dfrm, axes, ytitle, xtitle, col_groupL, plotH):
 
     dfrm_max = numpy.max(dfrm.to_numpy())
     #dfrm_md = numpy.median(dfrm.to_numpy())
-    if (dfrm_max > 100):        
+    if (dfrm_max > 100):
         dfrm_scale_exp = math.floor(math.log10(dfrm_max)) - 2
         dfrm_scale = math.pow(10, dfrm_scale_exp)
         dfrm = dfrm.applymap( lambda x: round(x / dfrm_scale, 2) )
@@ -1011,8 +1011,9 @@ def plot(dfrm, axes, ytitle, xtitle, col_groupL, plotH):
     cbar_ax = axes.collections[0].colorbar.ax # get_axes()
     cbar_ax.set_yticklabels(cbar_ax.get_yticklabels(), rotation=270, va='center')
 
+    # exponent over colorbar
     if (dfrm_scale_exp):
-        axes.text(1.06, 0.997, (r'$\times10^{%s}$' % dfrm_scale_exp),
+        axes.text(0.96, 0.997, (r'$\times10^{%s}$' % dfrm_scale_exp),
                    transform=axes.transAxes, ha='left', va='bottom') # size=Txt_sz_heatmap_scale
         
     #-------------------------------------------------------
