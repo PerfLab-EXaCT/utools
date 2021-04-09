@@ -631,7 +631,7 @@ def main_ripples(makeColL1, makeColL2):
     fig_f1 = plot_fn(vt_f, graphL1, funcH, metricLf_r, {**plotHf, 'ctitle':1}, adjHf)
     fig_f2 = plot_fn(vt_f, graphL2, funcH, metricLf_r, {**plotHf, 'ctitle':1}, adjHf)
     fig_f3 = plot_fn(vt_f, graphL3, funcH, metricLf_r, {**plotHf, 'title':1}, adjHf)
-    fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf_r, {**plotHf, 'ctitle_bot':1}, adjHf)
+    fig_f4 = plot_fn(vt_f, graphL4, funcH, metricLf_r, {**plotHf, 'ctitle':1, 'ctitle_bot':1}, adjHf)
     fig_f5 = plot_fn(vt_f, graphL5, funcH, metricLf_r, {**plotHf, 'ctitle_bot':1, 'h':1.8, 'txt_rot':0}, adjHf)
 
     # fig_f1 = plot_fn(vt_f, graphL, funcH, [metricL1[0]], {'w':3.2, 'h':2.7, 'ctitle_bot':False}, adjH)
