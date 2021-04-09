@@ -49,29 +49,29 @@ friendster	64	dram	1737.327125	nan
 friendster	128	dram	1206.608416	nan
 friendster	192	dram	815.121272	nan
 
-friendster     16     dram2  6326.325988    nan
-friendster     32     dram2  3403.206982     nan
-friendster     64     dram2  1794.185196     nan
-friendster    128     dram2  1311.937775     nan
-friendster    192     dram2  883.943877 nan
-
 friendster	16	mem	9049.91349	nan
 friendster	32	mem	4712.569829	nan
 friendster	64	mem	2395.902007	nan
 friendster	128	mem	1472.592003	nan
 friendster	192	mem	1001.308132	nan
 
-friendster     16     mem2  6334.30156     nan
-friendster     32     mem2  3422.950919     nan
-friendster     64     mem2  1808.205431     nan
-friendster    128     mem2  1331.800894     nan
-friendster    192     mem2  910.551906   nan
-
 friendster     16     kdax   6115.285544     nan
 friendster     32     kdax   3277.245072     nan
 friendster     64     kdax   1730.002233     nan
 friendster    128     kdax   1217.872113     nan
 friendster    192     kdax   831.718546   nan
+
+friendster     16     dram2  6326.325988    nan
+friendster     32     dram2  3403.206982     nan
+friendster     64     dram2  1794.185196     nan
+friendster    128     dram2  1311.937775     nan
+friendster    192     dram2  883.943877 nan
+
+friendster     16     mem2  6334.30156     nan
+friendster     32     mem2  3422.950919     nan
+friendster     64     mem2  1808.205431     nan
+friendster    128     mem2  1331.800894     nan
+friendster    192     mem2  910.551906   nan
 
 friendster     16     kdax2  6315.315139     nan
 friendster     32     kdax2  3405.996753     nan
@@ -86,29 +86,29 @@ moliere2016	64	dram	1040.750488	nan
 moliere2016	128	dram	1053.145704	nan
 moliere2016	192	dram	1087.043682	nan
 
-moliere2016    16     dram2  1726.724294   nan
-moliere2016    32     dram2  1242.639913   nan
-moliere2016    64     dram2  1019.859742   nan
-moliere2016   128     dram2  1015.8404  nan
-moliere2016   192     dram2  1046.291876   nan
-
 moliere2016	16	mem	2283.23591	nan
 moliere2016	32	mem	1509.721751	nan
 moliere2016	64	mem	1213.933818	nan
 moliere2016	128	mem	1172.088261	nan
 moliere2016	192	mem	1184.648746	nan
 
-moliere2016    16     mem2   1733.342295   nan
-moliere2016    32     mem2   1267.900822   nan
-moliere2016    64     mem2   1049.214647   nan
-moliere2016   128     mem2   1033.591182  nan
-moliere2016   192     mem2   1066.428858   nan
-
 moliere2016    16     kdax   1687.235732   nan
 moliere2016    32     kdax   1261.021346   nan
 moliere2016    64     kdax   1025.460897   nan
 moliere2016   128     kdax   1020.176169   nan
 moliere2016   192     kdax   1044.276406   nan
+
+moliere2016    16     dram2  1726.724294   nan
+moliere2016    32     dram2  1242.639913   nan
+moliere2016    64     dram2  1019.859742   nan
+moliere2016   128     dram2  1015.8404  nan
+moliere2016   192     dram2  1046.291876   nan
+
+moliere2016    16     mem2   1733.342295   nan
+moliere2016    32     mem2   1267.900822   nan
+moliere2016    64     mem2   1049.214647   nan
+moliere2016   128     mem2   1033.591182  nan
+moliere2016   192     mem2   1066.428858   nan
 
 moliere2016    16     kdax2   1752.35533   nan
 moliere2016    32     kdax2  1295.938841   nan
@@ -125,17 +125,17 @@ clueweb12	64	mem	6421.767673	nan
 clueweb12	128	mem	6171.596182	nan
 clueweb12	192	mem	5946.314627	4391.67807
 
-clueweb12      16     mem2  8883.298213     nan
-clueweb12      32     mem2  6093.823997    nan
-clueweb12      64     mem2  4928.782831     nan
-clueweb12     128     mem2  4630.196742     nan
-clueweb12     192     mem2  4485.642789     nan
-
 clueweb12      16     kdax   8527.07952     nan
 clueweb12      32     kdax   7252.276714    nan
 clueweb12      64     kdax   6873.644474    nan
 clueweb12     128     kdax   5273.949972    nan
 clueweb12     192     kdax   5201.659599    nan
+
+clueweb12      16     mem2  8883.298213     nan
+clueweb12      32     mem2  6093.823997    nan
+clueweb12      64     mem2  4928.782831     nan
+clueweb12     128     mem2  4630.196742     nan
+clueweb12     192     mem2  4485.642789     nan
 
 clueweb12      16     kdax2  9422.80935     nan
 clueweb12      32     kdax2 7650.283013    nan
@@ -153,17 +153,17 @@ uk2014	        64	mem	1030.207204	nan
 uk2014	        128	mem	820.76091	nan
 uk2014	        192	mem	730.57113	nan
 
-uk2014         16     mem2     2139.020451    nan
-uk2014         32     mem2     1313.469828    nan
-uk2014         64     mem2     998.098469    nan
-uk2014        128     mem2     785.121212     nan
-uk2014        192     mem2     639.85604     nan
-
 uk2014         16     kdax     2045.68806    nan
 uk2014         32     kdax     1343.271699   nan
 uk2014         64     kdax     954.808604    nan
 uk2014        128     kdax     711.649813    nan
 uk2014        192     kdax     650.512289    nan
+
+uk2014         16     mem2     2139.020451    nan
+uk2014         32     mem2     1313.469828    nan
+uk2014         64     mem2     998.098469    nan
+uk2014        128     mem2     785.121212     nan
+uk2014        192     mem2     639.85604     nan
 
 uk2014         16     kdax2    2056.676445    nan
 uk2014         32     kdax2     1236.632777    nan
@@ -193,7 +193,7 @@ uk2014        192     pdax      nan            nan
 """
 
 
-# kdax1a is default kdax with memkind-interleave
+# kdax1a is kdax with memkind-interleave
 """
 friendster     16     kdax1a  6262.133789     nan
 friendster     32     kdax1a  3339.329952     nan
@@ -8435,14 +8435,14 @@ def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = False):
 # Main
 #****************************************************************************
 
-fig1, axes1L = pyplt.subplots(nrows=2, ncols=3, figsize=(9, 4.0))
+fig1, axes1A = pyplt.subplots(nrows=2, ncols=3, figsize=(9, 4.7))
 
 fig2, axes2L = pyplt.subplots(nrows=1, ncols=4, figsize=(14, 2.5))
 
 fig2x, axes2xA = pyplt.subplots(nrows=2, ncols=4, figsize=(14, 5.5),
                                 gridspec_kw={'height_ratios': [4.0, 3.5]})
 
-fig3, axes3L = pyplt.subplots(nrows=1, ncols=5, figsize=(14, 2.5))
+fig3, axes3L = pyplt.subplots(nrows=1, ncols=5, figsize=(16, 2.4))
 
 
 ln_sty1 = '-' # ':' # --
@@ -8483,7 +8483,7 @@ for num_t in mode_thrdL:
     #print(mode_dfrm)
 
     ttl = 'Community Detection/{}'.format(num_t)
-    plot_modes(mode_dfrm, axes1L[0][nm_i], nm_i, ttl, plt_sty1, mrk_sty1, ln_sty1)
+    plot_modes(mode_dfrm, axes1A[0][nm_i], nm_i, ttl, plt_sty1, mrk_sty1, ln_sty1)
     nm_i += 1
 
 
@@ -8503,7 +8503,7 @@ for num_t in mode_thrdL:
     #print(mode_dfrm)
 
     ttl = 'Influence Maximization/{}'.format(num_t)
-    plot_modes(mode_dfrm, axes1L[1][nm_i], nm_i, ttl, plt_sty1, mrk_sty1, ln_sty1)
+    plot_modes(mode_dfrm, axes1A[1][nm_i], nm_i, ttl, plt_sty1, mrk_sty1, ln_sty1)
     nm_i += 1
 
 
@@ -8635,8 +8635,8 @@ for nm in nmL:
 
 #----------------------------------------------------------------------------
 
-adjustH1 = { 'left':0.05, 'right':0.99, 'bottom':0.08, 'top':0.92,
-             'wspace':0.20, 'hspace':0.45 }
+adjustH1 = { 'left':0.05, 'right':0.99, 'bottom':0.05, 'top':0.95,
+             'wspace':0.20, 'hspace':0.30 }
 
 adjustH2 = { 'left':0.05, 'right':0.99, 'bottom':0.03, 'top':0.97,
              'wspace':0.18, 'hspace':0.15 }
