@@ -20,6 +20,8 @@ import VTuneCSV as vtcsv
 #****************************************************************************
 
 title_txt_sz = 13
+title_txt1_sz = 15
+lbl1_sz = 12
 
 #****************************************n***********************************
 # Grappolo, Single phase: Run time
@@ -8133,9 +8135,13 @@ XXX_t192_latency_pdax_str = """
 
 def plot_modes(dfrm, axes, nm_i, title, plt_sty, mrk_sty, ln_sty):
 
+    #sns.set_context("paper", rc={"font.size":8,"axes.titlesize":8,"axes.labelsize":5})
+    seaborn.set_context(rc={"axes.labelsize":lbl1_sz})
+    
     dfrm.reset_index(inplace=True) # needed for barplot (but not for scatter/line)
     ax = seaborn.barplot(data=dfrm, x='mode', y=col_dst, hue='graph',
                          palette=plt_sty, ax=axes)
+                         #kwargs = dict(font_scale=1.1)
 
     # ax = seaborn.scatterplot(data=dfrm, x='mode', y=col_dst, hue='graph',
     #                          palette=plt_sty, ax=axes, marker=mrk_sty, linestyle=ln_sty)
@@ -8143,35 +8149,24 @@ def plot_modes(dfrm, axes, nm_i, title, plt_sty, mrk_sty, ln_sty):
     #y_lo = dfrm[col_dst].min(axis=0)
     #ax.set_ylim(bottom = y_lo * .80)
 
+    ax.grid(linestyle='dashed')
+    ax.legend().set_title('')
+    
     if title:
-        ax.set_title(title, size=title_txt_sz)
+        ax.set_title(title, size=title_txt1_sz)
+    
+    ax.tick_params(axis='y', labelsize=lbl1_sz)
+    ax.tick_params(axis='x', labelsize=lbl1_sz-1)
 
     ax.set_xlabel('')
-    #ax.set_xticklabels([])
-
-    ax.grid(linestyle='dashed')
-
-    ax.legend().set_title('')
     
     if (nm_i != 0):
         ax.set_ylabel('')
+        ax.set_yticklabels([]) # N.B. assume same 'ylim'!
         ax.get_legend().remove()
-
-
-    # OLD:
-    # ax = seaborn.lineplot(data=dfrm, x='mode', y=col_src, hue='graph', ax=ax,
-    #                       palette='dark', marker='^')
-    # ax.legend(title=col_src, loc='lower left',  bbox_to_anchor=(0.0, 0.35)) # prop={'size': text_sz}
-
-    #ax1 = ax.twinx()
-
-    # # Should not be necessary!
-    # lineL = ax.legend().get_lines()
-    # for x in lineL:
-    #     x.set_linestyle(ln_sty)
-    #     #x.set_marker(mrk_sty)
-    # ax.legend(handles=lineL, loc='lower left', bbox_to_anchor=(0.0, 0.0)) # title=col_dst, prop={'size': text_sz}
-
+    else:
+        ax.set_ylabel(ax.get_ylabel(), size=lbl1_sz)
+    
     return ax
 
 
@@ -8439,7 +8434,7 @@ def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = False):
 # Main
 #****************************************************************************
 
-fig1, axes1A = pyplt.subplots(nrows=2, ncols=3, figsize=(10, 4.7)) # squeeze=False
+fig1, axes1A = pyplt.subplots(nrows=2, ncols=3, figsize=(10, 4.7), squeeze=False)
 
 fig2, axes2L = pyplt.subplots(nrows=1, ncols=4, figsize=(14, 2.5))
 
@@ -8481,17 +8476,18 @@ time_dfrm_grp = pandas.read_csv(time_data_grp, sep='\s+', index_col=tm_index)
 
 makeRelTime(time_dfrm_grp, row_srcL, col_src, col_dst)
 
-nm_i = 0
+nm_j = 0
 for num_t in mode_thrdL:
     mode_dfrm = time_dfrm_grp.xs(num_t, level='threads')
     #print(mode_dfrm)
 
+    row = 0
     ttl = 'Community Detection/{}'.format(num_t)
-    plot_modes(mode_dfrm, axes1A[0][nm_i], nm_i, ttl, plt_sty1, mrk_sty1, ln_sty1)
+    plot_modes(mode_dfrm, axes1A[row][nm_j], nm_j, ttl, plt_sty1, mrk_sty1, ln_sty1)
 
-    axes1A[0][nm_i].set_ylim(0.5, 1.5) # could do this automatically
+    axes1A[row][nm_j].set_ylim(0.5, 1.5) # could do this automatically
 
-    nm_i += 1
+    nm_j += 1
 
 
 #-------------------------------------------------------
@@ -8504,17 +8500,18 @@ time_dfrm_rip = pandas.read_csv(time_data_rip, sep='\s+', index_col=tm_index)
 
 makeRelTime(time_dfrm_rip, row_srcL, col_src, col_dst)
 
-nm_i = 0
+nm_j = 0 
 for num_t in mode_thrdL:
     mode_dfrm = time_dfrm_rip.xs(num_t, level='threads')
     #print(mode_dfrm)
 
+    row = 1
     ttl = 'Influence Maximization/{}'.format(num_t)
-    plot_modes(mode_dfrm, axes1A[1][nm_i], nm_i, ttl, plt_sty1, mrk_sty1, ln_sty1)
+    plot_modes(mode_dfrm, axes1A[row][nm_j], nm_j, ttl, plt_sty1, mrk_sty1, ln_sty1)
 
-    axes1A[1][nm_i].set_ylim(0.7, 4.5) # could do this automatically
+    axes1A[row][nm_j].set_ylim(0.7, 4.5) # could do this automatically
     
-    nm_i += 1
+    nm_j += 1
 
 
 #----------------------------------------------------------------------------
@@ -8646,7 +8643,7 @@ for nm in nmL:
 #----------------------------------------------------------------------------
 
 adjustH1 = { 'left':0.05, 'right':0.99, 'bottom':0.05, 'top':0.95,
-             'wspace':0.15, 'hspace':0.30 }
+             'wspace':0.01, 'hspace':0.30 }
 
 adjustH2 = { 'left':0.05, 'right':0.99, 'bottom':0.03, 'top':0.97,
              'wspace':0.18, 'hspace':0.15 }
