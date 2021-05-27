@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+# -*-Mode: python;-*-
+
+# $Id$
+
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -19,7 +24,7 @@ sns.set(font_scale=2)
 fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(5.0, 2.5))
 ax = sns.heatmap(data_lt, ax=axes,
                  xticklabels=nodes2, yticklabels=nodes,
-                 cmap='RdBu_r', annot=True, fmt=".2f", annot_kws={"size":20})
+                 cmap='RdBu', annot=True, fmt=".2f", annot_kws={"size":20})
 ax.set_title("Latency (s)", fontsize=20, fontweight='bold')
 fig.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
 fig.savefig('streambench-lat.pdf', bbox_inches='tight')

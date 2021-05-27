@@ -14,6 +14,9 @@ myL=(
     chart-ripples-fn3.pdf
     chart-ripples-fn4.pdf
     chart-ripples-fn5.pdf
+
+    streambench-bw.pdf
+    streambench-lat.pdf
 )
 
 for src in "${myL[@]}" ; do
