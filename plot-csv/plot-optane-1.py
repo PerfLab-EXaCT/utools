@@ -46,10 +46,11 @@ MergeRows_nosum_metricPat_st = r'stores (%)'
 MergeRows_nosum_scaleMetric = 'CPU Time'
 MergeRows_nosum_scaleMetric_st = 'Stores'
 
-Txt_sz_title = 11.5
-Txt_sz_ytitle = 13
-Txt_sz_heatmap = 10
-Txt_sz_heatmap_scale = 10
+# Tsz = Text_size
+Tsz_title = 12
+Tsz_ytitle = 13
+Tsz_heatmap = 10
+Tsz_heatmap_scale = 10
 Fixed_cmap_w = 2
 
 Do_view = 0 # resets 'subplots_adjust'
@@ -624,7 +625,8 @@ def main_ripples(makeColL1, makeColL2):
     fig_px = plot_pkg(vt_p, graphL, metricLx, {'w':2.6, 'h':1.6}, adjHx)
 
 
-    plotHf = {'w':5.3, 'h':2.0, 'title':0, 'ctitle':0, 'ctitle_bot':0}
+    plotHf = {'w':5.3, 'h':2.0, 'title':0, 'ctitle':0, 'ctitle_bot':0,
+              'tsz_adj':1}
     adjHf = { 'left':0.15, 'right':0.98, 'bottom':0.15, 'top':0.90,
               'wspace':0.05, 'hspace':0.0 } # 'ytitle'
 
@@ -884,6 +886,10 @@ def plotL_selectNcfg(vt, ytitle, metricL, graph_grpL, plotH, dfrm_xformF):
     if (not ('ctitle_bot' in plotH)):
         plotH['ctitle_bot'] = True
 
+    # Text-size adjust
+    if (not ('tsz_adj' in plotH)):
+        plotH['tsz_adj'] = 0
+
             
     return dataL
 
@@ -962,6 +968,8 @@ def plotL_adj(fig, adjustH):
 
 def plot(dfrm, axes, ytitle, xtitle, col_groupL, plotH):
 
+    tsz_adj = plotH['tsz_adj']
+    
     n_col = len(dfrm.columns)
     
     #-------------------------------------------------------
@@ -970,7 +978,7 @@ def plot(dfrm, axes, ytitle, xtitle, col_groupL, plotH):
 
     dfrm_scale_exp = None
     txt_fmt = '.2g'
-    txt_sz = Txt_sz_heatmap
+    txt_sz = Tsz_heatmap + tsz_adj
     txt_rot = 0
 
     dfrm_max = numpy.max(dfrm.to_numpy())
@@ -980,7 +988,6 @@ def plot(dfrm, axes, ytitle, xtitle, col_groupL, plotH):
         dfrm_scale = math.pow(10, dfrm_scale_exp)
         dfrm = dfrm.applymap( lambda x: round(x / dfrm_scale, 2) )
         txt_fmt = '.3g'
-        #txt_sz = Txt_sz_heatmap + 1
         txt_rot = plotH['txt_rot'] if ('txt_rot' in plotH) else 10
 
     #-------------------------------------------------------
@@ -1002,29 +1009,34 @@ def plot(dfrm, axes, ytitle, xtitle, col_groupL, plotH):
                            cmap='RdBu_r',# coolwarm
                            fmt=txt_fmt,
                            yticklabels=do_y_lbl,
-                           annot_kws= {'size':txt_sz, 'rotation':txt_rot},
+                           annot_kws= {'size':txt_sz,
+                                       'rotation':txt_rot},
                            cbar_kws = dict(fraction=cbar_frac, pad=cbar_pad))
                            # use_gridspec=False location='right'
 
-
+    axes.tick_params(axis='y', labelsize=txt_sz)
+                           
     # adjust colorbar
     cbar_ax = axes.collections[0].colorbar.ax # get_axes()
-    cbar_ax.set_yticklabels(cbar_ax.get_yticklabels(), rotation=270, va='center')
+    
+    #cbar_ax.tick_params(axis='y', labelrotation=270, labelsize=txt_sz, va='center')
+    cbar_ax.set_yticklabels(cbar_ax.get_yticklabels(), rotation=270, va='center', fontsize=txt_sz)
 
     # exponent over colorbar
     if (dfrm_scale_exp):
         axes.text(0.96, 0.997, (r'$\times10^{%s}$' % dfrm_scale_exp),
-                   transform=axes.transAxes, ha='left', va='bottom') # size=Txt_sz_heatmap_scale
+                  transform=axes.transAxes, ha='left', va='bottom',
+                  fontsize=(Tsz_heatmap_scale + tsz_adj))
         
     #-------------------------------------------------------
     # 
     #-------------------------------------------------------
 
     if (ytitle):
-        axes.set_ylabel(ytitle, fontsize=Txt_sz_ytitle)
+        axes.set_ylabel(ytitle, fontsize=(Tsz_ytitle + tsz_adj))
 
     if (xtitle):
-        axes.set_title(xtitle, ha='center', fontsize=Txt_sz_title) # va='center', rotation='vertical', x=x_pos, y=0.5
+        axes.set_title(xtitle, ha='center', fontsize=(Tsz_title + tsz_adj)) # va='center', rotation='vertical', x=x_pos, y=0.5
 
 
     # correct x-ticks and x-labels
@@ -1032,7 +1044,7 @@ def plot(dfrm, axes, ytitle, xtitle, col_groupL, plotH):
 
     if ('ctitle_bot' in plotH and plotH['ctitle_bot']):
         # correct x-ticks and x-labels
-        axes.set_xticklabels(dfrm.columns, rotation=20, ha='right')
+        axes.set_xticklabels(dfrm.columns, rotation=20, ha='right', fontsize=txt_sz)
     else:
         axes.set_xticklabels([])
 
@@ -1061,7 +1073,7 @@ def plot(dfrm, axes, ytitle, xtitle, col_groupL, plotH):
         axes2.set_xticks(axes2_ticks)
 
         if ('ctitle' in plotH and plotH['ctitle']):
-            axes2.set_xticklabels(nmL, rotation=0, ha='center')
+            axes2.set_xticklabels(nmL, rotation=0, ha='center', fontsize=(Tsz_title + tsz_adj))
         else:
             axes2.set_xticklabels([])
 

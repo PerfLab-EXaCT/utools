@@ -1,7 +1,8 @@
 dst=/Users/tallent/1research/papers/optane-graphs/optane-graphs.overleaf-git/fig
 
 myL=(
-    chart-teaser.pdf
+    chart-teaser1.pdf
+    chart-teaser2.pdf
     chart-grappolo-scaling.pdf
     chart-grappolo-fn1.pdf
     chart-grappolo-fn2.pdf

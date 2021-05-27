@@ -19,9 +19,12 @@ import VTuneCSV as vtcsv
 
 #****************************************************************************
 
-title_txt_sz = 13
-title_txt1_sz = 15
-lbl1_sz = 12
+Tsz_title = 14
+Tsz_label = 12
+
+Tsz_title1 = 16
+Tsz_label1 = 14
+
 
 #****************************************n***********************************
 # Grappolo, Single phase: Run time
@@ -8136,7 +8139,7 @@ XXX_t192_latency_pdax_str = """
 def plot_modes(dfrm, axes, nm_i, title, plt_sty, mrk_sty, ln_sty):
 
     #sns.set_context("paper", rc={"font.size":8,"axes.titlesize":8,"axes.labelsize":5})
-    seaborn.set_context(rc={"axes.labelsize":lbl1_sz})
+    seaborn.set_context(rc={"axes.labelsize":Tsz_label1})
     
     dfrm.reset_index(inplace=True) # needed for barplot (but not for scatter/line)
     ax = seaborn.barplot(data=dfrm, x='mode', y=col_dst, hue='graph',
@@ -8151,27 +8154,28 @@ def plot_modes(dfrm, axes, nm_i, title, plt_sty, mrk_sty, ln_sty):
 
     ax.grid(linestyle='dashed')
     ax.legend().set_title('')
+    ax.legend(fontsize=Tsz_label1-1)
     
     if title:
-        ax.set_title(title, size=title_txt1_sz)
-    
-    ax.tick_params(axis='y', labelsize=lbl1_sz)
-    ax.tick_params(axis='x', labelsize=lbl1_sz-1)
+        ax.set_title(title, size=Tsz_title1)
 
     ax.set_xlabel('')
+    ax.tick_params(axis='x', labelsize=Tsz_label1, labelrotation=18, labelleft=True)
+
+    ax.tick_params(axis='y', labelsize=Tsz_label1)
     
     if (nm_i != 0):
         ax.set_ylabel('')
         ax.set_yticklabels([]) # N.B. assume same 'ylim'!
         ax.get_legend().remove()
     else:
-        ax.set_ylabel(ax.get_ylabel(), size=lbl1_sz)
+        ax.set_ylabel(ax.get_ylabel(), fontsize=Tsz_title1)
     
     return ax
 
 
 
-def plot_scaling(dfrm, graph_nm, axes, y_metric, plt_sty, mrk_sty, ln_sty, nm_j):
+def plot_scaling(dfrm, graph_nm, axes, y_metric, plt_sty, mrk_sty, ln_sty, nm_j, sz_adjust=0):
     dfrm_me = dfrm.xs(graph_nm, level='graph')
 
     dfrm_me = dfrm_me.dropna(axis='rows', subset=[y_metric])
@@ -8185,12 +8189,16 @@ def plot_scaling(dfrm, graph_nm, axes, y_metric, plt_sty, mrk_sty, ln_sty, nm_j)
 
     ax.grid(linestyle='dashed')
 
+    ax.legend().set_title('')
+    ax.legend(fontsize=Tsz_label-1)
+
     ax.set_xscale('log', base=2)
+    ax.tick_params(axis='x', labelsize=Tsz_label+sz_adjust)
 
     ax.set_yscale('log', base=2)
     #sayan ax.set_yscale('log')
-    
     #ax.set_ylim(0, y_hi)
+    ax.tick_params(axis='y', labelsize=Tsz_label+sz_adjust)
     
     #sayan ax.yaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter(useMathText=False, useOffset=False))
     #sayan ax.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
@@ -8206,11 +8214,11 @@ def plot_scaling(dfrm, graph_nm, axes, y_metric, plt_sty, mrk_sty, ln_sty, nm_j)
     #ax.yaxis.offsetText.set_visible(False)
     
     if (nm_j == 0):
-        ax.set_ylabel('Time (s) v. Threads', size=title_txt_sz)
+        ax.set_ylabel('Time (s) v. Threads', size=Tsz_title+sz_adjust)
     else:
         ax.set_ylabel('')
 
-    ax.set_title(graph_nm, size=title_txt_sz)
+    ax.set_title(graph_nm, size=Tsz_title+sz_adjust)
 
     ax.set_xlabel('')
 
@@ -8253,9 +8261,9 @@ def plot_bw_lat(ax_bw, ax_lat, bw_data_strL, lat_data_strL, graph,
     ax.set_ylim(0, y_hi)
 
     if (nm_j == 0):
-        ax.set_ylabel('Memory BW (GB/s)\n192 threads', size=title_txt_sz)
+        ax.set_ylabel('Memory BW (GB/s)\n192 threads', size=Tsz_title)
 
-    #ax.set_title(graph, size=title_txt_sz)
+    #ax.set_title(graph, size=Tsz_title)
 
 
     #-------------------------------------------------------
@@ -8297,9 +8305,9 @@ def plot_bw_lat(ax_bw, ax_lat, bw_data_strL, lat_data_strL, graph,
     ax.set_ylim(y_lo, y_hi)
 
     if (nm_j == 0):
-        ax.set_ylabel('Load Latency (cyc)\n192 threads', size=title_txt_sz)
+        ax.set_ylabel('Load Latency (cyc)\n192 threads', size=Tsz_title)
         
-   #ax.set_title(graph, size=title_txt_sz)
+   #ax.set_title(graph, size=Tsz_title)
 
 
 def plot_align_palette(modeL, plt_sty):
@@ -8434,7 +8442,10 @@ def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = False):
 # Main
 #****************************************************************************
 
-fig1, axes1A = pyplt.subplots(nrows=2, ncols=3, figsize=(10, 4.7), squeeze=False)
+# 2x3: figsize=(10, 4.7)
+fig1a, axes1a = pyplt.subplots(nrows=1, ncols=3, figsize=(9.5, 2.3), squeeze=False) 
+fig1b, axes1b = pyplt.subplots(nrows=1, ncols=3, figsize=(9.5, 2.3), squeeze=False)
+
 
 fig2, axes2L = pyplt.subplots(nrows=1, ncols=4, figsize=(14, 2.5))
 
@@ -8482,10 +8493,10 @@ for num_t in mode_thrdL:
     #print(mode_dfrm)
 
     row = 0
-    ttl = 'Community Detection/{}'.format(num_t)
-    plot_modes(mode_dfrm, axes1A[row][nm_j], nm_j, ttl, plt_sty1, mrk_sty1, ln_sty1)
+    ttl = 'Community Detect./{}'.format(num_t)
+    plot_modes(mode_dfrm, axes1a[row][nm_j], nm_j, ttl, plt_sty1, mrk_sty1, ln_sty1)
 
-    axes1A[row][nm_j].set_ylim(0.5, 1.5) # could do this automatically
+    axes1a[row][nm_j].set_ylim(0.6, 1.6) # could do this automatically
 
     nm_j += 1
 
@@ -8500,18 +8511,22 @@ time_dfrm_rip = pandas.read_csv(time_data_rip, sep='\s+', index_col=tm_index)
 
 makeRelTime(time_dfrm_rip, row_srcL, col_src, col_dst)
 
-nm_j = 0 
+nm_j = 0
 for num_t in mode_thrdL:
     mode_dfrm = time_dfrm_rip.xs(num_t, level='threads')
     #print(mode_dfrm)
 
-    row = 1
-    ttl = 'Influence Maximization/{}'.format(num_t)
-    plot_modes(mode_dfrm, axes1A[row][nm_j], nm_j, ttl, plt_sty1, mrk_sty1, ln_sty1)
+    row = 0 # 1
+    ttl = 'Influence Max./{}'.format(num_t)
+    plot_modes(mode_dfrm, axes1b[row][nm_j], nm_j, ttl, plt_sty1, mrk_sty1, ln_sty1)
 
-    axes1A[row][nm_j].set_ylim(0.7, 4.5) # could do this automatically
+    axes1b[row][nm_j].set_ylim(0.7, 4.5) # could do this automatically
     
     nm_j += 1
+
+
+axes1b[0][0].set_ylabel('')
+
 
 
 #----------------------------------------------------------------------------
@@ -8636,26 +8651,28 @@ nmL = [ 'slash', 'twitter', 'talk', 'pokec', 'topcats' ]
 
 nm_i = 0
 for nm in nmL:
-    plot_scaling(time_dfrm_rip, nm, axes3L[nm_i], col_src, plt_sty1, mrk_sty1, ln_sty1, nm_i)
+    plot_scaling(time_dfrm_rip, nm, axes3L[nm_i], col_src, plt_sty1, mrk_sty1, ln_sty1, nm_i, 1)
     nm_i += 1
 
 
 #----------------------------------------------------------------------------
 
-adjustH1 = { 'left':0.05, 'right':0.99, 'bottom':0.05, 'top':0.95,
-             'wspace':0.01, 'hspace':0.30 }
+adjustH1 = { 'left':0.05, 'right':0.99, 'bottom':0.12, 'top':0.90,
+             'wspace':0.00, 'hspace':0.30 }
 
-adjustH2 = { 'left':0.05, 'right':0.99, 'bottom':0.03, 'top':0.97,
-             'wspace':0.18, 'hspace':0.15 }
+adjustH2 = { 'left':0.05, 'right':0.99, 'bottom':0.08, 'top':0.96,
+             'wspace':0.15, 'hspace':0.15 }
 
-fig1.subplots_adjust(**adjustH1)
+fig1a.subplots_adjust(**adjustH1)
+fig1b.subplots_adjust(**adjustH1)
 fig2.subplots_adjust(**adjustH2)
 fig3.subplots_adjust(**adjustH2)
 
 #sayan fig2.tight_layout()
 #sayan fig3.tight_layout()
 
-fig1.savefig('chart-teaser.pdf', bbox_inches='tight')
+fig1a.savefig('chart-teaser1.pdf', bbox_inches='tight')
+fig1b.savefig('chart-teaser2.pdf', bbox_inches='tight')
 fig2.savefig('chart-grappolo-scaling.pdf', bbox_inches='tight')
 #fig2x.savefig('chart-2x.pdf', bbox_inches='tight')
 fig3.savefig('chart-ripples-scaling.pdf', bbox_inches='tight')
