@@ -48,133 +48,133 @@ Tsz_label1 = 14
 time_str_grappolo = """
 graph        threads  mode   time          vtune
 
-friendster	16	dram	6108.146365	nan
-friendster	32	dram	3291.561375	nan
-friendster	64	dram	1737.327125	nan
-friendster	128	dram	1206.608416	nan
-friendster	192	dram	815.121272	nan
+friendster	16	gdram	6108.146365	nan
+friendster	32	gdram	3291.561375	nan
+friendster	64	gdram	1737.327125	nan
+friendster	128	gdram	1206.608416	nan
+friendster	192	gdram	815.121272	nan
 
-friendster	16	mem	9049.91349	nan
-friendster	32	mem	4712.569829	nan
-friendster	64	mem	2395.902007	nan
-friendster	128	mem	1472.592003	nan
-friendster	192	mem	1001.308132	nan
+friendster	16	gmem	9049.91349	nan
+friendster	32	gmem	4712.569829	nan
+friendster	64	gmem	2395.902007	nan
+friendster	128	gmem	1472.592003	nan
+friendster	192	gmem	1001.308132	nan
 
-friendster     16     kdax   6115.285544     nan
-friendster     32     kdax   3277.245072     nan
-friendster     64     kdax   1730.002233     nan
-friendster    128     kdax   1217.872113     nan
-friendster    192     kdax   831.718546   nan
+friendster     16     gkdax   6115.285544     nan
+friendster     32     gkdax   3277.245072     nan
+friendster     64     gkdax   1730.002233     nan
+friendster    128     gkdax   1217.872113     nan
+friendster    192     gkdax   831.718546   nan
 
-friendster     16     dram2  6326.325988    nan
-friendster     32     dram2  3403.206982     nan
-friendster     64     dram2  1794.185196     nan
-friendster    128     dram2  1311.937775     nan
-friendster    192     dram2  883.943877 nan
+friendster     16     gdram2  6326.325988    nan
+friendster     32     gdram2  3403.206982     nan
+friendster     64     gdram2  1794.185196     nan
+friendster    128     gdram2  1311.937775     nan
+friendster    192     gdram2  883.943877 nan
 
-friendster     16     mem2  6334.30156     nan
-friendster     32     mem2  3422.950919     nan
-friendster     64     mem2  1808.205431     nan
-friendster    128     mem2  1331.800894     nan
-friendster    192     mem2  910.551906   nan
+friendster     16     gmem2  6334.30156     nan
+friendster     32     gmem2  3422.950919     nan
+friendster     64     gmem2  1808.205431     nan
+friendster    128     gmem2  1331.800894     nan
+friendster    192     gmem2  910.551906   nan
 
-friendster     16     kdax2  6315.315139     nan
-friendster     32     kdax2  3405.996753     nan
-friendster     64     kdax2  1795.703769     nan
-friendster    128     kdax2  1280.399464     nan
-friendster    192     kdax2  871.777816  nan
-
-
-moliere2016	16	dram	1740.89824	nan
-moliere2016	32	dram	1268.565434	nan
-moliere2016	64	dram	1040.750488	nan
-moliere2016	128	dram	1053.145704	nan
-moliere2016	192	dram	1087.043682	nan
-
-moliere2016	16	mem	2283.23591	nan
-moliere2016	32	mem	1509.721751	nan
-moliere2016	64	mem	1213.933818	nan
-moliere2016	128	mem	1172.088261	nan
-moliere2016	192	mem	1184.648746	nan
-
-moliere2016    16     kdax   1687.235732   nan
-moliere2016    32     kdax   1261.021346   nan
-moliere2016    64     kdax   1025.460897   nan
-moliere2016   128     kdax   1020.176169   nan
-moliere2016   192     kdax   1044.276406   nan
-
-moliere2016    16     dram2  1726.724294   nan
-moliere2016    32     dram2  1242.639913   nan
-moliere2016    64     dram2  1019.859742   nan
-moliere2016   128     dram2  1015.8404  nan
-moliere2016   192     dram2  1046.291876   nan
-
-moliere2016    16     mem2   1733.342295   nan
-moliere2016    32     mem2   1267.900822   nan
-moliere2016    64     mem2   1049.214647   nan
-moliere2016   128     mem2   1033.591182  nan
-moliere2016   192     mem2   1066.428858   nan
-
-moliere2016    16     kdax2   1752.35533   nan
-moliere2016    32     kdax2  1295.938841   nan
-moliere2016    64     kdax2   1065.963009   nan
-moliere2016   128     kdax2   1056.69766  nan
-moliere2016   192     kdax2   1089.281308   nan
+friendster     16     gkdax2  6315.315139     nan
+friendster     32     gkdax2  3405.996753     nan
+friendster     64     gkdax2  1795.703769     nan
+friendster    128     gkdax2  1280.399464     nan
+friendster    192     gkdax2  871.777816  nan
 
 
-clueweb12     192     dram      nan            nan
+moliere2016	16	gdram	1740.89824	nan
+moliere2016	32	gdram	1268.565434	nan
+moliere2016	64	gdram	1040.750488	nan
+moliere2016	128	gdram	1053.145704	nan
+moliere2016	192	gdram	1087.043682	nan
 
-clueweb12	16	mem	8716.411615	nan
-clueweb12	32	mem	8369.202979	nan
-clueweb12	64	mem	6421.767673	nan
-clueweb12	128	mem	6171.596182	nan
-clueweb12	192	mem	5946.314627	4391.67807
+moliere2016	16	gmem	2283.23591	nan
+moliere2016	32	gmem	1509.721751	nan
+moliere2016	64	gmem	1213.933818	nan
+moliere2016	128	gmem	1172.088261	nan
+moliere2016	192	gmem	1184.648746	nan
 
-clueweb12      16     kdax   8527.07952     nan
-clueweb12      32     kdax   7252.276714    nan
-clueweb12      64     kdax   6873.644474    nan
-clueweb12     128     kdax   5273.949972    nan
-clueweb12     192     kdax   5201.659599    nan
+moliere2016    16     gkdax   1687.235732   nan
+moliere2016    32     gkdax   1261.021346   nan
+moliere2016    64     gkdax   1025.460897   nan
+moliere2016   128     gkdax   1020.176169   nan
+moliere2016   192     gkdax   1044.276406   nan
 
-clueweb12      16     mem2  8883.298213     nan
-clueweb12      32     mem2  6093.823997    nan
-clueweb12      64     mem2  4928.782831     nan
-clueweb12     128     mem2  4630.196742     nan
-clueweb12     192     mem2  4485.642789     nan
+moliere2016    16     gdram2  1726.724294   nan
+moliere2016    32     gdram2  1242.639913   nan
+moliere2016    64     gdram2  1019.859742   nan
+moliere2016   128     gdram2  1015.8404  nan
+moliere2016   192     gdram2  1046.291876   nan
 
-clueweb12      16     kdax2  9422.80935     nan
-clueweb12      32     kdax2 7650.283013    nan
-clueweb12      64     kdax2  5774.39356     nan
-clueweb12     128     kdax2  5347.667624     nan
-clueweb12     192     kdax2  5311.055422     nan
+moliere2016    16     gmem2   1733.342295   nan
+moliere2016    32     gmem2   1267.900822   nan
+moliere2016    64     gmem2   1049.214647   nan
+moliere2016   128     gmem2   1033.591182  nan
+moliere2016   192     gmem2   1066.428858   nan
+
+moliere2016    16     gkdax2   1752.35533   nan
+moliere2016    32     gkdax2  1295.938841   nan
+moliere2016    64     gkdax2   1065.963009   nan
+moliere2016   128     gkdax2   1056.69766  nan
+moliere2016   192     gkdax2   1089.281308   nan
+
+
+clueweb12     192     gdram      nan            nan
+
+clueweb12	16	gmem	8716.411615	nan
+clueweb12	32	gmem	8369.202979	nan
+clueweb12	64	gmem	6421.767673	nan
+clueweb12	128	gmem	6171.596182	nan
+clueweb12	192	gmem	5946.314627	4391.67807
+
+clueweb12      16     gkdax   8527.07952     nan
+clueweb12      32     gkdax   7252.276714    nan
+clueweb12      64     gkdax   6873.644474    nan
+clueweb12     128     gkdax   5273.949972    nan
+clueweb12     192     gkdax   5201.659599    nan
+
+clueweb12      16     gmem2  8883.298213     nan
+clueweb12      32     gmem2  6093.823997    nan
+clueweb12      64     gmem2  4928.782831     nan
+clueweb12     128     gmem2  4630.196742     nan
+clueweb12     192     gmem2  4485.642789     nan
+
+clueweb12      16     gkdax2  9422.80935     nan
+clueweb12      32     gkdax2 7650.283013    nan
+clueweb12      64     gkdax2  5774.39356     nan
+clueweb12     128     gkdax2  5347.667624     nan
+clueweb12     192     gkdax2  5311.055422     nan
 
 
 
-uk2014        192     dram      nan                 nan
+uk2014        192     gdram      nan                 nan
 
-uk2014	        16	mem	2480.133789	nan
-uk2014	        32	mem	1507.191533	nan
-uk2014	        64	mem	1030.207204	nan
-uk2014	        128	mem	820.76091	nan
-uk2014	        192	mem	730.57113	nan
+uk2014	        16	gmem	2480.133789	nan
+uk2014	        32	gmem	1507.191533	nan
+uk2014	        64	gmem	1030.207204	nan
+uk2014	        128	gmem	820.76091	nan
+uk2014	        192	gmem	730.57113	nan
 
-uk2014         16     kdax     2045.68806    nan
-uk2014         32     kdax     1343.271699   nan
-uk2014         64     kdax     954.808604    nan
-uk2014        128     kdax     711.649813    nan
-uk2014        192     kdax     650.512289    nan
+uk2014         16     gkdax     2045.68806    nan
+uk2014         32     gkdax     1343.271699   nan
+uk2014         64     gkdax     954.808604    nan
+uk2014        128     gkdax     711.649813    nan
+uk2014        192     gkdax     650.512289    nan
 
-uk2014         16     mem2     2139.020451    nan
-uk2014         32     mem2     1313.469828    nan
-uk2014         64     mem2     998.098469    nan
-uk2014        128     mem2     785.121212     nan
-uk2014        192     mem2     639.85604     nan
+uk2014         16     gmem2     2139.020451    nan
+uk2014         32     gmem2     1313.469828    nan
+uk2014         64     gmem2     998.098469    nan
+uk2014        128     gmem2     785.121212     nan
+uk2014        192     gmem2     639.85604     nan
 
-uk2014         16     kdax2    2056.676445    nan
-uk2014         32     kdax2     1236.632777    nan
-uk2014         64     kdax2     902.916839    nan
-uk2014        128     kdax2     693.824208     nan
-uk2014        192     kdax2     573.446422    nan
+uk2014         16     gkdax2    2056.676445    nan
+uk2014         32     gkdax2     1236.632777    nan
+uk2014         64     gkdax2     902.916839    nan
+uk2014        128     gkdax2     693.824208     nan
+uk2014        192     gkdax2     573.446422    nan
 """
 
 
@@ -200,29 +200,29 @@ uk2014        192     pdax      nan            nan
 
 # kdax1a is kdax with memkind-interleave
 """
-friendster     16     kdax1a  6262.133789     nan
-friendster     32     kdax1a  3339.329952     nan
-friendster     64     kdax1a  1756.448787     nan
-friendster    128     kdax1a  1229.417182     nan
-friendster    192     kdax1a  835.125813    nan
+friendster     16     gkdax1a  6262.133789     nan
+friendster     32     gkdax1a  3339.329952     nan
+friendster     64     gkdax1a  1756.448787     nan
+friendster    128     gkdax1a  1229.417182     nan
+friendster    192     gkdax1a  835.125813    nan
 
-moliere2016    16     kdax1a   1676.856578   nan
-moliere2016    32     kdax1a   1227.871906   nan
-moliere2016    64     kdax1a   1008.314671   nan
-moliere2016   128     kdax1a   996.192363   nan
-moliere2016   192     kdax1a   1018.043756   nan
+moliere2016    16     gkdax1a   1676.856578   nan
+moliere2016    32     gkdax1a   1227.871906   nan
+moliere2016    64     gkdax1a   1008.314671   nan
+moliere2016   128     gkdax1a   996.192363   nan
+moliere2016   192     gkdax1a   1018.043756   nan
 
-clueweb12      16     kdax1a  9669.421129     nan
-clueweb12      32     kdax1a  7572.09087     nan
-clueweb12      64     kdax1a  6840.693432     nan
-clueweb12     128     kdax1a  5814.080951     nan
-clueweb12     192     kdax1a  5159.313038     nan
+clueweb12      16     gkdax1a  9669.421129     nan
+clueweb12      32     gkdax1a  7572.09087     nan
+clueweb12      64     gkdax1a  6840.693432     nan
+clueweb12     128     gkdax1a  5814.080951     nan
+clueweb12     192     gkdax1a  5159.313038     nan
 
-uk2014         16     kdax1a     2053.882734    nan
-uk2014         32     kdax1a     1759.597141    nan
-uk2014         64     kdax1a     942.007022     nan
-uk2014        128     kdax1a     676.873518     nan
-uk2014        192     kdax1a     665.310788     nan
+uk2014         16     gkdax1a     2053.882734    nan
+uk2014         32     gkdax1a     1759.597141    nan
+uk2014         64     gkdax1a     942.007022     nan
+uk2014        128     gkdax1a     676.873518     nan
+uk2014        192     gkdax1a     665.310788     nan
 """
 
 
@@ -231,23 +231,23 @@ uk2014        192     kdax1a     665.310788     nan
 time_str_grappolo_OLD = """
 graph        threads  mode   time          vtune
 
-friendster	16	dram	5179.797055	nan
-friendster	32	dram	2916.220665	nan
-friendster	64	dram	1852.977476	nan
-friendster	128	dram	983.782397	nan
-friendster	192	dram	671.325544	669.594645
+friendster	16	gdram	5179.797055	nan
+friendster	32	gdram	2916.220665	nan
+friendster	64	gdram	1852.977476	nan
+friendster	128	gdram	983.782397	nan
+friendster	192	gdram	671.325544	669.594645
 
-friendster	16	mem	5321.611106	nan
-friendster	32	mem	3018.635678	nan
-friendster	64	mem	1915.380128	nan
-friendster	128	mem	1013.17759	nan
-friendster	192	mem	689.835591	698.334183
+friendster	16	gmem	5321.611106	nan
+friendster	32	gmem	3018.635678	nan
+friendster	64	gmem	1915.380128	nan
+friendster	128	gmem	1013.17759	nan
+friendster	192	gmem	689.835591	698.334183
 
-friendster     16     kdax  5233.698846     nan
-friendster     32     kdax  2925.995246     nan
-friendster     64     kdax  1856.734987     nan
-friendster    128     kdax   983.422625     nan
-friendster    192     kdax   672.260361    674.307471
+friendster     16     gkdax  5233.698846     nan
+friendster     32     gkdax  2925.995246     nan
+friendster     64     gkdax  1856.734987     nan
+friendster    128     gkdax   983.422625     nan
+friendster    192     gkdax   672.260361    674.307471
 
 friendster	16	pdax	5328.551361	nan
 friendster	32	pdax	2973.819253	nan
@@ -256,23 +256,23 @@ friendster	128	pdax	1013.603767	nan
 friendster	192	pdax	692.835406	878.044
 
 
-moliere2016	16	dram	2667.57845	nan
-moliere2016	32	dram	1870.452818	nan
-moliere2016	64	dram	948.033326	nan
-moliere2016	128	dram	1042.713159	nan
-moliere2016	192	dram	990.80665	1000.8756
+moliere2016	16	gdram	2667.57845	nan
+moliere2016	32	gdram	1870.452818	nan
+moliere2016	64	gdram	948.033326	nan
+moliere2016	128	gdram	1042.713159	nan
+moliere2016	192	gdram	990.80665	1000.8756
 
-moliere2016	16	mem	1494.40757	nan
-moliere2016	32	mem	1104.05022	nan
-moliere2016	64	mem	1024.47122	nan
-moliere2016	128	mem	1044.46817	nan
-moliere2016	192	mem	1070.68616	1104.891963
+moliere2016	16	gmem	1494.40757	nan
+moliere2016	32	gmem	1104.05022	nan
+moliere2016	64	gmem	1024.47122	nan
+moliere2016	128	gmem	1044.46817	nan
+moliere2016	192	gmem	1070.68616	1104.891963
 
-moliere2016    16     kdax   2647.777439   nan
-moliere2016    32     kdax   1860.307772   nan
-moliere2016    64     kdax   936.922047    nan
-moliere2016   128     kdax   1040.909062   nan
-moliere2016   192     kdax   984.90577    987.575947
+moliere2016    16     gkdax   2647.777439   nan
+moliere2016    32     gkdax   1860.307772   nan
+moliere2016    64     gkdax   936.922047    nan
+moliere2016   128     gkdax   1040.909062   nan
+moliere2016   192     gkdax   984.90577    987.575947
 
 moliere2016	16	pdax	2746.567095	nan
 moliere2016	32	pdax	1923.814033	nan
@@ -281,36 +281,36 @@ moliere2016	128	pdax	1066.13159	nan
 moliere2016	192	pdax	980.399573	1394.221
 
 
-clueweb12     192     dram      nan            nan
+clueweb12     192     gdram      nan            nan
 
-clueweb12	16	mem	9468.856975	nan
-clueweb12	32	mem	6786.975992	nan
-clueweb12	64	mem	6527.736969	nan
-clueweb12	128	mem	4750.106394	nan
-clueweb12	192	mem	4373.245214	4391.67807
+clueweb12	16	gmem	9468.856975	nan
+clueweb12	32	gmem	6786.975992	nan
+clueweb12	64	gmem	6527.736969	nan
+clueweb12	128	gmem	4750.106394	nan
+clueweb12	192	gmem	4373.245214	4391.67807
 
-clueweb12      16     kdax    10812.81699      nan
-clueweb12      32     kdax     7882.519231     nan
-clueweb12      64     kdax     6170.163424     nan
-clueweb12     128     kdax     5074.019396     nan
-clueweb12     192     kdax     4968.696484     5667.603504
+clueweb12      16     gkdax    10812.81699      nan
+clueweb12      32     gkdax     7882.519231     nan
+clueweb12      64     gkdax     6170.163424     nan
+clueweb12     128     gkdax     5074.019396     nan
+clueweb12     192     gkdax     4968.696484     5667.603504
 
 clueweb12     192     pdax      nan            nan
 
 
-uk2014        192     dram      nan                 nan
+uk2014        192     gdram      nan                 nan
 
-uk2014	        16	mem	2213.348559	nan
-uk2014	        32	mem	1453.66062	nan
-uk2014	        64	mem	1027.169626	nan
-uk2014	        128	mem	734.025436	nan
-uk2014	        192	mem	642.420118	698.740065
+uk2014	        16	gmem	2213.348559	nan
+uk2014	        32	gmem	1453.66062	nan
+uk2014	        64	gmem	1027.169626	nan
+uk2014	        128	gmem	734.025436	nan
+uk2014	        192	gmem	642.420118	698.740065
 
-uk2014         16     kdax     2241.499411     nan
-uk2014         32     kdax     1477.130957     nan
-uk2014         64     kdax      934.446303     nan
-uk2014        128     kdax      701.715529     nan
-uk2014        192     kdax      604.974474      877.898523
+uk2014         16     gkdax     2241.499411     nan
+uk2014         32     gkdax     1477.130957     nan
+uk2014         64     gkdax      934.446303     nan
+uk2014        128     gkdax      701.715529     nan
+uk2014        192     gkdax      604.974474      877.898523
 
 uk2014        192     pdax      nan            nan
 """
@@ -319,225 +319,225 @@ uk2014        192     pdax      nan            nan
 time_str_ripples = """
 graph  threads  mode   time          vtune
 
-slash	2	dram	257.15	nan
-slash	4	dram	129.29	nan
-slash	8	dram	70.18	nan
-slash	16	dram	50.18	nan
-slash	32	dram	55.45	nan
-slash	64	dram	58.10	38.73088936
-slash	128	dram	53.16	nan
-slash	192	dram	37.73	32.029196
+slash	2	rdram	257.15	nan
+slash	4	rdram	129.29	nan
+slash	8	rdram	70.18	nan
+slash	16	rdram	50.18	nan
+slash	32	rdram	55.45	nan
+slash	64	rdram	58.10	38.73088936
+slash	128	rdram	53.16	nan
+slash	192	rdram	37.73	32.029196
 
-slash	2	mem	258.25	nan
-slash	4	mem	129.35	nan
-slash	8	mem	70.55	nan
-slash	16	mem	50.89	nan
-slash	32	mem	57.62	nan
-slash	64	mem	59.48	nan
-slash	128	mem	53.11	nan
-slash	192	mem	35.44	nan
+slash	2	rmem	258.25	nan
+slash	4	rmem	129.35	nan
+slash	8	rmem	70.55	nan
+slash	16	rmem	50.89	nan
+slash	32	rmem	57.62	nan
+slash	64	rmem	59.48	nan
+slash	128	rmem	53.11	nan
+slash	192	rmem	35.44	nan
 
-slash	2	kdax	nan	nan
-slash	4	kdax	nan	nan
-slash	8	kdax	nan	nan
-slash	16	kdax	nan	nan
-slash	32	kdax	64.10	nan
-slash	64	kdax	66.03	nan
-slash	128	kdax	nan	nan
-slash	192	kdax	46.58	nan
+slash	2	rkdax	nan	nan
+slash	4	rkdax	nan	nan
+slash	8	rkdax	nan	nan
+slash	16	rkdax	nan	nan
+slash	32	rkdax	64.10	nan
+slash	64	rkdax	66.03	nan
+slash	128	rkdax	nan	nan
+slash	192	rkdax	46.58	nan
 
-slash	2	kdax2	nan	nan
-slash	4	kdax2	nan	nan
-slash	8	kdax2	nan	nan
-slash	16	kdax2	nan	nan
-slash	32	kdax2	40.23	45.664748
-slash	64	kdax2	37.38	43.11986708
-slash	128	kdax2	nan	nan
-slash	192	kdax2	29.12	40.62709505
+slash	2	rkdax2	nan	nan
+slash	4	rkdax2	nan	nan
+slash	8	rkdax2	nan	nan
+slash	16	rkdax2	nan	nan
+slash	32	rkdax2	40.23	45.664748
+slash	64	rkdax2	37.38	43.11986708
+slash	128	rkdax2	nan	nan
+slash	192	rkdax2	29.12	40.62709505
 
-slash	2	kdax3	nan	nan
-slash	4	kdax3	nan	nan
-slash	8	kdax3	nan	nan
-slash	16	kdax3	nan	nan
-slash	32	kdax3	39.50	43.77249092
-slash	64	kdax3	35.39	40.34433134
-slash	128	kdax3	nan	nan
-slash	192	kdax3	26.61	38.77803595
-
-
-twitter	2	dram	468.68	nan
-twitter	4	dram	235.69	nan
-twitter	8	dram	128.54	nan
-twitter	16	dram	97.61	nan
-twitter	32	dram	113.30	nan
-twitter	64	dram	112.73	67.45700489
-twitter	128	dram	107.22	nan
-twitter	192	dram	48.93	41.52928663
-
-twitter	2	mem	461.16	nan
-twitter	4	mem	227.37	nan
-twitter	8	mem	127.34	nan
-twitter	16	mem	97.53	nan
-twitter	32	mem	119.96	nan
-twitter	64	mem	118.32	nan
-twitter	128	mem	108.72	nan
-twitter	192	mem	50.23	nan
-
-twitter	2	kdax	nan	nan
-twitter	4	kdax	nan	nan
-twitter	8	kdax	nan	nan
-twitter	16	kdax	nan	nan
-twitter	32	kdax	141.27	nan
-twitter	64	kdax	125.70	nan
-twitter	128	kdax	nan	nan
-twitter	192	kdax	71.81	nan
-
-twitter	2	kdax2	nan	nan
-twitter	4	kdax2	nan	nan
-twitter	8	kdax2	nan	nan
-twitter	16	kdax2	nan	nan
-twitter	32	kdax2	75.73	78.84232883
-twitter	64	kdax2	70.83	77.23828308
-twitter	128	kdax2	nan	nan
-twitter	192	kdax2	33.21	55.70712258
-
-twitter	2	kdax3	nan	nan
-twitter	4	kdax3	nan	nan
-twitter	8	kdax3	nan	nan
-twitter	16	kdax3	nan	nan
-twitter	32	kdax3	66.07	71.32162039
-twitter	64	kdax3	59.45	63.05750133
-twitter	128	kdax3	nan	nan
-twitter	192	kdax3	37.97	50.44523449
+slash	2	rkdax3	nan	nan
+slash	4	rkdax3	nan	nan
+slash	8	rkdax3	nan	nan
+slash	16	rkdax3	nan	nan
+slash	32	rkdax3	39.50	43.77249092
+slash	64	rkdax3	35.39	40.34433134
+slash	128	rkdax3	nan	nan
+slash	192	rkdax3	26.61	38.77803595
 
 
-talk	2	dram	606.44	nan
-talk	4	dram	330.05	nan
-talk	8	dram	163.14	nan
-talk	16	dram	102.31	nan
-talk	32	dram	90.14	nan
-talk	64	dram	80.37	62.49747313
-talk	128	dram	70.36	nan
-talk	192	dram	54.48	52.85052325
+twitter	2	rdram	468.68	nan
+twitter	4	rdram	235.69	nan
+twitter	8	rdram	128.54	nan
+twitter	16	rdram	97.61	nan
+twitter	32	rdram	113.30	nan
+twitter	64	rdram	112.73	67.45700489
+twitter	128	rdram	107.22	nan
+twitter	192	rdram	48.93	41.52928663
 
-talk	2	mem	616.27	nan
-talk	4	mem	331.22	nan
-talk	8	mem	166.28	nan
-talk	16	mem	103.41	nan
-talk	32	mem	90.40	nan
-talk	64	mem	83.60	nan
-talk	128	mem	70.46	nan
-talk	192	mem	53.20	nan
+twitter	2	rmem	461.16	nan
+twitter	4	rmem	227.37	nan
+twitter	8	rmem	127.34	nan
+twitter	16	rmem	97.53	nan
+twitter	32	rmem	119.96	nan
+twitter	64	rmem	118.32	nan
+twitter	128	rmem	108.72	nan
+twitter	192	rmem	50.23	nan
 
-talk	2	kdax	nan	nan
-talk	4	kdax	nan	nan
-talk	8	kdax	nan	nan
-talk	16	kdax	nan	nan
-talk	32	kdax	101.20	nan
-talk	64	kdax	101.98	nan
-talk	128	kdax	nan	nan
-talk	192	kdax	123.27	nan
+twitter	2	rkdax	nan	nan
+twitter	4	rkdax	nan	nan
+twitter	8	rkdax	nan	nan
+twitter	16	rkdax	nan	nan
+twitter	32	rkdax	141.27	nan
+twitter	64	rkdax	125.70	nan
+twitter	128	rkdax	nan	nan
+twitter	192	rkdax	71.81	nan
 
-talk	2	kdax2	nan	nan
-talk	4	kdax2	nan	nan
-talk	8	kdax2	nan	nan
-talk	16	kdax2	nan	nan
-talk	32	kdax2	86.90	88.26351887
-talk	64	kdax2	76.12	81.04203942
-talk	128	kdax2	nan	nan
-talk	192	kdax2	71.57	77.98582283
+twitter	2	rkdax2	nan	nan
+twitter	4	rkdax2	nan	nan
+twitter	8	rkdax2	nan	nan
+twitter	16	rkdax2	nan	nan
+twitter	32	rkdax2	75.73	78.84232883
+twitter	64	rkdax2	70.83	77.23828308
+twitter	128	rkdax2	nan	nan
+twitter	192	rkdax2	33.21	55.70712258
 
-talk	2	kdax3	nan	nan
-talk	4	kdax3	nan	nan
-talk	8	kdax3	nan	nan
-talk	16	kdax3	nan	nan
-talk	32	kdax3	76.53	79.71498115
-talk	64	kdax3	70.61	74.92748809
-talk	128	kdax3	nan	nan
-talk	192	kdax3	84.81	98.67837559
-
-
-pokec	2	dram	22531.59	nan
-pokec	4	dram	10796.75	nan
-pokec	8	dram	5316.46	nan
-pokec	16	dram	2773.61	nan
-pokec	32	dram	1509.24	nan
-pokec	64	dram	809.45	926.5572327
-pokec	128	dram	578.64	nan
-pokec	192	dram	686.34	673.5958796
-
-pokec	2	mem	23462.17	nan
-pokec	4	mem	11286.53	nan
-pokec	8	mem	5540.75	        nan
-pokec	16	mem	2877.33	        nan
-pokec	32	mem	1619.55	        nan
-pokec	64	mem	939.25	        nan
-pokec	128	mem	718.31	        nan
-pokec	192	mem	771.15	        nan
-
-pokec	2	kdax	nan	nan
-pokec	4	kdax	nan	nan
-pokec	8	kdax	nan	nan
-pokec	16	kdax	nan	nan
-pokec	32	kdax	2450.37	nan
-pokec	64	kdax	1639.97	nan
-pokec	128	kdax	nan	nan
-pokec	192	kdax	1974.83	nan
-
-pokec	2	kdax2	nan	nan
-pokec	4	kdax2	nan	nan
-pokec	8	kdax2	nan	nan
-pokec	16	kdax2	nan	nan
-pokec	32	kdax2	2237.83	2199.75474
-pokec	64	kdax2	1384.91	1437.639276
-pokec	128	kdax2	nan	nan
-pokec	192	kdax2	1262.70	1267.780125
-
-pokec	2	kdax3	nan	nan
-pokec	4	kdax3	nan	nan
-pokec	8	kdax3	nan	nan
-pokec	16	kdax3	nan	nan
-pokec	32	kdax3	2659.48	2764.888682
-pokec	64	kdax3	2338.70	2313.266827
-pokec	128	kdax3	nan	nan
-pokec	192	kdax3	3013.94	3153.660593
+twitter	2	rkdax3	nan	nan
+twitter	4	rkdax3	nan	nan
+twitter	8	rkdax3	nan	nan
+twitter	16	rkdax3	nan	nan
+twitter	32	rkdax3	66.07	71.32162039
+twitter	64	rkdax3	59.45	63.05750133
+twitter	128	rkdax3	nan	nan
+twitter	192	rkdax3	37.97	50.44523449
 
 
-topcats	2	mem	19722.79	nan
-topcats	4	mem	9400.69	nan
-topcats	8	mem	4698.85	nan
-topcats	16	mem	2543.83	nan
-topcats	32	mem	1518.52	nan
-topcats	64	mem	1041.00	nan
-topcats	128	mem	880.35	nan
-topcats	192	mem	867.02	nan
+talk	2	rdram	606.44	nan
+talk	4	rdram	330.05	nan
+talk	8	rdram	163.14	nan
+talk	16	rdram	102.31	nan
+talk	32	rdram	90.14	nan
+talk	64	rdram	80.37	62.49747313
+talk	128	rdram	70.36	nan
+talk	192	rdram	54.48	52.85052325
 
-topcats	2	kdax	nan	nan
-topcats	4	kdax	nan	nan
-topcats	8	kdax	nan	nan
-topcats	16	kdax	nan	nan
-topcats	32	kdax	2298.37	nan
-topcats	64	kdax	1891.35	nan
-topcats	128	kdax	nan	nan
-topcats	192	kdax	2368.92	nan
+talk	2	rmem	616.27	nan
+talk	4	rmem	331.22	nan
+talk	8	rmem	166.28	nan
+talk	16	rmem	103.41	nan
+talk	32	rmem	90.40	nan
+talk	64	rmem	83.60	nan
+talk	128	rmem	70.46	nan
+talk	192	rmem	53.20	nan
 
-topcats	2	kdax2	nan	nan
-topcats	4	kdax2	nan	nan
-topcats	8	kdax2	nan	nan
-topcats	16	kdax2	nan	nan
-topcats	32	kdax2	2089.34	2065.797776
-topcats	64	kdax2	1487.88	1499.681414
-topcats	128	kdax2	nan	nan
-topcats	192	kdax2	1437.10	1512.404942
+talk	2	rkdax	nan	nan
+talk	4	rkdax	nan	nan
+talk	8	rkdax	nan	nan
+talk	16	rkdax	nan	nan
+talk	32	rkdax	101.20	nan
+talk	64	rkdax	101.98	nan
+talk	128	rkdax	nan	nan
+talk	192	rkdax	123.27	nan
 
-topcats	2	kdax3	nan	nan
-topcats	4	kdax3	nan	nan
-topcats	8	kdax3	nan	nan
-topcats	16	kdax3	nan	nan
-topcats	32	kdax3	2842.89	2894.704997
-topcats	64	kdax3	2778.72	2718.955827
-topcats	128	kdax3	nan	nan
-topcats	192	kdax3	3400.19	3375.656995
+talk	2	rkdax2	nan	nan
+talk	4	rkdax2	nan	nan
+talk	8	rkdax2	nan	nan
+talk	16	rkdax2	nan	nan
+talk	32	rkdax2	86.90	88.26351887
+talk	64	rkdax2	76.12	81.04203942
+talk	128	rkdax2	nan	nan
+talk	192	rkdax2	71.57	77.98582283
+
+talk	2	rkdax3	nan	nan
+talk	4	rkdax3	nan	nan
+talk	8	rkdax3	nan	nan
+talk	16	rkdax3	nan	nan
+talk	32	rkdax3	76.53	79.71498115
+talk	64	rkdax3	70.61	74.92748809
+talk	128	rkdax3	nan	nan
+talk	192	rkdax3	84.81	98.67837559
+
+
+pokec	2	rdram	22531.59	nan
+pokec	4	rdram	10796.75	nan
+pokec	8	rdram	5316.46	nan
+pokec	16	rdram	2773.61	nan
+pokec	32	rdram	1509.24	nan
+pokec	64	rdram	809.45	926.5572327
+pokec	128	rdram	578.64	nan
+pokec	192	rdram	686.34	673.5958796
+
+pokec	2	rmem	23462.17	nan
+pokec	4	rmem	11286.53	nan
+pokec	8	rmem	5540.75	        nan
+pokec	16	rmem	2877.33	        nan
+pokec	32	rmem	1619.55	        nan
+pokec	64	rmem	939.25	        nan
+pokec	128	rmem	718.31	        nan
+pokec	192	rmem	771.15	        nan
+
+pokec	2	rkdax	nan	nan
+pokec	4	rkdax	nan	nan
+pokec	8	rkdax	nan	nan
+pokec	16	rkdax	nan	nan
+pokec	32	rkdax	2450.37	nan
+pokec	64	rkdax	1639.97	nan
+pokec	128	rkdax	nan	nan
+pokec	192	rkdax	1974.83	nan
+
+pokec	2	rkdax2	nan	nan
+pokec	4	rkdax2	nan	nan
+pokec	8	rkdax2	nan	nan
+pokec	16	rkdax2	nan	nan
+pokec	32	rkdax2	2237.83	2199.75474
+pokec	64	rkdax2	1384.91	1437.639276
+pokec	128	rkdax2	nan	nan
+pokec	192	rkdax2	1262.70	1267.780125
+
+pokec	2	rkdax3	nan	nan
+pokec	4	rkdax3	nan	nan
+pokec	8	rkdax3	nan	nan
+pokec	16	rkdax3	nan	nan
+pokec	32	rkdax3	2659.48	2764.888682
+pokec	64	rkdax3	2338.70	2313.266827
+pokec	128	rkdax3	nan	nan
+pokec	192	rkdax3	3013.94	3153.660593
+
+
+topcats	2	rmem	19722.79	nan
+topcats	4	rmem	9400.69	nan
+topcats	8	rmem	4698.85	nan
+topcats	16	rmem	2543.83	nan
+topcats	32	rmem	1518.52	nan
+topcats	64	rmem	1041.00	nan
+topcats	128	rmem	880.35	nan
+topcats	192	rmem	867.02	nan
+
+topcats	2	rkdax	nan	nan
+topcats	4	rkdax	nan	nan
+topcats	8	rkdax	nan	nan
+topcats	16	rkdax	nan	nan
+topcats	32	rkdax	2298.37	nan
+topcats	64	rkdax	1891.35	nan
+topcats	128	rkdax	nan	nan
+topcats	192	rkdax	2368.92	nan
+
+topcats	2	rkdax2	nan	nan
+topcats	4	rkdax2	nan	nan
+topcats	8	rkdax2	nan	nan
+topcats	16	rkdax2	nan	nan
+topcats	32	rkdax2	2089.34	2065.797776
+topcats	64	rkdax2	1487.88	1499.681414
+topcats	128	rkdax2	nan	nan
+topcats	192	rkdax2	1437.10	1512.404942
+
+topcats	2	rkdax3	nan	nan
+topcats	4	rkdax3	nan	nan
+topcats	8	rkdax3	nan	nan
+topcats	16	rkdax3	nan	nan
+topcats	32	rkdax3	2842.89	2894.704997
+topcats	64	rkdax3	2778.72	2718.955827
+topcats	128	rkdax3	nan	nan
+topcats	192	rkdax3	3400.19	3375.656995
 """
 
 # kdax4/X
@@ -8313,11 +8313,11 @@ def plot_bw_lat(ax_bw, ax_lat, bw_data_strL, lat_data_strL, graph,
 def plot_align_palette(modeL, plt_sty):
     # if no dram values, adjust plt_sty
 
-    if ('dram' in modeL):
+    if ('gdram' in modeL or 'rdram' in modeL):
         return plt_sty
     else:
         modeS = set(modeL)
-        plt = seaborn.color_palette(plt_sty, n_colors= (len(modeS) + 1))
+        plt = seaborn.color_palette(plt_sty, n_colors=(len(modeS) + 1))
         plt.pop(0)
         return plt
 
@@ -8470,7 +8470,8 @@ plt_sty2 = 'deep' # 'dark'
 
 tm_index = [0,1,2] # graph threads type
 
-row_srcL = ['dram', 'mem']
+row_srcL_g = ['gdram', 'gmem']
+row_srcL_r = ['rdram', 'rmem']
 col_src = 'time'
 col_dst = 'relative time'
 
@@ -8485,7 +8486,7 @@ time_data_grp = io.StringIO(time_str_grappolo)
 time_dfrm_grp = pandas.read_csv(time_data_grp, sep='\s+', index_col=tm_index)
 #print(time_dfrm_grp)
 
-makeRelTime(time_dfrm_grp, row_srcL, col_src, col_dst)
+makeRelTime(time_dfrm_grp, row_srcL_g, col_src, col_dst)
 
 nm_j = 0
 for num_t in mode_thrdL:
@@ -8493,7 +8494,7 @@ for num_t in mode_thrdL:
     #print(mode_dfrm)
 
     row = 0
-    ttl = 'Community Detect./{}'.format(num_t)
+    ttl = 'Grappolo/{}'.format(num_t) # Community Detect.
     plot_modes(mode_dfrm, axes1a[row][nm_j], nm_j, ttl, plt_sty1, mrk_sty1, ln_sty1)
 
     axes1a[row][nm_j].set_ylim(0.6, 1.6) # could do this automatically
@@ -8509,7 +8510,7 @@ time_data_rip = io.StringIO(time_str_ripples)
 time_dfrm_rip = pandas.read_csv(time_data_rip, sep='\s+', index_col=tm_index)
 #print(time_dfrm_rip)
 
-makeRelTime(time_dfrm_rip, row_srcL, col_src, col_dst)
+makeRelTime(time_dfrm_rip, row_srcL_r, col_src, col_dst)
 
 nm_j = 0
 for num_t in mode_thrdL:
@@ -8517,7 +8518,7 @@ for num_t in mode_thrdL:
     #print(mode_dfrm)
 
     row = 0 # 1
-    ttl = 'Influence Max./{}'.format(num_t)
+    ttl = 'Ripples/{}'.format(num_t) # Influence Max.
     plot_modes(mode_dfrm, axes1b[row][nm_j], nm_j, ttl, plt_sty1, mrk_sty1, ln_sty1)
 
     axes1b[row][nm_j].set_ylim(0.7, 4.5) # could do this automatically

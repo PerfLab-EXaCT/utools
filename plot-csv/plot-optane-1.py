@@ -1138,19 +1138,28 @@ def rename_col(x, graph_grpL):
         g_nm = g_nm[0] if (isinstance(g_nm, tuple)) else g_nm
         x0 = x0.replace(g_nm, '')
 
-    x0 = x0.replace('grappolo--', '') # not a typo!
+    (x0, is_g) = re.subn('grappolo--', '', x0) # not a typo!
+    #x0 = x0.replace('grappolo--', '') # not a typo!
     x0 = x0.replace('t192-', '')
 
     # ripples
-    x0 = x0.replace('.imm-', '') # not a typo!
+    (x0, is_r) = re.subn('\.imm-', '', x0) # not a typo!
+    #x0 = x0.replace('.imm-', '') # not a typo!
     x0 = re.sub('\.T\d+', '', x0) #x0 = x0.replace('.T64', '')
 
     # both
     x0 = x0.replace('-hotspots-pkg', '')
     x0 = x0.replace('-hotspots-fn', '')
     x0 = x0.replace('-hw-events-fn', '')
-    
-    return x0
+
+    if (is_g):
+        return 'g' + x0
+    elif (is_r):
+        return 'r' + x0
+    else:
+        assert(False)
+        
+    #return x0
 
 #****************************************************************************
 
