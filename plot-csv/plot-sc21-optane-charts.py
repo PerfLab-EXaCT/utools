@@ -8498,9 +8498,12 @@ for num_t in mode_thrdL:
     ttl = 'Grappolo/{} threads'.format(num_t) # Community Detect.
     plot_modes(mode_dfrm, axes1a[row][nm_j], nm_j, ttl, plt_sty1, mrk_sty1, ln_sty1)
 
-    axes1a[row][nm_j].set_ylim(0.6, 1.6) # could do this automatically
+    axes1a[row][nm_j].set_ylim(0.7, 1.7) # could do this automatically
 
     nm_j += 1
+
+# update legend's position
+axes1a[0][0].legend(prop={'size': Tsz_label1-1}, loc='upper right' , bbox_to_anchor=(0.99, 1.03))
 
 
 #-------------------------------------------------------
