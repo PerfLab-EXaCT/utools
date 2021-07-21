@@ -8160,7 +8160,8 @@ def plot_modes(dfrm, axes, nm_i, title, plt_sty, mrk_sty, ln_sty):
         ax.set_title(title, size=Tsz_title1)
 
     ax.set_xlabel('')
-    ax.tick_params(axis='x', labelsize=Tsz_label1, labelrotation=18, labelleft=True)
+    #ax.tick_params(axis='x', labelsize=Tsz_label1, labelrotation=18, labelright=True) # ha='right'
+    ax.set_xticklabels(ax.get_xticklabels(), fontsize=Tsz_label1, rotation=18, ha='right')
 
     ax.tick_params(axis='y', labelsize=Tsz_label1)
     
@@ -8443,8 +8444,8 @@ def makeFrameFromHistL(data_nameL, data_stringL, convert, scale = False):
 #****************************************************************************
 
 # 2x3: figsize=(10, 4.7)
-fig1a, axes1a = pyplt.subplots(nrows=1, ncols=3, figsize=(9.5, 2.3), squeeze=False) 
-fig1b, axes1b = pyplt.subplots(nrows=1, ncols=3, figsize=(9.5, 2.3), squeeze=False)
+fig1a, axes1a = pyplt.subplots(nrows=1, ncols=3, figsize=(10.0, 2.3), squeeze=False) 
+fig1b, axes1b = pyplt.subplots(nrows=1, ncols=3, figsize=(10.0, 2.3), squeeze=False)
 
 
 fig2, axes2L = pyplt.subplots(nrows=1, ncols=4, figsize=(14, 2.5))
@@ -8494,7 +8495,7 @@ for num_t in mode_thrdL:
     #print(mode_dfrm)
 
     row = 0
-    ttl = 'Grappolo/{}'.format(num_t) # Community Detect.
+    ttl = 'Grappolo/{} threads'.format(num_t) # Community Detect.
     plot_modes(mode_dfrm, axes1a[row][nm_j], nm_j, ttl, plt_sty1, mrk_sty1, ln_sty1)
 
     axes1a[row][nm_j].set_ylim(0.6, 1.6) # could do this automatically
@@ -8518,7 +8519,7 @@ for num_t in mode_thrdL:
     #print(mode_dfrm)
 
     row = 0 # 1
-    ttl = 'Ripples/{}'.format(num_t) # Influence Max.
+    ttl = 'Ripples/{} threads'.format(num_t) # Influence Max.
     plot_modes(mode_dfrm, axes1b[row][nm_j], nm_j, ttl, plt_sty1, mrk_sty1, ln_sty1)
 
     axes1b[row][nm_j].set_ylim(0.7, 4.5) # could do this automatically
@@ -8526,7 +8527,7 @@ for num_t in mode_thrdL:
     nm_j += 1
 
 
-axes1b[0][0].set_ylabel('')
+#axes1b[0][0].set_ylabel('')
 
 
 
@@ -8659,7 +8660,7 @@ for nm in nmL:
 #----------------------------------------------------------------------------
 
 adjustH1 = { 'left':0.05, 'right':0.99, 'bottom':0.12, 'top':0.90,
-             'wspace':0.00, 'hspace':0.30 }
+             'wspace':0.08, 'hspace':0.30 }
 
 adjustH2 = { 'left':0.05, 'right':0.99, 'bottom':0.08, 'top':0.96,
              'wspace':0.15, 'hspace':0.15 }
