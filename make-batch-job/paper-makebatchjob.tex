@@ -1,0 +1,192 @@
+%============================================================================
+% title
+%============================================================================
+
+\title{Easily and Portably Queueing Batch Jobs on Large-scale clusters}
+
+%% *** ACMART ***
+\author{N. R. Tallent}
+\affiliation{%
+  \institution{affiliation}
+}
+\email{email}
+
+
+\ifthenelse{\boolean{maketitleAfterAllMeta}}{}{\maketitle}
+
+%============================================================================
+% abstract
+%============================================================================
+
+\begin{abstract}
+
+Abstract.
+
+\end{abstract}
+
+%\category{C.4}{Performance of systems}{Measurement techniques, Performance attributes}[]
+%\category{D.1.3}{Programming techniques}{Concurrent Programming}[Parallel programming]
+% D.2.8.b
+
+%\terms
+%Performance, Measurement, Algorithms, Modeling
+
+%\keywords
+%\begin{IEEEkeywords}\end{IEEEkeywords}
+%critical path analysis, scalable path profiling, dynamic analysis, Palm
+
+\ifthenelse{\boolean{maketitleAfterAllMeta}}{\maketitle}{}
+
+%============================================================================
+%============================================================================
+
+\section{Introduction}
+\label{sec:introduction}
+
+Most large-scale clusters use batch systems to schedule and execute jobs that run to completion without human intervention.
+Using batch job schedulers in the context of HPC clusters is more difficult than necessary.
+%difficulty of using HPC software stack:
+%  http://www.hpcwire.com/2014/05/20/outdated-infrastructure-will-cripple-hpc/
+
+There will always be inherent differences between queuing batch and interactive jobs.
+For instance, to run a batch job without human intervention, it is necessary to specify rules for allocating and configuring computational resources, finding all inputs, and placing all outputs.
+In contrast, an interactive job can defer any of these decisions to run time.
+Thus, there is a sense in which batch jobs place more of a ``burden'' on users.
+
+However, users of HPC clusters routinely bear more of a burden than is necessary when working with batch systems.
+We enumerate several unnecessary restrictions that we routinely encounter in our use of HPC clusters.
+
+1) First, there are several common batch job schedulers and most do not share a common syntax.
+%Many common batch job schedulers require that jobs be specified in a different scripting languages with different syntax and options.
+For instance, Department of Energy systems use Moab, Torque, SLURM, Cobalt, PBS.
+Although a few schedulers use the Portable Batch Script PBS syntax, many others adopt their own peculiar scripting language and command-line options.
+Thus, given two different machines with example the same hardware but two different batch schedulers, one must rewrite scripts to queue a job.
+In contrast, if those two machines ran Linux, launching a node wide job on one would be the same way on both.
+One could also use the same application source code even if the machines used different compilers.
+\footnote{It is true that there can be special for certain hardware controls such as numactl.}
+
+2) Second, batch job systems take as input a special-purpose scripting language with very limited evaluation capabilities.
+The scripting lanague is used to control job resource allocation and select various options for controlling output, etc.
+Because most important parameters must be constant literals (in the C/C++ sense) within the job script, it is not possible to create a template script and use the job submission command to instantiate each template.
+As a result, it is cumbersome to submit a series of related jobs, such as a scaling study.
+Instead, to run $n$ similar jobs, one must create and submit $n$ distinct script files, each of which is identical except for the varying parameter.
+Not only is this process cumbersome, it is also error-prone.
+
+% Cobalt and SLURM provide command line versions...
+
+3) Third, batch systems provide little assistence for managing concurrently queued batch jobs.
+It is common for users to queue several independent jobs for scaling studies, science domain studies, or performance tuning.
+These jobs may run at any time, depending on the queue scheduling and backfill policies.
+In particular, even if one job is queued much later than another, there is no implied ordering between them.
+Frequently jobs complete within a time frame that ranges from a few hours to a few days.
+
+To ensure that these jobs do not conflict and to make sense of results after several days of waiting, it is necessary to allocate a well-defined place to hold results for each job.
+One way of doing this is creating a separate directory to hold input, ouput, checkpoint, profiling, and batch log files.
+To make it easy to interpret each set of results, it is desirable to name directories and files according to the jobs parameters.
+It is cumbersome and error-prone to perform all of this work manually.
+Instead, it should be automated.
+
+
+4) Fourth, faciliate customizations
+
+a) automatically enable profiling (qualifies run dir).
+
+b) Some machines have peculiarities that affect the job submission process.
+Consider these examples.
+- Even though two machines use the same batch job scripting language, best practices may dictate that the options be specified differently.
+% Hopper/Edison vs. Titan: requesting nodes using -l mppwidth=x vs. -l nodes=x 
+- Some machines may not automatically bind binding-processes-to-cores.
+- Some machines have different parallel file systems.
+Frequently, one parallel file system is designed for concurrently serving many requests to small files while another is designed for parallel I/O.
+Thus, before a job is launched, its inputs must be copied to the separate file system or the job will fail to execute correctly.
+Without ways of managing these details automatically, it is easy for input files to become outdated because they are changed on one file system but not the other.
+
+
+
+\hrule
+
+Solution:
+- A batch script generator.
+- Solves problems highlighted above.
+- Can be used in either sh or csh scripts.
+
+- easy:
+  Only worry about the ``key'' parameters.
+  For example, provide a recipe for what a node should look like, and then say how many core you want to use.
+
+Experiments:
+  apps: mpi; mpi+openmpi (todo), mpi+acc (todo)
+  sys: bg/q + cobalt; cray + torque; cluster + slurm + openmpi; cluster + slurm + mvapich
+
+
+%============================================================================
+%============================================================================
+
+\section{Discussion}
+\label{sec:discussion}
+
+Examples:
+\begin{verbatim}
+make-batch-job \
+  --app="${NWCHEM}/nwchem scf-c240.nw" \
+  --mpi-per-node 16 --time 25 \
+  256 512 1024 2048
+
+make-batch-job \
+  --app="${NWCHEM}/nwchem scf-c240.nw" \
+  --hpcenv='ARMCI_SAMPLE_PERIOD=23' \
+  --hpcrun='-e GA:109' \
+  --mpi-per-node 16 --time 20   256 512 1024
+
+make-batch-job \
+  --app="${NWCHEM}/nwchem.hpc scf-c240.nw" \
+  --hpcenv='ARMCI_SAMPLE_PERIOD=17' \
+  --hpcenv='HPCRUN_EVENT_LIST="GA:89"' \
+  --hpcenv='HPCRUN_PROCESS_FRACTION=0.20' \
+  --env="export MPICH_GNI_MAX_EAGER_MSG_SIZE=32768" \
+  --mpi-per-node 16 --time 15   1024 2048
+
+make-batch-job \
+  --app="${NWCHEM}/nwchem scf-c240.nw" \
+  --mpi-per-node 8 --time 55 \
+  512 1024 2048 4096 8192
+
+make-batch-job \
+  --app="${NWCHEM}/nwchem nt-10-10-5.nw" \
+  --app-infile nt-10-10-5.xyz \
+  --time 15 \
+  --hpcenv='ARMCI_SAMPLE_PERIOD=13' \
+  --hpcrun='-e GA:97' \
+  --mpi-per-node 16 \
+  256 512 1024 2048
+\end{verbatim}
+
+
+%============================================================================
+%============================================================================
+
+\section{Related Work}
+\label{sec:related-work}
+
+The WHIST paper on scripts... \cite{Xcrypt}
+
+Xcrypt: in principle could unify syntax, 
+
+Tasuku Hiraishi, Tatsuya Abe, Takeshi Iwashita, Hiroshi Nakashima.
+Xcrypt: A Perl Extension for Job Level Parallel Programming.
+Second International Workshop on High-performance Infrastructure for Scalable Tools WHIST 2012 (held as part of ICS'12), Venice, Italy, 2012
+%http://wwwx.cs.unc.edu/~tgamblin/whist-2012/papers/whist-2012-hiraishi.pdf
+
+
+Parallel Tools Platform (PTP) unifies syntax
+
+A Scalable Control and Monitoring Framework to Aid the Development of Supercomputer Applications.
+Gregory R. Watson, Wolfgang Frings, Claudia Knobloch, Carsten Karbach and Albert L. Rossi.
+%http://wwwx.cs.unc.edu/~tgamblin/whist-2012/papers/whist-2012-watson.pdf
+
+
+Moab (PBS)
+Torque
+SLURM
+Cobalt (Argonne)
+
