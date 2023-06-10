@@ -785,7 +785,7 @@ class Machine
 
     case @hostname
     when 'bluesky.pnl.gov'
-      @job_account = 'cenate'
+      @job_account = 'cenate' # ippd
       @job_queue = 'slurm'
       @schedulerTy = :scheduler_slurm
       @mpich_uses_srun = true
